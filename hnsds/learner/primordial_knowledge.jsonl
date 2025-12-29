@@ -1,0 +1,3 @@
+{"goal_str": "{'type': 'math', 'equation': 'x + 2 == 5', 'variables': ['x']}", "goal_obj": {"type": "math", "equation": "x + 2 == 5", "variables": ["x"]}, "candidate": "x = 3", "counterexample": null, "success": true}
+{"goal_str": "{'type': 'math', 'equation': '2 * x == 10', 'variables': ['x']}", "goal_obj": {"type": "math", "equation": "2 * x == 10", "variables": ["x"]}, "candidate": "x = 5", "counterexample": null, "success": true}
+{"goal_str": "{'type': 'system', 'equations': ['x + y == 10', 'x - y == 2'], 'variables': ['x', 'y']}", "goal_obj": {"type": "system", "equations": ["x + y == 10", "x - y == 2"], "variables": ["x", "y"]}, "candidate": "x = 6, y = 4", "counterexample": null, "success": true}

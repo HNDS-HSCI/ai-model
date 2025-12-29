@@ -1,0 +1,182 @@
+{
+  "calculate": {
+    "ANALYTICAL": 1.0,
+    "CREATIVE": 0.0,
+    "CONVERSATIONAL": 0.0
+  },
+  "solve": {
+    "ANALYTICAL": 1.0,
+    "CREATIVE": 0.0,
+    "CONVERSATIONAL": 0.0
+  },
+  "sum": {
+    "ANALYTICAL": 0.8,
+    "CREATIVE": 0.0,
+    "CONVERSATIONAL": 0.0
+  },
+  "find": {
+    "ANALYTICAL": 0.6,
+    "CREATIVE": 0.1,
+    "CONVERSATIONAL": 0.5
+  },
+  "equation": {
+    "ANALYTICAL": 1.0,
+    "CREATIVE": 0.0,
+    "CONVERSATIONAL": 0.0
+  },
+  "code": {
+    "ANALYTICAL": 1.0,
+    "CREATIVE": 0.5,
+    "CONVERSATIONAL": 0.0
+  },
+  "function": {
+    "ANALYTICAL": 1.5,
+    "CREATIVE": 0.19999999999999998,
+    "CONVERSATIONAL": 0
+  },
+  "python": {
+    "ANALYTICAL": 1.4,
+    "CREATIVE": 0.30000000000000004,
+    "CONVERSATIONAL": 0
+  },
+  "imagine": {
+    "ANALYTICAL": 0.0,
+    "CREATIVE": 1.0,
+    "CONVERSATIONAL": 0.2
+  },
+  "create": {
+    "ANALYTICAL": 0.2,
+    "CREATIVE": 1.0,
+    "CONVERSATIONAL": 0.0
+  },
+  "story": {
+    "ANALYTICAL": 0.0,
+    "CREATIVE": 1.0,
+    "CONVERSATIONAL": 0.5
+  },
+  "build": {
+    "ANALYTICAL": 0.5,
+    "CREATIVE": 0.8,
+    "CONVERSATIONAL": 0.0
+  },
+  "hello": {
+    "ANALYTICAL": 0.0,
+    "CREATIVE": 0.0,
+    "CONVERSATIONAL": 1.0
+  },
+  "hi": {
+    "ANALYTICAL": 0.0,
+    "CREATIVE": 0.0,
+    "CONVERSATIONAL": 1.0
+  },
+  "who": {
+    "ANALYTICAL": 0.0,
+    "CREATIVE": 0.0,
+    "CONVERSATIONAL": 0.8
+  },
+  "what": {
+    "ANALYTICAL": 0.19999999999999998,
+    "CREATIVE": 0,
+    "CONVERSATIONAL": 1.0
+  },
+  "explain": {
+    "ANALYTICAL": 0.5,
+    "CREATIVE": 0.0,
+    "CONVERSATIONAL": 1.0
+  },
+  "why": {
+    "ANALYTICAL": 0.4,
+    "CREATIVE": 0.0,
+    "CONVERSATIONAL": 1.0
+  },
+  "a": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 0.5,
+    "CONVERSATIONAL": 0.4
+  },
+  "car": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 0,
+    "CONVERSATIONAL": 0.5
+  },
+  "travels": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 0,
+    "CONVERSATIONAL": 0.5
+  },
+  "100": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 0,
+    "CONVERSATIONAL": 0.5
+  },
+  "meters": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 0,
+    "CONVERSATIONAL": 0.5
+  },
+  "in": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 0.5,
+    "CONVERSATIONAL": 0.4
+  },
+  "5": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 0,
+    "CONVERSATIONAL": 0.5
+  },
+  "seconds": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 0,
+    "CONVERSATIONAL": 0.5
+  },
+  "is": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 0,
+    "CONVERSATIONAL": 1.5
+  },
+  "its": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 0,
+    "CONVERSATIONAL": 0.5
+  },
+  "velocity": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 0,
+    "CONVERSATIONAL": 1.0
+  },
+  "v": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 0,
+    "CONVERSATIONAL": 1.0
+  },
+  "distance": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 0,
+    "CONVERSATIONAL": 0.5
+  },
+  "50": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 0,
+    "CONVERSATIONAL": 0.5
+  },
+  "time": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 0,
+    "CONVERSATIONAL": 0.5
+  },
+  "10": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 0,
+    "CONVERSATIONAL": 0.5
+  },
+  "implement": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 0.5,
+    "CONVERSATIONAL": 0
+  },
+  "fibonacci": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 0.5,
+    "CONVERSATIONAL": 0
+  }
+}
