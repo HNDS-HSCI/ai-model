@@ -1,0 +1,87 @@
+{
+  "total": {
+    "SYNONYM_OF": [
+      "sum"
+    ]
+  },
+  "plus": {
+    "SYNONYM_OF": [
+      "sum"
+    ]
+  },
+  "combine": {
+    "SYNONYM_OF": [
+      "sum"
+    ]
+  },
+  "minus": {
+    "SYNONYM_OF": [
+      "subtract"
+    ]
+  },
+  "difference": {
+    "SYNONYM_OF": [
+      "subtract"
+    ]
+  },
+  "arrange": {
+    "SYNONYM_OF": [
+      "sort"
+    ]
+  },
+  "order": {
+    "SYNONYM_OF": [
+      "sort"
+    ]
+  },
+  "fib": {
+    "SYNONYM_OF": [
+      "fibonacci"
+    ]
+  },
+  "wages": {
+    "SYNONYM_OF": [
+      "salary"
+    ]
+  },
+  "pay": {
+    "SYNONYM_OF": [
+      "salary"
+    ]
+  },
+  "compensation": {
+    "SYNONYM_OF": [
+      "salary"
+    ]
+  },
+  "hiring": {
+    "SYNONYM_OF": [
+      "recruitment"
+    ]
+  },
+  "staff": {
+    "SYNONYM_OF": [
+      "employee"
+    ]
+  },
+  "workforce": {
+    "SYNONYM_OF": [
+      "employee"
+    ]
+  },
+  "sum": {
+    "IS_A": [
+      "math_operation"
+    ]
+  },
+  "sort": {
+    "IS_A": [
+      "algorithm"
+    ]
+  },
+  "salary": {
+    "IS_A": [
+      "financial_record"
+    ]
+  }
+}

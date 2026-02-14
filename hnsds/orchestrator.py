@@ -10,7 +10,7 @@ class HNSDSOrchestrator:
         self.verifier = verifier
         self.learner = learner
         self.logger = logging.getLogger("HNSDS")
-        self.mind = MentalModel(learner=self.learner, synthesizer=self.synthesizer)
+        self.mind = MentalModel(learner=self.learner, synthesizer=self.synthesizer, neural_lobe=self.perception)
 
     def run(self, raw_input, budget=10):
         """
@@ -45,7 +45,9 @@ class HNSDSOrchestrator:
                     self.learner.log_episode(sigma, candidate, success=True)
                 
                 # REINFORCEMENT: Update synapses if successful
+                # This mimics 'Hebbian Learning' - effective pathways are strengthened.
                 self.mind.reinforce(raw_input, self.mind.state)
+                
                 return candidate
             else:
                 self.logger.warning(f"Verification Failed (Attempt {attempt+1}): {feedback}")

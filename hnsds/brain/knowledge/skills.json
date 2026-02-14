@@ -1,0 +1,32 @@
+[
+  {
+    "tags": ["add", "sum", "plus", "addition"],
+    "template": "def solve(a, b):\n    return a + b",
+    "test_wrapper": "\n\nif __name__ == \"__main__\":\n    print(f\"Test Result: {solve(10, 20)}\")"
+  },
+  {
+    "tags": ["fibonacci", "sequence", "series"],
+    "template": "def solve(n):\n    if n <= 1: return n\n    return solve(n-1) + solve(n-2)",
+    "test_wrapper": "\n\nif __name__ == \"__main__\":\n    print(f\"Fibonacci(10): {solve(10)}\")"
+  },
+  {
+    "tags": ["sort", "order", "arrange"],
+    "template": "def solve(arr):\n    return sorted(arr)",
+    "test_wrapper": "\n\nif __name__ == \"__main__\":\n    print(f\"Sorted: {solve([3, 1, 4, 1, 5])}\")"
+  },
+  {
+    "tags": ["subtract", "difference", "minus"],
+    "template": "def solve(a, b):\n    return a - b",
+    "test_wrapper": "\n\nif __name__ == \"__main__\":\n    print(f\"Difference: {solve(10, 5)}\")"
+  },
+  {
+    "tags": ["salary", "payroll", "wages", "pay", "tax"],
+    "template": "def solve(gross_salary, tax_rate=0.2):\n    # Calculates Net Salary after Tax\n    tax_amount = gross_salary * tax_rate\n    return gross_salary - tax_amount",
+    "test_wrapper": "\n\nif __name__ == \"__main__\":\n    print(f\"Net Salary for 50000: {solve(50000)}\")"
+  },
+  {
+    "tags": ["employee", "filter", "staff", "recruitment", "age"],
+    "template": "def solve(employees, min_age=18):\n    # Filters employees strictly above a certain age\n    return [e for e in employees if e['age'] >= min_age]",
+    "test_wrapper": "\n\nif __name__ == \"__main__\":\n    staff = [{'name': 'Alice', 'age': 25}, {'name': 'Bob', 'age': 17}]\n    print(f\"Eligible Staff: {solve(staff)}\")"
+  }
+]

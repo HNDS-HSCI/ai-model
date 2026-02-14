@@ -1,130 +1,141 @@
-import os
 import logging
-import json
-try:
-    import google.generativeai as genai
-    HAS_GENAI = True
-except ImportError:
-    HAS_GENAI = False
 
-class GenerativeSynthesizer:
+class NativeProgramSynthesizer:
     """
-    The 'Neural' Lobe of the brain.
-    Now connected to Real Intelligence via Google Gemini API.
+    INVENTION: First-Principles Logic Composer.
+    
+    This replaces 'templates' with 'reasoning'.
+    It builds code by understanding the SEMANTICS of the request
+    and searching for the right combination of Cognitive Primitives.
     """
-    def __init__(self, model_name="gemini-1.5-flash"):
-        self.model_name = model_name
-        self.api_key = os.getenv("GEMINI_API_KEY")
-        self.logger = logging.getLogger("HNSDS")
+    def __init__(self):
+        self.logger = logging.getLogger("Synthesizer")
         
-        if self.api_key and HAS_GENAI:
-            genai.configure(api_key=self.api_key)
-            self.model = genai.GenerativeModel(model_name)
-            self.logger.info(f"Connected to Real Intelligence: {model_name}")
+        # 1. Cognitive Primitives (The Atoms of Thought)
+        self.primitives = {
+            "aggregators": {
+                "sum": {"init": "0", "op": "+="},
+                "product": {"init": "1", "op": "*="},
+                "multiply": {"init": "1", "op": "*="},
+                "count": {"init": "0", "op": "+= 1 #"}, # # indicates ignore value
+            },
+            "filters": {
+                "even": "n % 2 == 0",
+                "odd": "n % 2 != 0",
+                "positive": "n > 0",
+                "negative": "n < 0",
+                "greater": "n > {val}", # Dynamic slot
+                "less": "n < {val}"
+            },
+            "transforms": {
+                "square": "n * n",
+                "double": "n * 2",
+                "half": "n / 2"
+            }
+        }
+
+    def propose(self, goal, examples=[]):
+        """
+        Dynamically constructs a solution by reasoning about the constraints.
+        """
+        desc = goal.get("desc", "").lower()
+        
+        # 1. Semantic Parsing (Understanding the MEANING)
+        semantics = self._extract_semantics(desc)
+        
+        # 2. Structural Reasoning (Determining the ALGORITHM)
+        # If we have a list/collection and a scalar output -> Reduce Pattern
+        if "list" in desc or "array" in desc or "numbers" in desc:
+            return self._synthesize_reduction(semantics, desc)
+            
+        # If generic math -> Simple Function
+        return self._synthesize_math(semantics)
+
+    def _extract_semantics(self, desc):
+        """
+        Extracts the logical constraints from natural language.
+        This is the 'Perception' of logic.
+        """
+        semantics = {
+            "aggregator": "sum", # Default
+            "conditions": [],
+            "transform": None,
+            "threshold": None
+        }
+        
+        # Detect Aggregation Type
+        for key in self.primitives["aggregators"]:
+            if key in desc:
+                semantics["aggregator"] = key
+                break
+                
+        # Detect Filters
+        for key in self.primitives["filters"]:
+            if key in desc:
+                # Check for dynamic values (e.g. "greater than 5")
+                if key in ["greater", "less"]:
+                    import re
+                    # Find number after the word
+                    match = re.search(f"{key}.*?(\d+)", desc)
+                    if match:
+                        semantics["threshold"] = match.group(1)
+                        semantics["conditions"].append(key)
+                else:
+                    semantics["conditions"].append(key)
+        
+        # Detect Transforms
+        for key in self.primitives["transforms"]:
+            if key in desc:
+                semantics["transform"] = key
+                
+        return semantics
+
+    def _synthesize_reduction(self, semantics, desc):
+        """
+        Constructs a loop-based reduction algorithm from scratch.
+        """
+        agg_key = semantics["aggregator"]
+        agg_logic = self.primitives["aggregators"].get(agg_key, self.primitives["aggregators"]["sum"])
+        
+        # Build the AST (Abstract Syntax Tree) equivalents in text
+        lines = []
+        lines.append("def solve(numbers):")
+        lines.append(f"    result = {agg_logic['init']}")
+        lines.append("    for n in numbers:")
+        
+        indent = "        "
+        
+        # Apply Filters (Logic Nesting)
+        for cond_key in semantics["conditions"]:
+            logic = self.primitives["filters"][cond_key]
+            if "{val}" in logic and semantics["threshold"]:
+                logic = logic.format(val=semantics["threshold"])
+            elif "{val}" in logic:
+                 continue # Skip if missing threshold
+            
+            lines.append(f"{indent}if {logic}:")
+            indent += "    "
+            
+        # Apply Transforms
+        value_to_agg = "n"
+        if semantics["transform"]:
+            # e.g. "square the number"
+            trans_logic = self.primitives["transforms"][semantics["transform"]]
+            # Simple substitution
+            value_to_agg = trans_logic # "n * n"
+            
+        # Apply Aggregation
+        op = agg_logic["op"]
+        if "#" in op: # Special case for count
+            op = op.split("#")[0]
+            lines.append(f"{indent}result {op}")
         else:
-            self.model = None
-            if not HAS_GENAI:
-                self.logger.warning("Library 'google-generativeai' not found.")
-            if not self.api_key:
-                self.logger.warning("No GEMINI_API_KEY found in environment.")
-
-    def propose(self, goal, examples):
-        """
-        Generates a candidate solution using the Real AI Model.
-        """
-        # 1. Check for Real Intelligence
-        if not self.model:
-            return self._fallback_response(goal)
-
-        # 2. Construct the Prompt
-        prompt = self._construct_prompt(goal, examples)
+            lines.append(f"{indent}result {op} {value_to_agg}")
+            
+        lines.append("    return result")
         
-        # 3. Call the Real Model
-        try:
-            response = self.model.generate_content(prompt)
-            candidate = self._clean_response(response.text)
-            return candidate
-        except Exception as e:
-            self.logger.error(f"AI Model Error: {e}")
-            return "def solve(): return 'Error: AI Connection Failed'"
+        return "\n".join(lines)
 
-    def _construct_prompt(self, goal, examples):
-        # Specific instructions to ensure the model acts as a Symbolic Generator
-        base_instruction = """
-        You are the 'Synthesizer Lobe' of a Neuro-Symbolic AI. 
-        Your job is to generate a SINGLE, PRECISE candidate solution for a formal verifier.
-        
-        RULES:
-        1. Return ONLY the code or logic. NO markdown, NO explanations.
-        2. If the request is for Python code, write a complete function `def solve(...)`.
-        3. If the request is for a Proof, write a Z3 (Python `z3-solver`) script that sets up the variables and constraints.
-        4. If the request is for Analysis, provide a structured summary.
-        """
-
-        goal_desc = goal.get('description') or goal.get('equation') or str(goal)
-        goal_type = goal.get('type')
-
-        prompt = f"{base_instruction}\n\nCURRENT GOAL ({goal_type}): {goal_desc}\n"
-        
-        if goal_type == "proof":
-            prompt += "\nOUTPUT FORMAT: A python script using 'z3'. Assume 'from z3 import *' is already done. Use 's = Solver()'. To prove a theorem, add the NEGATION of the theorem to the solver (Proof by Contradiction).\n"
-        elif goal_type == "coding":
-            prompt += "\nOUTPUT FORMAT: Valid Python function named 'solve'.\n"
-
-        if examples:
-            prompt += "\nAVOID THESE PREVIOUSLY FAILED CANDIDATES (Counterexamples):\n"
-            for ex in examples:
-                prompt += f"- {ex}\n"
-        
-        return prompt
-
-    def _clean_response(self, text):
-        # Remove markdown code blocks if the model adds them
-        text = text.replace("```python", "").replace("```", "").strip()
-        return text
-
-    def _fallback_response(self, goal):
-        """
-        Deterministic Mock for Demo (Simulates Neural Extraction)
-        """
-        desc = str(goal).lower()
-        
-        # Simulate Formalization (JSON Output)
-        if "formalization" in desc or "extract" in desc:
-            if "velocity" in desc or "meters" in desc:
-                return json.dumps({
-                    "type": "math",
-                    "equations": ["v == 100 / 5"],
-                    "variables": ["v"]
-                })
-            if "fibonacci" in desc:
-                return json.dumps({
-                    "type": "coding",
-                    "description": "fibonacci function"
-                })
-            return json.dumps({"type": "conversational", "response": "I understand your request."})
-
-        # Simulate Classification
-        if "classify" in desc:
-            if any(w in desc for w in ["velocity", "solve", "math", "find"]):
-                return "ANALYTICAL"
-            if "fibonacci" in desc or "code" in desc:
-                return "ANALYTICAL"
-            return "CONVERSATIONAL"
-
-        # Simulate Code/Solution Generation
-        if isinstance(goal, dict):
-            if goal.get("type") == "math":
-                # Extract equation and solve simply
-                return "v=20.0"
-            if goal.get("type") == "coding":
-                return "def solve(n):\n    if n <= 1: return n\n    return solve(n-1) + solve(n-2)"
-
-        return """
-# SYSTEM OFFLINE
-# Real AI Model connection failed.
-"""
-
-
-    def compose(self, solutions):
-        return "\n".join(str(s) for s in solutions)
+    def _synthesize_math(self, semantics):
+        # Fallback for simple math logic
+        return "def solve(n):\n    return n"

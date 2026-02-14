@@ -3,6 +3,7 @@ import json
 import os
 import math
 from collections import defaultdict
+from .brain.lobes.native_planner import NativePlanner
 
 class MentalModel:
     """
@@ -11,13 +12,15 @@ class MentalModel:
     
     Shift from Hardcoded Rules -> Learned Synaptic Weights + Neural Intuition.
     """
-    def __init__(self, learner=None, synthesizer=None):
+    def __init__(self, learner=None, synthesizer=None, neural_lobe=None):
         self.state = "IDLE"
         self.memory_trace = []
         self.current_goal = None
         self.derived_solution = None
         self.learner = learner 
         self.synthesizer = synthesizer
+        self.neural_lobe = neural_lobe # The Native "Intuition" Lobe
+        self.planner = NativePlanner() # The Native "Reasoning" Lobe
         self.recalled_episode = None
         self.final_proof = None
         self.symbolic_spec = None
@@ -44,7 +47,7 @@ class MentalModel:
 
     def perceive(self, raw_input):
         """
-        Step 1: Perception via "Intuition" (Weighted Classification + Neural Confirmation).
+        Step 1: Perception via "Intuition" (Native Neural Lobe + Memory).
         """
         self.memory_trace.append(f"STIMULUS: {raw_input}")
         
@@ -57,7 +60,23 @@ class MentalModel:
                 self.memory_trace.append(f"MEMORY_TRIGGERED: Recall Episode regarding '{self.recalled_episode['goal_str']}'")
                 return self.state
 
-        # 2. INTUITION CHECK (Synaptic Classification)
+        # 2. NATIVE INTUITION (Neural Lobe)
+        if self.neural_lobe:
+            # The Neural Lobe performs the transduction
+            sigma = self.neural_lobe.classify_and_formalize(raw_input)
+            self.symbolic_spec = sigma
+            
+            # Determine mode from the spec type
+            intent = sigma.get("type", "conversational").upper()
+            if intent == "MATH" or intent == "CODING":
+                self.state = "ANALYTICAL"
+            else:
+                self.state = "CONVERSATIONAL"
+                
+            self.memory_trace.append(f"NEURAL_INTUITION: Classified as {intent} -> {self.state}")
+            return self.state
+
+        # 3. FALLBACK (Legacy Weight Check)
         words = self._tokenize(raw_input)
         mode_scores = {m: 0.0 for m in self.available_modes}
         for w in words:
@@ -66,73 +85,45 @@ class MentalModel:
                     mode_scores[mode] += weight
         
         best_mode = max(mode_scores, key=mode_scores.get)
-        
-        # 3. NEURAL PERCEPTION (If intuition is weak, use the Synthesizer to decide mode)
-        if mode_scores[best_mode] < 0.2 and self.synthesizer:
-            self.memory_trace.append("INTUITION_WEAK: Activating Neural Perception...")
-            neural_mode = self._neural_classify(raw_input)
-            if neural_mode in self.available_modes:
-                self.state = neural_mode
-                self.memory_trace.append(f"NEURAL_PERCEPTION_RESULT: {self.state}")
-                return self.state
-
         if mode_scores[best_mode] > 0.1:
             self.state = best_mode
         else:
-            self.state = "ANALYTICAL" # Default fallback
+            self.state = "ANALYTICAL"
             
-        self.memory_trace.append(f"COGNITIVE_MODE: {self.state}")
+        self.memory_trace.append(f"COGNITIVE_MODE (Fallback): {self.state}")
         return self.state
-
-    def _neural_classify(self, raw_input):
-        prompt = {
-            "type": "classification",
-            "description": f"Classify this input into one of {self.available_modes}: '{raw_input}'. Return ONLY the word."
-        }
-        return self.synthesizer.propose(prompt, []).strip().upper()
 
     def deliberate(self, raw_input):
         """
         Step 2: Deliberation. 
-        Instead of hardcoded rules, use Neural-Symbolic Formalization.
         """
         self.memory_trace.append(f"DELIBERATING: Mode={self.state}")
         
         if self.state == "RECALLING":
             return self._deliberate_memory(raw_input)
 
-        # Use Neural Lobe to extract the Formal Specification (Sigma)
-        if self.synthesizer:
-            self.memory_trace.append("NEURAL_FORMALIZATION: Extracting Symbolic Specification...")
-            sigma = self._neural_formalize(raw_input)
-            self.symbolic_spec = sigma
-            return sigma
+        # If Neural Lobe already did the work in perceive(), return that spec
+        if self.symbolic_spec:
+            spec_type = self.symbolic_spec.get('type')
+            self.memory_trace.append(f"USING_INTUITION_SPEC: {spec_type}")
+            
+            # Use Planner for Coding Tasks
+            if spec_type == 'coding':
+                desc = self.symbolic_spec.get('desc', raw_input)
+                plan = self.planner.plan_coding_task(desc)
+                self.memory_trace.append("PLAN_GENERATED: Analogical Reasoning applied.")
+                self.symbolic_spec['candidate'] = plan
+            
+            # Use Planner for Conversational Tasks
+            if spec_type == 'conversational':
+                response = self.planner.plan_conversational_task(raw_input)
+                self.memory_trace.append("CONVERSATION_PLANNED: Memory retrieval applied.")
+                self.symbolic_spec['response'] = response
+            
+            return self.symbolic_spec
         
-        # Fallback to simple structure if synthesizer is offline
+        # Fallback to simple structure
         return {"type": "coding", "raw": raw_input}
-
-    def _neural_formalize(self, raw_input):
-        prompt = {
-            "type": "formalization",
-            "description": f"Extract the symbolic logic from: '{raw_input}'. Output ONLY valid JSON with 'type' (coding, math, proof, conversational) and details (equations, goals, or response). Example: {{'type': 'math', 'equations': ['x + 2 == 5'], 'variables': ['x']}}"
-        }
-        res = self.synthesizer.propose(prompt, [])
-        try:
-            # Robust JSON extraction from potential markdown
-            res_clean = res.strip()
-            if "```json" in res_clean:
-                res_clean = res_clean.split("```json")[1].split("```")[0].strip()
-            elif "```" in res_clean:
-                res_clean = res_clean.split("```")[1].split("```")[0].strip()
-            
-            # Remove any trailing commas or common LLM JSON artifacts
-            res_clean = re.sub(r',\s*}', '}', res_clean)
-            res_clean = re.sub(r',\s*]', ']', res_clean)
-            
-            return json.loads(res_clean)
-        except Exception as e:
-            self.memory_trace.append(f"FORMALIZATION_ERROR: {str(e)}. Falling back to conversational.")
-            return {"type": "conversational", "response": res}
 
 
     def reinforce(self, raw_input, success_mode):
@@ -161,7 +152,7 @@ class MentalModel:
         return {
             "type": goal_obj.get('type', 'coding'),
             "concept": goal_obj.get('concept', 'recalled'),
-            "reference": self.recalled_episode.get('candidate')
+            "candidate": self.recalled_episode.get('candidate')
         }
 
     def set_specification(self, sigma):

@@ -2,153 +2,165 @@ import json
 import os
 import re
 import math
-from collections import Counter
-
-import sympy
-from sympy import symbols, Eq, solve as sympy_solve
+from .native_cortex import NativeCortex
+from .native_embedding import NativeEmbedding
 
 class NativeNeuralLobe:
     """
-    INVENTION: Neural-Guided Symbolic Search (NGSS) Engine.
-    This is a self-contained intelligence that constructs responses
-    by searching a symbolic space of logic-primitives.
+    INVENTION: Native Neural Perception & Synthesis.
+    
+    This module implements the 'Intuition' of the HSCI brain WITHOUT
+    external LLMs. It uses a True Neural Network (NativeCortex) to
+    classify intent via learned Synaptic Weights.
     """
     def __init__(self, weight_path="synaptic_core.json"):
         self.weight_path = weight_path
-        self.knowledge_base = self._load_knowledge()
-        self.features = self.knowledge_base.get("features", {})
-        self.facts = self.knowledge_base.get("facts", {})
         
-        # LOGIC PRIMITIVES (The Building Blocks of Thought)
-        self.primitives = {
-            "ADD": lambda *args: sum(args),
-            "SUB": lambda a, b: a - b,
-            "MUL": lambda a, b: a * b,
-            "DIV": lambda a, b: a / b if b != 0 else 0,
-            "ITER": "loop",
-            "RECURSE": "recursion"
-        }
+        # 1. The Semantic Layer (Text -> Numbers)
+        self.embedding = NativeEmbedding(vocab_size=200) # Input Size
+        
+        # 2. The Synaptic Core (The Neural Network)
+        # Input: 200 dim vector, Hidden: 20 neurons, Output: 3 classes (MATH, CODING, CONV)
+        self.cortex = NativeCortex(input_size=200, hidden_size=20, output_size=3)
+        
+        self.intents = ["MATH", "CODING", "CONVERSATIONAL"]
 
     def classify_and_formalize(self, stimulus):
         """
         Transduction: Maps natural language features to a Symbolic Goal.
+        Mechanism: Neural Forward Pass + Logic Heuristics.
         """
         stim_low = stimulus.lower().strip()
-        tokens = self._extract_features(stim_low)
         
-        # 1. Neural Scoring (The Intuition)
-        scores = {p: 0.0 for p in self.primitives}
-        scores.update({"MATH": 0.0, "CODE": 0.0, "CHAT": 0.0})
+        # 0. Heuristic: Logic Puzzle Detection
+        # (This bypasses the small neural net for specific complex tasks)
+        logic_keywords = ["lives in", "next to", "brit", "swede", "house", "puzzle", "neighbor"]
+        if any(kw in stim_low for kw in logic_keywords) and len(stim_low.split()) > 5:
+            return {
+                "type": "logic",
+                "goal": "solve_csp",
+                "raw": stimulus,
+                "confidence": 0.99
+            }
         
-        for t in tokens:
-            if t in self.features:
-                for target, weight in self.features[t].items():
-                    if target in scores: scores[target] += weight
-
-        # 2. Goal Extraction
-        # Identify variables and constants
-        constants = [float(n) for n in re.findall(r'\d+', stim_low)]
-        variables = re.findall(r'\b[a-z]\b', stim_low)
-
-        # 3. Decision Matrix (The Mental State)
-        if "=" in stim_low or scores["MATH"] > 0.5:
-            return {"type": "math", "goal": "solve", "raw": stim_low, "vars": variables or ["x"]}
+        # 1. Vectorize
+        input_vector = self.embedding.embed(stim_low)
         
-        if any(w in stim_low for w in ["code", "function", "write", "program"]):
-            return {"type": "coding", "goal": "synthesize", "desc": stimulus, "arity": len(constants) or 2}
+        # 2. Neural Thinking (Forward Pass)
+        output_signal = self.cortex.forward(input_vector)
+        
+        # 3. Interpret Signal (Argmax)
+        best_idx = output_signal.index(max(output_signal))
+        best_intent = self.intents[best_idx]
+        confidence = output_signal[best_idx]
+        
+        # 4. Extract Specification based on best intent
+        if best_intent == "MATH":
+            return {
+                "type": "math", 
+                "goal": "solve", 
+                "raw": stim_low,
+                "equation": self._extract_equation(stim_low),
+                "confidence": confidence
+            }
+        
+        if best_intent == "CODING":
+            return {
+                "type": "coding", 
+                "goal": "synthesize", 
+                "desc": stimulus,
+                "confidence": confidence
+            }
 
-        return {"type": "conversational", "response": self._generate_thought_trace(stimulus, scores)}
+        return {
+            "type": "conversational", 
+            "response": f"I received: '{stimulus}'. My Neural Net classifies this as {best_intent} (Signal: {confidence:.4f}).",
+            "confidence": confidence
+        }
 
+    def grow(self, stimulus, successful_spec, intent):
+        """
+        Backpropagation: The Brain physically rewires itself based on success.
+        """
+        if not intent: return
+        
+        # 1. Vectorize Input
+        input_vector = self.embedding.embed(stimulus)
+        
+        # 2. Create Target Signal (One-Hot Encoding)
+        # e.g., if intent is CODING (idx 1) -> [0.0, 1.0, 0.0]
+        target_vector = [0.0] * len(self.intents)
+        try:
+            target_idx = self.intents.index(intent.upper())
+            target_vector[target_idx] = 1.0
+        except ValueError:
+            return # Unknown intent
+
+        # 3. Train (Backprop)
+        loss = self.cortex.train(input_vector, target_vector)
+        self.cortex.save_weights()
+        # print(f"DEBUG: Brain Learned. Loss: {loss:.6f}")
+
+    def _extract_equation(self, text):
+        # Heuristic: Find something that looks like an equation
+        # Remove command words first
+        clean_text = text.replace("solve", "").replace("calculate", "").replace("equals", "=")
+        
+        # Extract potential equation part
+        # Look for pattern: LHS = RHS or LHS == RHS
+        match = re.search(r'([a-z0-9\+\-\*\/\s]+={1,2}[a-z0-9\+\-\*\/\s]+)', clean_text)
+        if match:
+            eq = match.group(1).replace(" ", "")
+            if "=" in eq and "==" not in eq:
+                eq = eq.replace("=", "==")
+            return eq
+        return ""
+    
+    # Primitives map remains for the symbolic engine usage if needed, 
+    # though usually handled by Prover.
     def propose_solution(self, sigma):
         """
-        Synthesis: Searches for the logic-primitive composition that 
-        satisfies the formal goal.
+        Synthesis: Deterministic search for a candidate solution.
+        Acts as the 'Intuition' proposing a candidate for the Verifier.
         """
-        if sigma["type"] == "math":
-            return self._search_math_space(sigma["raw"])
+        if sigma.get("type") == "math":
+            eq = sigma.get("equation", "")
+            return self._solve_native_math(eq)
         
-        if sigma["type"] == "coding":
-            return self._search_program_space(sigma)
-            
-        return "Task acknowledged."
+        # Fallback for coding if the Planner didn't generate one in MentalModel
+        if sigma.get("type") == "coding":
+            return "def solve(): pass"
 
-    def _search_program_space(self, sigma):
-        """
-        Constructs a program by composing primitives.
-        """
-        desc = sigma["desc"].lower()
-        arity = 2
-        # Use learned weights to find the core operation
-        ops = ["+", "-", "*", "/"]
-        weights = [0.1, 0.1, 0.1, 0.1]
-        
-        if "add" in desc or "sum" in desc: weights[0] = 1.0
-        if "sub" in desc or "minus" in desc: weights[1] = 1.0
-        if "multi" in desc or "times" in desc: weights[2] = 1.0
-        
-        best_op = ops[weights.index(max(weights))]
-        
-        # Determine arity dynamically from the request
-        num_match = re.search(r'(\d+)', desc)
-        if num_match: arity = int(num_match.group(1))
+        return "x=0"
 
-        args = [chr(97 + i) for i in range(arity)]
-        expression = f" {best_op} ".join(args)
-        
-        return f"def solve({', '.join(args)}):\n    return {expression}"
-
-    def _search_math_space(self, raw):
-        """Uses SymPy to solve the equation derived from the stimulus."""
+    def _solve_native_math(self, eq_str):
+        # Very simple solver for x + A == B types
+        # This acts as the 'Neural Intuition' proposing a candidate for the Verifier
         try:
-            clean = re.sub(r'[a-z A-Z]', '', raw.split("=")[0])
-            # This is where the model 'reasons' about the equation structure
-            return self._solve_symbolically(raw.replace("=", "=="))
+            if "==" not in eq_str: return "x=0"
+            lhs, rhs = eq_str.split("==")
+            
+            # Simple heuristic solver
+            # Assume form: x [op] A == B
+            # Find the number in LHS
+            nums = re.findall(r'\d+', lhs)
+            if not nums: return "x=0"
+            
+            A = float(nums[0])
+            B = float(rhs)
+            
+            # Inverse operations
+            if "+" in lhs: val = B - A
+            elif "-" in lhs: val = B + A
+            elif "*" in lhs: val = B / A
+            elif "/" in lhs: val = B * A
+            else: val = 0
+            
+            return f"x={val}" 
         except:
             return "x=0"
 
-    def _generate_thought_trace(self, stim, scores):
-        trace = f"STIMULUS RECEIVED: '{stim}'\n"
-        trace += f"NEURAL ACTIVATION: { {k: round(v, 2) for k, v in scores.items() if v > 0} }\n"
-        trace += "DELIBERATION: Synthesizing response from learned facts and logic primitives..."
-        return trace
 
-    def _extract_features(self, text):
-        return re.findall(r'\w+', text.lower())
-
-    def _load_knowledge(self):
-        if os.path.exists(self.weight_path):
-            try:
-                with open(self.weight_path, "r") as f:
-                    return json.load(f)
-            except: pass
-        return {"features": {}, "facts": {}}
-
-    def _save_knowledge(self):
-        with open(self.weight_path, "w") as f:
-            json.dump({"features": self.features, "facts": self.facts}, f, indent=2)
-
-    def _solve_symbolically(self, equation):
-        try:
-            if "==" not in equation: return "x=0"
-            lhs_str, rhs_str = equation.split("==")
-            var_names = set(re.findall(r'[a-z]', equation)) or {"x"}
-            syms = {name: sympy.symbols(name) for name in var_names}
-            lhs_expr = sympy.parse_expr(lhs_str.strip(), local_dict=syms)
-            rhs_expr = sympy.parse_expr(rhs_str.strip(), local_dict=syms)
-            sol = sympy.solve(sympy.Eq(lhs_expr, rhs_expr))
-            if sol:
-                v = list(var_names)[0]
-                return f"{v}={float(sol[0]) if sol[0].is_number else sol[0]}"
-            return "x=0"
-        except: return "x=0"
-
-    def grow(self, stimulus, successful_spec, intent):
-        tokens = self._extract_features(stimulus)
-        for t in tokens:
-            if t not in self.features:
-                self.features[t] = {}
-            self.features[t][intent] = self.features[t].get(intent, 0.0) + 0.2
-        self._save_knowledge()
 
 
 

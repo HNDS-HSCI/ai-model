@@ -1,10 +1,12 @@
 import operator
+from z3 import *
 
 class NativeSymbolicEngine:
     """
     INVENTION: The Axiomatic Core.
     This is a native logic reduction engine. It doesn't just call a library; 
     it implements the fundamental laws of symbolic reduction (Axioms).
+    Also bridges to Z3 for complex Constraint Satisfaction Problems (CSP).
     """
     def __init__(self):
         # Primordial Axioms: Basic operations defined as cognitive primitives
@@ -15,6 +17,84 @@ class NativeSymbolicEngine:
             "/": operator.truediv,
             "==": operator.eq
         }
+
+    def solve_csp(self, parsed_problem):
+        """
+        Solves a Logic Puzzle (CSP) using Z3.
+        Input: parsed_problem dict from LogicParser.
+        """
+        solver = Solver()
+        
+        # 1. Setup Universe of Discourse
+        # In a logic puzzle, we usually map Entities -> Slots (e.g., House Numbers)
+        # OR Attributes -> Entities.
+        # Let's assume a standard grid: N Houses. Attributes are variables taking values 1..N
+        
+        # Find the 'positional' or 'primary' domain. 
+        # Heuristic: If we have "House_1", "House_2", that's the domain 1..N.
+        
+        # Flatten all attributes to find unique values
+        # e.g. color: [red, green], nat: [brit, swede]
+        
+        # Create Z3 Variables for each Attribute of each Entity?
+        # Standard approach: Variables are the Attributes (e.g. Color_Red, Color_Green) 
+        # and values are the House IDs (1..5).
+        
+        variables = {}
+        domain_size = 5 # Default
+        
+        # Collect all unique "things" (Brit, Red, Coffee)
+        # The Parser output needs to be robust. 
+        # For now, let's assume specific structure: 
+        # constraints: [{type: association, entity1: Brit, entity2: Red}]
+        
+        # We need to deduce the variables.
+        # Let's treat every noun found as a Variable that maps to a Position (Int).
+        all_nouns = set()
+        for c in parsed_problem.get("constraints", []):
+            if "entity1" in c: all_nouns.add(c["entity1"])
+            if "entity2" in c: all_nouns.add(c["entity2"])
+            
+        # Create a Z3 Int for each noun
+        for noun in all_nouns:
+            v = Int(noun)
+            variables[noun] = v
+            solver.add(v >= 1, v <= 5) # Assume 5 slots for now
+            
+        # 2. Apply Constraints
+        for c in parsed_problem.get("constraints", []):
+            try:
+                e1 = variables.get(c["entity1"])
+                e2 = variables.get(c["entity2"])
+                
+                if e1 is None or e2 is None: continue
+                
+                if c["type"] == "association":
+                    # "Brit is Red" -> Position(Brit) == Position(Red)
+                    if c["negation"]:
+                        solver.add(e1 != e2)
+                    else:
+                        solver.add(e1 == e2)
+                        
+                elif c["type"] == "adjacency":
+                    # "Brit next to Green" -> |Pos(Brit) - Pos(Green)| == 1
+                    # In Z3: Or(e1 == e2 + 1, e1 == e2 - 1)
+                    if c["negation"]:
+                        solver.add(Not(Or(e1 == e2 + 1, e1 == e2 - 1)))
+                    else:
+                        solver.add(Or(e1 == e2 + 1, e1 == e2 - 1))
+            except Exception as e:
+                print(f"Constraint Gen Error: {e}")
+
+        # 3. Solve
+        if solver.check() == sat:
+            m = solver.model()
+            results = []
+            for name, var in variables.items():
+                results.append(f"{name}={m[var]}")
+            return "Solution: " + ", ".join(results)
+        else:
+            return "Unsatisfiable: No logic solution found."
 
     def reduce(self, expression, assignments):
         """
@@ -90,6 +170,9 @@ class NativeSymbolicEngine:
             equations = [sigma["equation"]]
             
         for eq in equations:
+            if not eq or "==" not in eq:
+                continue # Skip malformed/empty equations
+            
             lhs, rhs = eq.split("==")
             # Reduce both sides natively
             res_l = self.reduce(lhs.strip(), assignments)
