@@ -19,4 +19,4 @@ ENV PORT=8000
 EXPOSE $PORT
 
 # Run application via start script
-CMD ["./start.sh"]
+CMD ["bash", "./start.sh"]
