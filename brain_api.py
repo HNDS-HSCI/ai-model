@@ -24,6 +24,7 @@ app.add_middleware(
 # Initialize the Native Hyper-Symbolic Brain
 brain = HyperSymbolicBrain()
 UI_PATH = Path(__file__).resolve().parent / "ui" / "index.html"
+LANDING_PATH = Path(__file__).resolve().parent / "ui" / "landing.html"
 
 
 class StimulusRequest(BaseModel):
@@ -31,8 +32,16 @@ class StimulusRequest(BaseModel):
 
 
 @app.get("/")
-async def get_ui():
-    # Serve the dashboard from a path relative to this file.
+async def get_landing():
+    # Serve the landing page.
+    if not LANDING_PATH.exists():
+        return {"error": f"Landing file not found at {LANDING_PATH}"}
+    return FileResponse(str(LANDING_PATH))
+
+
+@app.get("/dashboard")
+async def get_dashboard():
+    # Serve the existing dashboard.
     if not UI_PATH.exists():
         return {"error": f"UI file not found at {UI_PATH}"}
     return FileResponse(str(UI_PATH))
