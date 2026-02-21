@@ -194,6 +194,79 @@
             </div>
         </section>
 
+        <!-- Sigma Breakdown -->
+        <section class="px-6 py-24 max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold text-white mb-6">The Universal Symbolic Specification</h2>
+                    <p class="text-slate-400 mb-6 leading-relaxed">
+                        HSCI doesn't process text; it processes contracts. The <span class="text-accent-500 font-mono">Σ (Sigma)</span> object is a deterministic mathematical representation of human intent, stripped of linguistic ambiguity.
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3 text-sm text-slate-300">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-accent-500 mt-0.5"></i>
+                            <span>Eliminates "Latent Space" guessing found in traditional LLMs.</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-slate-300">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-accent-500 mt-0.5"></i>
+                            <span>Provides a machine-readable target for the Verified Lobe.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="glass-card p-1 rounded-2xl overflow-hidden shadow-2xl shadow-accent-500/10">
+                    <div class="bg-slate-950 p-6 rounded-2xl font-mono text-sm">
+                        <div class="flex items-center gap-2 mb-4 border-b border-slate-800 pb-2">
+                            <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                            <div class="w-2 h-2 rounded-full bg-amber-500"></div>
+                            <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+                            <span class="text-[10px] text-slate-500 ml-2 uppercase">Transduction Output (Σ)</span>
+                        </div>
+                        <div class="space-y-1">
+                            <p class="text-blue-400">{</p>
+                            <p class="pl-4"><span class="text-slate-300">"type"</span>: <span class="text-emerald-400">"system"</span>,</p>
+                            <p class="pl-4"><span class="text-slate-300">"goal"</span>: <span class="text-emerald-400">"solve"</span>,</p>
+                            <p class="pl-4"><span class="text-slate-300">"equations"</span>: [</p>
+                            <p class="pl-8"><span class="text-amber-400">"x + y == 10"</span>,</p>
+                            <p class="pl-8"><span class="text-amber-400">"x - y == 20"</span></p>
+                            <p class="pl-4">],</p>
+                            <p class="pl-4"><span class="text-slate-300">"variables"</span>: [<span class="text-amber-400">"x"</span>, <span class="text-amber-400">"y"</span>],</p>
+                            <p class="pl-4"><span class="text-slate-300">"confidence"</span>: <span class="text-purple-400">0.99</span></p>
+                            <p class="text-blue-400">}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Developer SDK -->
+        <section class="px-6 py-24 bg-accent-500/5 border-y border-accent-500/10">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl font-bold text-white mb-12">Integrate HSCI Proofs</h2>
+                <div class="glass-card text-left rounded-2xl overflow-hidden">
+                    <div class="bg-slate-850 px-4 py-2 flex items-center justify-between border-b border-slate-800">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Python Integration</span>
+                        <div class="flex gap-1.5">
+                            <div class="w-2 h-2 rounded-full bg-slate-700"></div>
+                            <div class="w-2 h-2 rounded-full bg-slate-700"></div>
+                        </div>
+                    </div>
+                    <div class="p-6 font-mono text-sm text-slate-300 overflow-x-auto">
+                        <p class="text-purple-400">import <span class="text-slate-200">requests</span></p>
+                        <br/>
+                        <p class="text-slate-500"># Connect to the Cognitive Engine</p>
+                        <p>HSCI_URL = <span class="text-amber-400">"http://api.hsci.ai/process"</span></p>
+                        <br/>
+                        <p>response = requests.post(HSCI_URL, json={</p>
+                        <p class="pl-4"><span class="text-amber-400">"stimulus"</span>: <span class="text-emerald-400">"Solve x+y=10 x-y=20"</span></p>
+                        <p>})</p>
+                        <br/>
+                        <p><span class="text-purple-400">if</span> response.json()[<span class="text-amber-400">"success"</span>]:</p>
+                        <p class="pl-4">print(<span class="text-emerald-400">f"Proven Solution: {response.json()['solution']}"</span>)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Comparison Section -->
         <section id="comparison" class="px-6 py-24 bg-slate-900/30 border-y border-slate-800/50">
             <div class="max-w-4xl mx-auto">
