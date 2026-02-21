@@ -1,5 +1,6 @@
 #!/bin/bash
 # Start script for Render deployment
+set -e
 
 # Use the PORT environment variable provided by Render, or default to 8000
 PORT=${PORT:-8000}
