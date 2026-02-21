@@ -1,49 +1,66 @@
-import subprocess
-import time
-import sys
+import argparse
 import webbrowser
-import os
 
-def main():
-    print("#" * 50)
-    print("HSCI: HYPER-SYMBOLIC COGNITIVE INVENTION")
-    print("Launching the Verified AI Dashboard...")
-    print("#" * 50)
 
-    # 1. Start the Backend API
-    print("\n[1/2] Starting Symbolic Brain Backend (FastAPI)...")
+def _build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        description="Launch the HSCI web application (FastAPI + Dashboard UI)."
+    )
+    parser.add_argument("--host", default="127.0.0.1", help="Bind address (default: 127.0.0.1)")
+    parser.add_argument("--port", type=int, default=8000, help="Port number (default: 8000)")
+    parser.add_argument(
+        "--no-browser",
+        action="store_true",
+        help="Do not automatically open the dashboard in a browser.",
+    )
+    parser.add_argument(
+        "--reload",
+        action="store_true",
+        help="Enable auto-reload for development.",
+    )
+    return parser
+
+
+def main() -> int:
+    parser = _build_parser()
+    args = parser.parse_args()
+
+    banner = "=" * 58
+    url = f"http://{args.host}:{args.port}"
+
+    print(banner)
+    print("HSCI Application Launcher")
+    print(banner)
+    print(f"Dashboard URL: {url}")
+
+    if not args.no_browser:
+        try:
+            webbrowser.open(url)
+            print("Browser launch requested.")
+        except Exception as exc:
+            print(f"Could not launch browser automatically: {exc}")
+
     try:
-        # Use subprocess.Popen to run in background
-        api_process = subprocess.Popen(
-            [sys.executable, "-m", "uvicorn", "brain_api:app", "--host", "0.0.0.0", "--port", "8000"],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.STDOUT
+        import uvicorn
+    except Exception as exc:
+        print("Missing dependency: uvicorn")
+        print("Install it with: pip install uvicorn fastapi")
+        print(f"Details: {exc}")
+        return 1
+
+    try:
+        uvicorn.run(
+            "brain_api:app",
+            host=args.host,
+            port=args.port,
+            reload=args.reload,
+            log_level="info",
         )
-    except Exception as e:
-        print(f"Error starting API: {e}")
-        return
-
-    # Give it a moment to warm up
-    time.sleep(3)
-
-    # 2. Launch the Frontend
-    print("[2/2] Launching Mind-State Dashboard (UI)...")
-    webbrowser.open("http://localhost:8000")
-
-    print("\n" + "=" * 50)
-    print("SYSTEM ONLINE")
-    print("Dashboard Access: http://localhost:8000")
-    print("Press Ctrl+C to shutdown.")
-    print("=" * 50)
-
-    try:
-        while True:
-            time.sleep(1)
+        return 0
     except KeyboardInterrupt:
-        print("\nShutting down cognitive core...")
-        api_process.terminate()
-        print("HSCI System Offline.")
+        print("\nShutting down HSCI application.")
+        return 0
+
 
 if __name__ == "__main__":
-    main()
-
+    raise SystemExit(main())

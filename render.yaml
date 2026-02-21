@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: hsci-cognitive-engine
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python run_app.py --host 0.0.0.0 --port $PORT --no-browser"
+
+    # Environment
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.9"
+      - key: PORT
+        value: "8000"
+
+    # Scaling
+    plan: free # or starter, standard, etc.
+    autoDeploy: true
+
+    # Persistent storage for learning
+    disks:
+      - name: learning-storage
+        path: /app/data
+        sizeGB: 1
+
+    # Environment-specific volumes
+    staticPublishPath: ui
+
+    # Health check
+    healthCheckPath: /health
+
+    # Logging
+    logLevel: info

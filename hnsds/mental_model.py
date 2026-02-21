@@ -68,7 +68,7 @@ class MentalModel:
             
             # Determine mode from the spec type
             intent = sigma.get("type", "conversational").upper()
-            if intent == "MATH" or intent == "CODING":
+            if intent in ["MATH", "CODING", "SYSTEM"]:
                 self.state = "ANALYTICAL"
             else:
                 self.state = "CONVERSATIONAL"

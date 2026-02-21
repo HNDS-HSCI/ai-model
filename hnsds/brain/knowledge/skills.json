@@ -1,5 +1,20 @@
 [
   {
+    "tags": ["flask", "app", "server", "backend", "web"],
+    "template": "from flask import Flask, jsonify, request\n\napp = Flask(__name__)\n\n@app.route('/', methods=['GET'])\ndef home():\n    return jsonify({'status': 'running'})\n\nif __name__ == '__main__':\n    app.run(debug=True)",
+    "test_wrapper": "\n\n# Verification: Check syntax\nimport sys\nprint('Syntax OK')"
+  },
+  {
+    "tags": ["model", "class", "data", "structure", "user"],
+    "template": "class User:\n    def __init__(self, id, username, email):\n        self.id = id\n        self.username = username\n        self.email = email\n\n    def to_dict(self):\n        return {'id': self.id, 'username': self.username, 'email': self.email}",
+    "test_wrapper": "\n\nif __name__ == '__main__':\n    u = User(1, 'test', 'test@example.com')\n    assert u.to_dict()['username'] == 'test'\n    print('Model Test Passed')"
+  },
+  {
+    "tags": ["route", "endpoint", "api", "get"],
+    "template": "@app.route('/users', methods=['GET'])\ndef get_users():\n    users = [User(1, 'alice', 'alice@example.com'), User(2, 'bob', 'bob@example.com')]\n    return jsonify([u.to_dict() for u in users])",
+    "test_wrapper": ""
+  },
+  {
     "tags": ["add", "sum", "plus", "addition"],
     "template": "def solve(a, b):\n    return a + b",
     "test_wrapper": "\n\nif __name__ == \"__main__\":\n    print(f\"Test Result: {solve(10, 20)}\")"
@@ -13,20 +28,5 @@
     "tags": ["sort", "order", "arrange"],
     "template": "def solve(arr):\n    return sorted(arr)",
     "test_wrapper": "\n\nif __name__ == \"__main__\":\n    print(f\"Sorted: {solve([3, 1, 4, 1, 5])}\")"
-  },
-  {
-    "tags": ["subtract", "difference", "minus"],
-    "template": "def solve(a, b):\n    return a - b",
-    "test_wrapper": "\n\nif __name__ == \"__main__\":\n    print(f\"Difference: {solve(10, 5)}\")"
-  },
-  {
-    "tags": ["salary", "payroll", "wages", "pay", "tax"],
-    "template": "def solve(gross_salary, tax_rate=0.2):\n    # Calculates Net Salary after Tax\n    tax_amount = gross_salary * tax_rate\n    return gross_salary - tax_amount",
-    "test_wrapper": "\n\nif __name__ == \"__main__\":\n    print(f\"Net Salary for 50000: {solve(50000)}\")"
-  },
-  {
-    "tags": ["employee", "filter", "staff", "recruitment", "age"],
-    "template": "def solve(employees, min_age=18):\n    # Filters employees strictly above a certain age\n    return [e for e in employees if e['age'] >= min_age]",
-    "test_wrapper": "\n\nif __name__ == \"__main__\":\n    staff = [{'name': 'Alice', 'age': 25}, {'name': 'Bob', 'age': 17}]\n    print(f\"Eligible Staff: {solve(staff)}\")"
   }
 ]

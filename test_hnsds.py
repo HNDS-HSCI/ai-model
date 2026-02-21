@@ -1,7 +1,7 @@
 import logging
 import sys
 from hnsds.orchestrator import HNSDSOrchestrator
-from hnsds.perception.parser import Parser
+from hnsds.brain.lobes.native_neural_lobe import NativeNeuralLobe
 from hnsds.formalizer.spec_builder import SpecBuilder
 from hnsds.planner.htn_planner import HTNPlanner
 from hnsds.synthesizer.enumerative import EnumerativeSynthesizer
@@ -22,7 +22,7 @@ def main():
     )
 
     # Initialize components
-    p = Parser()
+    p = NativeNeuralLobe()
     f = SpecBuilder()
     pl = HTNPlanner()
     v = Z3Verifier()

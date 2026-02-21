@@ -3,6 +3,7 @@ import inspect
 import re
 import sys
 import logging
+from z3 import *
 
 class CognitivePrimitives:
     """
@@ -36,8 +37,13 @@ class EnumerativeSynthesizer:
             return goal.get("reference_solution")
 
         goal_type = goal.get("type")
-        desc = goal.get("description", "").lower()
+        
+        # --- MATH & SYSTEM SYNTHESIS ---
+        if goal_type in ["math", "system"]:
+            return self._solve_symbolic(goal)
 
+        desc = goal.get("description", "").lower()
+        
         # 1. Infer Learning Goal (IO Examples)
         # To "learn" and "solve", we need to know what success looks like.
         # We infer test cases from the description.
@@ -60,6 +66,48 @@ class EnumerativeSynthesizer:
         
         return "# Failed to synthesize logic within depth limit."
 
+
+    def _solve_symbolic(self, goal):
+        """
+        Uses Symbolic Reasoning (Z3) to find a candidate solution for math problems.
+        """
+        try:
+            s = Solver()
+            var_names = goal.get("variables", [])
+            if not var_names:
+                # Try to infer from equations if variables not explicitly set
+                pass # Should be set by Neural Lobe
+                
+            z3_vars = {name: Int(name) for name in var_names}
+            
+            equations = []
+            if goal.get("type") == "math":
+                equations = [goal.get("equation")]
+            else:
+                equations = goal.get("equations", [])
+                
+            for eq_str in equations:
+                if not eq_str: continue
+                # Parse "x + y == 10" into Z3 constraint
+                try:
+                    # Safe eval with z3 vars
+                    z3_eq = eval(eq_str, {"__builtins__": None}, z3_vars)
+                    s.add(z3_eq)
+                except Exception as e:
+                    self.logger.warning(f"Failed to parse equation '{eq_str}': {e}")
+                    
+            if s.check() == sat:
+                m = s.model()
+                # Format: "x=1, y=2"
+                solution_parts = []
+                for name in var_names:
+                    val = m[z3_vars[name]]
+                    solution_parts.append(f"{name}={val}")
+                return ", ".join(solution_parts)
+            else:
+                return "# UNSATISFIABLE"
+        except Exception as e:
+            return f"# SYMBOLIC ERROR: {e}"
 
     def _infer_io_examples(self, desc):
         # "addition"

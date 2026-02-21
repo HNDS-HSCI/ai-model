@@ -5,9 +5,9 @@
     "CONVERSATIONAL": 0.0
   },
   "solve": {
-    "ANALYTICAL": 1.0,
-    "CREATIVE": 0.0,
-    "CONVERSATIONAL": 0.0
+    "ANALYTICAL": 1.4,
+    "CREATIVE": 0,
+    "CONVERSATIONAL": 0.4
   },
   "sum": {
     "ANALYTICAL": 0.8,
@@ -166,8 +166,8 @@
   },
   "10": {
     "CREATIVE": 0,
-    "ANALYTICAL": 0,
-    "CONVERSATIONAL": 0.5
+    "ANALYTICAL": 0.5,
+    "CONVERSATIONAL": 0.9
   },
   "implement": {
     "CREATIVE": 0,
@@ -178,5 +178,20 @@
     "CREATIVE": 0,
     "ANALYTICAL": 0.5,
     "CONVERSATIONAL": 0
+  },
+  "x": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 1.0,
+    "CONVERSATIONAL": 0.8
+  },
+  "y": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 1.0,
+    "CONVERSATIONAL": 0.8
+  },
+  "2": {
+    "CREATIVE": 0,
+    "ANALYTICAL": 0.5,
+    "CONVERSATIONAL": 0.4
   }
 }

@@ -144,11 +144,12 @@ class NativeSymbolicEngine:
         if not candidate:
             return False, "No candidate provided"
 
-        # Check for Python Code
-        if str(candidate).startswith("def "):
+        # Check for Python Code (Heuristic: contains 'def ' or 'import ' or 'class ')
+        cand_str = str(candidate)
+        if "def " in cand_str or "import " in cand_str or "class " in cand_str:
             try:
                 # Syntax Check
-                compile(candidate, '<string>', 'exec')
+                compile(cand_str, '<string>', 'exec')
                 return True, None
             except Exception as e:
                 return False, f"Syntax Error: {str(e)}"
