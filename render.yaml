@@ -3,7 +3,7 @@ services:
     name: hsci-cognitive-engine
     env: python
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "python run_app.py --host 0.0.0.0 --port $PORT --no-browser"
+    startCommand: "./start.sh"
 
     # Environment
     envVars:
