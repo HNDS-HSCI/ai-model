@@ -84,7 +84,10 @@
             <div class="w-10 h-10 bg-gradient-to-tr from-accent-600 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-accent-500/20">
                 <i data-lucide="brain" class="w-6 h-6 text-white"></i>
             </div>
-            <span class="text-xl font-bold tracking-tight text-white">HSCI</span>
+            <div class="flex flex-col">
+                <span class="text-xl font-bold tracking-tight text-white leading-none">HSCI</span>
+                <span class="text-[8px] text-accent-500 font-bold uppercase tracking-widest mt-1">v2.0.0 Stable</span>
+            </div>
         </div>
         <div class="flex items-center gap-8">
             <a href="#logic" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Logic</a>
@@ -267,6 +270,76 @@
             </div>
         </section>
 
+        <!-- Project Evolution (Changelog & Roadmap) -->
+        <section class="px-6 py-24 max-w-5xl mx-auto">
+            <!-- Live Pulse -->
+            <div class="glass-card mb-16 p-6 rounded-2xl flex flex-wrap items-center justify-center gap-12 border-accent-500/20">
+                <div class="text-center">
+                    <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Total Proven Episodes</p>
+                    <p id="pulse-episodes" class="text-2xl font-bold text-white">--</p>
+                </div>
+                <div class="w-px h-8 bg-slate-800 hidden md:block"></div>
+                <div class="text-center">
+                    <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">System Status</p>
+                    <div class="flex items-center gap-2 justify-center">
+                        <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                        <p id="pulse-status" class="text-2xl font-bold text-white">ONLINE</p>
+                    </div>
+                </div>
+                <div class="w-px h-8 bg-slate-800 hidden md:block"></div>
+                <div class="text-center">
+                    <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Synaptic Connections</p>
+                    <p id="pulse-weights" class="text-2xl font-bold text-white">--</p>
+                </div>
+            </div>
+
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-white mb-4">Project Evolution</h2>
+                <p class="text-slate-400">Tracing the path from probabilistic guessing to deterministic proof.</p>
+            </div>
+
+            <div class="space-y-8">
+                <!-- Current Release -->
+                <div class="relative pl-8 border-l-2 border-accent-500 pb-8">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-accent-500 shadow-[0_0_15px_rgba(6,182,212,0.8)]"></div>
+                    <div class="flex items-center gap-4 mb-2">
+                        <span class="px-2 py-0.5 rounded bg-accent-500 text-slate-950 text-[10px] font-bold uppercase tracking-wider">v2.0.0 (Current)</span>
+                        <span class="text-xs text-slate-500 italic">Feb 2026</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-white mb-2">The Hyper-Symbolic Engine</h4>
+                    <p class="text-sm text-slate-400 mb-4 leading-relaxed">Stable release featuring complete integration between the Native Neural Lobe and the Verified Prover.</p>
+                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-slate-300">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-emerald-500"></i> Multi-Equation System Solver</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-emerald-500"></i> Hebbian Synaptic Rewiring</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-emerald-500"></i> Deterministic Search Synthesizer</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-emerald-500"></i> Persistent Episodic Memory</li>
+                    </ul>
+                </div>
+
+                <!-- Previous Release -->
+                <div class="relative pl-8 border-l-2 border-slate-800 pb-8">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-slate-800"></div>
+                    <div class="flex items-center gap-4 mb-2">
+                        <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px] font-bold uppercase tracking-wider">v1.0.0</span>
+                        <span class="text-xs text-slate-500 italic">Dec 2025</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-300 mb-2">The Neural Seed</h4>
+                    <p class="text-sm text-slate-500 leading-relaxed">Foundational release establishing the Native Cortex and basic symbolic reduction axioms.</p>
+                </div>
+
+                <!-- Roadmap -->
+                <div class="relative pl-8 border-l-2 border-slate-800 border-dashed">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full border-2 border-slate-800 bg-slate-950"></div>
+                    <div class="flex items-center gap-4 mb-2">
+                        <span class="px-2 py-0.5 rounded border border-slate-800 text-slate-500 text-[10px] font-bold uppercase tracking-wider">v3.0.0 (Roadmap)</span>
+                        <span class="text-xs text-slate-600 italic">Expected Q3 2026</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-500 mb-2">Distributed Reasoning</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed">Enabling peer-to-peer cognitive synchronization and complex code-synthesis iterative repair.</p>
+                </div>
+            </div>
+        </section>
+
         <!-- Comparison Section -->
         <section id="comparison" class="px-6 py-24 bg-slate-900/30 border-y border-slate-800/50">
             <div class="max-w-4xl mx-auto">
@@ -324,6 +397,23 @@
 
     <script>
         lucide.createIcons();
+
+        // Live Pulse Logic
+        async function updatePulse() {
+            try {
+                const response = await fetch('/health');
+                const data = await response.json();
+                
+                document.getElementById('pulse-episodes').innerText = data.episodes || 0;
+                document.getElementById('pulse-weights').innerText = data.weights || 0;
+                document.getElementById('pulse-status').innerText = data.status.toUpperCase();
+            } catch (error) {
+                console.error("Failed to fetch pulse:", error);
+            }
+        }
+
+        updatePulse();
+        setInterval(updatePulse, 10000); // Update every 10s
     </script>
 </body>
 </html>
