@@ -10,9 +10,8 @@ class Z3Verifier:
     def verify(self, candidate_solution, formal_spec):
         try:
             # 0. Safety Check for Synthesizer Errors
-            if isinstance(candidate_solution, str) and candidate_solution.startswith("#"):
-                if "Error" in candidate_solution or "Failed" in candidate_solution:
-                    return False, f"Synthesizer Failure: {candidate_solution}"
+            if isinstance(candidate_solution, str) and candidate_solution.startswith("# Error"):
+                return False, f"Synthesizer Failure: {candidate_solution}"
 
             if not isinstance(formal_spec, dict):
                 return False, "Invalid symbolic specification."

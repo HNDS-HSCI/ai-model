@@ -3,11 +3,13 @@ import webbrowser
 
 
 def _build_parser() -> argparse.ArgumentParser:
+    import os
+    env_port = int(os.getenv("PORT", 8000))
     parser = argparse.ArgumentParser(
         description="Launch the HSCI web application (FastAPI + Dashboard UI)."
     )
     parser.add_argument("--host", default="127.0.0.1", help="Bind address (default: 127.0.0.1)")
-    parser.add_argument("--port", type=int, default=8000, help="Port number (default: 8000)")
+    parser.add_argument("--port", type=int, default=env_port, help=f"Port number (default: {env_port})")
     parser.add_argument(
         "--no-browser",
         action="store_true",

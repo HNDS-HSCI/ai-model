@@ -54,7 +54,7 @@ class MentalModel:
         # 1. MEMORY CHECK (Episodic Recall)
         if self.learner:
             relevant = self.learner.get_relevant_episodes(raw_input, top_k=1, threshold=0.8)
-            if relevant:
+            if relevant and relevant[0].get('success'):
                 self.state = "RECALLING"
                 self.recalled_episode = relevant[0]
                 self.memory_trace.append(f"MEMORY_TRIGGERED: Recall Episode regarding '{self.recalled_episode['goal_str']}'")
@@ -68,6 +68,7 @@ class MentalModel:
             
             # Determine mode from the spec type
             intent = sigma.get("type", "conversational").upper()
+            print(f"DEBUG_MENTAL_MODEL: perceive intent='{intent}' sigma_type='{sigma.get('type')}'")
             if intent in ["MATH", "CODING", "SYSTEM"]:
                 self.state = "ANALYTICAL"
             else:
@@ -148,11 +149,18 @@ class MentalModel:
 
     def _deliberate_memory(self, data):
         goal_obj = self.recalled_episode.get('goal_obj', {})
+        candidate = self.recalled_episode.get('candidate')
+        
+        if not candidate:
+            self.memory_trace.append("MEMORY_INCOMPLETE: No candidate found in episode. Re-deliberating.")
+            self.state = "ANALYTICAL"
+            return self.symbolic_spec # Fallback to spec derived in perceive
+            
         self.memory_trace.append(f"MEMORY_RETRIEVED: Using past solution as template.")
         return {
             "type": goal_obj.get('type', 'coding'),
             "concept": goal_obj.get('concept', 'recalled'),
-            "candidate": self.recalled_episode.get('candidate')
+            "candidate": candidate
         }
 
     def set_specification(self, sigma):

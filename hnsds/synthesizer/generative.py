@@ -27,6 +27,7 @@ class NativeProgramSynthesizer:
                 "positive": "n > 0",
                 "negative": "n < 0",
                 "greater": "n > {val}",  # Dynamic slot
+                "larger": "n > {val}",
                 "less": "n < {val}",
             },
             "transforms": {"square": "n * n", "double": "n * 2", "half": "n / 2"},
@@ -52,7 +53,7 @@ class NativeProgramSynthesizer:
 
         # 2. Structural Reasoning (Determining the ALGORITHM)
         # If we have a list/collection and a scalar output -> Reduce Pattern
-        if "list" in desc or "array" in desc or "numbers" in desc:
+        if "list" in desc or "array" in desc:
             return self._synthesize_reduction(semantics, desc)
 
         # If generic math -> Simple Function
@@ -157,5 +158,9 @@ class NativeProgramSynthesizer:
         return "\n".join(lines)
 
     def _synthesize_math(self, semantics):
+        # Enhance for larger/max logic
+        if "greater" in semantics["conditions"] or "larger" in semantics["conditions"]:
+             return "def solve(a, b):\n    return (a if a > b else b)"
+        
         # Fallback for simple math logic
         return "def solve(n):\n    return n"

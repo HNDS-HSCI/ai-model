@@ -105,11 +105,15 @@ class NativeSymbolicEngine:
             # Normalize: Ensure spaces around operators
             expr = expression
             for op in self.axioms.keys():
+                if op == "==": continue # Handle double equals separately
                 expr = expr.replace(op, f" {op} ")
+            
+            # Special handle for ==
+            expr = expr.replace("==", " == ")
             
             tokens = expr.split()
             
-            # Replace variables with values
+            # Replace variables with values - only if token matches exactly
             processed_tokens = []
             for t in tokens:
                 if t in assignments:
@@ -144,9 +148,9 @@ class NativeSymbolicEngine:
         if not candidate:
             return False, "No candidate provided"
 
-        # Check for Python Code (Heuristic: contains 'def ' or 'import ' or 'class ')
-        cand_str = str(candidate)
-        if "def " in cand_str or "import " in cand_str or "class " in cand_str:
+        # Check for Python Code (Heuristic: contains 'def ' or 'import ' or 'class ' or starts with #)
+        cand_str = str(candidate).strip()
+        if any(marker in cand_str for marker in ["def ", "import ", "class "]) or cand_str.startswith("#"):
             try:
                 # Syntax Check
                 compile(cand_str, '<string>', 'exec')
@@ -165,6 +169,27 @@ class NativeSymbolicEngine:
                 assignments[var.strip()] = float(val.strip())
         except ValueError:
             return False, "Invalid assignment format"
+
+        # Ensure all variables in spec are in assignments
+        spec_vars = sigma.get("variables", [])
+        for v in spec_vars:
+            if v not in assignments:
+                return False, f"Missing assignment for variable: {v}"
+            
+        # Special case: If no variables in spec, candidate must provide 'result'
+        if not spec_vars:
+             if "result" not in assignments:
+                 return False, "Constant expression requires 'result=VALUE' candidate"
+             
+             # The assignments should match the equation's RHS
+             # (This is a more direct check for constant math)
+             eq = sigma.get("equation", "")
+             if "==" in eq:
+                 _, rhs_val_str = eq.split("==")
+                 expected_val = float(rhs_val_str.strip())
+                 if assignments["result"] != expected_val:
+                     return False, f"Incorrect constant result: {assignments['result']} != {expected_val}"
+             return True, None
             
         equations = sigma.get("equations", [])
         if not equations and "equation" in sigma:

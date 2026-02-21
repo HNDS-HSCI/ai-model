@@ -5,11 +5,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import logging
+import time
 
 # Import the New HyperSymbolicBrain
 from hnsds.brain.cognitive_core import HyperSymbolicBrain
 
 app = FastAPI(title="HSCI Symbolic Brain API")
+start_time = time.time()
 
 # Enable CORS
 app.add_middleware(
@@ -36,14 +38,35 @@ async def get_ui():
     return FileResponse(str(UI_PATH))
 
 
+@app.get("/health")
+async def health():
+    # Health check endpoint for production monitoring
+    # Count primordial episodes + learned episodes if file exists
+    learned_count = 0
+    if UI_PATH.parent.parent.joinpath("episodes.jsonl").exists():
+        with open(UI_PATH.parent.parent / "episodes.jsonl", "r") as f:
+            learned_count = sum(1 for _ in f)
+            
+    return {
+        "status": "healthy",
+        "episodes": len(brain.memory_lobe.primordial_episodes) + learned_count,
+        "weights": len(brain.neural_lobe.cortex.weights) if hasattr(brain.neural_lobe.cortex, "weights") else 0,
+        "uptime": time.time() - start_time,
+        "version": "2.0.0"
+    }
+
+
 @app.post("/process")
 async def process_stimulus(request: StimulusRequest):
     try:
+        # ALWAYS start with a fresh brain to prevent trace leaks
+        fresh_brain = HyperSymbolicBrain()
+        
         # Trigger the Native Cognitive Core
-        solution = brain.process(request.stimulus)
+        solution = fresh_brain.process(request.stimulus)
 
         # Extract the state of the mind after processing
-        deliberation_report = brain.mind.get_trace()
+        deliberation_report = fresh_brain.get_mind_state()
 
         return {
             "solution": solution,
@@ -59,5 +82,7 @@ async def process_stimulus(request: StimulusRequest):
 
 if __name__ == "__main__":
     import uvicorn
+    import os
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)

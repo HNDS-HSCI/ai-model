@@ -42,27 +42,28 @@ class EnumerativeSynthesizer:
         if goal_type in ["math", "system"]:
             return self._solve_symbolic(goal)
 
-        desc = goal.get("description", "").lower()
+        desc = goal.get("desc", "").lower()
+        if not desc:
+            desc = goal.get("description", "").lower()
+
+        self.logger.info(f"SYNTHESIZER_DESC: '{desc}'")
         
         # 1. Infer Learning Goal (IO Examples)
         # To "learn" and "solve", we need to know what success looks like.
         # We infer test cases from the description.
         io_examples = self._infer_io_examples(desc)
-        if not io_examples:
-             # Fallback if we can't infer IO (e.g. abstract request)
-             return "# Error: Could not infer logical constraints for search."
-
+        
         # Debug: Print inferred examples to understand what we are solving for
-        print(f"DEBUG: Synthesizer desc='{desc}'")
-        io_examples = self._infer_io_examples(desc)
-        print(f"DEBUG: Inferred examples: {io_examples}")
+        self.logger.info(f"SYNTHESIZER_IO_EXAMPLES: {io_examples}")
         
         if not io_examples:
-            return "# No examples inferred for synthesis."
+             # Fallback if we can't infer IO (e.g. abstract request)
+             self.logger.warning(f"SYNTHESIZER_FAIL: No IO examples for '{desc}'")
+             return "# Error: Could not infer logical constraints for search."
         
         solution_data = self._bfs_synthesis(io_examples)
         if solution_data:
-            return self._generate_full_script(solution_data["code"], desc)
+            return self._generate_full_script(solution_data, desc)
         
         return "# Failed to synthesize logic within depth limit."
 
@@ -124,7 +125,7 @@ class EnumerativeSynthesizer:
                 {"in": [10, 10], "out": 0}
             ]
         # "max" / "greater"
-        if "max" in desc or "greater" in desc:
+        if "max" in desc or "greater" in desc or "larger" in desc:
             return [
                 {"in": [1, 5], "out": 5},
                 {"in": [10, 2], "out": 10},

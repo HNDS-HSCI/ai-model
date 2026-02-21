@@ -37,7 +37,14 @@ class HyperSymbolicBrain:
         self.mind = MentalModel(learner=self.memory_lobe, neural_lobe=self.neural_lobe)
 
     def process(self, stimulus, budget=5):
-        self.logger.info("Local Brain Activity: Deliberating natively...")
+        # 0.0 Reset Mind State for New Request
+        self.mind.memory_trace = []
+        self.mind.symbolic_spec = None
+        self.mind.recalled_episode = None
+        self.mind.derived_solution = None
+        self.mind.state = "IDLE"
+
+        self.logger.info(f"Local Brain Activity: Deliberating natively for '{stimulus}'...")
 
         # 0. EARLY MEMORY CHECK (Before anything else) - PRINCIPLE 2 FIX
         # If exact match found in episodes, skip synthesis entirely
@@ -46,16 +53,21 @@ class HyperSymbolicBrain:
         )
         if recalled and recalled[0].get("success"):
             solution = recalled[0].get("candidate")
+            self.logger.info(f"MEMORY_RECALL_CANDIDATE: {solution}")
             success, _ = self.logic_prover.verify_natively(solution, {"type": "cached"})
             if success:
                 self.logger.info("MEMORY_HIT: Using cached verified solution")
                 return f"VERIFIED (from memory):\n{solution}"
+            self.logger.warning("MEMORY_STALE: Recalled candidate failed verification.")
 
         # 1. PERCEPTION (Through the Mind)
         cognitive_state = self.mind.perceive(stimulus)
+        self.logger.info(f"COGNITIVE_STATE: {cognitive_state}")
 
         # 2. DELIBERATION (Planning & Reasoning)
-        sigma = self.mind.deliberate(stimulus)
+        # Fetch the symbolic spec generated during perception
+        sigma = self.mind.symbolic_spec if self.mind.symbolic_spec else self.mind.deliberate(stimulus)
+        self.logger.info(f"SIGMA: {sigma}")
 
         # --- ACTIVE CLARIFICATION (The Interrogator) ---
         confidence = sigma.get("confidence", 1.0)
@@ -77,7 +89,7 @@ class HyperSymbolicBrain:
 
         # RETRIEVE LEARNED EPISODES (Seed synthesis with past solutions) - PRINCIPLE 5 FIX
         learned_episodes = self.memory_lobe.get_relevant_episodes(
-            stimulus, top_k=3, threshold=0.5
+            stimulus, top_k=3, threshold=0.8
         )
         seeded_candidates = [
             ep.get("candidate") for ep in learned_episodes if ep.get("success")
@@ -111,9 +123,13 @@ class HyperSymbolicBrain:
                 self.logger.warning(
                     f"Verification Failed (Attempt {attempt+1}): {feedback}"
                 )
-                candidate = self.synthesizer.propose(
-                    sigma, examples=counterexamples + seeded_candidates
-                )
+                if sigma.get("type") == "coding":
+                    candidate = self.synthesizer.propose(
+                        sigma, examples=counterexamples + seeded_candidates
+                    )
+                else:
+                    # For math/logic, we don't have an iterative repair synthesizer yet.
+                    break 
 
         return "COGNITIVE_FAILURE: Native proof not found after all attempts."
 
