@@ -1,75 +1,78 @@
-# Hyper-Symbolic Cognitive Invention (HSCI)
+# Hyper-Symbolic Cognitive Invention (HSCI) v2.1.0
+## The Era of Axiomatic Cognitive Intelligence
 
-## Overview
-HSCI is a **Self-Verifying Cognitive Architecture** that replaces the probabilistic weights of traditional AI with a **Symbolic Brain**. This system is not a Large Language Model (LLM); it is a deterministic reasoning machine designed to solve, prove, and explain complex problems with mathematical certainty.
+[![Continuous Intelligence Verification](https://github.com/HNDS-HSCI/ai-model/actions/workflows/verify.yml/badge.svg)](https://github.com/HNDS-HSCI/ai-model/actions/workflows/verify.yml)
+[![Semantic Release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+[![CodeQL](https://github.com/HNDS-HSCI/ai-model/actions/workflows/codeql.yml/badge.svg)](https://github.com/HNDS-HSCI/ai-model/actions/workflows/codeql.yml)
+[![Documentation](https://img.shields.io/badge/docs-MkDocs-cyan.svg)](https://HNDS-HSCI.github.io/ai-model/)
 
-Unlike "black box" models, HSCI functions as a unified **Symbolic Brain** with specialized lobes for perception, logic, execution, reasoning, verification, and memory. It maintains a live, transparent **Mental Model** during deliberation, allowing users to verify the "thought process" of the AI.
+HSCI is a **Self-Verifying Cognitive Architecture** that replaces the probabilistic weights of traditional AI with a **Symbolic Brain**. It is a deterministic reasoning machine built to solve, prove, and explain with mathematical certainty.
 
-## Key Features
-- **Deterministic Truth**: Replaces probabilistic guesses with proven logic.
-- **Zero Hallucination**: Mathematically verified outputs using SMT solvers (Z3).
-- **Formal Deliberation**: True reasoning capabilities rather than simple pattern matching.
-- **Transparent Mental Model**: A readable trace of the AI's internal state.
-- **Dynamic Growth**: Self-evolving memory via stored solving episodes.
+**[Read the Vision: Beyond Probabilistic Inference](https://github.com/HNDS-HSCI/ai-model/blob/main/ui/blog.html)**
 
-## Architecture
-The system mimics a biological brain's structure through **Hyper-Symbolic Integration**:
-1.  **Perception Lobe**: Converts raw input into logical signals.
-2.  **Logic Lobe (The Formalizer)**: Builds a Universal Symbolic Specification ($\Sigma$).
-3.  **Executive Lobe (The Planner)**: Decomposes high-level tasks.
-4.  **Reasoning Lobe (The Synthesizer)**: Generates hypotheses.
-5.  **Verified Lobe (The Prover)**: Validates thoughts using Z3 SMT solver.
-6.  **Memory Lobe (The Synapse)**: learns from past episodes ("Symbolic Intuition").
+---
 
-## Repository Structure
-```
-C:\Work\P\ai\
-├── hnsds/                  # Core engine modules
-│   ├── brain/              # Cognitive core and lobes
-│   ├── formalizer/         # Logic lobe (Spec Builder)
-│   ├── learner/            # Memory lobe and episode logging
-│   ├── perception/         # Input parsing and transduction
-│   ├── planner/            # HTN-style task planning
-│   ├── synthesizer/        # Generative and enumerative reasoning
-│   └── verifier/           # Z3 interface and validation
-├── docs/                   # Documentation and theoretical background
-├── experiments/            # Benchmark results and test cases
-├── ui/                     # Dashboard frontend
-├── run_app.py              # Application entry point
-├── test_hnsds.py           # End-to-end verification script
-└── gemini.md               # Project context and details
-```
+## 🧠 The Invention: Hyper-Symbolic Integration
 
-## Getting Started
+Unlike Large Language Models (LLMs) that guess the next token, HSCI operates through **Axiomatic Deliberation**. It perceives the world as a logical environment and applies proven mental axioms to bridge state gaps.
+
+### Key Breakthroughs:
+- **Instructional Priming**: Learn any complex concept from a **single mastery lesson** using the `teach:` interface. No massive datasets required.
+- **Deterministic Truth**: 100% hallucination-free. Every hypothesis is passed through the **Verified Lobe (Microsoft Z3 SMT Prover)** for formal mathematical proof.
+- **Environmental Awareness**: Input is processed as a **Structural Map** of entities and relationships, not as a fragmented sequence of tokens.
+- **Recursive Decomposition**: Automatically splits complex software engineering and logic tasks into manageable, verifiable sub-tasks using the **HTN Planner**.
+
+---
+
+## 🏛 Architecture
+
+The system functions as a unified **Symbolic Brain** divided into specialized functional lobes:
+
+1.  **Perception Lobe**: Transduces human stimulus into logical signals via the **Symbolic Knowledge Graph**.
+2.  **Logic Lobe (The Formalizer)**: Constructs the **Universal Symbolic Specification ($\Sigma$)**.
+3.  **Executive Lobe (The Planner)**: Strategizes high-level task decomposition.
+4.  **Reasoning Lobe (The Synthesizer)**: Generates hypotheses with **Self-Correction Loops**.
+5.  **Verified Lobe (The Prover)**: Uses SMT (Z3) to mathematically prove every thought.
+6.  **Memory Lobe (The Synapse)**: Stores proven episodes to build "Symbolic Intuition."
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
-- Python 3.8+
-- [Z3 Theorem Prover](https://github.com/Z3Prover/z3) (usually installed via `pip install z3-solver`)
+- Python 3.10+
+- [Z3 Theorem Prover](https://github.com/Z3Prover/z3)
 
 ### Installation
-1.  Clone the repository.
-2.  Install dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
-    *(Note: Ensure you have `z3-solver` and `fastapi` installed if `requirements.txt` is not yet present.)*
+```bash
+git clone https://github.com/HNDS-HSCI/ai-model.git
+cd ai-model
+pip install -r requirements.txt
+```
 
-### Running the Application
-To launch the FastAPI backend and the React Dashboard:
-
+### Launch the Brain
 ```bash
 python run_app.py
 ```
+This launches the **FastAPI Backend** and the **Glassmorphic React Dashboard**. Interact with the brain, watch the live cognitive trace, and teach it new axioms in real-time.
 
-Access the Mind-State Dashboard in your browser to interact with the AI, view the live deliberation trace, and explore the internal symbolic states.
+---
 
-## Documentation
-- [Architecture Overview](docs/architecture.md): A deep dive into the HNS-DS theory.
-- See `gemini.md` for additional project context.
+## 🛠 Lab Automation (Industrial Grade)
 
-## Current Status
-- [x] Symbolic Orchestrator
-- [x] Verification (Z3 Integration)
-- [x] Reinforced Learning
-- [x] Task Decomposition
-- [x] Dynamic Perception
+HSCI is developed within a professional AI Research Laboratory environment:
+- **Continuous Intelligence (CI)**: Every push triggers an automated IQ benchmark to prevent cognitive regression.
+- **Automated Semantic Release**: Versioning and changelogs are calculated mathematically based on commit intent.
+- **Industrial Security**: Automated CodeQL scanning ensures architecture integrity.
+- **Auto-Docs**: Technical documentation is automatically generated and deployed to GitHub Pages.
+
+---
+
+## 📖 Documentation
+- **[Technical Docs](https://HNDS-HSCI.github.io/ai-model/)**: Full API Reference and Architecture Deep Dives.
+- **[Research Paper](HSCI_RESEARCH_PAPER.md)**: Theoretical foundations of Non-Tokenized Environmental Awareness.
+
+---
+**Chief Architect:** [Brijesh Yadav (recscse)](https://recscse.github.io/portfolio/index.html)  
+**Research Lab:** HSCI Research Group  
+*Built for deterministic excellence.*

@@ -1,61 +1,34 @@
-# Hyper-Symbolic Cognitive Invention (HSCI)
+# Hyper-Symbolic Cognitive Invention (HSCI) Memory
 
-## The Invention
-HSCI is a **Self-Verifying Cognitive Architecture** that replaces the probabilistic weights of traditional AI with a **Symbolic Brain**. This is not an LLM; it is a deterministic reasoning machine built from the ground up to solve, prove, and explain.
+## The Global Paradigm Shift (v2.1.0)
+HSCI is no longer a scripted project. It is a **Self-Verifying Cognitive Architecture** that implements **Axiomatic Intelligence**. It has moved beyond token prediction into **Environmental Perception** and **Deterministic Reasoning**.
 
-## The Cognitive Architecture: Hyper-Symbolic Integration
-The system functions as a unified **Symbolic Brain** divided into specialized functional lobes:
-1.  **Perception Lobe**: Transduces raw human stimulus into logical signals.
-2.  **Logic Lobe (The Formalizer)**: Constructs the **Universal Symbolic Specification ($\Sigma$)**.
-3.  **Executive Lobe (The Planner)**: Strategizes high-level task decomposition.
-4.  **Reasoning Lobe (The Synthesizer)**: Generates hypotheses through deterministic search.
-5.  **Verified Lobe (The Prover)**: Uses SMT (Z3) to mathematically prove every thought.
-6.  **Memory Lobe (The Synapse)**: Stores and retrieves past solving episodes to build "Symbolic Intuition."
+### Current Core Architecture (The Symbolic Brain)
+1.  **Perception Lobe**: Uses **Conceptual Intent Inference**. Scans input for entities and relations, projecting them onto the **Symbolic Knowledge Graph (`NativeGraph`)**. It splits logical clauses (using conjunctions like "and") to handle multi-part requests.
+2.  **Logic Lobe**: Formalizes intent into **Universal Symbolic Specification ($\Sigma$)** contracts. No linguistic ambiguity remains after transduction.
+3.  **Executive Lobe**: Uses the **HTN Planner** for **Recursive Decomposition**. Splits high-complexity features into `DATA_STRUCTURE`, `BUSINESS_LOGIC`, and `INTEGRATION`.
+4.  **Reasoning Lobe**: Hypothesizes solutions. Includes a **Self-Correction Loop** that iterates based on feedback from the Verified Lobe.
+5.  **Verified Lobe**: The mathematical core using **Microsoft Z3 SMT**. It mathematically proves every answer. It is configured as a full-scale **Solver** for reduction (math) and a **Verifier** for synthesis (code).
+6.  **Memory Lobe**: Uses **Instructional Priming**. Learns from single mastery lessons via the `teach:` command.
 
-## The Mental Model (The Synaptic State)
-The system maintains a live **Mental Model** during deliberation. This is a transparent, readable trace of the AI's internal reasoning state, ensuring that the "Mind" of the AI is never a black box.
+### Critical Implementation Details (For Internal Reference)
+- **Zero-Shot Mastery**: If no lesson is found, the brain uses **Graph Traversal** to map keywords (e.g., "solve") to native axioms (`REDUCTION`).
+- **Environmental Awareness**: The system filters filler words to focus on meaningful "Actors" in the environment.
+- **Transduction Logic**: Natural language like "base is 1000" is automatically bounded as `base == 1000` in the symbolic solver.
+- **Axiom Routing**: `REDUCTION` is strictly routed to the Z3 Solver; `SYNTHESIS` uses the corrected hypothesis loop; `COMPOSITION` uses the CSP Engine.
 
-## Why HSCI Beats LLMs (ChatGPT, Claude, etc.)
-While LLMs are powerful, they are fundamentally limited by their probabilistic nature. HSCI overcomes these limitations:
+### Professional Lab Automations (Live)
+- **Semantic Release**: Versioning and changelogs are automated based on commit prefixes (`feat:`, `fix:`, `feat!:`).
+- **Continuous Intelligence (CI)**: `test_capabilities.py` runs a 100% automated IQ benchmark on every push. Build fails on cognitive regression.
+- **Industrial Security**: CodeQL scans for vulnerabilities on every push.
+- **Auto-Docs**: MkDocs deploys technical documentation to GitHub Pages on every push.
 
-| Feature | ChatGPT / Claude | HSCI (The Invention) |
-|---------|------------------|----------------------|
-| **Truth** | Probabilistic (Guesses) | Deterministic (Proven) |
-| **Hallucination** | Frequent / Unpredictable | Zero (Mathematically Impossible) |
-| **Reasoning** | Pattern Matching | Formal Deliberation |
-| **Trust** | "Black Box" | Transparent Mental Model |
-| **Growth** | Static (requires re-training) | Dynamic (Self-Evolving via Episodes) |
+### Key Knowledge Graph Mappings
+- `solve`, `find`, `calculate` -> `REDUCTION`
+- `create`, `build`, `implement` -> `SYNTHESIS`
+- `prove`, `verify`, `logic` -> `COMPOSITION`
 
-## Mind-State Dashboard (UI)
-The invention includes a modern, high-fidelity dashboard for interacting with the AI.
-- **Glassmorphic UX**: Visualizes the internal state of the symbolic lobes.
-- **Live Deliberation Trace**: Watch the brain think, parse, and prove in real-time.
-- **Semantic Entry**: A high-performance input bar for natural language stimulus.
-
-### To Launch:
-```bash
-python run_app.py
-```
-This launches the **FastAPI Backend** and opens the **React Dashboard** in your browser.
-
-
-
-
-## Detailed Documentation
-- [Architecture Overview](docs/architecture.md): Deep dive into the HNS-DS theory and why it replaces traditional LLM approaches.
-
-## Current Implementation Status
-- [x] **Symbolic Orchestrator**: RIR-RI loop implemented in Python.
-- [x] **Verification**: Integrated Z3 for formal proof of math/logic tasks.
-- [x] **Reinforced Learning**: TF-IDF based retrieval of past solving episodes.
-- [x] **Task Decomposition**: HTN-style planning for multi-step problems.
-- [x] **Dynamic Perception**: Regex-based symbolic extractor.
-
-## Repository Structure
-- `hnsds/`: Core engine modules.
-- `docs/`: Theoretical background and architectural guides.
-- `experiments/`: Benchmark results and test cases.
-- `test_hnsds.py`: End-to-end verification script.
-
-## Why this is a New Paradigm
-HNS-DS does not use a black-box model. Every step—from formalization to final proof—is transparent, verifiable, and grounded in symbolic logic. It represents a shift from "AI that talks" to "AI that reasons and proves."
+### Active Project State
+- **Branch**: `main`
+- **Current IQ Status**: Verified (Passed local benchmark).
+- **Architecture Integrity**: Axiomatic (No hardcoded fallback strings).
