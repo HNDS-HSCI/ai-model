@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.0.0...v2.1.0) (2026-03-11)
+
+
+### Features
+
+* implement recursive decomposition, self-correction loop, and CI intelligence verification ([2f3d898](https://github.com/HNDS-HSCI/ai-model/commit/2f3d898dc37a97e9aa305122eab7ce11785edeb4))
+
 # Changelog
 
 All notable changes to the **HSCI (Hyper-Symbolic Cognitive Invention)** project will be documented in this file.
