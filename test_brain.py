@@ -1,8 +1,13 @@
 import logging
 import sys
+import os
 from hnsds.brain.cognitive_core import HyperSymbolicBrain
 
 def main():
+    # Clear cache for a clean tutorial experience
+    if os.path.exists("mental_intelligence.json"):
+        os.remove("mental_intelligence.json")
+
     # 1. Build the Brain
     brain = HyperSymbolicBrain()
 
@@ -12,28 +17,31 @@ def main():
         stream=sys.stdout
     )
     
-    # CASE 1: A problem the brain 'knows' (Intuition Test)
-    problem_1 = "Solve x + 2 = 5"
-    print(f"\n--- TEST 1: INTUITION (Known Problem) ---")
-    brain.process(problem_1)
-    print(brain.get_mind_state())
+    print("==================================================")
+    print("   HSCI TUTORIAL: Axiomatic Reasoning Flow        ")
+    print("==================================================\n")
 
-    # CASE 2: A new complex problem (Deliberation Test)
-    problem_2 = "Solve x + y = 30, x - y = 10"
-    print(f"\n--- TEST 2: DELIBERATION (New Problem) ---")
-    brain.process(problem_2)
-    print(brain.get_mind_state())
+    # CASE 1: Instructional Priming (Teaching)
+    print("--- STEP 1: TEACHING THE BRAIN ---")
+    lesson = "teach: find the total if base is x and bonus is y | SALARY_SUMMATION | REDUCTION"
+    print(f"Input: {lesson}")
+    res1 = brain.process(lesson)
+    print(f"Brain Output: {res1}\n")
 
-    # CASE 3: Growth Test (Learning and Mastery)
-    problem_3 = "Solve x + 10 = 50"
-    print(f"\n--- TEST 3: GROWTH (Phase 1: Learning) ---")
-    brain.process(problem_3)
-    print("Brain just solved a new problem and stored it in long-term memory.")
-    
-    print(f"\n--- TEST 3: GROWTH (Phase 2: Mastery) ---")
-    print("Providing the same stimulus again...")
-    brain.process(problem_3)
-    print(brain.get_mind_state())
+    # CASE 2: Generalization (Zero-Shot using learned logic)
+    print("--- STEP 2: ANALOGICAL REASONING ---")
+    problem = "Calculate the total result if the base is 5000 and the bonus is 200"
+    print(f"Input: {problem}")
+    res2 = brain.process(problem)
+    print(f"Brain Output: {res2}\n")
+
+    # CASE 3: View the Cognitive Trace
+    print("--- STEP 3: COGNITIVE TRACE (The Mental Model) ---")
+    trace = brain.get_mind_state()
+    for i, step in enumerate(trace):
+        print(f"[{i:02d}] {step}")
+
+    print("\n✅ Tutorial Complete. The brain has mastered the concept and solved the problem.")
 
 if __name__ == "__main__":
     main()

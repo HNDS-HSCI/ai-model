@@ -45,44 +45,42 @@ Verification: None (or generic confidence score)
                    ▼
         ┌────────────────────────┐
         │ 1. PERCEPTION LOBE     │
-        │ (NativeNeuralLobe)     │
-        │ Intent: MATH/CODE/etc  │
-        │ Uses: synaptic_core.json
+        │ (CognitiveAwareness)   │
+        │ Intent: Graph Inference │
+        │ Uses: mental_intelligence.json
         └────────────┬───────────┘
                      │
         ┌────────────▼───────────────┐
-        │ 2. MEMORY CHECK (Hit=Stop) │
-        │ threshold=0.95 (exact)     │
-        │ Uses: episodes.jsonl       │
-        │ If found: return cached ✓  │
+        │ 2. DELIBERATION (Axioms)   │
+        │ Maps Intent to Axiom       │
+        │ REDUCTION/SYNTHESIS/etc.   │
+        │ If hit: apply mastery ✓    │
         └────────────┬───────────────┘
-                     │ (Miss → continue)
+                     │ 
         ┌────────────▼──────────────┐
-        │ 3. RETRIEVE LEARNED       │
-        │    EPISODES (Seed)        │
-        │ threshold=0.5 (similar)   │
-        │ Uses: TF-IDF similarity   │
+        │ 3. RECURSIVE PLANNING     │
+        │ (HTN Planner)             │
+        │ Decompose complex tasks   │
         └────────────┬──────────────┘
                      │
         ┌────────────▼────────────────┐
-        │ 4. SYNTHESIS               │
-        │ (GenerativeSynthesizer)    │
-        │ Input: seeded_candidates[] │
-        │ Output: candidate solution │
+        │ 4. REASONING LOBE          │
+        │ (Synthesizer / Solver)     │
+        │ Input: Sigma (Σ) Contract  │
+        │ Output: proven solution    │
         └────────────┬───────────────┘
                      │
         ┌────────────▼────────────────┐
-        │ 5. VERIFICATION LOOP       │
-        │ (NativeSymbolicEngine)     │
+        │ 5. VERIFIED LOBE (Z3)      │
         │ ┌─────────────────────────┐│
-        │ │ Verify candidate        ││
-        │ │ ├─ Success? ──► GROW    ││
-        │ │ │                ├─ Update synaptic_core.json
+        │ │ Formal Mathematical Proof││
+        │ │ ├─ Success? ──► MASTER  ││
+        │ │ │                ├─ Update mental_intelligence.json
         │ │ │                ├─ Log episode
         │ │ │                └─ Return PROVEN ✓
         │ │ └─ Fail? ──► Collect
         │ │     counterexample
-        │ │     Retry with feedback
+        │ │     Iterative Repair     │
         │ └─────────────────────────┘│
         └────────────┬───────────────┘
                      │
@@ -94,7 +92,7 @@ Verification: None (or generic confidence score)
         └─────────────────────────────┘
 
 Result: Better answer every time (learns)
-Learning: Automatic (Hebbian + episodic)
+Learning: Automatic (Instructional + episodic)
 Memory: Episodes persist; weights evolve
 Verification: Every output formally proven
 Growth: Synaptic weights increase; patterns strengthen
@@ -127,15 +125,15 @@ Call 3: "Solve y + 2 = 5" → 50ms  (similar, uses learned pattern)
 | Traditional App                        | HSCI                                 |
 | -------------------------------------- | ------------------------------------ |
 | Trained once, frozen at deploy         | Grows continuously during operation  |
-| Learning = costly offline retraining   | Learning = automatic Hebbian updates |
+| Learning = costly offline retraining   | Learning = automatic Instructional updates |
 | Knowledge = hardcoded rules or weights | Knowledge = emergent from successes  |
 
 **HSCI Example**:
 
 ```python
 # After solving "Solve x + 2 = 5" successfully:
-synaptic_weights["solve"] = {"MATH": 0.1}  # Next time, higher confidence
-synaptic_weights["equation"] = {"MATH": 0.1}
+mental_intelligence["solve"] = {"MATH": 0.1}  # Next time, higher confidence
+mental_intelligence["equation"] = {"MATH": 0.1}
 
 # System now recognizes "equation" context → MATH with higher probability
 # No retraining needed; learned in-place during operation
@@ -173,9 +171,9 @@ Each failure TEACHES the synthesizer what to avoid
 **HSCI Dual Memory**:
 
 ```
-Synaptic Core (synaptic_core.json):
-  "solve equation": {"MATH": 0.4, "CODING": 0.0}  ← Fast pattern matching
-  "write function": {"MATH": 0.0, "CODING": 0.8}
+Synaptic Core (mental_intelligence.json):
+  "solve": "REDUCTION"  ← Fast Axiomatic mapping
+  "build": "SYNTHESIS"
 
 Episodes (episodes.jsonl):
   {"goal": "Solve x + 2 = 5", "solution": "x=3", "success": true}
@@ -225,7 +223,7 @@ return "COGNITIVE_FAILURE"  # HONEST about limits
 ```
 brain.get_mind_state() returns:
 [00] STIMULUS: Solve x + 2 = 5
-[01] NEURAL_INTUITION: Classified as MATH (confidence: 0.95)
+[01] Axiomatic Deliberation: Classified as MATH (confidence: 0.95)
 [02] MEMORY_CHECK: No exact match found
 [03] RETRIEVAL: Found 3 similar episodes (threshold=0.5)
 [04] SEEDED_SYNTHESIS: Using learned templates
@@ -295,7 +293,7 @@ Week 1: Math perception is 90% accurate; synthesis takes 2 attempts max
 
 ```
 Day 7: "Write function to add two numbers" → 150ms (new domain)
-       synaptic_core.json now has CODING patterns
+       mental_intelligence.json now has CODING patterns
 
 Day 8: "Write function to multiply" → 40ms (coding pattern recognized faster)
        Synthesizer uses learned coding templates
@@ -340,7 +338,7 @@ It's:
 
 - ✅ **A cognitive architecture that grows through experience**
 - ✅ **Self-verifying** (no hallucinations)
-- ✅ **Self-teaching** (Hebbian + episodic)
+- ✅ **Self-teaching** (Instructional + episodic)
 - ✅ **Transparent** (readable reasoning)
 - ✅ **Bounded** (admits failure honestly)
 
@@ -357,19 +355,19 @@ brain = HyperSymbolicBrain()
 
 # Phase 1: Learn
 print("PHASE 1: Learning...")
-brain.process("Solve x + 2 = 5")
-print(f"Weights file size: {os.path.getsize('synaptic_core.json')} bytes")
+brain.process("teach: find the total if base is x and bonus is y | SALARY_SUMMATION | REDUCTION")
+print(f"Intelligence file size: {os.path.getsize('mental_intelligence.json')} bytes")
 
 # Phase 2: Recognize
-print("\nPHASE 2: Recognition (should be faster)...")
-brain.process("Solve x + 2 = 5")
+print("\nPHASE 2: Recognition (Axiomatic Inference)...")
+brain.process("What is the total if base is 1000 and bonus is 500")
 
 # Phase 3: Transfer
 print("\nPHASE 3: Transfer Learning...")
 brain.process("Solve y + 2 = 5")
 
 # Check growth
-with open('synaptic_core.json') as f:
+with open('mental_intelligence.json') as f:
     weights = json.load(f)
     print(f"\nLearned {len(weights)} patterns")
     for token, intents in list(weights.items())[:3]:
