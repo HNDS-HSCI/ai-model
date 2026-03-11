@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSCI Blog | The Axiomatic Mind</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: { 850: '#151e2e', 950: '#020617' },
+                        accent: { 500: '#06b6d4', 600: '#0891b2' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Icons & Fonts -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body { background-color: #020617; color: #cbd5e1; font-family: 'Inter', sans-serif; line-height: 1.75; }
+        .glass-card { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(148, 163, 184, 0.1); }
+        .hero-gradient { background: radial-gradient(circle at 50% 0%, rgba(6, 182, 212, 0.12) 0%, transparent 70%); }
+        
+        /* Pro-Level Typography */
+        .blog-content h2 { font-size: 2.25rem; font-weight: 800; color: #f8fafc; margin-top: 4rem; margin-bottom: 1.5rem; letter-spacing: -0.025em; }
+        .blog-content h3 { font-size: 1.5rem; font-weight: 700; color: #f1f5f9; margin-top: 2.5rem; margin-bottom: 1rem; }
+        .blog-content p { margin-bottom: 1.75rem; color: #94a3b8; font-size: 1.25rem; font-weight: 400; }
+        .blog-content strong { color: #f8fafc; font-weight: 600; }
+        .blog-content blockquote { border-left: 4px solid #0891b2; padding-left: 1.5rem; font-style: italic; color: #e2e8f0; margin: 3rem 0; font-size: 1.5rem; }
+        
+        .accent-glow { text-shadow: 0 0 30px rgba(6, 182, 212, 0.4); }
+    </style>
+</head>
+<body class="relative min-h-screen">
+    <div class="fixed inset-0 hero-gradient pointer-events-none"></div>
+
+    <!-- Top Navigation -->
+    <nav class="relative z-50 flex items-center justify-between px-8 py-8 max-w-6xl mx-auto">
+        <a href="/" class="flex items-center gap-3 group">
+            <div class="w-10 h-10 bg-accent-600 rounded-xl flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
+                <i data-lucide="brain" class="w-6 h-6 text-white"></i>
+            </div>
+            <span class="text-xl font-bold tracking-tight text-white">HSCI <span class="text-accent-500 font-medium">Research</span></span>
+        </a>
+        <div class="flex items-center gap-10">
+            <a href="/" class="text-sm font-semibold text-slate-400 hover:text-white transition-colors">Architecture</a>
+            <a href="/dashboard" class="px-6 py-2.5 bg-white text-slate-950 hover:bg-accent-500 hover:text-white rounded-full text-sm font-bold transition-all shadow-xl">Launch Core</a>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="relative z-10 pt-24 pb-16 px-6 max-w-4xl mx-auto text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent-500/10 border border-accent-500/20 text-accent-500 text-[11px] uppercase tracking-[0.3em] font-black mb-8">
+            Announcement • March 2026
+        </div>
+        <h1 class="text-5xl md:text-7xl font-black tracking-tighter text-white mb-8 leading-[1.05] accent-glow">
+            Beyond Probabilistic Inference.
+        </h1>
+        <p class="text-xl md:text-2xl text-slate-400 font-medium max-w-2xl mx-auto leading-relaxed">
+            Introducing HSCI: A fundamental shift from statistical prediction to axiomatic cognitive reasoning.
+        </p>
+        <div class="flex items-center justify-center gap-6 mt-12 text-sm text-slate-500 border-t border-slate-800/50 pt-8">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-slate-800 to-slate-700 flex items-center justify-center text-accent-500 font-bold border border-slate-700 shadow-inner">BY</div>
+                <div class="text-left">
+                    <p class="font-bold text-slate-200 leading-none">Brijesh Yadav</p>
+                    <p class="text-[10px] uppercase tracking-widest mt-1">Chief Architect</p>
+                </div>
+            </div>
+            <div class="h-8 w-px bg-slate-800"></div>
+            <div class="text-left">
+                <p class="font-bold text-slate-300 leading-none">12 min read</p>
+                <p class="text-[10px] uppercase tracking-widest mt-1 text-slate-500">Deep Dive</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Blog Content -->
+    <main class="relative z-10 px-6 pb-32 max-w-3xl mx-auto blog-content">
+        <section>
+            <p>
+                The artificial intelligence industry has spent the last decade perfecting a single, massive experiment: <strong>Stochastic Next-Token Prediction</strong>. By scaling Transformers to trillions of parameters, we have achieved a mirror of human language. But mirrors, while they reflect the world, do not understand it.
+            </p>
+            <p>
+                Today, we are hitting the <strong>Reasoning Ceiling</strong>. Probabilistic models, by their very nature, cannot achieve deterministic truth. They guess based on the highest probability, leading to the unavoidable crisis of hallucination. In mission-critical fields—software engineering, finance, and scientific discovery—"likely" is no longer an acceptable standard.
+            </p>
+            
+            <blockquote>
+                "We are no longer building models that talk. We are building minds that reason."
+            </blockquote>
+
+            <h2 id="the-hsci-paradigm">The HSCI Paradigm: Axiomatic Intelligence</h2>
+            <p>
+                The <strong>Hyper-Symbolic Cognitive Invention (HSCI)</strong> is not another Large Language Model. It is a <strong>Cognitive Architecture</strong> that replaces the latent weights of a neural network with a <strong>Symbolic Brain</strong>. 
+            </p>
+            <p>
+                Instead of predicting the next word, HSCI operates through <strong>Environmental Awareness</strong>. It perceives the input as a set of logical entities and relationships, mapping them onto a <strong>Symbolic Concept Graph</strong>. Reasoning is achieved by applying universal mental axioms—Reduction, Synthesis, and Composition—to bridge the gap between what is known and what is requested.
+            </p>
+
+            <h2 id="instructional-mastery">Instructional Priming vs. Big Data</h2>
+            <p>
+                The most disruptive component of the HSCI architecture is <strong>Instructional Priming</strong>. Current AI paradigms require massive data centers and billions of examples to learn a simple task. This "Data Monopoly" has created a bottleneck for innovation.
+            </p>
+            <p>
+                HSCI learns like a human expert: through <strong>Conceptual Mastery</strong>. By teaching the system a core principle once—whether it is a mathematical theory or a programming pattern—the system generalizes that knowledge across all future environments. It doesn't need to see 10,000 examples of a problem to solve it; it only needs to understand the <strong>Axiomatic Blueprint</strong>.
+            </p>
+
+            <h2 id="determinism-by-design">Determinism by Design: The Verified Lobe</h2>
+            <p>
+                At the heart of the HSCI mind is the <strong>Verified Lobe</strong>. Every hypothesis generated by the reasoning engine is passed through a formal mathematical prover (utilizing SMT solvers like Z3). 
+            </p>
+            <p>
+                This ensures that every answer presented by HSCI is not just "probable," but <strong>Provably Correct</strong>. If the system cannot find a mathematical proof for a solution, it provides a transparent cognitive trace explaining the failure state. This transparency replaces the "Black Box" of traditional AI with a "Glass Box" of absolute accountability.
+            </p>
+
+            <h2 id="mission">Our Mission: The Future of Reasoning</h2>
+            <p>
+                HSCI was founded on a single belief: that true intelligence is deterministic. Our goal is to build an autonomous reasoning engine that can build entire software ecosystems, solve complex engineering bottlenecks, and navigate the most intricate logical puzzles with zero human intervention.
+            </p>
+            <p>
+                We are entering the era of <strong>Autonomous Deliberation</strong>. A future where the power of AI is defined not by the size of its dataset, but by the depth of its reasoning.
+            </p>
+
+            <div class="mt-24 p-1 rounded-3xl bg-gradient-to-br from-accent-600 to-blue-600 shadow-2xl">
+                <div class="bg-slate-950 p-10 rounded-[22px] text-center">
+                    <h3 class="text-2xl font-bold text-white mb-4 italic">"This is not the next step in AI. It is the first step in a completely different direction."</h3>
+                    <p class="text-sm text-slate-500 uppercase tracking-[0.3em] font-bold">— Brijesh Yadav</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Bio Card -->
+        <footer class="mt-32 pt-16 border-t border-slate-800/50">
+            <div class="flex flex-col md:flex-row items-center gap-8 bg-slate-900/40 p-10 rounded-3xl border border-slate-800/50">
+                <div class="w-24 h-24 rounded-full bg-accent-600 flex items-center justify-center text-3xl font-black text-white shadow-2xl shadow-accent-500/20">BY</div>
+                <div class="text-center md:text-left">
+                    <h4 class="text-xl font-extrabold text-white mb-2">Brijesh Yadav</h4>
+                    <p class="text-slate-400 leading-relaxed mb-4">
+                        Founder and Chief Architect of HSCI. Brijesh is a pioneer in the field of Hyper-Symbolic Cognitive architectures, focused on building deterministic AI systems that move beyond probabilistic guessing.
+                    </p>
+                    <div class="flex justify-center md:justify-start gap-6">
+                        <a href="https://github.com/recscse" class="text-accent-500 hover:text-white transition-colors flex items-center gap-2 font-bold">
+                            <i data-lucide="github" class="w-5 h-5"></i> GitHub
+                        </a>
+                        <a href="https://recscse.github.io/portfolio/index.html" class="text-accent-500 hover:text-white transition-colors flex items-center gap-2 font-bold">
+                            <i data-lucide="globe" class="w-5 h-5"></i> Portfolio
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <footer class="relative z-10 py-12 text-center text-slate-600 text-xs font-medium tracking-widest">
+        <p>© 2026 HSCI RESEARCH LAB. ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>

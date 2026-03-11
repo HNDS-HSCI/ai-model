@@ -36,87 +36,89 @@ class HyperSymbolicBrain:
         # The Active Mind
         self.mind = MentalModel(learner=self.memory_lobe, cognitive_lobe=self.awareness_lobe)
         
-        # INVENTION: Initial Mental Priming (Instructional Teaching)
-        self._prime_mental_intelligence()
-
-    def _prime_mental_intelligence(self):
+    def teach(self, stimulus, concept_name, axiom):
         """
-        Teaching Phase: The brain learns the basic concepts through environment perception.
+        Interactive Teaching API: Allows humans to teach the system new concepts.
         """
-        teaching_data = [
-            ("MATH_REDUCTION", "solve x + 5 = 10", "REDUCTION"),
-            ("CODE_SYNTHESIS", "write a python function to sum three numbers", "SYNTHESIS"),
-            ("LOGIC_COMPOSITION", "There are 3 houses. The Brit is in the red house", "COMPOSITION")
-        ]
-        
-        self.logger.info("BRAIN_PRIMING: Establishing Mental Intelligence...")
-        for concept, stimulus, axiom in teaching_data:
-            self.awareness_lobe.teach_concept(concept, stimulus, axiom)
-        self.logger.info("BRAIN_PRIMED: Mastery of Base Axioms established.")
+        self.logger.info(f"TEACHING: Binding stimulus to concept '{concept_name}' using axiom '{axiom}'")
+        self.awareness_lobe.teach_concept(concept_name, stimulus, axiom)
+        return f"Learned concept: {concept_name} -> Maps to {axiom}"
 
     def process(self, stimulus, budget=5):
         # 0.0 Reset State
         self.mind.memory_trace = []
         self.mind.state = "IDLE"
 
+        # Check for teaching command
+        if stimulus.lower().startswith("teach:"):
+            parts = stimulus[6:].split("|")
+            if len(parts) >= 3:
+                return self.teach(parts[0].strip(), parts[1].strip(), parts[2].strip().upper())
+            return "Teach format: 'teach: <stimulus> | <concept_name> | <axiom>'"
+
         self.logger.info(f"Local Brain Activity: Comprehending environment '{stimulus[:50]}...'")
 
         # 1. ENVIRONMENTAL PERCEPTION
-        # Absorbs the whole context block
         env = self.awareness_lobe.perceive_environment(stimulus)
         self.mind.memory_trace.append(f"AWARENESS: Environmental Map established ({len(env['entities'])} entities)")
 
         # 2. DELIBERATION (Applying Mastery)
-        # Identifies the gap and the axiom required
         deliberation = self.awareness_lobe.deliberate(env)
         axiom = deliberation["axiom"]
         sigma = deliberation["goal"]
+        rationale = deliberation.get("rationale", "No rationale generated.")
         
-        self.mind.memory_trace.append(f"DELIBERATION: Selected Axiom {axiom}")
+        self.mind.memory_trace.append(f"DELIBERATION: Selected Axiom {axiom}. Rationale: {rationale}")
         self.logger.info(f"AXIOM_APPLIED: {axiom}")
 
         # --- EXECUTION ---
+        candidate = None
         
         # Axiom: COMPOSITION (Logic Puzzles)
         if axiom == "COMPOSITION":
             parsed_problem = self.logic_parser.parse(stimulus)
-            solution = self.csp_engine.solve_csp(parsed_problem)
-            self.memory_lobe.log_episode(sigma, solution, success=True)
-            self.mind.finalize(solution)
-            return f"LOGICALLY DERIVED (COMPOSITION):\n{solution}"
+            candidate = self.csp_engine.solve_csp(parsed_problem)
+            self.memory_lobe.log_episode(sigma, candidate, success=True)
+            self.mind.finalize(candidate)
+            return f"[{axiom}] Rationale: {rationale}\nSolution:\n{candidate}"
 
         # Axiom: SYNTHESIS (Code Generation)
-        if axiom == "SYNTHESIS":
-            # Retrieve past successes for this environment
+        elif axiom == "SYNTHESIS":
             learned = self.memory_lobe.get_relevant_episodes(stimulus, top_k=3, threshold=0.8)
             seeded = [ep.get("candidate") for ep in learned if ep.get("success")]
             candidate = self.synthesizer.propose(sigma, examples=seeded)
         
         # Axiom: REDUCTION (Math)
         elif axiom == "REDUCTION":
-            # Use Z3 for reduction
-            from hnsds.brain.lobes.native_neural_lobe import NativeNeuralLobe
-            temp_lobe = NativeNeuralLobe() # Legacy bridge for solve logic
-            candidate = temp_lobe._solve_system_candidate(sigma)
+            # Dynamic solving using Z3
+            candidate = self.logic_prover.solve(sigma)
 
         # Axiom: TRANSFORMATION (Conversation)
         else:
-            return sigma.get("response", "Environment processed.")
+            return f"[TRANSFORMATION] {sigma.get('response', 'Environment processed.')}"
 
         # 3. VERIFICATION LOOP
+        if axiom == "REDUCTION" and "Solved:" in str(candidate):
+             self.mind.finalize(candidate)
+             return f"[{axiom}] Rationale: {rationale}\nProven Solution: {candidate}"
+
         for attempt in range(budget):
             success, feedback = self.logic_prover.verify(candidate, sigma)
             if success:
                 self.memory_lobe.log_episode(sigma, candidate, success=True)
                 self.mind.finalize(candidate)
-                return f"DERIVED SOLUTION (via {axiom}):\n{candidate}"
+                return f"[{axiom}] Rationale: {rationale}\nProven Solution: {candidate}"
             else:
                 self.logger.warning(f"Verification Failed: {feedback}")
                 if axiom == "SYNTHESIS":
                     candidate = self.synthesizer.propose(sigma, examples=[feedback])
                 else: break
 
-        return "COGNITIVE_FAILURE: Environmental gap could not be bridged."
+        # Final check: if candidate has solved assignments, return it
+        if candidate and "=" in str(candidate) and "Unsolvable" not in str(candidate):
+            return f"[{axiom}] Rationale: {rationale}\nProven Solution: {candidate}"
+
+        return f"[{axiom}] COGNITIVE_FAILURE: Environmental gap could not be bridged. Last attempt: {candidate}"
 
     def get_mind_state(self):
         """

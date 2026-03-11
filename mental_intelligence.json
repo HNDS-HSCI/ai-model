@@ -85,5 +85,43 @@
       ],
       "structure": []
     }
+  ],
+  "SALARY_SUMMATION": [
+    {
+      "name": "SALARY_SUMMATION",
+      "axiom": "REDUCTION",
+      "concepts": [
+        "math_operation",
+        "sum"
+      ],
+      "intent": "FIND"
+    },
+    {
+      "name": "SALARY_SUMMATION",
+      "axiom": "REDUCTION",
+      "concepts": [
+        "math_operation",
+        "sum"
+      ],
+      "intent": "FIND"
+    },
+    {
+      "name": "SALARY_SUMMATION",
+      "axiom": "REDUCTION",
+      "concepts": [
+        "math_operation",
+        "sum"
+      ],
+      "intent": "FIND"
+    },
+    {
+      "name": "SALARY_SUMMATION",
+      "axiom": "REDUCTION",
+      "concepts": [
+        "math_operation",
+        "sum"
+      ],
+      "intent": "FIND"
+    }
   ]
 }

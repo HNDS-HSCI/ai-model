@@ -25,6 +25,7 @@ app.add_middleware(
 brain = HyperSymbolicBrain()
 UI_PATH = Path(__file__).resolve().parent / "ui" / "index.html"
 LANDING_PATH = Path(__file__).resolve().parent / "ui" / "landing.html"
+BLOG_PATH = Path(__file__).resolve().parent / "ui" / "blog.html"
 
 
 class StimulusRequest(BaseModel):
@@ -37,6 +38,14 @@ async def get_landing():
     if not LANDING_PATH.exists():
         return {"error": f"Landing file not found at {LANDING_PATH}"}
     return FileResponse(str(LANDING_PATH))
+
+
+@app.get("/blog")
+async def get_blog():
+    # Serve the blog page.
+    if not BLOG_PATH.exists():
+        return {"error": f"Blog file not found at {BLOG_PATH}"}
+    return FileResponse(str(BLOG_PATH))
 
 
 @app.get("/dashboard")

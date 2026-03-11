@@ -3,10 +3,63 @@ import re
 
 class Z3Verifier:
     """
-    The Formal Verification engine of the HNS-DS.
-    It takes the native symbolic output of the Formalizer and uses 
-    SMT solving to provide definitive proofs or counterexamples.
+    The Formal Verification & Logic engine of the HNS-DS.
+    It takes the native symbolic output and uses SMT solving 
+    to provide definitive proofs, solutions, or counterexamples.
     """
+    
+    def solve(self, formal_spec):
+        """
+        Uses Z3 to actually compute the solution for a set of constraints.
+        """
+        if not isinstance(formal_spec, dict):
+            return "Error: Invalid spec"
+            
+        equations = formal_spec.get("equations", [])
+        if not equations and formal_spec.get("equation"):
+            equations = [formal_spec.get("equation")]
+            
+        if not equations:
+            return "No constraints found to solve."
+
+        s = Solver()
+        var_names = formal_spec.get("variables", [])
+        
+        # If no vars specified, extract them
+        if not var_names:
+            for eq in equations:
+                var_names.extend(re.findall(r'\b[a-zA-Z]\b', eq))
+            var_names = list(set(var_names))
+            
+        z3_vars = {name: Real(name) for name in var_names}
+
+        for eq_str in equations:
+            if not eq_str: continue
+            try:
+                # Standardize == and parse expression
+                clean_eq = eq_str.replace("=", "==").replace("====", "==").strip()
+                z3_eq = eval(clean_eq, {"__builtins__": None}, z3_vars)
+                s.add(z3_eq)
+            except Exception as e:
+                pass # Ignore malformed
+
+        if s.check() == sat:
+            model = s.model()
+            results = []
+            for d in model.decls():
+                val = model[d]
+                # Convert Z3 RatNumRef to standard string
+                if is_rational_value(val):
+                    results.append(f"{d.name()}={val.numerator_as_long()/val.denominator_as_long()}")
+                else:
+                    results.append(f"{d.name()}={val}")
+            if results:
+                return ", ".join(results)
+            else:
+                return "Solved: Constraints are valid (True)."
+        else:
+            return "Unsolvable: Constraints are contradictory."
+
     def verify(self, candidate_solution, formal_spec):
         try:
             # 0. Safety Check for Synthesizer Errors
@@ -31,14 +84,11 @@ class Z3Verifier:
                     return False, f"Syntax Error: {str(e)}"
 
             # 3. Theorem Proving (Z3 Script Verification)
-            # For proofs, the logic is self-contained in the candidate script.
             if spec_type == "proof":
-                 # We don't add equations from spec, we run the candidate.
                  pass
             
             # 4. Standard Math (Equation Solving)
             else:
-                # We need to set up the solver state from the spec
                 pass
 
             # --- Verification Execution ---
@@ -56,15 +106,11 @@ class Z3Verifier:
                     return False, f"Proof Script Error: {e}"
 
             # Case B: Standard Math Equation Check
-            # We need to reconstruct the solver 's' and vars to check the candidate assignment.
-            
-            # Setup Solver and Vars
             s = Solver()
             var_names = formal_spec.get("variables", ["x", "y", "z"])
-            # Always use Real for better coverage of divisions, etc.
             z3_vars = {name: Real(name) for name in var_names}
 
-            # Add Spec Equations (Only for Math type)
+            # Add Spec Equations
             if spec_type == "math" or spec_type == "system":
                 equations = formal_spec.get("equations", [])
                 if not equations and formal_spec.get("equation"):
@@ -73,14 +119,11 @@ class Z3Verifier:
                 for eq_str in equations:
                     if not eq_str: continue
                     try:
-                        # Standardize == and parse expression
                         clean_eq = eq_str.replace("=", "==").replace("====", "==").strip()
-                        # Safe eval with z3 vars
                         z3_eq = eval(clean_eq, {"__builtins__": None}, z3_vars)
                         s.add(z3_eq)
                     except Exception as e:
-                        # print(f"DEBUG: Failed to parse equation '{eq_str}': {e}")
-                        pass # Ignore malformed equations in mixed contexts
+                        pass 
 
             # Check Candidate Assignment
             if candidate_solution and "=" in str(candidate_solution):
@@ -93,7 +136,6 @@ class Z3Verifier:
                     var_name, val_str = parts
                     var_name = var_name.strip()
                     try:
-                        # Try parsing as float for Real support
                         val = float(val_str.strip())
                         if var_name in z3_vars:
                             s.add(z3_vars[var_name] == val)
@@ -105,8 +147,6 @@ class Z3Verifier:
                 if result == sat:
                     return True, None
             
-            # If we reached here and type is 'proof', we might have failed the script check above
-            # or it wasn't a script.
             if spec_type == "proof":
                  return False, "Proof candidate was not a valid Z3 script."
 
