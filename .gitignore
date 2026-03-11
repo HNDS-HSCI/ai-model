@@ -53,3 +53,5 @@ coverage.xml
 
 # Local data (assuming episodes.jsonl is runtime data)
 # episodes.jsonl
+mental_intelligence.json
+episodes.jsonl
