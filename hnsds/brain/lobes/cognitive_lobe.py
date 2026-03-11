@@ -141,39 +141,37 @@ class CognitiveAwareness:
     def _infer_intent(self, text, concepts):
         """
         Intelligent Intent Inference:
-        Determines the 'Goal State' by understanding the relationship between 'Goal Concepts' and 'Subject Entities'.
+        Traverses the Symbolic Knowledge Graph to determine intent and required axioms.
+        No hardcoded dictionaries are used.
         """
-        # Goal Concepts (The 'What to do')
-        goal_keywords = {
-            "solve": "REDUCTION", "find": "REDUCTION", "calculate": "REDUCTION", "derive": "REDUCTION",
-            "write": "SYNTHESIS", "create": "SYNTHESIS", "build": "SYNTHESIS", "implement": "SYNTHESIS",
-            "prove": "COMPOSITION", "verify": "COMPOSITION", "arrange": "COMPOSITION"
-        }
-        
         text_lower = text.lower()
+        words = re.findall(r'\b\w+\b', text_lower)
+        
         master_concept = "UNKNOWN"
         target_axiom = "TRANSFORMATION"
 
-        for keyword, axiom in goal_keywords.items():
-            if keyword in text_lower:
-                master_concept = keyword.upper()
-                target_axiom = axiom
+        # 1. Graph Traversal for Direct Intent
+        for word in words:
+            # Check if this word directly maps to an axiom in the ontology
+            mapped_axioms = self.ontology.get_related(word, "MAPS_TO_AXIOM")
+            if mapped_axioms:
+                master_concept = word.upper()
+                target_axiom = mapped_axioms[0].upper()
                 break
         
-        # If no explicit keyword, look at concepts in the ontology
+        # 2. Graph Traversal via Concepts (Implicit Intent)
         if master_concept == "UNKNOWN":
             for concept in concepts:
-                if concept in ["math_operation", "algorithm", "logic_puzzle"]:
+                mapped_axioms = self.ontology.get_related(concept, "MAPS_TO_AXIOM")
+                if mapped_axioms:
                     master_concept = concept.upper()
-                    # Map high-level concepts to base axioms
-                    mapping = {"MATH_OPERATION": "REDUCTION", "ALGORITHM": "SYNTHESIS", "LOGIC_PUZZLE": "COMPOSITION"}
-                    target_axiom = mapping.get(master_concept, "TRANSFORMATION")
+                    target_axiom = mapped_axioms[0].upper()
                     break
 
         return {
             "master_concept": master_concept,
             "axiom": target_axiom,
-            "entities": self._extract_entities(text) # Subject of the intent
+            "entities": self._extract_entities(text)
         }
 
     def _compute_semantic_similarity(self, c1, c2, i1, i2):
@@ -220,10 +218,25 @@ class CognitiveAwareness:
         
         # 1. Direct Symbolic Identification
         clean = re.sub(r"\s*={1,2}\s*", " == ", clean)
-        eqs = re.findall(r"([a-z0-9\s\+\-\*\/\(\)\.]+\s*==\s*[\-a-z0-9\s\+\-\*\/\(\)\.]+)", clean)
         
+        eqs = []
+        # Split environment into separate logical clauses
+        clauses = re.split(r'\band\b|,|;', clean)
+        
+        for clause in clauses:
+            # Look for structured math (at least one var/num, operator, ==, var/num)
+            # More constrained regex to avoid picking up whole sentences
+            match = re.search(r"([a-z0-9\+\-\*\/\(\)\. ]+==[a-z0-9\+\-\*\/\(\)\. ]+)", clause)
+            if match:
+                # Clean up residual conversational words from the edges
+                eq = match.group(1).strip()
+                words_to_strip = ["solve", "can", "you", "find", "prove", "if", "then", "the"]
+                for w in words_to_strip:
+                    eq = re.sub(r"\b" + w + r"\b", "", eq).strip()
+                if "==" in eq:
+                    eqs.append(eq)
+
         # 2. Conversational Binding ('base is 1000' -> 'base == 1000')
-        # We look for [entity] [is/are/equals] [value/entity]
         bindings = re.findall(r"\b([a-z_]+)\s+(?:is|are|equals|to|was)\s+([0-9\.]+|[a-z_]+)\b", clean)
         for entity, value in bindings:
             eqs.append(f"{entity} == {value}")
@@ -233,14 +246,13 @@ class CognitiveAwareness:
         if "total" in text.lower() or "result" in text.lower() or "sum" in text.lower():
             goal_var = "total" if "total" in text.lower() else "result"
             if goal_var not in vars_found:
-                # Find all variables that have been assigned a value
                 assigned_vars = [v for v in vars_found if any(f"{v} ==" in e or f"{v}=" in e for e in eqs)]
                 if assigned_vars:
                     sum_expr = " + ".join(assigned_vars)
                     eqs.append(f"{goal_var} == {sum_expr}")
 
         return {
-            "equations": list(set([e.strip() for e in eqs])),
+            "equations": list(set([e.strip() for e in eqs if e.strip()])),
             "variables": self._extract_variables(eqs)
         }
 

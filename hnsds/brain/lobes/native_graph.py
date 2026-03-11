@@ -105,3 +105,18 @@ class NativeGraph:
         self.add_relation("sum", "IS_A", "math_operation")
         self.add_relation("sort", "IS_A", "algorithm")
         self.add_relation("salary", "IS_A", "financial_record")
+
+        # Intent Axiom Mappings (Dynamic Intelligence)
+        self.add_relation("solve", "MAPS_TO_AXIOM", "REDUCTION")
+        self.add_relation("find", "MAPS_TO_AXIOM", "REDUCTION")
+        self.add_relation("calculate", "MAPS_TO_AXIOM", "REDUCTION")
+        self.add_relation("derive", "MAPS_TO_AXIOM", "REDUCTION")
+        self.add_relation("math_operation", "MAPS_TO_AXIOM", "REDUCTION")
+        
+        self.add_relation("create", "MAPS_TO_AXIOM", "SYNTHESIS")
+        self.add_relation("build", "MAPS_TO_AXIOM", "SYNTHESIS")
+        self.add_relation("software_engineering", "MAPS_TO_AXIOM", "SYNTHESIS")
+        
+        self.add_relation("prove", "MAPS_TO_AXIOM", "COMPOSITION")
+        self.add_relation("verify", "MAPS_TO_AXIOM", "COMPOSITION")
+        self.add_relation("logic_puzzle", "MAPS_TO_AXIOM", "COMPOSITION")
