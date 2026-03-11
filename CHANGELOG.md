@@ -2,20 +2,24 @@
 
 All notable changes to the **HSCI (Hyper-Symbolic Cognitive Invention)** project will be documented in this file.
 
-## [2.0.0] - 2026-02-21
+## [2.0.0] - 2026-03-11
+### Major Architectural Shift: The Axiomatic Paradigm
+- **Conceptual Intent Inference**: Replaced rule-based parsing with a Deep Conceptual engine that comprehends human intent via the Symbolic Knowledge Graph.
+- **Environmental Awareness Lobe**: New perception architecture that treats input as a logical environment with entities, relationships, and delta-states.
+- **Instructional Priming**: Implementation of the `teach:` interface, allowing the brain to learn new concepts from a single mastery lesson.
+- **Deterministic Solving (Z3)**: Upgraded the Verifier to a full-scale Solver using Microsoft's Z3 SMT engine for mathematically proven answers.
+- **Axiomatic Generalization**: System now generalizes knowledge across synonyms (e.g., "Salary" -> "Pay") and differently phrased word problems.
+
 ### Added
-- **Hyper-Symbolic Engine**: Full integration between the Native Neural Lobe and the Verified Prover.
-- **Glassmorphic Landing Page**: Professional introduction at `/` with Live System Pulse and Architecture walkthrough.
-- **System Solver**: Robust support for multi-variable equations (e.g., `x+y=10 x-y=20`).
-- **Developer SDK**: Ready-to-use Python integration examples.
-- **Dynamic Port Binding**: Enhanced Render and Cloud deployment compatibility.
-- **Hebbian Learning**: Persisted synaptic weight updates based on proven successes.
+- **Research Blog**: Launch of a professional, visionary blog at `/blog` detailing the future of HSCI.
+- **Instructional API**: Direct support for dynamic concept teaching in the core engine.
+- **Rationale Trace**: Enhanced the cognitive trace to include natural language rationales for every axiomatic choice.
+- **Multi-Letter Variables**: Support for complex variable names like `base_pay`, `bonus`, and `tax`.
 
 ### Fixed
-- **Dependency Resolution**: Resolved `ModuleNotFoundError` for `scikit-learn` and `numpy`.
-- **Equation Extraction**: Fixed greedy regex to correctly parse space-separated math.
-- **State Persistence**: Resolved cognitive trace leakage between requests.
-- **Render Startup**: Fixed `start.sh` command errors in Linux environments.
+- **Hallucination Prevention**: Eliminated probabilistic guessing by enforcing strict axiomatic deliberation.
+- **Math Extraction**: Fixed the perception lobe to bind numbers to variables using conversational cues ("is", "equals", etc.).
+- **Output Formatting**: Resolved numerical result formatting issues in the UI.
 
 ## [1.0.0] - 2025-12-29
 ### Added
