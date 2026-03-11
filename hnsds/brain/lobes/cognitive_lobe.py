@@ -98,12 +98,22 @@ class CognitiveAwareness:
         if best_mastery and best_score > 0.2:
             selected_axiom = best_mastery["axiom"]
             self.logger.info(f"INTENT_MAPPED: '{master_concept}' to Axiom '{selected_axiom}' (Score: {best_score:.2f})")
-            
-            # Universal Goal Construction (Bridging the Gap via Intelligent Synthesis)
             sigma = self._bridge_gap_intelligently(environment, best_mastery)
             rationale = f"I understand this is a '{master_concept}' request requiring '{selected_axiom}' logic based on my mastery of '{best_mastery.get('name', 'Unknown')}'. I have identified {len(environment['entities'])} entities to process."
+        
+        # INVENTION: Zero-Shot Axiomatic Application (Understanding without explicit lesson)
+        elif master_concept != "UNKNOWN" and intent.get("axiom") != "TRANSFORMATION":
+            selected_axiom = intent["axiom"]
+            self.logger.info(f"ZERO_SHOT_INTENT: '{master_concept}' mapped to Axiom '{selected_axiom}'")
+            
+            # Use a generic mastery template for the axiom
+            generic_mastery = {"axiom": selected_axiom, "target_type": "math" if selected_axiom == "REDUCTION" else "logic"}
+            sigma = self._bridge_gap_intelligently(environment, generic_mastery)
+            rationale = f"I have inferred your intent as '{master_concept}' and am applying my core '{selected_axiom}' axiom to bridge the state gap."
+        
         else:
             self.logger.warning("LOW_COMPREHENSION: Falling back to TRANSFORMATION (Conversational).")
+
             selected_axiom = "TRANSFORMATION"
             
             # DYNAMIC CONVERSATIONAL RESPONSE GENERATION (No Hardcoding)
