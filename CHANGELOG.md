@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.2.0...v2.3.0) (2026-03-11)
+
+
+### Features
+
+* implement zero-shot axiomatic application for inherent reasoning ([2e3d569](https://github.com/HNDS-HSCI/ai-model/commit/2e3d5698765ab2b1f80d9afe6f20797ed5430b39))
+
 # [2.2.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.1.0...v2.2.0) (2026-03-11)
 
 
