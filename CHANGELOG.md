@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.1.0...v2.2.0) (2026-03-11)
+
+
+### Features
+
+* replace hardcoded fallback with dynamic conversational intent generation ([3203673](https://github.com/HNDS-HSCI/ai-model/commit/32036734d4dc0fa664f3b2d9358df5f47106c538))
+
 # [2.1.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.0.0...v2.1.0) (2026-03-11)
 
 
