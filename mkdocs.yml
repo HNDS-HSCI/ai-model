@@ -1,0 +1,27 @@
+site_name: HSCI Technical Documentation
+site_description: Axiomatic Cognitive Intelligence Architecture
+site_author: Brijesh Yadav
+repo_url: https://github.com/HNDS-HSCI/ai-model
+
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: cyan
+    accent: cyan
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - content.code.copy
+
+plugins:
+  - search
+  - mkdocstrings
+
+nav:
+  - Home: index.md
+  - Architecture: architecture.md
+  - API Reference: api.md
+  - Tutorials:
+    - Instructional Priming: tutorials/teaching.md
+    - Formal Proofs: tutorials/proofs.md
