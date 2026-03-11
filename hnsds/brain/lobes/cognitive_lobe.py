@@ -105,8 +105,20 @@ class CognitiveAwareness:
         else:
             self.logger.warning("LOW_COMPREHENSION: Falling back to TRANSFORMATION (Conversational).")
             selected_axiom = "TRANSFORMATION"
-            sigma = {"type": "conversational", "response": "I perceive the environment, but I do not yet have the mastery to bridge this specific state gap."}
-            rationale = "I identified the entities, but the intent-to-axiom mapping is below my intelligence threshold."
+            
+            # DYNAMIC CONVERSATIONAL RESPONSE GENERATION (No Hardcoding)
+            entities_str = ", ".join(environment['entities']) if environment['entities'] else "no specific entities"
+            concepts_str = ", ".join(concepts) if concepts else "general concepts"
+            
+            if master_concept == "UNKNOWN" and not environment['entities']:
+                dynamic_response = "I am receiving your input, but it does not contain structural entities or a recognizable intent for me to process."
+            elif master_concept == "UNKNOWN":
+                dynamic_response = f"I perceive you are discussing [{entities_str}] related to [{concepts_str}], but I cannot infer a clear actionable intent. You can use the 'teach:' command to prime my understanding."
+            else:
+                dynamic_response = f"I understand you want to '{master_concept}' involving [{entities_str}]. However, I have not yet been taught the conceptual mastery required to bridge this specific state gap. Please teach me the underlying logic first."
+
+            sigma = {"type": "conversational", "response": dynamic_response}
+            rationale = f"Mapped to TRANSFORMATION. Identified entities: {entities_str}. Missing axiomatic mastery for intent: {master_concept}."
 
         return {
             "axiom": selected_axiom,
@@ -224,8 +236,17 @@ class CognitiveAwareness:
 
     def _extract_entities(self, text):
         entities = set(re.findall(r'\b[a-zA-Z_][a-zA-Z0-9_]*\b', text))
-        keywords = {"def", "class", "import", "return", "if", "else", "for", "while", "in", "is", "the", "a"}
-        return list(entities - keywords)
+        # Extended stop-word list to make dynamic conversational fallback smarter
+        keywords = {
+            "def", "class", "import", "return", "if", "else", "for", "while", "in", "is", "the", "a",
+            "an", "and", "or", "but", "to", "of", "my", "i", "you", "we", "they", "he", "she", "it", 
+            "about", "want", "need", "like", "hello", "hi", "hey", "name", "this", "that", "these", 
+            "those", "am", "are", "was", "were", "be", "been", "being", "have", "has", "had", "do", 
+            "does", "did", "will", "would", "could", "should", "can", "may", "might", "must", "with",
+            "at", "by", "from", "up", "down", "on", "off", "over", "under", "again", "then", "once"
+        }
+        filtered = [e for e in entities if e.lower() not in keywords]
+        return sorted(list(filtered))
 
     def _map_logic_rules(self, text):
         rules = []
