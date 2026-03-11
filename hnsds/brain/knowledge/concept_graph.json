@@ -39,6 +39,46 @@
       "fibonacci"
     ]
   },
+  "write": {
+    "SYNONYM_OF": [
+      "software_engineering"
+    ]
+  },
+  "function": {
+    "SYNONYM_OF": [
+      "algorithm"
+    ]
+  },
+  "script": {
+    "SYNONYM_OF": [
+      "software_engineering"
+    ]
+  },
+  "implement": {
+    "SYNONYM_OF": [
+      "software_engineering"
+    ]
+  },
+  "houses": {
+    "SYNONYM_OF": [
+      "logic_puzzle"
+    ]
+  },
+  "lives": {
+    "SYNONYM_OF": [
+      "logic_puzzle"
+    ]
+  },
+  "neighbor": {
+    "SYNONYM_OF": [
+      "logic_puzzle"
+    ]
+  },
+  "next to": {
+    "SYNONYM_OF": [
+      "logic_puzzle"
+    ]
+  },
   "wages": {
     "SYNONYM_OF": [
       "salary"

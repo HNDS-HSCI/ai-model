@@ -26,30 +26,15 @@ class NativeSymbolicEngine:
         solver = Solver()
         
         # 1. Setup Universe of Discourse
-        # In a logic puzzle, we usually map Entities -> Slots (e.g., House Numbers)
-        # OR Attributes -> Entities.
-        # Let's assume a standard grid: N Houses. Attributes are variables taking values 1..N
-        
-        # Find the 'positional' or 'primary' domain. 
-        # Heuristic: If we have "House_1", "House_2", that's the domain 1..N.
-        
-        # Flatten all attributes to find unique values
-        # e.g. color: [red, green], nat: [brit, swede]
-        
-        # Create Z3 Variables for each Attribute of each Entity?
-        # Standard approach: Variables are the Attributes (e.g. Color_Red, Color_Green) 
-        # and values are the House IDs (1..5).
+        # Detect domain size from attributes if present
+        domain_size = 5 # Default fallback
+        for attr_type, values in parsed_problem.get("attributes", {}).items():
+            if values:
+                domain_size = max(domain_size, len(values))
         
         variables = {}
-        domain_size = 5 # Default
         
         # Collect all unique "things" (Brit, Red, Coffee)
-        # The Parser output needs to be robust. 
-        # For now, let's assume specific structure: 
-        # constraints: [{type: association, entity1: Brit, entity2: Red}]
-        
-        # We need to deduce the variables.
-        # Let's treat every noun found as a Variable that maps to a Position (Int).
         all_nouns = set()
         for c in parsed_problem.get("constraints", []):
             if "entity1" in c: all_nouns.add(c["entity1"])
@@ -59,9 +44,10 @@ class NativeSymbolicEngine:
         for noun in all_nouns:
             v = Int(noun)
             variables[noun] = v
-            solver.add(v >= 1, v <= 5) # Assume 5 slots for now
+            solver.add(v >= 1, v <= domain_size)
             
         # 2. Apply Constraints
+        # ... (rest of the constraints logic)
         for c in parsed_problem.get("constraints", []):
             try:
                 e1 = variables.get(c["entity1"])

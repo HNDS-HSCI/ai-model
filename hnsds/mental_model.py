@@ -12,14 +12,14 @@ class MentalModel:
     
     Shift from Hardcoded Rules -> Learned Synaptic Weights + Neural Intuition.
     """
-    def __init__(self, learner=None, synthesizer=None, neural_lobe=None):
+    def __init__(self, learner=None, synthesizer=None, cognitive_lobe=None):
         self.state = "IDLE"
         self.memory_trace = []
         self.current_goal = None
         self.derived_solution = None
         self.learner = learner 
         self.synthesizer = synthesizer
-        self.neural_lobe = neural_lobe # The Native "Intuition" Lobe
+        self.cognitive_lobe = cognitive_lobe # The Native "Cognitive Frame" Lobe
         self.planner = NativePlanner() # The Native "Reasoning" Lobe
         self.recalled_episode = None
         self.final_proof = None
@@ -47,7 +47,7 @@ class MentalModel:
 
     def perceive(self, raw_input):
         """
-        Step 1: Perception via "Intuition" (Native Neural Lobe + Memory).
+        Step 1: Perception via "Cognitive Framing" (Native Cognitive Lobe + Memory).
         """
         self.memory_trace.append(f"STIMULUS: {raw_input}")
         
@@ -60,21 +60,23 @@ class MentalModel:
                 self.memory_trace.append(f"MEMORY_TRIGGERED: Recall Episode regarding '{self.recalled_episode['goal_str']}'")
                 return self.state
 
-        # 2. NATIVE INTUITION (Neural Lobe)
-        if self.neural_lobe:
-            # The Neural Lobe performs the transduction
-            sigma = self.neural_lobe.classify_and_formalize(raw_input)
+        # 2. NATIVE COGNITIVE FRAMING (Predictive Trajectory)
+        if self.cognitive_lobe:
+            # The Cognitive Lobe predicts the process trajectory based on Concept Graph
+            sigma = self.cognitive_lobe.simulate_trajectory(raw_input)
             self.symbolic_spec = sigma
             
-            # Determine mode from the spec type
-            intent = sigma.get("type", "conversational").upper()
-            print(f"DEBUG_MENTAL_MODEL: perceive intent='{intent}' sigma_type='{sigma.get('type')}'")
-            if intent in ["MATH", "CODING", "SYSTEM"]:
+            # Determine mode from the predicted trajectory
+            trajectory_type = sigma.get("trajectory", "CONVERSATIONAL_FLOW")
+            path = " -> ".join(sigma.get("path", []))
+            print(f"DEBUG_MENTAL_MODEL: predicted_trajectory='{trajectory_type}' path='{path}'")
+            
+            if trajectory_type in ["MATH_REDUCTION", "CODE_SYNTHESIS", "LOGIC_COMPOSITION"]:
                 self.state = "ANALYTICAL"
             else:
                 self.state = "CONVERSATIONAL"
                 
-            self.memory_trace.append(f"NEURAL_INTUITION: Classified as {intent} -> {self.state}")
+            self.memory_trace.append(f"PREDICTED_TRAJECTORY: {trajectory_type} ({path})")
             return self.state
 
         # 3. FALLBACK (Legacy Weight Check)

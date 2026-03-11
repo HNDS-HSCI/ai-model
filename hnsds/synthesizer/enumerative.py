@@ -24,7 +24,7 @@ class EnumerativeSynthesizer:
     """
     HSCI NATIVE ENGINE (The 'Search' Lobe).
     """
-    def __init__(self, learner=None, max_depth=3):
+    def __init__(self, learner=None, max_depth=4):
         self.learner = learner
         self.primitives = CognitivePrimitives()
         self.max_depth = max_depth
@@ -111,26 +111,60 @@ class EnumerativeSynthesizer:
             return f"# SYMBOLIC ERROR: {e}"
 
     def _infer_io_examples(self, desc):
-        # "addition"
-        if "add" in desc or "sum" in desc or "plus" in desc:
+        # 1. Determine Arity from description (Semantic Insight)
+        arity = 2
+        
+        # Concept-based arity detection
+        number_concepts = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5}
+        for concept, val in number_concepts.items():
+            if concept in desc or str(val) in desc:
+                arity = val
+                break
+        
+        # Unary concept detection
+        if any(w in desc for w in ["square", "cube", "unary", "single"]): 
+            arity = 1
+        
+        # 2. Infer operation and generate dynamic examples
+        # Addition / Summation
+        if any(w in desc for w in ["add", "sum", "plus", "total", "combine"]):
+            # Use non-uniform values to force using multiple args
             return [
-                {"in": [1, 1], "out": 2},
-                {"in": [0, 5], "out": 5},
-                {"in": [10, 20], "out": 30}
+                {"in": [i + 1 for i in range(arity)], "out": sum([i + 1 for i in range(arity)])},
+                {"in": [10, 5, 2, 8, 3][:arity], "out": sum([10, 5, 2, 8, 3][:arity])},
+                {"in": [100, 1, 0, 0, 0][:arity], "out": sum([100, 1, 0, 0, 0][:arity])}
             ]
-        # "subtraction"
-        if "sub" in desc or "diff" in desc or "minus" in desc:
+            
+        # Subtraction
+        if any(w in desc for w in ["sub", "diff", "minus"]):
             return [
-                {"in": [5, 2], "out": 3},
-                {"in": [10, 10], "out": 0}
+                {"in": [10, 2], "out": 8},
+                {"in": [5, 5], "out": 0},
+                {"in": [100, 50], "out": 50}
             ]
-        # "max" / "greater"
-        if "max" in desc or "greater" in desc or "larger" in desc:
+            
+        # Multiplication / Power
+        if any(w in desc for w in ["mul", "product", "times", "square", "cube", "power"]):
+            if "square" in desc:
+                 return [{"in": [x], "out": x*x} for x in [2, 5, 10]]
+            if "cube" in desc:
+                 return [{"in": [x], "out": x*x*x} for x in [2, 3, 5]]
+            
+            import math
             return [
-                {"in": [1, 5], "out": 5},
-                {"in": [10, 2], "out": 10},
-                {"in": [7, 7], "out": 7}
+                {"in": [i + 2 for i in range(arity)], "out": math.prod([i + 2 for i in range(arity)])},
+                {"in": [2, 1, 3, 5, 4][:arity], "out": math.prod([2, 1, 3, 5, 4][:arity])},
+                {"in": [10, 0, 5, 2, 3][:arity], "out": 0}
             ]
+            
+        # Max/Larger
+        if any(w in desc for w in ["max", "greater", "larger", "biggest"]):
+            return [
+                {"in": list(range(arity)), "out": arity - 1},
+                {"in": list(reversed(range(arity))), "out": arity - 1},
+                {"in": [7] * arity, "out": 7}
+            ]
+            
         return None
 
     def _bfs_synthesis(self, io_examples):
@@ -146,7 +180,7 @@ class EnumerativeSynthesizer:
         for _ in range(self.max_depth): 
             next_programs = []
             
-            # Simple Binary Search (Program A + Program B)
+            # Simple Binary Search (Program A [op] Program B)
             for prog1 in programs:
                 for prog2 in programs:
                     
@@ -156,7 +190,13 @@ class EnumerativeSynthesizer:
                         return {"code": f"return {candidate}", "args": arg_names}
                     next_programs.append(candidate)
                     
-                    # Try Subtracting (Try both orders)
+                    # Try Multiplying
+                    candidate = f"({prog1} * {prog2})"
+                    if self._check_candidate(candidate, arg_names, io_examples):
+                        return {"code": f"return {candidate}", "args": arg_names}
+                    next_programs.append(candidate)
+                    
+                    # Try Subtracting
                     candidate = f"({prog1} - {prog2})"
                     if self._check_candidate(candidate, arg_names, io_examples):
                         return {"code": f"return {candidate}", "args": arg_names}

@@ -81,6 +81,18 @@ class NativeGraph:
         self.add_relation("order", "SYNONYM_OF", "sort")
         self.add_relation("fib", "SYNONYM_OF", "fibonacci")
         
+        # Coding Ontology
+        self.add_relation("write", "SYNONYM_OF", "software_engineering")
+        self.add_relation("function", "SYNONYM_OF", "algorithm")
+        self.add_relation("script", "SYNONYM_OF", "software_engineering")
+        self.add_relation("implement", "SYNONYM_OF", "software_engineering")
+        
+        # Logic Ontology
+        self.add_relation("houses", "SYNONYM_OF", "logic_puzzle")
+        self.add_relation("lives", "SYNONYM_OF", "logic_puzzle")
+        self.add_relation("neighbor", "SYNONYM_OF", "logic_puzzle")
+        self.add_relation("next to", "SYNONYM_OF", "logic_puzzle")
+        
         # HR Ontology (Human Resources)
         self.add_relation("wages", "SYNONYM_OF", "salary")
         self.add_relation("pay", "SYNONYM_OF", "salary")

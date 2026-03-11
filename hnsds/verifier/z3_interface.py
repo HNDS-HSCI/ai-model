@@ -60,22 +60,26 @@ class Z3Verifier:
             
             # Setup Solver and Vars
             s = Solver()
-            var_names = formal_spec.get("variables", ["x", "y"])
-            z3_vars = {name: Int(name) for name in var_names}
+            var_names = formal_spec.get("variables", ["x", "y", "z"])
+            # Always use Real for better coverage of divisions, etc.
+            z3_vars = {name: Real(name) for name in var_names}
 
             # Add Spec Equations (Only for Math type)
             if spec_type == "math" or spec_type == "system":
-                equations = []
-                if spec_type == "math":
+                equations = formal_spec.get("equations", [])
+                if not equations and formal_spec.get("equation"):
                     equations = [formal_spec.get("equation")]
-                else:
-                    equations = formal_spec.get("equations", [])
                 
                 for eq_str in equations:
+                    if not eq_str: continue
                     try:
-                        z3_eq = eval(eq_str.replace("==", "=="), {"__builtins__": None}, z3_vars)
+                        # Standardize == and parse expression
+                        clean_eq = eq_str.replace("=", "==").replace("====", "==").strip()
+                        # Safe eval with z3 vars
+                        z3_eq = eval(clean_eq, {"__builtins__": None}, z3_vars)
                         s.add(z3_eq)
-                    except:
+                    except Exception as e:
+                        # print(f"DEBUG: Failed to parse equation '{eq_str}': {e}")
                         pass # Ignore malformed equations in mixed contexts
 
             # Check Candidate Assignment
@@ -84,10 +88,13 @@ class Z3Verifier:
                 assignments = str(candidate_solution).split(",")
                 for a in assignments:
                     if "=" not in a: continue
-                    var_name, val = a.split("=")
+                    parts = a.split("=")
+                    if len(parts) != 2: continue
+                    var_name, val_str = parts
                     var_name = var_name.strip()
                     try:
-                        val = int(val.strip())
+                        # Try parsing as float for Real support
+                        val = float(val_str.strip())
                         if var_name in z3_vars:
                             s.add(z3_vars[var_name] == val)
                     except:
