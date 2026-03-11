@@ -1,3 +1,10 @@
+# [2.4.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.3.0...v2.4.0) (2026-03-11)
+
+
+### Features
+
+* replace hardcoded intent parsing with dynamic knowledge graph traversal ([21fedc5](https://github.com/HNDS-HSCI/ai-model/commit/21fedc55f6d4002af486ba2ba72218daae8a50cd))
+
 # [2.3.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.2.0...v2.3.0) (2026-03-11)
 
 
