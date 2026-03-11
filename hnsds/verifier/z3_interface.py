@@ -12,6 +12,8 @@ class Z3Verifier:
         """
         Uses Z3 to actually compute the solution for a set of constraints.
         """
+        print(f"DEBUG Z3 SOLVE SPEC: {formal_spec}")
+        
         if not isinstance(formal_spec, dict):
             return "Error: Invalid spec"
             
@@ -23,20 +25,32 @@ class Z3Verifier:
             return "No constraints found to solve."
 
         s = Solver()
-        var_names = formal_spec.get("variables", [])
         
-        # If no vars specified, extract them
-        if not var_names:
-            for eq in equations:
-                var_names.extend(re.findall(r'\b[a-zA-Z]\b', eq))
-            var_names = list(set(var_names))
+        # Robustly extract ALL variables directly from the equations
+        var_names = []
+        for eq in equations:
+            # Find all words that are not pure numbers and not operators
+            found = re.findall(r"\b[a-zA-Z_][a-zA-Z0-9_]*\b", eq)
+            var_names.extend(found)
+        var_names = list(set(var_names))
             
         z3_vars = {name: Real(name) for name in var_names}
 
         for eq_str in equations:
             if not eq_str: continue
             try:
-                # Standardize == and parse expression
+                # Explicitly handle direct numerical assignments
+                if "==" in eq_str:
+                    parts = eq_str.split("==")
+                    left = parts[0].strip()
+                    right = parts[1].strip()
+                    
+                    # If right side is a pure number, explicitly cast it to avoid eval ambiguity
+                    if re.match(r"^[0-9\.]+$", right) and left in z3_vars:
+                        s.add(z3_vars[left] == float(right))
+                        continue
+
+                # Standard parse expression for complex equations
                 clean_eq = eq_str.replace("=", "==").replace("====", "==").strip()
                 z3_eq = eval(clean_eq, {"__builtins__": None}, z3_vars)
                 s.add(z3_eq)
@@ -46,13 +60,18 @@ class Z3Verifier:
         if s.check() == sat:
             model = s.model()
             results = []
+            # We want to specifically output the 'goal' variable if we know it
+            # But let's just output all non-zero or solved variables
             for d in model.decls():
                 val = model[d]
-                # Convert Z3 RatNumRef to standard string
                 if is_rational_value(val):
-                    results.append(f"{d.name()}={val.numerator_as_long()/val.denominator_as_long()}")
+                    num = val.numerator_as_long()
+                    den = val.denominator_as_long()
+                    actual_val = num / den if den != 1 else num
+                    results.append(f"{d.name()}={actual_val}")
                 else:
                     results.append(f"{d.name()}={val}")
+            
             if results:
                 return ", ".join(results)
             else:

@@ -170,8 +170,10 @@ class CognitiveAwareness:
         raw = env["raw"]
 
         # 1. Base Sigma Contract (The 'Mental Target')
+        # Ensure REDUCTION defaults to math so it hits the Z3 solver
+        target_type = "math" if axiom == "REDUCTION" else mastery.get("target_type", "logic")
         sigma = {
-            "type": mastery.get("target_type", "logic"),
+            "type": target_type,
             "goal": mastery.get("target_goal", "solve"),
             "explanation_needed": True
         }
