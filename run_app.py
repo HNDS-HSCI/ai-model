@@ -5,14 +5,21 @@ import webbrowser
 def _build_parser() -> argparse.ArgumentParser:
     import os
     env_port = int(os.getenv("PORT", 8000))
+    # In cloud environments, we must bind to 0.0.0.0
+    default_host = "0.0.0.0" if os.getenv("PORT") else "127.0.0.1"
+    
     parser = argparse.ArgumentParser(
         description="Launch the HSCI web application (FastAPI + Dashboard UI)."
     )
-    parser.add_argument("--host", default="127.0.0.1", help="Bind address (default: 127.0.0.1)")
+    parser.add_argument("--host", default=default_host, help=f"Bind address (default: {default_host})")
     parser.add_argument("--port", type=int, default=env_port, help=f"Port number (default: {env_port})")
+    
+    # Disable browser launch if in cloud environment
+    no_browser_default = True if os.getenv("PORT") else False
     parser.add_argument(
         "--no-browser",
         action="store_true",
+        default=no_browser_default,
         help="Do not automatically open the dashboard in a browser.",
     )
     parser.add_argument(
