@@ -1,3 +1,10 @@
+## [2.7.4](https://github.com/HNDS-HSCI/ai-model/compare/v2.7.3...v2.7.4) (2026-03-12)
+
+
+### Bug Fixes
+
+* implement intent keyword normalization and fix documentation deployment permissions ([3cf9403](https://github.com/HNDS-HSCI/ai-model/commit/3cf9403d7549d784adf36445116d08799825674f))
+
 ## [2.7.3](https://github.com/HNDS-HSCI/ai-model/compare/v2.7.2...v2.7.3) (2026-03-12)
 
 
