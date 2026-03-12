@@ -1,3 +1,10 @@
+# [2.8.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.7.4...v2.8.0) (2026-03-12)
+
+
+### Features
+
+* finalize v2.1.0 branding and intent diagnostics ([4aadd12](https://github.com/HNDS-HSCI/ai-model/commit/4aadd1247270cbd79d2cea23d28da4f90e4b540b))
+
 ## [2.7.4](https://github.com/HNDS-HSCI/ai-model/compare/v2.7.3...v2.7.4) (2026-03-12)
 
 
