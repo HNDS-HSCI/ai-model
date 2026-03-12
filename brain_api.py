@@ -26,6 +26,7 @@ brain = HyperSymbolicBrain()
 UI_PATH = Path(__file__).resolve().parent / "ui" / "index.html"
 LANDING_PATH = Path(__file__).resolve().parent / "ui" / "landing.html"
 BLOG_PATH = Path(__file__).resolve().parent / "ui" / "blog.html"
+DISCOVERY_BLOG_PATH = Path(__file__).resolve().parent / "ui" / "blog-self-play.html"
 
 
 class StimulusRequest(BaseModel):
@@ -46,6 +47,14 @@ async def get_blog():
     if not BLOG_PATH.exists():
         return {"error": f"Blog file not found at {BLOG_PATH}"}
     return FileResponse(str(BLOG_PATH))
+
+
+@app.get("/blog/discovery")
+async def get_discovery_blog():
+    # Serve the discovery blog page.
+    if not DISCOVERY_BLOG_PATH.exists():
+        return {"error": f"Blog file not found at {DISCOVERY_BLOG_PATH}"}
+    return FileResponse(str(DISCOVERY_BLOG_PATH))
 
 
 @app.get("/dashboard")

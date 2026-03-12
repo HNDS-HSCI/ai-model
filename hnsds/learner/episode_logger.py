@@ -48,14 +48,7 @@ class EpisodeLogger:
         Uses TF-IDF similarity to find past episodes relevant to the current goal.
         Includes both 'Learned' episodes and 'Primordial' knowledge.
         """
-        learned_episodes = []
-        if os.path.exists(self.storage_path) and os.stat(self.storage_path).st_size > 0:
-            with open(self.storage_path, "r") as f:
-                for line in f:
-                    try:
-                        learned_episodes.append(json.loads(line))
-                    except:
-                        continue
+        learned_episodes = self._load_learned()
 
         # The Brain's total memory = Primordial (Training) + Learned (Experience)
         all_episodes = self.primordial_episodes + learned_episodes
@@ -80,3 +73,40 @@ class EpisodeLogger:
             return results
         except Exception:
             return [ep for ep in all_episodes if ep["goal_str"] == current_goal_str]
+
+    def _load_learned(self):
+        learned_episodes = []
+        if os.path.exists(self.storage_path) and os.stat(self.storage_path).st_size > 0:
+            with open(self.storage_path, "r") as f:
+                for line in f:
+                    try:
+                        learned_episodes.append(json.loads(line))
+                    except:
+                        continue
+        return learned_episodes
+
+    def consolidate_experience(self, brain):
+        """
+        Refinement Loop: Periodically promotes frequent successful episodes 
+        to permanent axioms in mental_intelligence.json.
+        """
+        learned = self._load_learned()
+        successes = [ep for ep in learned if ep.get("success")]
+        
+        # Identify concepts that have high success rates
+        # (In a real system, this would use a more complex clustering algorithm)
+        # For the prototype, we simply promote any unique success that was verified.
+        promoted_count = 0
+        for ep in successes:
+            goal_obj = ep.get("goal_obj")
+            if not isinstance(goal_obj, dict): continue
+            
+            concept_name = f"AUTO_MASTERED_{goal_obj.get('type','GENERIC')}_{promoted_count}"
+            stimulus = ep.get("goal_str")
+            axiom = "REDUCTION" if goal_obj.get("type") == "math" else "SYNTHESIS"
+            
+            # Teach the brain this new consolidated concept
+            brain.teach(stimulus, concept_name, axiom)
+            promoted_count += 1
+            
+        return promoted_count

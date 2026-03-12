@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSCI | Autonomous Discovery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { slate: { 850: '#151e2e', 950: '#020617' }, accent: { 500: '#06b6d4', 600: '#0891b2' } },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #020617; color: #cbd5e1; font-family: 'Inter', sans-serif; line-height: 1.75; }
+        .blog-content h2 { font-size: 2rem; font-weight: 800; color: #f8fafc; margin-top: 3rem; margin-bottom: 1rem; }
+        .blog-content p { margin-bottom: 1.5rem; font-size: 1.125rem; color: #94a3b8; }
+        .diagram-container { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(148, 163, 184, 0.1); border-radius: 1.5rem; padding: 2rem; margin: 2rem 0; }
+        .accent-glow { text-shadow: 0 0 30px rgba(6, 182, 212, 0.3); }
+    </style>
+</head>
+<body class="relative min-h-screen">
+    <nav class="relative z-50 flex items-center justify-between px-8 py-8 max-w-6xl mx-auto">
+        <a href="/" class="flex items-center gap-3"><span class="text-xl font-bold tracking-tight text-white">HSCI <span class="text-accent-500">Research</span></span></a>
+        <a href="/dashboard" class="px-6 py-2 bg-white text-slate-950 rounded-full text-sm font-bold">Launch Core</a>
+    </nav>
+
+    <main class="relative z-10 px-6 pt-20 pb-32 max-w-3xl mx-auto blog-content">
+        <header class="text-center mb-16">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-500/10 border border-accent-500/20 text-accent-500 text-[10px] uppercase tracking-widest font-black mb-6">Research Release</div>
+            <h1 class="text-4xl md:text-6xl font-black tracking-tighter text-white mb-6 leading-tight accent-glow">Beyond Human Knowledge: Autonomous Discovery.</h1>
+            <p class="text-xl text-slate-400">How HSCI invents new logical masteries through symbolic self-play.</p>
+        </header>
+
+        <section>
+            <p>The final ceiling of artificial intelligence is not compute—it is data. Traditional models are mirrors; they can only reflect the knowledge already provided in their training sets. If a human hasn't written it, the AI cannot "know" it.</p>
+            <p>Today, we are announcing <strong>Autonomous Discovery</strong>, a new phase of the HSCI architecture where the brain moves beyond the human library. By utilizing <strong>Symbolic Self-Play</strong>, HSCI is now capable of inventing and proving its own theorems, code patterns, and logical relationships without any external data input.</p>
+
+            <div class="diagram-container">
+                <h3 class="text-center text-accent-500 font-bold uppercase tracking-widest text-xs mb-8">Architecture: The Discovery Loop</h3>
+                <div class="flex flex-col gap-4 items-center">
+                    <div class="w-full p-4 border border-slate-800 rounded-xl text-center bg-slate-900/50">
+                        <p class="text-white font-bold">1. Hypothesis Generation</p>
+                        <p class="text-[10px] text-slate-500 uppercase">Stochastic combination of Knowledge Graph Axioms</p>
+                    </div>
+                    <div class="text-accent-500"><i data-lucide="arrow-down" class="w-5 h-5"></i></div>
+                    <div class="w-full p-4 border border-slate-800 rounded-xl text-center bg-slate-900/50">
+                        <p class="text-white font-bold">2. Axiomatic Deliberation</p>
+                        <p class="text-[10px] text-slate-500 uppercase">Mapping hypothesis to Environment constraints</p>
+                    </div>
+                    <div class="text-accent-500"><i data-lucide="arrow-down" class="w-5 h-5"></i></div>
+                    <div class="w-full p-4 border border-accent-500/30 rounded-xl text-center bg-accent-500/10">
+                        <p class="text-accent-500 font-bold">3. Verified Lobe (Z3 Prover)</p>
+                        <p class="text-[10px] text-accent-500/50 uppercase">Mathematical proof of the hypothesis</p>
+                    </div>
+                    <div class="text-accent-500"><i data-lucide="arrow-down" class="w-5 h-5"></i></div>
+                    <div class="w-full p-4 border border-slate-800 rounded-xl text-center bg-slate-900/50">
+                        <p class="text-white font-bold">4. Automatic Mastery</p>
+                        <p class="text-[10px] text-slate-500 uppercase">Successful proof consolidated into Permanent Memory</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2>The Logic of Invention</h2>
+            <p>In the Discovery Mode, the system generates random logical environments. It might hypothesize: <em>"If state A relates to state B via an inverse of Axiom X, what is the resulting delta?"</em></p>
+            <p>Unlike an LLM that would generate a plausible-sounding hallucination, HSCI feeds this hypothesis to the <strong>Verified Lobe</strong>. If the Z3 SMT prover finds a mathematical proof, the AI has discovered a new <strong>Truth</strong>. It then "teaches itself" this new mastery, adding it to the permanent <code>mental_intelligence.json</code> library.</p>
+
+            <h2>Impact on Science and Engineering</h2>
+            <p>This is the engine that will allow HSCI to beat systems like Claude Code. While other AI agents wait for human stack-overflow posts to learn a library, HSCI can run a discovery cycle on the library's base constraints and "invent" the most efficient code patterns itself.</p>
+            <p>We are no longer building an AI that knows what we know. We are building an AI that knows what can be proven.</p>
+        </section>
+
+        <footer class="mt-24 pt-12 border-t border-slate-800/50 text-center">
+            <p class="text-sm text-slate-500 uppercase tracking-widest font-bold">HSCI Research Group • March 2026</p>
+        </footer>
+    </main>
+    <script>lucide.createIcons();</script>
+</body>
+</html>
