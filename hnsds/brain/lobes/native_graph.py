@@ -66,9 +66,9 @@ class NativeGraph:
                 with open(self.path, 'r') as f:
                     self.nodes = json.load(f)
             except: pass
-        else:
-            # Seed with primordial knowledge
-            self._seed_knowledge()
+        
+        # Always ensure primordial knowledge is present, this backfills any missing updates
+        self._seed_knowledge()
 
     def _seed_knowledge(self):
         # Base Ontology
