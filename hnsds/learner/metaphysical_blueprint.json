@@ -1,0 +1,26 @@
+{
+  "UNIVERSAL_BALANCE": {
+    "axiom": "REDUCTION",
+    "concepts": ["equation", "equilibrium", "equality", "algebra"],
+    "intent": "RESOLVE_GAP",
+    "principle": "Preserve Truth state by mirroring operations across the equality relation."
+  },
+  "CONSERVATION_OF_STATE": {
+    "axiom": "REDUCTION",
+    "concepts": ["physics", "chemistry", "energy", "mass", "stoichiometry"],
+    "intent": "CALCULATE_FINAL",
+    "principle": "Initial State Sum == Final State Sum. Identify all entities and solve for the unknown delta."
+  },
+  "PROCEDURAL_FLOW": {
+    "axiom": "SYNTHESIS",
+    "concepts": ["coding", "algorithm", "software", "automation"],
+    "intent": "CREATE_TRANSITION",
+    "principle": "Decompose high-level intent into sequential state transformations (Input -> Logic -> Output)."
+  },
+  "LOGICAL_CONSISTENCY": {
+    "axiom": "COMPOSITION",
+    "concepts": ["logic", "proof", "verification", "consistency"],
+    "intent": "VERIFY_TRUTH",
+    "principle": "An environment is valid if no two constraints create a mutual contradiction."
+  }
+}

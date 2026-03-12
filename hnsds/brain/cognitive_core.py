@@ -49,6 +49,7 @@ class HyperSymbolicBrain:
         self.mind.memory_trace = []
         self.mind.state = "IDLE"
 
+        # 0.0 Check for Interactive Teaching
         if stimulus.lower().startswith("teach:"):
             parts = stimulus[6:].split("|")
             if len(parts) >= 3:
@@ -57,84 +58,81 @@ class HyperSymbolicBrain:
 
         self.logger.info(f"Local Brain Activity: Comprehending environment '{stimulus[:50]}...'")
 
-        # 1. PERCEPTION
+        # 1. PERCEPTION: Map the Environment and State Gap
         env = self.awareness_lobe.perceive_environment(stimulus)
         self.mind.memory_trace.append(f"AWARENESS: Environmental Map established ({len(env['entities'])} entities)")
 
-        # 2. DELIBERATION
+        # 2. DELIBERATION: Generate the Universal Sigma (Σ) Contract
         deliberation = self.awareness_lobe.deliberate(env)
-        master_axiom = deliberation["axiom"]
         master_sigma = deliberation["goal"]
         rationale = deliberation.get("rationale", "No rationale generated.")
         
-        self.mind.memory_trace.append(f"DELIBERATION: Selected Master Axiom {master_axiom}. Rationale: {rationale}")
+        self.mind.memory_trace.append(f"DELIBERATION: State Gap identified. Rationale: {rationale}")
         
-        if master_axiom == "TRANSFORMATION":
+        if deliberation["axiom"] == "TRANSFORMATION":
             return f"[TRANSFORMATION] {master_sigma.get('response', 'Environment processed.')}"
 
-        # 3. RECURSIVE DECOMPOSITION (Planning)
+        # 3. RECURSIVE PLANNING: Decompose Goal into Logical Steps
         subgoals = self.planner.decompose(master_sigma)
-        if len(subgoals) > 1:
-            self.mind.memory_trace.append(f"PLANNING: Decomposed complex intent into {len(subgoals)} sub-tasks.")
-        
         final_results = []
 
-        # 4. EXECUTION & SELF-CORRECTION LOOP
+        # 4. UNIFIED REASONING MESH: Solve the constraints
         for i, sigma in enumerate(subgoals):
             step_name = sigma.get("step", f"Task {i+1}")
-            self.logger.info(f"EXECUTING_SUBGOAL: {step_name}")
+            self.logger.info(f"REASONING_ON_SUBGOAL: {step_name}")
             
+            # The brain now cycles through its lobes to find the best fit for the constraint
+            # It doesn't care if it's 'math' or 'code', it only cares if it's PROVEN.
+            solution_found = False
             candidate = None
-            axiom = master_axiom
             
-            # Subgoal Axiom Override
-            if sigma.get("goal") == "synthesize": axiom = "SYNTHESIS"
-            elif sigma.get("goal") == "solve" and sigma.get("type") == "logic": axiom = "COMPOSITION"
+            # Priority 1: Mathematical/Logical Reduction (Highest Certainty)
+            if not solution_found:
+                candidate = self.logic_prover.solve(sigma)
+                if candidate and "Solved:" in str(candidate) or "=" in str(candidate):
+                    if "Unsolvable" not in str(candidate):
+                        solution_found = True
+                        method = "REDUCTION"
 
-            # Execute Initial Hypothesis
-            if axiom == "COMPOSITION":
-                parsed_problem = self.logic_parser.parse(sigma.get("problem", stimulus))
+            # Priority 2: Constraint Satisfaction (Logical Composition)
+            if not solution_found:
+                parsed_problem = self.logic_parser.parse(sigma.get("problem", str(sigma)))
                 candidate = self.csp_engine.solve_csp(parsed_problem)
-            elif axiom == "SYNTHESIS":
+                if candidate and "FAILED" not in str(candidate):
+                    solution_found = True
+                    method = "COMPOSITION"
+
+            # Priority 3: Procedural Synthesis (Constructing new logic)
+            if not solution_found:
                 learned = self.memory_lobe.get_relevant_episodes(str(sigma), top_k=3, threshold=0.7)
                 seeded = [ep.get("candidate") for ep in learned if ep.get("success")]
                 candidate = self.synthesizer.propose(sigma, examples=seeded)
-            elif axiom == "REDUCTION":
-                candidate = self.logic_prover.solve(sigma)
+                method = "SYNTHESIS"
 
-            # Verification & Auto-Correction Loop
-            success_achieved = False
-            
-            if axiom == "REDUCTION" and candidate and "Solved:" in str(candidate):
-                success_achieved = True
-            elif candidate and "=" in str(candidate) and "Unsolvable" not in str(candidate):
-                success_achieved = True
-            else:
-                for attempt in range(budget):
-                    self.mind.memory_trace.append(f"VERIFICATION (Attempt {attempt+1}): Proving {step_name}")
-                    success, feedback = self.logic_prover.verify(candidate, sigma)
-                    
-                    if success:
-                        success_achieved = True
-                        break
-                    else:
-                        self.logger.warning(f"Self-Correction Triggered: {feedback}")
-                        self.mind.memory_trace.append(f"CORRECTION: Verifier rejected hypothesis. Reason: {feedback}")
-                        
-                        # Generate new hypothesis based on failure
-                        if axiom == "SYNTHESIS":
-                            candidate = self.synthesizer.propose(sigma, examples=[f"AVOID THIS ERROR: {feedback}"])
-                        else: 
-                            break # Math/Logic currently rely on single-shot solvers if Z3 rejects
+            # 5. VERIFICATION & SELF-CORRECTION LOOP
+            for attempt in range(budget):
+                self.mind.memory_trace.append(f"VERIFYING: {step_name} (via {method})")
+                success, feedback = self.logic_prover.verify(candidate, sigma)
+                
+                if success:
+                    solution_found = True
+                    break
+                else:
+                    self.mind.memory_trace.append(f"REPAIR: Verifier rejected {method} hypothesis. Feedback: {feedback}")
+                    if method == "SYNTHESIS":
+                        candidate = self.synthesizer.propose(sigma, examples=[f"FIX ERROR: {feedback}"])
+                    else: break
 
-            if success_achieved:
+            if solution_found:
                 self.memory_lobe.log_episode(sigma, candidate, success=True)
                 final_results.append(f"[{step_name}] Proven: {candidate}")
             else:
-                final_results.append(f"[{step_name}] FAILED: {candidate}")
+                final_results.append(f"[{step_name}] FAILED to bridge gap.")
 
-        self.mind.finalize("\n".join(final_results))
-        return f"[{master_axiom}] Rationale: {rationale}\n\n" + "\n".join(final_results)
+        # 6. FINAL STATE SYNTHESIS
+        proven_output = "\n".join(final_results)
+        self.mind.finalize(proven_output)
+        return f"[HSCI] Rationale: {rationale}\n\n" + proven_output
     def get_mind_state(self):
         """
         Extracts the full deliberation report from the active mind.
