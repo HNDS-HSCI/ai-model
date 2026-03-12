@@ -1,3 +1,10 @@
+## [2.7.3](https://github.com/HNDS-HSCI/ai-model/compare/v2.7.2...v2.7.3) (2026-03-12)
+
+
+### Bug Fixes
+
+* ensure primordial knowledge is always seeded in NativeGraph to prevent missing core axioms ([c0fa6f2](https://github.com/HNDS-HSCI/ai-model/commit/c0fa6f2a1cb25a1e5f7f51244418375bfc74c588))
+
 ## [2.7.2](https://github.com/HNDS-HSCI/ai-model/compare/v2.7.1...v2.7.2) (2026-03-12)
 
 
