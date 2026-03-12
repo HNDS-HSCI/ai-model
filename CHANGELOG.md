@@ -1,3 +1,10 @@
+# [2.5.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.4.0...v2.5.0) (2026-03-12)
+
+
+### Features
+
+* implement Unified Reasoning Mesh and Metaphysical First-Principles layer ([fdbe4b0](https://github.com/HNDS-HSCI/ai-model/commit/fdbe4b0d697cf1ca9e8d207c2ac9532d4a0c12f2))
+
 # [2.4.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.3.0...v2.4.0) (2026-03-11)
 
 
