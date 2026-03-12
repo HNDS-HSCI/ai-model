@@ -1,3 +1,10 @@
+# [2.6.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.5.0...v2.6.0) (2026-03-12)
+
+
+### Features
+
+* launch Autonomous Discovery Engine and Research Blog detailing Symbolic Self-Play ([d679b91](https://github.com/HNDS-HSCI/ai-model/commit/d679b914f8e21814ee4c07da57d708b726b267eb))
+
 # [2.5.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.4.0...v2.5.0) (2026-03-12)
 
 
