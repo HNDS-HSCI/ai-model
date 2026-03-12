@@ -16,12 +16,13 @@ class CognitiveAwareness:
         self.logger = logging.getLogger("CognitiveAwareness")
         self.ontology = NativeGraph()
         self.memory_path = memory_path
-        # Learned Conceptual Logic (Mastery of Principles)
-        self.mental_library = self._load_library()
-
+        
         # INVENTION: Metaphysical Blueprints (First Principles of the Universe)
         self.blueprints = self._load_blueprints()
-
+        
+        # Learned Conceptual Logic (Mastery of Principles)
+        self.mental_library = self._load_library()
+        
         # Universal Mental Axioms
         self.axioms = {
             "REDUCTION": "Simplifying a complex expression to a primitive value.",
@@ -33,8 +34,10 @@ class CognitiveAwareness:
     def _load_blueprints(self):
         path = "hnsds/learner/metaphysical_blueprint.json"
         if os.path.exists(path):
-            with open(path, 'r') as f:
-                return json.load(f)
+            try:
+                with open(path, 'r') as f:
+                    return json.load(f)
+            except: pass
         return {}
 
     def _load_library(self):
@@ -272,10 +275,8 @@ class CognitiveAwareness:
         
         for clause in clauses:
             # Look for structured math (at least one var/num, operator, ==, var/num)
-            # More constrained regex to avoid picking up whole sentences
             match = re.search(r"([a-z0-9\+\-\*\/\(\)\. ]+==[a-z0-9\+\-\*\/\(\)\. ]+)", clause)
             if match:
-                # Clean up residual conversational words from the edges
                 eq = match.group(1).strip()
                 words_to_strip = ["solve", "can", "you", "find", "prove", "if", "then", "the"]
                 for w in words_to_strip:
@@ -341,7 +342,6 @@ class CognitiveAwareness:
         vars_set = set()
         keywords = {"is", "are", "equals", "to", "was", "total", "result", "sum", "find", "solve", "calculate"}
         for eq in equations:
-            # Find identifiers that aren't just numbers
             found = re.findall(r"\b[a-zA-Z_][a-zA-Z0-9_]*\b", eq)
             for f in found:
                 if f.lower() not in keywords:
