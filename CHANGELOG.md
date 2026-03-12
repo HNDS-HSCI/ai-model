@@ -1,3 +1,10 @@
+## [2.7.2](https://github.com/HNDS-HSCI/ai-model/compare/v2.7.1...v2.7.2) (2026-03-12)
+
+
+### Bug Fixes
+
+* refactor cognitive_lobe.py to remove duplicates and fix initialization AttributeError ([f83d0df](https://github.com/HNDS-HSCI/ai-model/commit/f83d0df62589e900015d80bcd21aac911507a625))
+
 ## [2.7.1](https://github.com/HNDS-HSCI/ai-model/compare/v2.7.0...v2.7.1) (2026-03-12)
 
 
