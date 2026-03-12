@@ -37,8 +37,7 @@ class CognitiveAwareness:
                 return json.load(f)
         return {}
 
-    def perceive_environment(self, whole_block):
-
+    def _load_library(self):
         if os.path.exists(self.memory_path):
             try:
                 with open(self.memory_path, 'r') as f:
