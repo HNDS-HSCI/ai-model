@@ -117,6 +117,18 @@ class NativeGraph:
         self.add_relation("build", "MAPS_TO_AXIOM", "SYNTHESIS")
         self.add_relation("software_engineering", "MAPS_TO_AXIOM", "SYNTHESIS")
         
-        self.add_relation("prove", "MAPS_TO_AXIOM", "COMPOSITION")
         self.add_relation("verify", "MAPS_TO_AXIOM", "COMPOSITION")
         self.add_relation("logic_puzzle", "MAPS_TO_AXIOM", "COMPOSITION")
+
+        # --- ADVANCED SCIENTIFIC ONTOLOGY ---
+        # Calculus
+        self.add_relation("derivative", "IS_A", "calculus_operation")
+        self.add_relation("integral", "IS_A", "calculus_operation")
+        self.add_relation("calculus_operation", "MAPS_TO_AXIOM", "REDUCTION")
+        
+        # Chemistry
+        self.add_relation("stoichiometry", "IS_A", "chemical_logic")
+        self.add_relation("molecule", "IS_A", "chemical_entity")
+        self.add_relation("reaction", "IS_A", "transformation_event")
+        self.add_relation("chemical_logic", "MAPS_TO_AXIOM", "REDUCTION")
+        self.add_relation("transformation_event", "MAPS_TO_AXIOM", "REDUCTION")

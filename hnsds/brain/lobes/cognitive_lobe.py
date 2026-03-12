@@ -52,23 +52,34 @@ class CognitiveAwareness:
 
     def perceive_environment(self, whole_block):
         """
-        INVENTION: Environmental Awareness (Whole Context Perception).
-        Absorbs the whole context block and builds a Structural Map.
-        No tokenization. Just entities, concepts, and delta-states.
+        INVENTION: Multi-Modal Environmental Awareness.
+        Detects text, JSON, or CSV and builds a Structural Map.
         """
         self.logger.info("COMPREHENDING_ENVIRONMENT...")
+        
+        raw = whole_block.strip()
+        structured_entities = []
+        
+        # 1. Detect JSON Multi-Modal Input
+        if (raw.startswith('{') and raw.endswith('}')) or (raw.startswith('[') and raw.endswith(']')):
+            try:
+                data = json.loads(raw)
+                self.logger.info("MODALITY_DETECTED: JSON")
+                structured_entities = self._flatten_structured_data(data)
+            except: pass
 
-        # 1. Project to Ontology (Understanding the 'Nouns' and 'Verbs')
+        # 2. Detect CSV Multi-Modal Input
+        elif "," in raw and "\n" in raw and any(line.count(",") > 1 for line in raw.split("\n")[:2]):
+            self.logger.info("MODALITY_DETECTED: CSV")
+            structured_entities = self._parse_csv_modality(raw)
+
+        # 3. Standard Text Perception
         concepts = self._project_to_ontology(whole_block)
-        
-        # 2. Extract Entities and Relations (The 'Actors' and their 'World Rules')
-        entities = self._extract_entities(whole_block)
-        
-        # 3. Infer Intent (Understanding the 'ASK' - The State Gap)
+        entities = self._extract_entities(whole_block) + structured_entities
         intent = self._infer_intent(whole_block, concepts)
 
         env = {
-            "entities": entities,
+            "entities": list(set(entities)), # Deduplicate
             "existing_logic": self._map_logic_rules(whole_block),
             "active_concepts": concepts,
             "intent": intent,
@@ -78,6 +89,32 @@ class CognitiveAwareness:
         self.logger.info(f"ENVIRONMENT_MAP: {len(env['entities'])} entities, {len(env['active_concepts'])} concepts, Intent: {intent['master_concept']}")
 
         return env
+
+    def _flatten_structured_data(self, data, prefix=""):
+        # Converts JSON keys/values into addressable entities
+        entities = []
+        if isinstance(data, dict):
+            for k, v in data.items():
+                entities.append(f"{k}")
+                entities.extend(self._flatten_structured_data(v, prefix=f"{k}_"))
+        elif isinstance(data, list):
+            for i, item in enumerate(data):
+                entities.extend(self._flatten_structured_data(item, prefix=f"item{i}_"))
+        else:
+            entities.append(str(data))
+        return entities
+
+    def _parse_csv_modality(self, raw):
+        # Converts CSV rows into logical entities
+        entities = []
+        lines = raw.split("\n")
+        if len(lines) > 1:
+            headers = [h.strip() for h in lines[0].split(",")]
+            entities.extend(headers)
+            for line in lines[1:]:
+                values = [v.strip() for v in line.split(",")]
+                entities.extend(values)
+        return entities
 
     def deliberate(self, environment):
         """
