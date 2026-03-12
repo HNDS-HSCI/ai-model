@@ -200,14 +200,22 @@ class CognitiveAwareness:
         master_concept = "UNKNOWN"
         target_axiom = "TRANSFORMATION"
 
-        # 1. Graph Traversal for Direct Intent
+        # 1. Normalization & Graph Traversal for Direct Intent
         for word in words:
-            # Check if this word directly maps to an axiom in the ontology
-            mapped_axioms = self.ontology.get_related(word, "MAPS_TO_AXIOM")
-            if mapped_axioms:
-                master_concept = word.upper()
-                target_axiom = mapped_axioms[0].upper()
-                break
+            # Simple stemming for core intent keywords
+            canon = word
+            if word.endswith('ing'): canon = word[:-3]
+            elif word.endswith('ed'): canon = word[:-2]
+            elif word.endswith('s') and len(word) > 3: canon = word[:-1]
+
+            # Check if this word or its canonical form maps to an axiom
+            for w in [word, canon]:
+                mapped_axioms = self.ontology.get_related(w, "MAPS_TO_AXIOM")
+                if mapped_axioms:
+                    master_concept = w.upper()
+                    target_axiom = mapped_axioms[0].upper()
+                    break
+            if master_concept != "UNKNOWN": break
         
         # 2. Graph Traversal via Concepts (Implicit Intent)
         if master_concept == "UNKNOWN":
