@@ -1,3 +1,10 @@
+# [2.7.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.6.0...v2.7.0) (2026-03-12)
+
+
+### Features
+
+* implement Multi-Modal Perception, Scientific Ontology, and Cloud Deployment configuration ([51e2419](https://github.com/HNDS-HSCI/ai-model/commit/51e241907cd65f4903598f16d62fb029a561e2a7))
+
 # [2.6.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.5.0...v2.6.0) (2026-03-12)
 
 
