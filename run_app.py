@@ -38,7 +38,7 @@ def main() -> int:
     url = f"http://{args.host}:{args.port}"
 
     print(banner)
-    print("HSCI Application Launcher")
+    print("HSCI Application Launcher v2.1.0 (Axiomatic)")
     print(banner)
     print(f"Dashboard URL: {url}")
 

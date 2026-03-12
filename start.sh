@@ -5,7 +5,7 @@ set -e
 # Use the PORT environment variable provided by Render, or default to 8000
 PORT=${PORT:-8000}
 
-echo "[HSCI] Initializing Cognitive Engine v2.0.0..."
+echo "[HSCI] Initializing Cognitive Engine v2.1.0 (Axiomatic)..."
 echo "[HSCI] Port: $PORT"
 
 # Run the application
