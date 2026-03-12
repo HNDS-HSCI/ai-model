@@ -1,3 +1,10 @@
+## [2.7.1](https://github.com/HNDS-HSCI/ai-model/compare/v2.7.0...v2.7.1) (2026-03-12)
+
+
+### Bug Fixes
+
+* restore missing _load_library method in CognitiveAwareness to fix cloud initialization error ([f951c2c](https://github.com/HNDS-HSCI/ai-model/commit/f951c2c097e2bf367f8ec2e20a996a3fe0671e99))
+
 # [2.7.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.6.0...v2.7.0) (2026-03-12)
 
 
