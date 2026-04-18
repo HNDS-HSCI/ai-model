@@ -1,0 +1,866 @@
+HSCI NEUROSYMBOLIC AI — COMPLETE IMPLEMENTATION SPECIFICATION
+Version: 3.0.0
+Classification: Research-Grade Neurosymbolic Cognitive Architecture
+Prepared by: Principal Engineer / AI Researcher
+
+═══════════════════════════════════════════════════════════════════
+SECTION 0: MISSION STATEMENT
+═══════════════════════════════════════════════════════════════════
+
+You are a principal AI systems architect and research engineer.
+Your task is to implement HSCI (Hyper-Symbolic Cognitive Invention)
+— a Neurosymbolic AI system that learns, reasons, decides, solves
+problems, and continuously improves itself.
+
+This is NOT an LLM wrapper.
+This is NOT a chatbot.
+This is a genuinely novel AI architecture where:
+  - The NEURAL layer handles perception and pattern recognition
+  - The SYMBOLIC layer handles reasoning and verification
+  - The LEARNING layer is driven entirely by symbolic proof feedback
+  - The system grows its own intelligence from examples, not data scale
+
+Core principle: Every output must be PROVEN correct by Z3 SMT solver.
+Every weight update must be grounded in symbolic proof, not gradient noise.
+
+═══════════════════════════════════════════════════════════════════
+SECTION 1: COMPLETE SYSTEM ARCHITECTURE
+═══════════════════════════════════════════════════════════════════
+
+The system has 5 layers. Implement ALL of them.
+
+┌─────────────────────────────────────────────────────────────────┐
+│                        HSCI BRAIN v3.0                         │
+│                                                                 │
+│  INPUT → [L1: PERCEPTION] → [L2: KNOWLEDGE] → [L3: REASONING]  │
+│                                    ↑               ↓           │
+│                             [L5: LEARNING] ← [L4: VERIFICATION] │
+│                                                     ↓           │
+│                                               PROVEN OUTPUT     │
+└─────────────────────────────────────────────────────────────────┘
+
+LAYER 1: PERCEPTION (Neural Graph Encoder)
+  Purpose: Convert raw input into structured entity graph
+  Components:
+    - TextToGraphEncoder: extracts entities, values, relationships
+    - IntentClassifier: maps input to one of 4 axioms
+      (REDUCTION, COMPOSITION, SYNTHESIS, TRANSFORMATION)
+    - ConfidenceScorer: assigns confidence to perception
+  Technology: Python + NetworkX for graph, 
+              small PyTorch GNN encoder (optional, start simple)
+
+LAYER 2: KNOWLEDGE BASE (Concept Library + Ontology)
+  Purpose: Store everything the system has learned as concepts
+  Components:
+    - ConceptLibrary: dict of {concept_name: ConceptDefinition}
+    - OntologyGraph: NetworkX graph of concept relationships
+    - EpisodeMemory: list of past (problem, solution, proof) triples
+    - ConceptDefinition schema:
+        {
+          name: str,
+          rule: str,               # human readable
+          z3_template: str,        # Z3 python code as string
+          domain: str,             # math/physics/code/logic
+          learned_from: [str],     # examples that created this
+          strength: float,         # 0.0 to 1.0, Hebbian weight
+          generalizes_to: [str],   # related concepts
+          usage_count: int
+        }
+  Technology: Python dicts + JSON persistence + NetworkX
+
+LAYER 3: REASONING ENGINE (HTN Planner + Concept Composer)
+  Purpose: Use knowledge to build candidate solutions
+  Components:
+    - HTNPlanner: decomposes complex problems into sub-goals
+      Tasks decompose into: DATA_STRUCTURE, BUSINESS_LOGIC, 
+                            INTEGRATION, VERIFICATION sub-goals
+    - ConceptComposer: selects and combines concepts from library
+    - AnalogicalMatcher: finds structural matches across domains
+      (math PERCENTAGE → finance TAX_RATE are structurally same)
+    - CandidateBuilder: assembles final candidate solution
+
+LAYER 4: VERIFICATION ENGINE (Z3 SMT Solver)
+  Purpose: Mathematically prove or disprove every candidate
+  Components:
+    - SpecBuilder: converts candidate to Z3 formal specification
+    - Z3Verifier: runs microsoft Z3 SMT solver
+    - CounterexampleExtractor: when proof fails, extracts WHY
+    - SelfCorrectionLoop: feeds counterexample back to Layer 3
+      Maximum 5 correction attempts before escalating
+    - ProofTraceExtractor: when proof succeeds, extracts HOW
+
+LAYER 5: LEARNING ENGINE (Proof-Guided Weight Update)
+  Purpose: Update system intelligence based on proof outcomes
+  Components:
+    - ConceptExtractor: derives abstract rule from proof trace
+      Uses Inductive Logic Programming principles
+      Finds minimal rule explaining all seen examples
+    - ProofGuidedUpdater: updates neural perception weights
+      based on proof trace — NOT random gradients
+      Strengthens: pathways that led to valid proof
+      Weakens: pathways that led to counterexample
+    - HebbianReinforcer: increases concept.strength on reuse
+    - SelfPlayEngine: autonomous knowledge discovery
+      Generates hypotheses from existing concepts
+      Proves or disproves them
+      Stores new proven knowledge automatically
+
+═══════════════════════════════════════════════════════════════════
+SECTION 2: COMPLETE FILE STRUCTURE
+═══════════════════════════════════════════════════════════════════
+
+Implement exactly this structure. No deviations.
+
+hsci/
+├── main.py                          # Entry point + CLI
+├── requirements.txt                 # All dependencies
+├── config.py                        # System configuration
+│
+├── core/
+│   ├── __init__.py
+│   ├── rir_loop.py                  # Main RIR orchestration loop
+│   ├── mental_model.py              # Shared state across all layers
+│   └── axioms.py                    # 4 core axiom definitions
+│
+├── perception/
+│   ├── __init__.py
+│   ├── perceiver.py                 # Main perception coordinator
+│   ├── text_to_graph.py             # Raw text → entity graph
+│   ├── intent_classifier.py         # Graph → axiom classification
+│   └── entity_extractor.py          # Extract entities + values
+│
+├── knowledge/
+│   ├── __init__.py
+│   ├── concept_library.py           # Core concept store
+│   ├── ontology_graph.py            # Concept relationship graph
+│   ├── episode_memory.py            # Past problem-solution store
+│   └── concept_definition.py        # ConceptDefinition dataclass
+│
+├── reasoning/
+│   ├── __init__.py
+│   ├── reasoning_engine.py          # Main reasoning coordinator
+│   ├── htn_planner.py               # Hierarchical task decomposition
+│   ├── concept_composer.py          # Combine concepts → solution
+│   ├── analogical_matcher.py        # Cross-domain concept matching
+│   └── candidate_builder.py         # Assemble final candidate
+│
+├── verification/
+│   ├── __init__.py
+│   ├── verification_engine.py       # Main verification coordinator
+│   ├── spec_builder.py              # Candidate → Z3 spec
+│   ├── z3_verifier.py               # Z3 SMT solver interface
+│   ├── counterexample_extractor.py  # Extract failure reasons
+│   └── self_correction_loop.py      # Repair loop on failure
+│
+├── learning/
+│   ├── __init__.py
+│   ├── learning_engine.py           # Main learning coordinator
+│   ├── concept_extractor.py         # Proof trace → abstract concept
+│   ├── proof_guided_updater.py      # Proof-based weight updates
+│   ├── hebbian_reinforcer.py        # Strengthen used concepts
+│   └── self_play_engine.py          # Autonomous discovery loop
+│
+├── data/
+│   ├── synaptic_weights.json        # Neural perception weights
+│   ├── concept_library.json         # All learned concepts
+│   ├── episode_memory.json          # Past solved problems
+│   ├── ontology_graph.json          # Concept relationships
+│   └── training/
+│       ├── math_examples.json       # Phase 1 training data
+│       ├── logic_examples.json      # Phase 2 training data
+│       └── code_examples.json       # Phase 3 training data
+│
+├── dashboard/
+│   ├── index.html                   # Brain monitoring UI
+│   ├── brain_trace.js               # Real-time proof trace display
+│   └── mind_state.js                # Concept library visualizer
+│
+└── tests/
+    ├── test_perception.py
+    ├── test_reasoning.py
+    ├── test_verification.py
+    ├── test_learning.py
+    └── test_integration.py          # End-to-end RIR loop tests
+
+═══════════════════════════════════════════════════════════════════
+SECTION 3: DETAILED IMPLEMENTATION SPECIFICATIONS
+═══════════════════════════════════════════════════════════════════
+
+─────────────────────────────────────────
+3.1 CORE: RIR LOOP (rir_loop.py)
+─────────────────────────────────────────
+
+Implement the complete Reinforced Intuitive Reasoning loop.
+This is the heart of the system. Every input flows through this.
+
+class RIRLoop:
+
+  def process(self, raw_input: str) -> HSCIResponse:
+    """
+    Complete end-to-end processing of any input.
+    Steps:
+      1. Perceive: build PerceptionMap from raw_input
+      2. Recall: query KnowledgeBase for relevant concepts
+      3. Reason: build candidate solution using concepts
+      4. Verify: prove candidate with Z3
+         - If VALID: proceed to step 5
+         - If INVALID: self-correction loop (max 5 attempts)
+         - If still INVALID after 5 attempts: return 
+           honest "cannot prove" response with partial trace
+      5. Learn: extract concept, update weights, store episode
+      6. Return: HSCIResponse with answer + full proof trace
+    """
+
+HSCIResponse must contain:
+  - answer: the proven solution
+  - proof_trace: step-by-step reasoning
+  - concepts_used: which concepts were applied
+  - verification_status: PROVEN / FAILED / PARTIAL
+  - confidence: float 0.0-1.0
+  - new_concept_learned: bool
+  - correction_attempts: int
+
+─────────────────────────────────────────
+3.2 PERCEPTION: TEXT TO GRAPH (text_to_graph.py)
+─────────────────────────────────────────
+
+class TextToGraphEncoder:
+
+  def encode(self, text: str) -> EntityGraph:
+    """
+    Convert raw text to structured entity graph.
+
+    Rules:
+    - Extract all numeric values with their labels
+      "salary is 5000" → entity(salary, 5000, type=numeric)
+    - Extract unknown/target variables
+      "find take-home" → entity(take_home, UNKNOWN, type=target)
+    - Extract relationships between entities
+      "20% of salary" → relation(tax_rate, salary, type=percentage_of)
+    - Extract operators
+      "total = base + bonus" → relation(total, [base,bonus], type=sum)
+
+    Use regex + simple NLP patterns. No external NLP libraries.
+    Build your own pattern matching for:
+      - "X is/= N" → entity extraction
+      - "find/calculate/solve X" → target extraction
+      - "X% of Y" → percentage relation
+      - "X + Y" / "sum of" → addition relation
+      - "X * Y" / "product of" → multiplication relation
+      - "X - Y" / "difference" → subtraction relation
+    """
+
+─────────────────────────────────────────
+3.3 KNOWLEDGE: CONCEPT DEFINITION
+─────────────────────────────────────────
+
+@dataclass
+class ConceptDefinition:
+  name: str
+  rule: str
+  z3_template: str
+  domain: str
+  axiom: str           # REDUCTION/COMPOSITION/SYNTHESIS/TRANSFORMATION
+  learned_from: list
+  strength: float      # starts at 0.5, range 0.0-1.0
+  generalizes_to: list
+  usage_count: int
+  created_at: str
+  last_used: str
+  proof_count: int     # times this concept led to valid proof
+
+Seed the system with these BOOTSTRAP concepts on first run.
+These are the foundation — all other concepts are learned:
+
+BOOTSTRAP_CONCEPTS = [
+  {
+    name: "ADDITION",
+    rule: "result = a + b",
+    z3_template: "result == a + b",
+    domain: "arithmetic",
+    axiom: "REDUCTION"
+  },
+  {
+    name: "SUBTRACTION", 
+    rule: "result = a - b",
+    z3_template: "result == a - b",
+    domain: "arithmetic",
+    axiom: "REDUCTION"
+  },
+  {
+    name: "MULTIPLICATION",
+    rule: "result = a * b", 
+    z3_template: "result == a * b",
+    domain: "arithmetic",
+    axiom: "REDUCTION"
+  },
+  {
+    name: "DIVISION",
+    rule: "result = a / b, b != 0",
+    z3_template: "And(result == a / b, b != 0)",
+    domain: "arithmetic",
+    axiom: "REDUCTION"
+  },
+  {
+    name: "EQUATION_SOLVING",
+    rule: "find x such that f(x) = target",
+    z3_template: "solve for unknown variable",
+    domain: "algebra",
+    axiom: "REDUCTION"
+  },
+  {
+    name: "PERCENTAGE",
+    rule: "result = (rate/100) * base",
+    z3_template: "result == (rate / 100.0) * base",
+    domain: "arithmetic",
+    axiom: "REDUCTION"
+  },
+  {
+    name: "INEQUALITY",
+    rule: "a > b or a < b or a >= b or a <= b",
+    z3_template: "comparison constraint",
+    domain: "logic",
+    axiom: "REDUCTION"
+  },
+  {
+    name: "LOGICAL_AND",
+    rule: "result = A AND B",
+    z3_template: "result == And(A, B)",
+    domain: "logic",
+    axiom: "COMPOSITION"
+  },
+  {
+    name: "LOGICAL_OR",
+    rule: "result = A OR B",
+    z3_template: "result == Or(A, B)",
+    domain: "logic",
+    axiom: "COMPOSITION"
+  }
+]
+
+─────────────────────────────────────────
+3.4 VERIFICATION: Z3 VERIFIER (z3_verifier.py)
+─────────────────────────────────────────
+
+class Z3Verifier:
+
+  def verify(self, spec: FormalSpec) -> VerificationResult:
+    """
+    Core verification method.
+
+    FormalSpec contains:
+      - constraints: list of Z3 constraint strings
+      - variables: dict of {name: type} for Z3 declarations
+      - target: the variable being solved for
+      - expected: expected value if known
+
+    Process:
+      1. Declare Z3 variables from spec.variables
+      2. Add all constraints to Z3 solver
+      3. Call solver.check()
+      4. If SAT:
+         - Extract model values
+         - Verify target matches expected (if provided)
+         - Extract proof trace
+         - Return VerificationResult(valid=True, ...)
+      5. If UNSAT:
+         - Extract minimal unsatisfiable core
+         - Identify which constraint caused failure
+         - Return VerificationResult(valid=False, 
+             counterexample=..., failure_reason=...)
+
+    CRITICAL: Never catch Z3 exceptions silently.
+    Always surface the failure reason for learning.
+    """
+
+  def build_proof_trace(self, solver, model) -> ProofTrace:
+    """
+    Extract structured proof trace from Z3 model.
+    ProofTrace contains:
+      - steps: ordered list of reasoning steps
+      - contributing_constraints: which constraints mattered
+      - variable_assignments: final values of all variables
+      - structural_pattern: abstract pattern for concept extraction
+        e.g. "multiplicative_reduction_3_variables"
+    """
+
+─────────────────────────────────────────
+3.5 LEARNING: PROOF-GUIDED UPDATER (proof_guided_updater.py)
+─────────────────────────────────────────
+
+THIS IS THE MOST CRITICAL AND NOVEL COMPONENT.
+Implement with maximum care.
+
+class ProofGuidedUpdater:
+
+  def update_on_success(self, 
+                         perception: PerceptionMap,
+                         proof_trace: ProofTrace):
+    """
+    When Z3 proves a solution valid, update perception weights
+    based on WHAT IN THE PERCEPTION LED TO THE CORRECT FORMALIZATION.
+
+    Algorithm:
+    1. Extract contributing features from proof_trace
+       Features = entity types + relationship types + axiom choice
+       that appeared in both perception AND proof
+    
+    2. For each contributing feature f:
+       weights[f] += learning_rate * proof_trace.confidence
+       # strengthen: this perception feature led to valid proof
+    
+    3. For each non-contributing feature f in perception:
+       weights[f] -= learning_rate * 0.1
+       # slightly weaken: this was noise in the perception
+    
+    4. Normalize all weights to range [0.0, 1.0]
+    
+    5. Persist updated weights to synaptic_weights.json
+
+    learning_rate = 0.15 (configurable in config.py)
+    """
+
+  def update_on_failure(self,
+                         perception: PerceptionMap, 
+                         counterexample: Counterexample):
+    """
+    When Z3 returns counterexample, update weights to
+    avoid this wrong perception in the future.
+
+    Algorithm:
+    1. Extract features that led to the WRONG formalization
+    
+    2. For each wrong feature f:
+       weights[f] -= learning_rate * 0.3
+       # stronger penalty for wrong formalization
+    
+    3. Extract what the counterexample IMPLIES is correct
+       e.g. counterexample shows variable should be Real not Int
+       → strengthen Real-type perception features
+    
+    4. Persist updated weights
+    """
+
+─────────────────────────────────────────
+3.6 LEARNING: CONCEPT EXTRACTOR (concept_extractor.py)
+─────────────────────────────────────────
+
+class ConceptExtractor:
+
+  def extract(self, 
+              proof_trace: ProofTrace,
+              examples_so_far: list) -> ConceptDefinition | None:
+    """
+    Given a proof trace, extract an abstract reusable concept.
+    Uses Inductive Logic Programming principles.
+
+    Algorithm:
+    1. Get structural_pattern from proof_trace
+       e.g. "result = component_a - (component_a * rate)"
+    
+    2. Check if this pattern already exists in concept library
+       - If exact match: strengthen existing concept (Hebbian)
+       - If partial match: create specialization concept
+       - If no match: create new concept
+    
+    3. For new concept creation:
+       a. Generalize the specific values to variables
+          "5000 - (5000 * 0.20)" → "base - (base * rate)"
+       b. Find the minimal rule covering all seen examples
+          (use version space: most-specific to most-general)
+       c. Generate Z3 template from generalized rule
+       d. Infer domain from entity types
+       e. Find generalizes_to by checking ontology for
+          structurally similar existing concepts
+    
+    4. Return ConceptDefinition or None if not novel enough
+    
+    IMPORTANT: Only create new concept if:
+      - Pattern seen at least 2 times (avoid overfitting)
+      - Generalized rule is simpler than specific examples
+      - Z3 can verify the generalized rule
+    """
+
+─────────────────────────────────────────
+3.7 LEARNING: SELF PLAY ENGINE (self_play_engine.py)
+─────────────────────────────────────────
+
+class SelfPlayEngine:
+
+  def run_discovery_cycle(self, iterations: int = 100):
+    """
+    Autonomous knowledge discovery loop.
+    Runs in background thread when system is idle.
+
+    For each iteration:
+    1. GENERATE hypothesis:
+       - Pick 2 random concepts from library
+       - Compose them into a new hypothesis
+       - e.g. PERCENTAGE + ADDITION → 
+         "total = base + (base * rate)"
+    
+    2. SOLVE the hypothesis:
+       - Use reasoning engine to find satisfying values
+    
+    3. VERIFY with Z3:
+       - If VALID: this is a new provable relationship
+       - If INVALID: this combination is impossible
+         (store as IMPOSSIBILITY — also valuable knowledge)
+    
+    4. LEARN:
+       - Valid: store as new concept with strength=0.3
+         (lower initial strength since not from real problem)
+       - Invalid: store counterexample in episode memory
+    
+    5. LOG discovery to console:
+       "[SELF-PLAY] Discovered: PERCENTAGE_ADDITION concept"
+       "[SELF-PLAY] Disproved: division-by-zero impossibility"
+    """
+
+  def generate_targeted_practice(self, weak_concept: str):
+    """
+    Generate practice problems for concepts with low strength.
+    Like a human studying weak areas.
+    
+    - Find concept with strength < 0.4
+    - Generate 5 problems that require this concept
+    - Solve and learn from each
+    - Concept strength should increase after practice
+    """
+
+═══════════════════════════════════════════════════════════════════
+SECTION 4: TRAINING PIPELINE
+═══════════════════════════════════════════════════════════════════
+
+Implement a training pipeline that teaches the system from examples.
+This is how the system builds intelligence from scratch.
+
+─────────────────────────────────────────
+4.1 TRAINING DATA FORMAT
+─────────────────────────────────────────
+
+math_examples.json format:
+[
+  {
+    "id": "math_001",
+    "input": "2 + 3 = ?",
+    "answer": 5,
+    "domain": "arithmetic",
+    "expected_axiom": "REDUCTION",
+    "expected_concept": "ADDITION"
+  },
+  {
+    "id": "math_002", 
+    "input": "if base salary is 5000 and bonus is 1200, find total",
+    "answer": 6200,
+    "domain": "arithmetic",
+    "expected_axiom": "REDUCTION",
+    "expected_concept": "ADDITION"
+  },
+  ...minimum 50 math examples covering:
+    addition, subtraction, multiplication, division,
+    percentage, equation solving, multi-step problems
+]
+
+─────────────────────────────────────────
+4.2 TRAINING LOOP
+─────────────────────────────────────────
+
+class TrainingPipeline:
+
+  def train_phase(self, examples: list, phase_name: str):
+    """
+    Training loop for one phase (math/logic/code).
+    
+    For each example:
+      1. Run through full RIR loop
+      2. Compare output to expected answer
+      3. If correct AND verified: 
+           positive learning signal
+           extract concept if novel
+      4. If wrong:
+           negative learning signal  
+           Z3 counterexample guides correction
+      5. Log: accuracy, concepts learned, weights changed
+    
+    After all examples:
+      Report:
+        - Accuracy: X/50 correct
+        - Concepts learned: [list]
+        - Perception accuracy improvement: before vs after
+        - New concepts stored in library: N
+    """
+
+  def evaluate_transfer(self, held_out_examples: list):
+    """
+    Critical test: can system solve problems it never saw?
+    Held-out examples should be:
+      - Same domain: different numbers, same structure
+      - Related domain: math concepts → physics problems
+      - Novel composition: combine 2 learned concepts
+    
+    Success criteria:
+      - Same domain: >90% accuracy
+      - Related domain: >70% accuracy  
+      - Novel composition: >50% accuracy
+    """
+
+═══════════════════════════════════════════════════════════════════
+SECTION 5: MAIN CLI INTERFACE
+═══════════════════════════════════════════════════════════════════
+
+Implement main.py with these commands:
+
+python main.py solve "if salary is 5000 and tax is 20%, find take-home"
+  → runs full RIR loop, prints proven answer + trace
+
+python main.py train --phase math
+  → runs training pipeline on math_examples.json
+
+python main.py train --phase all
+  → runs all training phases sequentially
+
+python main.py self-play --iterations 1000
+  → runs self-play engine, prints discoveries
+
+python main.py status
+  → prints current brain state:
+    Concepts in library: N
+    Total problems solved: N
+    Proof success rate: X%
+    Strongest concepts: [list]
+    Weakest concepts: [list]
+    Recent discoveries: [list]
+
+python main.py teach "stimulus | concept_name | axiom"
+  → manually prime a new concept
+
+python main.py dashboard
+  → starts HTML dashboard on localhost:8080
+
+─────────────────────────────────────────
+OUTPUT FORMAT for solve command:
+─────────────────────────────────────────
+
+════════════════════════════════════════
+HSCI BRAIN — REASONING TRACE
+════════════════════════════════════════
+
+INPUT:     "if salary is 5000 and tax is 20%, find take-home"
+
+PERCEPTION:
+  Entities:  salary=5000, tax_rate=0.20, take_home=UNKNOWN
+  Intent:    REDUCTION
+  Confidence: 0.91
+
+KNOWLEDGE RECALL:
+  Matched concepts: [PERCENTAGE, SUBTRACTION]
+  Analogy found: TAX_DEDUCTION ≈ PERCENTAGE + SUBTRACTION
+
+REASONING:
+  Step 1: tax_amount = salary * tax_rate  [PERCENTAGE]
+  Step 2: take_home = salary - tax_amount [SUBTRACTION]
+  Candidate: take_home = 5000 - (5000 * 0.20) = 4000
+
+VERIFICATION:
+  Z3 Status:  ✅ SATISFIABLE
+  Proof:      take_home == 4000 is consistent with all constraints
+  Attempts:   1
+
+LEARNING:
+  New concept extracted: TAX_DEDUCTION
+  Weights updated: +0.15 on [percentage_relation, subtraction_pattern]
+  Episode stored: episode_0047
+
+════════════════════════════════════════
+ANSWER: 4000  [PROVEN CORRECT]
+════════════════════════════════════════
+
+═══════════════════════════════════════════════════════════════════
+SECTION 6: TECHNICAL REQUIREMENTS
+═══════════════════════════════════════════════════════════════════
+
+requirements.txt must include:
+  z3-solver>=4.12.0        # Z3 SMT solver — CORE dependency
+  networkx>=3.0            # Graph operations for ontology
+  numpy>=1.24.0            # Weight matrix operations
+  torch>=2.0.0             # Neural perceiver (optional phase 2)
+  flask>=3.0.0             # Dashboard server
+  pytest>=7.0.0            # Test framework
+  loguru>=0.7.0            # Structured logging
+
+Python version: 3.10+
+
+NO external AI/ML APIs.
+NO openai, NO anthropic, NO google.generativeai imports.
+This runs 100% locally.
+
+═══════════════════════════════════════════════════════════════════
+SECTION 7: IMPLEMENTATION PRINCIPLES — NEVER VIOLATE THESE
+═══════════════════════════════════════════════════════════════════
+
+PRINCIPLE 1: PROOF OR SILENCE
+  Never return an answer that Z3 has not verified.
+  If Z3 cannot prove it, return "cannot prove" with partial trace.
+  A system that admits uncertainty is more intelligent
+  than one that guesses confidently.
+
+PRINCIPLE 2: PROOF-GUIDED LEARNING ONLY
+  Neural weights update ONLY from Z3 proof traces.
+  Never update weights randomly.
+  Never use cross-entropy loss on token prediction.
+  Every weight change must be traceable to a specific proof.
+
+PRINCIPLE 3: CONCEPTS NOT PARAMETERS
+  Intelligence lives in the concept library, not weight counts.
+  A small concept library that is CORRECT is better than
+  a large weight matrix that is APPROXIMATE.
+
+PRINCIPLE 4: FULL TRANSPARENCY
+  Every answer must include full reasoning trace.
+  No black box outputs.
+  A human must be able to follow every step.
+
+PRINCIPLE 5: GRACEFUL DEGRADATION
+  When system cannot solve a problem:
+    - Return what it CAN prove (partial solution)
+    - Explain what it is missing
+    - Store the failure as a learning opportunity
+    - Generate a self-play hypothesis to fill the gap
+  Never crash. Never hallucinate. Never guess.
+
+PRINCIPLE 6: SEPARATION OF CONCERNS
+  Neural layer: ONLY perception. Never reasoning.
+  Symbolic layer: ONLY verification. Never perception.
+  Learning layer: ONLY weight updates. Never solving.
+  These boundaries must never be crossed.
+
+═══════════════════════════════════════════════════════════════════
+SECTION 8: TEST SUITE REQUIREMENTS
+═══════════════════════════════════════════════════════════════════
+
+Implement tests for every component.
+Tests must PASS before moving to next component.
+
+test_perception.py:
+  - test_entity_extraction_numeric()
+  - test_entity_extraction_unknown_target()
+  - test_relationship_extraction_percentage()
+  - test_relationship_extraction_additive()
+  - test_intent_classification_reduction()
+  - test_intent_classification_composition()
+
+test_verification.py:
+  - test_z3_verifies_simple_addition()
+  - test_z3_verifies_percentage_calculation()
+  - test_z3_returns_counterexample_on_wrong_answer()
+  - test_proof_trace_extraction()
+  - test_self_correction_loop_repairs_wrong_candidate()
+
+test_learning.py:
+  - test_weight_increases_after_valid_proof()
+  - test_weight_decreases_after_counterexample()
+  - test_new_concept_extracted_after_two_examples()
+  - test_existing_concept_strengthened_on_reuse()
+  - test_self_play_generates_valid_hypothesis()
+
+test_integration.py:
+  - test_full_rir_loop_arithmetic()
+  - test_full_rir_loop_percentage()
+  - test_cross_domain_transfer_math_to_physics()
+  - test_system_learns_from_10_examples()
+  - test_self_improvement_over_100_self_play_iterations()
+
+═══════════════════════════════════════════════════════════════════
+SECTION 9: IMPLEMENTATION ORDER — FOLLOW EXACTLY
+═══════════════════════════════════════════════════════════════════
+
+Build in this exact order. Each step must work before next.
+
+STEP 1: Foundation (Day 1-2)
+  - Project structure + requirements.txt
+  - config.py with all constants
+  - ConceptDefinition dataclass
+  - Bootstrap concept library with 9 seed concepts
+  - Persist/load from JSON
+  - Test: concept library saves and loads correctly
+
+STEP 2: Perception (Day 3-4)
+  - TextToGraphEncoder (regex-based, no external NLP)
+  - EntityExtractor
+  - IntentClassifier (rule-based first, neural later)
+  - Test: "salary is 5000" → entity(salary, 5000) works
+
+STEP 3: Z3 Verification (Day 5-6)
+  - Z3Verifier with simple arithmetic
+  - SpecBuilder for arithmetic specs
+  - ProofTraceExtractor
+  - CounterexampleExtractor
+  - Test: Z3 verifies 2+3=5, rejects 2+3=6 with counterexample
+
+STEP 4: Minimal RIR Loop (Day 7-8)
+  - Connect Perception → Z3 → Output
+  - No learning yet, just perception + verification
+  - Test: "2 + 3 = ?" → perceives addition → Z3 proves 5
+
+STEP 5: Learning Layer (Day 9-11)
+  - ProofGuidedUpdater
+  - ConceptExtractor
+  - HebbianReinforcer
+  - Test: after 3 addition examples, weights increase on
+    addition-related perception features
+
+STEP 6: Complete RIR Loop (Day 12-13)
+  - Full Perception → Knowledge → Reasoning → 
+    Verification → Learning loop
+  - SelfCorrectionLoop on verification failure
+  - Test: 10 math problems, system learns and improves
+
+STEP 7: Self-Play Engine (Day 14-15)
+  - Hypothesis generation from concept pairs
+  - Autonomous verification + learning
+  - Test: 100 iterations, at least 5 new concepts discovered
+
+STEP 8: Training Pipeline (Day 16-17)
+  - Load training examples from JSON
+  - Run full training loop
+  - Evaluate transfer to held-out examples
+  - Test: train on 50 math examples, 
+    test on 10 unseen → >80% accuracy
+
+STEP 9: CLI + Dashboard (Day 18-19)
+  - All CLI commands working
+  - HTML dashboard showing brain state
+  - Full formatted output with proof trace
+
+STEP 10: Full Test Suite + Polish (Day 20)
+  - All tests passing
+  - Clean logging with loguru
+  - README with architecture explanation
+  - Sample run demonstrating cross-domain transfer
+
+═══════════════════════════════════════════════════════════════════
+SECTION 10: SUCCESS CRITERIA
+═══════════════════════════════════════════════════════════════════
+
+The implementation is successful when:
+
+✅ System solves arithmetic problems with Z3 proof
+✅ System learns ADDITION concept from 3 examples
+✅ System applies ADDITION to never-seen numbers correctly  
+✅ System learns PERCENTAGE from examples
+✅ System composes PERCENTAGE + SUBTRACTION for tax problem
+   WITHOUT being explicitly taught TAX_DEDUCTION
+✅ Self-play discovers at least 5 new concepts in 1000 iterations
+✅ Training on math → system solves basic physics 
+   (distance = velocity * time) via concept transfer
+✅ All 20+ tests passing
+✅ Full proof trace visible for every answer
+✅ System admits "cannot prove" rather than guessing
+
+═══════════════════════════════════════════════════════════════════
+BEGIN IMPLEMENTATION NOW.
+Start with STEP 1: Foundation.
+Build incrementally. Test each step.
+Do not proceed to next step until current step tests pass.
+═══════════════════════════════════════════════════════════════════
