@@ -1,3 +1,10 @@
+# [2.9.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.8.0...v2.9.0) (2026-04-18)
+
+
+### Features
+
+* implement v3.0 Axiomatic Intelligence architecture and 7-layer cognitive stack ([021b83b](https://github.com/HNDS-HSCI/ai-model/commit/021b83b1a88f37b3f9f9ea992f9786fdf186f803))
+
 # [2.8.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.7.4...v2.8.0) (2026-03-12)
 
 
