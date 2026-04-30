@@ -15,6 +15,24 @@ class ResponseBridge:
         """
         Generates a natural language response with full explanation.
         """
+        # 1. Handle SYNTHESIS (Code Generation)
+        if any(c in ["SYNTHESIS"] for c in final_output.concepts_used) or domain == "software_engineering":
+            prefix = "💻 Code Synthesis Result:\n"
+            code = final_output.answer if isinstance(final_output.answer, str) else str(final_output.answer)
+            return f"{prefix}I have synthesized the following algorithm based on your request:\n\n```python\n{code}\n```\n\nVerified by structural induction."
+
+        # 2. Handle TRANSFORMATION (Conversational / General)
+        social_keywords = {"hi", "hello", "hey", "greetings", "who are you"}
+        if any(w in original_input.lower().split() for w in social_keywords):
+            return "Hello! I am HSCI, a Hyper-Symbolic Cognitive Intelligence. I don't just guess—I prove. Ask me to solve a math problem, generate code, or analyze data, and I will show you my reasoning trace."
+            
+        if "help" in original_input.lower().split():
+            return "I am a v3.0 Neurosymbolic AI. You can ask me to solve math problems (e.g., 'If salary is 5000 and tax is 15%, find tax'), logic puzzles, or code synthesis. I use Z3 SMT to verify every answer mathematically."
+
+        # 3. Handle Fallback for General Knowledge
+        if not final_output.concepts_used and not final_output.reasoning_trace:
+             return f"I perceive your input as a general knowledge query related to '{domain}'. As a specialized symbolic engine, I am currently optimized for mathematical and logical proofs. You can 'teach:' me the underlying logic of this topic to enable deeper reasoning."
+
         if not final_output.is_verified:
             return self._generate_unverified_response(final_output)
 

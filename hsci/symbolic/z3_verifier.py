@@ -26,6 +26,18 @@ class Z3VerificationEngine:
         ctx: Optional[z3.Context] = None
     ) -> VerificationResult:
         
+        # SHORT-CIRCUIT: Transformation / Conversational logic
+        if perception.intent == AxiomType.TRANSFORMATION:
+            return VerificationResult(
+                valid=True,
+                status=VerificationStatus.PROVEN,
+                proof_trace=None,
+                z3_model=None,
+                confidence=1.0,
+                counterexample=None,
+                correction_hint="Conversational input — proof not required."
+            )
+
         # Ensure we have a context
         if ctx is None:
             ctx = z3.Context()

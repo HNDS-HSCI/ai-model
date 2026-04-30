@@ -90,19 +90,47 @@ class SpacyParser:
                 entities["result"] = EntityValue(None, None, False, "inferred")
                 unknowns.append("result")
 
-        # Intent
+        # Intent Discovery (Axiomatic Mapping)
         intent = AxiomType.REDUCTION.value
-        if any(w in text.lower() for w in ["given", "if", "relationship"]):
+        confidence = 0.8
+        domain = "arithmetic"
+
+        text_lower = text.lower()
+        
+        # 1. TRANSFORMATION (Conversational/Social)
+        social_keywords = {"hi", "hello", "hey", "greetings", "help", "who are you"}
+        if any(w in text_lower.split() for w in social_keywords):
+            intent = AxiomType.TRANSFORMATION.value
+            confidence = 0.95
+            domain = "general"
+        
+        # 2. SYNTHESIS (Coding/Creation)
+        elif any(w in text_lower for w in ["write code", "implement", "script", "function for", "algorithm"]):
+            intent = AxiomType.SYNTHESIS.value
+            confidence = 0.85
+            domain = "software_engineering"
+
+        # 3. COMPOSITION (Logic Puzzles/Constraints)
+        elif any(w in text_lower for w in ["given", "if", "relationship"]):
             intent = AxiomType.COMPOSITION.value
+            confidence = 0.75
+            domain = "logic"
+
+        # 4. Domain Refinement for REDUCTION
+        if intent == AxiomType.REDUCTION.value:
+            if any(w in text_lower for w in ["salary", "tax", "price", "discount", "interest"]):
+                domain = "finance"
+            elif any(w in text_lower for w in ["velocity", "force", "mass", "acceleration", "distance", "gravity"]):
+                domain = "physics"
 
         return StructuredInput(
             entities=entities,
             intent=intent,
             axiom=intent,
             unknowns=unknowns,
-            domain="finance" if any(w in text.lower() for w in ["salary", "tax"]) else "arithmetic",
-            operation_hint="basic_arithmetic",
-            confidence=0.8,
+            domain=domain,
+            operation_hint="llm_perceived_intent" if confidence > 0.9 else "rule_based_inference",
+            confidence=confidence,
             raw_normalized=text.strip(),
             parse_method="spacy"
         )

@@ -7,10 +7,10 @@ from pydantic import BaseModel
 import logging
 import time
 
-# Import the New HyperSymbolicBrain
-from hnsds.brain.cognitive_core import HyperSymbolicBrain
+# Import the New HyperSymbolicBrain v3.0
+from hsci.core.rir_loop import RIRLoop
 
-app = FastAPI(title="HSCI Symbolic Brain API")
+app = FastAPI(title="HSCI Symbolic Brain API v3.0")
 start_time = time.time()
 
 # Enable CORS
@@ -21,8 +21,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize the Native Hyper-Symbolic Brain
-brain = HyperSymbolicBrain()
+# Initialize the Native Hyper-Symbolic Brain v3.0
+brain = RIRLoop()
 UI_PATH = Path(__file__).resolve().parent / "ui" / "index.html"
 LANDING_PATH = Path(__file__).resolve().parent / "ui" / "landing.html"
 BLOG_PATH = Path(__file__).resolve().parent / "ui" / "blog.html"
@@ -68,37 +68,34 @@ async def get_dashboard():
 @app.get("/health")
 async def health():
     # Health check endpoint for production monitoring
-    # Count primordial episodes + learned episodes if file exists
-    learned_count = 0
-    if UI_PATH.parent.parent.joinpath("episodes.jsonl").exists():
-        with open(UI_PATH.parent.parent / "episodes.jsonl", "r") as f:
-            learned_count = sum(1 for _ in f)
-            
     return {
         "status": "healthy",
-        "episodes": len(brain.memory_lobe.primordial_episodes) + learned_count,
-        "weights": len(brain.neural_lobe.cortex.weights) if hasattr(brain.neural_lobe.cortex, "weights") else 0,
+        "concepts": len(brain.knowledge_base.concept_library.concepts),
+        "weight_version": brain.perceiver.weight_version,
         "uptime": time.time() - start_time,
-        "version": "2.0.0"
+        "version": "3.0.0"
     }
 
 
 @app.post("/process")
 async def process_stimulus(request: StimulusRequest):
     try:
-        # ALWAYS start with a fresh brain to prevent trace leaks
-        fresh_brain = HyperSymbolicBrain()
+        # Trigger the Native Cognitive Core v3.0
+        # Use process_internal to get rich metadata for the UI
+        final_out, structured = brain.process_internal(request.stimulus)
         
-        # Trigger the Native Cognitive Core
-        solution = fresh_brain.process(request.stimulus)
+        # Generate the natural response
+        response_text = brain.response_bridge.generate(final_out, request.stimulus, structured.domain)
 
-        # Extract the state of the mind after processing
-        deliberation_report = fresh_brain.get_mind_state()
+        # Build the deliberation trace from the reasoning trace
+        deliberation_report = "\n".join(final_out.reasoning_trace)
 
         return {
-            "solution": solution,
+            "solution": response_text,
             "deliberation": deliberation_report,
-            "success": "COGNITIVE_FAILURE" not in str(solution),
+            "success": final_out.is_verified,
+            "confidence": final_out.confidence,
+            "concepts_used": final_out.concepts_used
         }
     except Exception as e:
         import traceback

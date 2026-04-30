@@ -4,17 +4,19 @@ from hsci.core.data_types import PerceptionMap, KnowledgeResult, ReasoningPlan, 
 from hsci.reasoning.htn_planner import HTNPlanner
 from hsci.reasoning.concept_composer import ConceptComposer
 from hsci.reasoning.solution_builder import SolutionBuilder
+from hsci.reasoning.synthesizer import ProgramSynthesizer
 
 class ReasoningEngine:
     """
     Core intelligence layer.
-    v3.1: Supports multi-concept hierarchical composition.
+    v3.1: Supports multi-concept hierarchical composition and code synthesis.
     """
 
     def __init__(self):
         self.htn_planner = HTNPlanner()
         self.concept_composer = ConceptComposer()
         self.solution_builder = SolutionBuilder()
+        self.synthesizer = ProgramSynthesizer()
 
     def reason(
         self,
@@ -26,6 +28,18 @@ class ReasoningEngine:
         """
         Reasons about a problem by decomposing it and assigning specific concepts to steps.
         """
+        # SHORT-CIRCUIT: Transformation / Conversational logic
+        if perception.intent == AxiomType.TRANSFORMATION:
+            return ReasoningPlan(
+                sub_goals=[],
+                concept_assignments={},
+                candidate_solution=None,
+                concepts_used=[],
+                primary_concept=None,
+                perception=perception,
+                knowledge=knowledge
+            )
+
         # 1. Decompose problem
         sub_goals = self.htn_planner.decompose(perception)
 
@@ -56,12 +70,17 @@ class ReasoningEngine:
             assignments[goal.id] = best
 
         # 3. Build candidate solution
-        candidate = self.solution_builder.build(
-            sub_goals,
-            assignments,
-            perception.entities,
-            ctx=ctx
-        )
+        # If intent is SYNTHESIS, use the synthesizer
+        if perception.intent == AxiomType.SYNTHESIS:
+            code = self.synthesizer.synthesize(sub_goals, assignments, perception.entities)
+            candidate = Expression(value=code, concepts_used=[c.name for c in assignments.values() if c])
+        else:
+            candidate = self.solution_builder.build(
+                sub_goals,
+                assignments,
+                perception.entities,
+                ctx=ctx
+            )
 
         primary_concept = next(iter(assignments.values())) if assignments else None
 

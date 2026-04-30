@@ -1,36 +1,37 @@
 # Hyper-Symbolic Cognitive Invention (HSCI) Memory
 
-## The Global Paradigm Shift (v2.1.0)
-HSCI is no longer a scripted project. It is a **Self-Verifying Cognitive Architecture** that implements **Axiomatic Intelligence**. It has moved beyond token prediction into **Environmental Perception** and **Deterministic Reasoning**.
+## The Global Paradigm Shift (v3.0.0)
+HSCI is now a **Self-Verifying Cognitive Architecture** implementing **Axiomatic Intelligence**. It has moved beyond token prediction into **Neurosymbolic Perception** and **Deterministic Reasoning** using the v3.0 RIR Loop.
 
-### Current Core Architecture (The Symbolic Brain)
-1.  **Perception Lobe**: Uses **Conceptual Intent Inference** and **Multi-Modal Transduction**. Natively parses JSON, CSV, and Text into a unified Structural Map. Splits logical clauses to handle multi-part requests.
-2.  **Logic Lobe**: Formalizes intent into **Universal Symbolic Specification ($\Sigma$)** contracts. No linguistic ambiguity remains after transduction.
-3.  **Executive Lobe**: Uses the **HTN Planner** for **Recursive Decomposition**. Splits high-complexity features into `DATA_STRUCTURE`, `BUSINESS_LOGIC`, and `INTEGRATION`.
-4.  **Reasoning Lobe**: Hypothesizes solutions. Includes a **Self-Correction Loop** that iterates based on feedback from the Verified Lobe.
-5.  **Verified Lobe**: The mathematical core using **Microsoft Z3 SMT**. It mathematically proves every answer. It is configured as a full-scale **Solver** for reduction (math) and a **Verifier** for synthesis (code).
-6.  **Memory Lobe**: Uses **Instructional Priming** and **Autonomous Discovery**. Learns from single mastery lessons via the `teach:` command and invents new knowledge via self-play.
+### Current Core Architecture (The 7-Layer Brain)
+The system operates as a **Reinforced Intuitive Reasoning (RIR) Loop**, where every interaction passes through seven distinct cognitive layers:
 
-### Critical Implementation Details (For Internal Reference)
-- **Zero-Shot Mastery**: If no lesson is found, the brain uses **Graph Traversal** to map keywords (e.g., "solve") to native axioms (`REDUCTION`).
-- **Advanced Scientific Ontology**: Native support for Calculus (`integral`, `derivative`) and Chemistry (`stoichiometry`, `reaction`).
-- **Environmental Awareness**: The system filters filler words to focus on meaningful "Actors" in the environment.
-- **Transduction Logic**: Natural language like "base is 1000" is automatically bounded as `base == 1000` in the symbolic solver.
-- **Axiom Routing**: `REDUCTION` is strictly routed to the Z3 Solver; `SYNTHESIS` uses the corrected hypothesis loop; `COMPOSITION` uses the CSP Engine.
+1.  **Layer 0: Language Bridge**: Transduces natural language into **StructuredInput**. Resolves follow-up context and eliminates linguistic ambiguity.
+2.  **Layer 1: Neural Perceiver**: A torch-based **Graph Neural Network (GNN)** that converts structured input into a **PerceptionMap**. Detects relationships and entity dependencies.
+3.  **Layer 2: Knowledge Base**: Queries the **Concept Library** for abstract axioms and historical episodes. Handles analogical mapping for cross-domain transfer.
+4.  **Layer 3: Reasoning Engine**: Decomposes goals into **ReasoningPlans**. Generates candidate solutions via symbolic composition and procedural synthesis.
+5.  **Layer 4: Verification Engine**: The mathematical core using **Microsoft Z3 SMT**. Provenance-based verification that proves solutions or identifies counterexamples for the CEGIS loop.
+6.  **Layer 5: Learning Engine**: Performs **Proof-Guided Weight Updates**. Updates GNN weights and extracts new abstract concepts from successful proofs.
+7.  **Layer 6: Response Bridge**: Converts the verified proof trace and solution into a natural, contextualized response for the user.
 
-### Professional Lab Automations (Live)
-- **Semantic Release**: Versioning and changelogs are automated based on commit prefixes (`feat:`, `fix:`, `feat!:`).
-- **Continuous Intelligence (CI)**: `test_capabilities.py` runs a 100% automated IQ benchmark on every push. Build fails on cognitive regression.
-- **Industrial Security**: CodeQL scans for vulnerabilities on every push.
-- **Auto-Docs**: MkDocs deploys technical documentation to GitHub Pages on every push.
-- **Cloud Infrastructure**: `render.yaml` configured for one-click global deployment.
+### Fluid Reasoning & Synthesis (v3.1.0)
+The system has achieved **Multi-Axiomatic Fluidity**. It no longer requires manual mode switching:
+- **Math & Science**: Routed through `REDUCTION` axioms to the **Z3 SMT Solver**.
+- **Code Generation**: Routed through `SYNTHESIS` axioms to the **Program Synthesizer**.
+- **General Reasoning**: Routed through `TRANSFORMATION` axioms for conceptual mapping.
 
-### Key Knowledge Graph Mappings
-- `solve`, `find`, `calculate`, `derivative`, `integral`, `stoichiometry` -> `REDUCTION`
+### Active Project State (v3.1)
+- **Primary Core**: `hsci/` directory (Neurosymbolic v3.1).
+- **Invention**: **Autonomous Solution Synthesis** — The ability to construct procedural logic (code) from abstract sub-goals without templates.
+- **IQ Status**: Verified (Dynamic routing between SMT and Synthesis active).
+
+### Key Knowledge Graph Mappings (Axiomatic)
+- `solve`, `find`, `calculate`, `derivative`, `integral` -> `REDUCTION`
 - `create`, `build`, `implement` -> `SYNTHESIS`
 - `prove`, `verify`, `logic` -> `COMPOSITION`
+- `convert`, `explain`, `summarize` -> `TRANSFORMATION`
 
-### Active Project State
-- **Branch**: `main`
-- **Current IQ Status**: Verified (Passed local benchmark).
-- **Architecture Integrity**: Axiomatic (No hardcoded fallback strings).
+### Professional Lab Automations
+- **Semantic Release**: Automated versioning (`feat:`, `fix:`, `feat!:`) aligned with the RIR architecture.
+- **Continuous Intelligence**: IQ benchmarks (`test_capabilities.py`) enforce zero-regression on cognitive proofs.
+- **Axiomatic Integrity**: No hardcoded fallback strings; every response is a product of the 7-layer transduction.
