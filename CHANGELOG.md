@@ -1,3 +1,10 @@
+# [2.10.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.9.0...v2.10.0) (2026-04-30)
+
+
+### Features
+
+* upgrade to HSCI v3.1 with fluid reasoning and autonomous synthesis ([6ad18e4](https://github.com/HNDS-HSCI/ai-model/commit/6ad18e43710ea41fe31a661f67071cee35e39728))
+
 # [2.9.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.8.0...v2.9.0) (2026-04-18)
 
 
