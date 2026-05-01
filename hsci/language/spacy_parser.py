@@ -9,10 +9,11 @@ class SpacyParser:
     """
 
     def __init__(self):
-        # Key must start with letter
-        self.known_pattern = re.compile(r'([a-zA-Z_]\w*)\s*(?:is|=)\s*(\d+(?:\.\d+)?)(?:\s*(\w+|%))?')
+        # Key must start with letter. Unit is optional and should not be a conjunction.
+        self.known_pattern = re.compile(r'([a-zA-Z_]\w*)\s*(?:is|=)\s*(\d+(?:\.\d+)?)(?:\s*(?!and|or|then|if|but)(\w+|%))?')
         self.unknown_pattern = re.compile(r'(?:find|calculate|solve for|what is)\s+([\w\s-]+)(?=\W|$)')
-        self.number_pattern = re.compile(r'\b(\d+(?:\.\d+)?)(?:\s*(\w+|%))?\b')
+        self.number_pattern = re.compile(r'\b(\d+(?:\.\d+)?)(?:\s*(?!and|or|then|if|but)(\w+|%))?\b')
+        self.coef_pattern = re.compile(r'\b(\d+)([a-zA-Z_])\b')
 
     def parse(self, text: str) -> StructuredInput:
         """
@@ -98,8 +99,8 @@ class SpacyParser:
         text_lower = text.lower()
         
         # 1. TRANSFORMATION (Conversational/Social)
-        social_keywords = {"hi", "hello", "hey", "greetings", "help", "who are you"}
-        if any(w in text_lower.split() for w in social_keywords):
+        social_keywords = ["hi", "hello", "hey", "greetings", "help", "who are you"]
+        if any(w in text_lower for w in social_keywords):
             intent = AxiomType.TRANSFORMATION.value
             confidence = 0.95
             domain = "general"

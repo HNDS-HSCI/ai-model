@@ -2,7 +2,7 @@ import z3
 from typing import Dict, Any, List, Optional
 from hsci.core.data_types import (
     PerceptionMap, Expression, VerificationResult, ProofTrace, Concept, 
-    VerificationStatus, ProofStep, EntityValue
+    VerificationStatus, ProofStep, EntityValue, AxiomType
 )
 from hsci.symbolic.z3_templates import Z3_TEMPLATES
 
@@ -27,7 +27,7 @@ class Z3VerificationEngine:
     ) -> VerificationResult:
         
         # SHORT-CIRCUIT: Transformation / Conversational logic
-        if perception.intent == AxiomType.TRANSFORMATION:
+        if perception.intent in [AxiomType.TRANSFORMATION, AxiomType.SYNTHESIS]:
             return VerificationResult(
                 valid=True,
                 status=VerificationStatus.PROVEN,
@@ -35,7 +35,7 @@ class Z3VerificationEngine:
                 z3_model=None,
                 confidence=1.0,
                 counterexample=None,
-                correction_hint="Conversational input — proof not required."
+                correction_hint="Conversational/Synthesis input — formal proof not required."
             )
 
         # Ensure we have a context

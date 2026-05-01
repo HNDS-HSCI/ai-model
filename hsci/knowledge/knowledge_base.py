@@ -123,6 +123,14 @@ class KnowledgeBase:
             list(perception.entities.keys())
         )
         
+        # AGI FLUIDITY: If COMPOSITION (logic) has no direct concept, 
+        # look for REDUCTION (math) as these often overlap.
+        if not direct and perception.intent == AxiomType.COMPOSITION:
+             direct = self.concept_library.find_by_intent(
+                 AxiomType.REDUCTION,
+                 list(perception.entities.keys())
+             )
+
         # If no direct match in domain, look for structural analogies
         analogies_names = self.ontology.find_structural_analogies(perception.entity_graph)
         analogies = [self.concept_library.concepts[name] for name in analogies_names if name in self.concept_library.concepts]

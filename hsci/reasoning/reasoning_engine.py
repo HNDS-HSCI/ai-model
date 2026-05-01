@@ -1,6 +1,6 @@
 import z3
 from typing import List, Dict, Any, Optional
-from hsci.core.data_types import PerceptionMap, KnowledgeResult, ReasoningPlan, SubGoal, Concept, AxiomType
+from hsci.core.data_types import PerceptionMap, KnowledgeResult, ReasoningPlan, SubGoal, Concept, AxiomType, Expression
 from hsci.reasoning.htn_planner import HTNPlanner
 from hsci.reasoning.concept_composer import ConceptComposer
 from hsci.reasoning.solution_builder import SolutionBuilder

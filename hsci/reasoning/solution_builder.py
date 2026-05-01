@@ -41,8 +41,15 @@ class SolutionBuilder:
                 operand_keys = semantic_knowns + generic_knowns
                 z3_vars = {k: z3.Real(k, ctx=ctx) for k in entities.keys()}
 
-                if assigned_concept.name in ["ADDITION", "SUBTRACTION", "MULTIPLICATION", "DIVISION"]:
+                if assigned_concept.name in ["ADDITION", "SUBTRACTION", "MULTIPLICATION", "DIVISION", "PRODUCT", "LOGIC_PRODUCT"]:
                     if len(operand_keys) >= 2:
+                        # Map PRODUCT/LOGIC_PRODUCT to MULTIPLICATION
+                        func_name = assigned_concept.name
+                        if "PRODUCT" in func_name:
+                            z3_func = Z3_TEMPLATES["MULTIPLICATION"]
+                        else:
+                            z3_func = Z3_TEMPLATES[func_name]
+
                         mapped_args = {
                             "a": z3_vars[operand_keys[0]],
                             "b": z3_vars[operand_keys[1]],

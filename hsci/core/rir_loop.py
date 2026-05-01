@@ -121,7 +121,7 @@ class RIRLoop:
         )
 
         # Build FinalOutput
-        answer = self._extract_answer(verification)
+        answer = self._extract_answer(verification, plan)
         
         trace_steps = []
         if verification.proof_trace:
@@ -152,6 +152,9 @@ class RIRLoop:
         """
         final_out, structured = self.process_internal(raw_input)
 
+        # Ensure concepts_used is passed for UI/Response logic
+        # ResponseBridge uses final_output properties to generate text
+        
         # LAYER 6: Response Bridge
         response = self.response_bridge.generate(final_out, raw_input, structured.domain)
         
@@ -160,7 +163,10 @@ class RIRLoop:
 
         return response
 
-    def _extract_answer(self, result) -> Any:
-        if result.valid and result.z3_model:
-            return str(result.z3_model)
+    def _extract_answer(self, result, plan=None) -> Any:
+        if result.valid:
+            if result.z3_model:
+                return str(result.z3_model)
+            elif plan and plan.candidate_solution:
+                return plan.candidate_solution.value
         return "Unverified or Error"

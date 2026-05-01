@@ -19,6 +19,8 @@ Z3_TEMPLATES: Dict[str, Callable] = {
     "LOOP_INVARIANT": lambda inv, i: z3.ForAll([i], z3.Implies(inv(i), z3.And(inv(i+1), i >= 0))),
     "DISTANCE_RATE_TIME": lambda d, r, t: d == r * t,
     "FORCE_MASS_ACCEL": lambda f, m, a: f == m * a,
+    "PRODUCT": lambda a, b, result: result == a * b,
+    "LOGIC_PRODUCT": lambda a, b, result: result == a * b,
 }
 
 # Metadata for Concept Library seeding
