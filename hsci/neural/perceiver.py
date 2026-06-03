@@ -1,12 +1,14 @@
 import torch
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Union
 from hsci.core.data_types import (
     StructuredInput, PerceptionMap, Graph, 
-    Relationship, WeightUpdate, AxiomType
+    Relationship, WeightUpdate, AxiomType, InputSignal, EntityValue
 )
 from hsci.core.config import PerceiverConfig
 from hsci.neural.encoder import GraphEncoder
 from hsci.neural.relationship_detector import RelationshipDetector
+from hsci.neural.intent_classifier import IntentClassifier
+from hsci.neural.entity_extractor import EntityExtractor
 
 class NeuralPerceiver:
     """
@@ -24,12 +26,36 @@ class NeuralPerceiver:
             num_layers=config.num_layers
         )
         self.relationship_detector = RelationshipDetector()
+        self.intent_classifier = IntentClassifier(input_dim=config.input_dim, num_classes=4)
+        self.entity_extractor = EntityExtractor()
         self.weight_version = 0
 
-    def perceive(self, structured: StructuredInput) -> PerceptionMap:
+    def perceive(self, structured: Union[StructuredInput, InputSignal]) -> PerceptionMap:
         """
-        Builds a perception map from structured language input.
+        Builds a perception map from structured language input or raw input signal.
         """
+        if isinstance(structured, InputSignal):
+            # Backward compatibility for tests
+            entities_dict = self.entity_extractor.extract(structured.raw_text)
+            entities = {
+                k: EntityValue(value=v, unit=None, known=(v is not None), raw_text=str(v))
+                for k, v in entities_dict.items()
+            }
+            unknowns = [k for k, v in entities_dict.items() if v is None]
+            intent_perception = self.intent_classifier(structured.raw_text)
+
+            structured = StructuredInput(
+                entities=entities,
+                intent=intent_perception.intent.value,
+                axiom=intent_perception.intent.value,
+                unknowns=unknowns,
+                domain=intent_perception.domain,
+                operation_hint="perceived_from_signal",
+                confidence=intent_perception.confidence,
+                raw_normalized=structured.raw_text,
+                parse_method="neural_fallback"
+            )
+
         # Step 1: Build entity graph (placeholder for rich structure)
         graph = self._build_graph(structured)
 

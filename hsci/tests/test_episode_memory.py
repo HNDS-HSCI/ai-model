@@ -1,9 +1,9 @@
 from collections import deque
 import pytest
 from datetime import datetime, timedelta
-from hsci.core.data_types import Episode, PerceptionMap, InputSignal, Expression, ProofTrace, AxiomType, PerceiverConfig
+from hsci.core.data_types import Episode, PerceptionMap, InputSignal, Expression, ProofTrace, AxiomType
 from hsci.knowledge.episode_memory import EpisodeMemory
-from hsci.core.config import SystemConfig
+from hsci.core.config import SystemConfig, PerceiverConfig
 
 @pytest.fixture
 def system_config():

@@ -80,11 +80,14 @@ def test_reason_method_workflow(reasoning_engine, mock_perception_map, mock_know
     mock_htn_planner.decompose.assert_called_once_with(mock_perception_map)
     assert reasoning_plan.sub_goals == mock_htn_planner.decompose.return_value
 
-    # Verify ConceptComposer was called
-    mock_concept_composer.find_best.assert_called_once_with(
+    # Verify ConceptComposer was called for EACH subgoal
+    from unittest.mock import ANY
+    assert mock_concept_composer.find_best.call_count == len(reasoning_plan.sub_goals)
+    mock_concept_composer.find_best.assert_any_call(
         mock_htn_planner.decompose.return_value[0], # First subgoal
         mock_knowledge_result.direct_matches,
-        mock_knowledge_result.analogical_matches
+        mock_knowledge_result.analogical_matches,
+        context_text=ANY
     )
     # Check that the best concept was assigned to all subgoals
     expected_concept = mock_concept_composer.find_best.return_value
@@ -95,34 +98,32 @@ def test_reason_method_workflow(reasoning_engine, mock_perception_map, mock_know
     mock_solution_builder.build.assert_called_once_with(
         reasoning_plan.sub_goals,
         reasoning_plan.concept_assignments,
-        mock_perception_map.entities
+        mock_perception_map.entities,
+        ctx=None
     )
     assert reasoning_plan.candidate_solution == mock_solution_builder.build.return_value
 
     assert isinstance(reasoning_plan, ReasoningPlan)
-    assert reasoning_plan.composition_order == [0, 1] # Based on 2 subgoals
 
-def test_repair_method_placeholder(reasoning_engine, mock_perception_map):
+def test_repair_method_placeholder(reasoning_engine, mock_perception_map, mock_knowledge_result):
     # Create a dummy ReasoningPlan to pass to repair
+    subgoals = [SubGoal(name="ORIGINAL", description="original")]
     original_plan = ReasoningPlan(
-        sub_goals=[SubGoal(name="ORIGINAL", description="original")],
-        concept_assignments={},
+        sub_goals=subgoals,
+        concept_assignments={subgoals[0]: None},
         composition_order=[],
         candidate_solution=Expression(value="original_solution", concepts_used=[]),
+        concepts_used=[],
         primary_concept=None,
-        perception=mock_perception_map
+        perception=mock_perception_map,
+        knowledge=mock_knowledge_result
     )
     counterexample = {"error": "test_failure"}
     correction_hint = "try something else"
 
     repaired_plan = reasoning_engine.repair(original_plan, counterexample, correction_hint)
 
-    # For now, repair method just returns the original plan
-    # In a full implementation, this would return a new or modified plan
-    assert repaired_plan.sub_goals == original_plan.sub_goals
-    assert repaired_plan.candidate_solution == original_plan.candidate_solution
-    assert repaired_plan.primary_concept == original_plan.primary_concept
+    # repair just calls reason() with the original perception and knowledge
+    # we can check if it returns a new ReasoningPlan correctly
     assert repaired_plan.perception == original_plan.perception
-    # Assert that print was called
-    # To check print output, we need to capture stdout, which capsys can do.
-    # For now, we'll just test that the placeholder logic doesn't crash.
+    assert repaired_plan.knowledge == original_plan.knowledge

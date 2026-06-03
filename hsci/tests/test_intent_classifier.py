@@ -56,10 +56,16 @@ def test_classify_transformation_intent_summarize(intent_classifier):
     assert perception.confidence == 0.85
 
 def test_default_reduction_low_confidence(intent_classifier):
-    text = "what is the capital of France?" # No strong keywords
+    text = "the capital of France?" # No strong keywords
     perception = intent_classifier(text)
     assert perception.intent == AxiomType.REDUCTION
     assert perception.confidence == 0.1
+
+def test_reduction_with_keyword(intent_classifier):
+    text = "what is 5 + 5?"
+    perception = intent_classifier(text)
+    assert perception.intent == AxiomType.REDUCTION
+    assert perception.confidence == 0.6
 
 def test_priority_synthesis_over_reduction(intent_classifier):
     text = "calculate the sum and write code for it"

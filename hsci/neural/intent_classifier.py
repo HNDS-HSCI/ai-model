@@ -1,7 +1,7 @@
 import re
 from typing import Any
 
-from hsci.core.data_types import AxiomType, PerceiverConfig, PerceptionMap
+from hsci.core.data_types import AxiomType, PerceptionMap
 
 class IntentClassifier:
     """
@@ -39,7 +39,9 @@ class IntentClassifier:
                 relationships=[],
                 intent=AxiomType.REDUCTION, # Default or error handling
                 confidence=0.0,
-                entity_graph=None
+                entity_graph={},
+                domain="unknown",
+                operation_hint=""
             )
         
         text = text_or_embedding.lower()
@@ -53,7 +55,9 @@ class IntentClassifier:
                     relationships=[],
                     intent=AxiomType.SYNTHESIS,
                     confidence=0.9, # High confidence for direct keyword match
-                    entity_graph=None
+                    entity_graph={},
+                    domain="general",
+                    operation_hint=""
                 )
 
         # Check for COMPOSITION intent
@@ -65,7 +69,9 @@ class IntentClassifier:
                 relationships=[],
                 intent=AxiomType.COMPOSITION,
                 confidence=0.8,
-                entity_graph=None
+                entity_graph={},
+                domain="general",
+                operation_hint=""
             )
         for keyword in self.composition_keywords:
             if keyword in text:
@@ -75,7 +81,9 @@ class IntentClassifier:
                     relationships=[],
                     intent=AxiomType.COMPOSITION,
                     confidence=0.7,
-                    entity_graph=None
+                    entity_graph={},
+                    domain="general",
+                    operation_hint=""
                 )
 
         # Check for TRANSFORMATION intent
@@ -87,7 +95,9 @@ class IntentClassifier:
                     relationships=[],
                     intent=AxiomType.TRANSFORMATION,
                     confidence=0.85,
-                    entity_graph=None
+                    entity_graph={},
+                    domain="general",
+                    operation_hint=""
                 )
 
         # Default to REDUCTION if no other intent is strongly matched
@@ -100,7 +110,9 @@ class IntentClassifier:
                     relationships=[],
                     intent=AxiomType.REDUCTION,
                     confidence=0.6, # Lower confidence if it's a general keyword
-                    entity_graph=None
+                    entity_graph={},
+                    domain="general",
+                    operation_hint=""
                 )
 
         # If no keywords are matched, default to REDUCTION with low confidence
@@ -110,5 +122,7 @@ class IntentClassifier:
             relationships=[],
             intent=AxiomType.REDUCTION,
             confidence=0.1,
-            entity_graph=None
+            entity_graph={},
+            domain="unknown",
+            operation_hint=""
         )

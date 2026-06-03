@@ -9,27 +9,27 @@ class HTNPlanner:
 
     DECOMPOSITION_RULES = {
         AxiomType.REDUCTION: [
-            "IDENTIFY_UNKNOWNS",
-            "BUILD_CONSTRAINT",
-            "SOLVE_CONSTRAINT"
+            ("IDENTIFY_UNKNOWNS", "Identify variables to solve for."),
+            ("BUILD_EQUATION", "Construct a mathematical equation."),
+            ("SOLVE_EQUATION", "Solve the mathematical equation.")
         ],
         AxiomType.COMPOSITION: [
-            "EXTRACT_ENTITIES",
-            "IDENTIFY_RELATIONSHIPS",
-            "BUILD_CONSTRAINT_NETWORK",
-            "SOLVE_NETWORK"
+            ("EXTRACT_ENTITIES", "Extract all relevant entities."),
+            ("IDENTIFY_RELATIONSHIPS", "Determine relationships between entities."),
+            ("BUILD_CONSTRAINT_NETWORK", "Construct a network of constraints."),
+            ("SOLVE_NETWORK", "Solve the network of constraints.")
         ],
         AxiomType.SYNTHESIS: [
-            "DEFINE_INPUTS_OUTPUTS",
-            "IDENTIFY_ALGORITHM_PATTERN",
-            "BUILD_PROCEDURE",
-            "VERIFY_INVARIANTS"
+            ("DEFINE_INPUTS_OUTPUTS", "Define inputs and expected outputs."),
+            ("IDENTIFY_ALGORITHM_PATTERN", "Identify suitable algorithmic patterns."),
+            ("BUILD_PROCEDURE", "Construct the procedural logic."),
+            ("VERIFY_INVARIANTS", "Verify algorithmic invariants.")
         ],
         AxiomType.TRANSFORMATION: [
-            "PARSE_SOURCE",
-            "IDENTIFY_TARGET",
-            "MAP_RULES",
-            "APPLY_TRANSFORMATION"
+            ("PARSE_SOURCE_STRUCTURE", "Parse the source information structure."),
+            ("IDENTIFY_TARGET_STRUCTURE", "Identify the target information structure."),
+            ("MAP_TRANSFORMATION_RULES", "Map rules for transformation."),
+            ("APPLY_TRANSFORMATION", "Apply transformation rules.")
         ],
     }
 
@@ -37,11 +37,12 @@ class HTNPlanner:
         """
         Decomposes the intent in perception into a sequence of sub-goals.
         """
-        steps = self.DECOMPOSITION_RULES.get(perception.intent, ["GENERAL_REASONING"])
+        steps = self.DECOMPOSITION_RULES.get(perception.intent, [("UNKNOWN_INTENT_HANDLING", "Handle unknown or unclassifiable intent.")])
         sub_goals = []
-        for step in steps:
+        for name, description in steps:
             sub_goal = SubGoal(
-                description=step,
+                name=name,
+                description=description,
                 required_entities=list(perception.entities.keys()),
                 target_entity=perception.unknown_entities[0] if perception.unknown_entities else "result",
                 axiom_type=perception.intent

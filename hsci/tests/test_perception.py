@@ -1,6 +1,7 @@
 import pytest
 from datetime import datetime
-from hsci.core.data_types import InputSignal, PerceiverConfig, AxiomType, PerceptionMap, Relationship
+from hsci.core.data_types import InputSignal, AxiomType, PerceptionMap, Relationship
+from hsci.core.config import PerceiverConfig
 from hsci.neural.perceiver import NeuralPerceiver
 
 @pytest.fixture
@@ -21,7 +22,10 @@ def test_perceive_reduction_intent_with_entities(neural_perceiver):
 
     assert perception_map.intent == AxiomType.REDUCTION
     assert perception_map.confidence > 0.0 # Expecting some confidence for a matched intent
-    assert perception_map.entities == {"salary": 5000, "tax_rate": 0.20, "net_salary": None}
+    assert perception_map.entities["salary"].value == 5000
+    assert perception_map.entities["tax_rate"].value == 0.20
+    assert perception_map.entities["net_salary"].value == None
+    assert perception_map.entities["net_salary"].known == False
     assert perception_map.unknown_entities == ["net_salary"]
     assert isinstance(perception_map.entity_graph, dict) # Placeholder graph is a dict
     assert "nodes" in perception_map.entity_graph
@@ -60,7 +64,9 @@ def test_perceive_composition_intent(neural_perceiver):
 
     assert perception_map.intent == AxiomType.COMPOSITION
     assert perception_map.confidence == 0.8 # Higher confidence for 'given...find' pattern
-    assert perception_map.entities == {"force": 10, "mass": 2, "acceleration": None}
+    assert perception_map.entities["force"].value == 10
+    assert perception_map.entities["mass"].value == 2
+    assert perception_map.entities["acceleration"].value == None
     assert perception_map.unknown_entities == ["acceleration"]
     assert isinstance(perception_map.entity_graph, dict)
     assert perception_map.relationships == []

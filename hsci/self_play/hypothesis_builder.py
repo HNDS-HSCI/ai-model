@@ -2,7 +2,7 @@ import random
 import re
 from datetime import datetime
 from typing import List, Optional
-from hsci.core.data_types import PerceptionMap, Concept, AxiomType, Graph
+from hsci.core.data_types import PerceptionMap, Concept, AxiomType, Graph, EntityValue
 
 class HypothesisBuilder:
     """
@@ -26,15 +26,17 @@ class HypothesisBuilder:
             
             for v_name in vars:
                 if v_name not in entities:
-                    entities[v_name] = random.randint(1, 100)
+                    val = random.randint(1, 100)
+                    entities[v_name] = EntityValue(value=val, unit=None, known=True, raw_text=str(val))
             
             # Ensure 'result' placeholder is present
             if 'result' not in entities:
-                entities['result'] = None
+                entities['result'] = EntityValue(value=None, unit=None, known=False, raw_text="result")
 
         # Ensure at least one unknown
-        unknown_key = 'result' if entities.get('result') is None else random.choice(list(entities.keys()))
-        entities[unknown_key] = None
+        unknown_key = 'result' if not entities['result'].known else random.choice(list(entities.keys()))
+        entities[unknown_key].value = None
+        entities[unknown_key].known = False
 
         return PerceptionMap(
             entities=entities,
@@ -54,9 +56,10 @@ class HypothesisBuilder:
         vars = [v for v in vars if v not in ['result', 'Int', 'Real', 'And', '==', '+', '-', '*', '/']]
 
         for v_name in vars:
-             entities[v_name] = random.randint(1, int(100 * (1 + difficulty)))
+             val = random.randint(1, int(100 * (1 + difficulty)))
+             entities[v_name] = EntityValue(value=val, unit=None, known=True, raw_text=str(val))
         
-        entities['result'] = None
+        entities['result'] = EntityValue(value=None, unit=None, known=False, raw_text="result")
 
         return PerceptionMap(
             entities=entities,
@@ -72,7 +75,11 @@ class HypothesisBuilder:
         a = random.randint(1, 20)
         b = random.randint(1, 20)
         return PerceptionMap(
-            entities={"a": a, "b": b, "result": None},
+            entities={
+                "a": EntityValue(value=a, unit=None, known=True, raw_text=str(a)), 
+                "b": EntityValue(value=b, unit=None, known=True, raw_text=str(b)), 
+                "result": EntityValue(value=None, unit=None, known=False, raw_text="result")
+            },
             unknown_entities=["result"],
             relationships=[],
             intent=AxiomType.REDUCTION,

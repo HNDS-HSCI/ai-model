@@ -44,7 +44,7 @@ class ReasoningEngine:
         sub_goals = self.htn_planner.decompose(perception)
 
         # 2. Multi-step Assignment
-        assignments: Dict[str, Concept] = {}
+        assignments: Dict[SubGoal, Concept] = {}
         
         # Heuristic: if it's a multi-step problem (like percentage deduction)
         # assign appropriate concepts to sub-goals
@@ -67,7 +67,8 @@ class ReasoningEngine:
                     p_match = [c for c in knowledge.direct_matches if c.name == "PERCENTAGE"]
                     best = p_match[0] if p_match else best
             
-            assignments[goal.id] = best
+            if best is not None:
+                assignments[goal] = best
 
         # 3. Build candidate solution
         # If intent is SYNTHESIS, use the synthesizer

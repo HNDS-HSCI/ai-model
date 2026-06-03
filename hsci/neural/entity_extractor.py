@@ -3,64 +3,73 @@ from typing import Any, Dict, List, Optional
 
 class EntityExtractor:
     """
-    Extracts entities, their values, and their types (known/unknown) from raw text.
+    Extracts entities, their values, and their types (known/known) from raw text.
     Handles numbers, variables, operators, units, unknowns.
     """
 
     def __init__(self):
-        # Key must start with letter to avoid matching "5 = 10" in "x + 5 = 10"
-        self.known_entity_pattern = re.compile(r'([a-zA-Z_]\w*)\s*(?:is|=)\s*(\d+(?:\.\d+)?)(?:\s*\w+)?')
-        # Improved unknown pattern to capture multi-word entities like "tax amount"
-        self.unknown_entity_pattern = re.compile(r'(?:find|calculate|solve for|what is)\s+([\w\s-]+)(?=\W|$)')
-        self.number_pattern = re.compile(r'\b(\d+(?:\.\d+)?)\b')
-        # Coefficient pattern for things like "2x" or "10y"
-        self.coef_pattern = re.compile(r'\b(\d+)([a-zA-Z_])\b')
+        # Improved known pattern: support '=' for strings/numbers, and 'is' strictly for numbers
+        self.known_entity_pattern = re.compile(r'\b([a-zA-Z_]\w*)\s*=\s*([\w\d\.]+)\b|\b([a-zA-Z_]\w*)\s+(?:is)\s+([\d\.]+)\b')
+        
+        # Improved unknown pattern to capture multi-word entities like "tax amount" and support hyphens
+        # Fixed terminator to prevent matching 'in' inside words like 'income'
+        self.unknown_patterns = [
+            re.compile(r'(?:find|calculate|compute|solve for|what is)\s+(?:the\s+)?([a-zA-Z0-9_\-\s]+?)(?:\s+(?:in|if|given)|[\?\.,]|$)'),
+            re.compile(r'([a-zA-Z0-9_\-\s]+?)\s+(?:is\s+unknown|is\s+to\s+be\s+found|is\s+what)'),
+        ]
+        self.stop_words = ["the", "a", "an", "for", "is", "of", "to", "what", "find", "calculate", "compute", "solve", "in", "it"]
 
     def extract(self, text: str) -> Dict[str, Any]:
-        """
-        Extracts entities from the given text.
-        """
-        entities: Dict[str, Any] = {}
-
-        # 1. Extract coefficients (e.g., "2x")
-        for match in self.coef_pattern.finditer(text):
-            coef = int(match.group(1))
-            var = match.group(2)
-            entities[f"{var}_coef"] = coef
-            if var not in entities:
-                entities[var] = None
-
-        # 2. Extract known entities (e.g., "salary is 5000", "x = 10")
-        for match in self.known_entity_pattern.finditer(text):
-            key = match.group(1)
-            value_str = match.group(2)
-            try:
-                entities[key] = float(value_str) if '.' in value_str else int(value_str)
-            except ValueError:
-                entities[key] = value_str
-
-        # 3. Extract unknown entities (e.g., "find distance")
-        unknown_found = False
-        for match in self.unknown_entity_pattern.finditer(text):
-            key = match.group(1).strip().lower().replace(' ', '_').replace('-', '_')
-            if key not in entities:
-                entities[key] = None
-                unknown_found = True
-
-        # 4. Handle standalone numbers
-        nums = [m.group(1) for m in self.number_pattern.finditer(text)]
+        entities = {}
         
-        extracted_values = [str(v) for v in entities.values() if v is not None]
-        unassigned_nums = [n for n in nums if n not in extracted_values]
+        # 1. Extract knowns
+        knowns = self.known_entity_pattern.findall(text)
+        for match in knowns:
+            # findall with OR returns tuples of groups
+            # group 0,1 for '=', group 2,3 for 'is'
+            if match[0]:
+                key, val = match[0], match[1]
+            else:
+                key, val = match[2], match[3]
+            entities[key.strip()] = self._parse_val(val.strip())
 
-        if unassigned_nums:
-            for i, num_str in enumerate(unassigned_nums):
-                key = f"op_{len(entities) + 1}"
-                entities[key] = float(num_str) if '.' in num_str else int(num_str)
+        # 2. Extract unknowns
+        unknown_found = False
+        for pattern in self.unknown_patterns:
+            matches = pattern.findall(text.lower())
+            for match in matches:
+                # Clean the match
+                clean_match = match.strip().replace('-', '_') # Replace hyphen with underscore for variable naming
+                # Remove stop words from the start/end
+                words = clean_match.split()
+                filtered_words = [w for w in words if w not in self.stop_words]
+                if filtered_words:
+                    entity_name = "_".join(filtered_words)
+                    # Prioritize known over unknown
+                    if entity_name not in entities:
+                        entities[entity_name] = None
+                        unknown_found = True
 
-        # 5. Final Result marker
+        # 3. Handle direct numbers without labels (e.g., "5 + 5")
+        # Let's only do it if no labeled entities were found
+        if not entities:
+            numbers = re.findall(r'\b\d+(?:\.\d+)?\b', text)
+            for i, num in enumerate(numbers):
+                entities[f"op_{i+1}"] = self._parse_val(num)
+
+        # 4. Final Result marker
         if not unknown_found and len(entities) >= 2:
-             if "result" not in entities:
-                 entities["result"] = None
+             # Only add 'result' automatically if all we found were generic operands
+             if all(k.startswith("op_") for k in entities.keys()):
+                 if "result" not in entities:
+                     entities["result"] = None
 
         return entities
+
+    def _parse_val(self, num_str: str) -> Any:
+        try:
+            if '.' in num_str:
+                return float(num_str)
+            return int(num_str)
+        except ValueError:
+            return num_str

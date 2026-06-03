@@ -1,6 +1,6 @@
 from typing import Dict, List, Optional
 from hsci.core.data_types import Concept, AxiomType
-from hsci.symbolic.z3_templates import Z3_TEMPLATES
+from hsci.symbolic.z3_templates import Z3_TEMPLATES, Z3_METADATA
 from datetime import datetime
 import random
 import uuid
@@ -11,15 +11,15 @@ class ConceptLibrary:
     For now, uses an in-memory dictionary.
     """
 
-    def __init__(self, seed: bool = True):
+    def __init__(self, seed: bool = False):
         self._concepts: Dict[str, Concept] = {}
         if seed:
             self._seed_basic_concepts()
 
     def _seed_basic_concepts(self):
-        """Pre-seeds the library with basic arithmetic concepts from Z3_TEMPLATES."""
-        for name, data in Z3_TEMPLATES.items():
-            concept_id = str(uuid.uuid4())
+        """Pre-seeds the library with basic arithmetic concepts from Z3_METADATA."""
+        for name, data in Z3_METADATA.items():
+            concept_id = name.lower() # Use lowercased name as ID for predictability
             concept = Concept(
                 id=concept_id,
                 name=name,
@@ -33,7 +33,7 @@ class ConceptLibrary:
                 created_at=datetime.now(),
                 last_used=datetime.now(),
                 generalizes_to=[],
-                required_entities=self._extract_entities_from_template(data["template"]),
+                required_entities=data.get("entities", []),
                 optional_entities=[],
                 z3_verified=True
             )
@@ -47,8 +47,14 @@ class ConceptLibrary:
         return [w for w in words if w not in ['result', 'base', 'rate', 'a', 'b', 'c', 'x', 'Int', 'Real', 'And', 'ForAll', 'Implies', 'inv']] + ['result']
         # This is a very rough heuristic, needs improvement
 
+    @property
+    def concepts(self) -> List[Concept]:
+        return list(self._concepts.values())
+
     def add(self, concept: Concept):
         """Adds a new concept to the library."""
+        if concept.id in self._concepts:
+            print(f"Warning: Concept with ID '{concept.id}' already exists. Updating.")
         self._concepts[concept.id] = concept
 
     def find_by_intent(self, intent: AxiomType, entity_types: List[str]) -> List[Concept]:
@@ -65,6 +71,8 @@ class ConceptLibrary:
         """Updates the strength of a concept."""
         if concept_id in self._concepts:
             self._concepts[concept_id].strength = strength
+        else:
+            print(f"Warning: Concept with ID '{concept_id}' not found for strength update.")
 
     def contains(self, concept_id: str) -> bool:
         """Checks if a concept with the given ID exists in the library."""

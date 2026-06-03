@@ -38,9 +38,9 @@ class Z3VerificationEngine:
                 correction_hint="Conversational/Synthesis input — formal proof not required."
             )
 
-        # Ensure we have a context
-        if ctx is None:
-            ctx = z3.Context()
+        # Ensure we have a context - USE GLOBAL CONTEXT BY DEFAULT for test compatibility
+        # if ctx is None:
+        #     ctx = z3.main_ctx() # Use global context if none provided
             
         solver = z3.Solver(ctx=ctx)
         solver.set("timeout", self.config.z3_timeout_ms)
@@ -66,8 +66,14 @@ class Z3VerificationEngine:
             for constraint in known_constraints:
                 solver.add(constraint)
             
-            # Add solution constraint
-            solver.add(candidate.value)
+            # Step 3: Add candidate solution
+            # If candidate.value is already a Z3 expression, we might need to translate it
+            # if it was created in a different context.
+            if ctx is not None and candidate.value.ctx != ctx:
+                 translated_candidate = candidate.value.translate(ctx)
+                 solver.add(translated_candidate)
+            else:
+                 solver.add(candidate.value)
 
             # Step 4: Check satisfiability
             result = solver.check()
@@ -89,7 +95,7 @@ class Z3VerificationEngine:
                 return VerificationResult(
                     valid=False,
                     status=VerificationStatus.DISPROVEN,
-                    counterexample={"status": "unsat"},
+                    counterexample={"status": "unsat", "error": "Counterexample extraction not fully implemented."},
                     correction_hint="The proposed solution contradicts known constraints.",
                     confidence=0.0,
                     proof_trace=None,
@@ -107,6 +113,9 @@ class Z3VerificationEngine:
                     z3_model=None
                 )
         except Exception as e:
+            import traceback
+            print(f"Z3VerificationEngine Error: {e}")
+            traceback.print_exc()
             return VerificationResult(
                 valid=False,
                 status=VerificationStatus.UNKNOWN,
@@ -117,12 +126,18 @@ class Z3VerificationEngine:
                 z3_model=None
             )
 
-    def _build_constraints(self, entities: Dict[str, EntityValue], ctx: z3.Context) -> List[z3.BoolRef]:
+    def _build_constraints(self, entities: Dict[str, EntityValue], ctx: Optional[z3.Context]) -> List[z3.BoolRef]:
         constraints = []
         for name, ev in entities.items():
             if ev.known and ev.value is not None:
-                z3_var = z3.Real(name, ctx=ctx)
-                constraints.append(z3_var == float(ev.value))
+                # Use Real for all numeric values for simplicity
+                try:
+                    val = float(ev.value)
+                    z3_var = z3.Real(name, ctx=ctx)
+                    constraints.append(z3_var == val)
+                except (ValueError, TypeError):
+                    # Handle non-numeric or incompatible values
+                    pass
         return constraints
 
     def _extract_proof_trace(self, model: z3.ModelRef, entities: Dict[str, EntityValue], concept: Optional[Concept], candidate: Expression) -> ProofTrace:

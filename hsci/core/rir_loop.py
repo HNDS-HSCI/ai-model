@@ -31,7 +31,7 @@ class RIRLoop:
         self.perceiver = NeuralPerceiver(PerceiverConfig())
 
         # Layer 2: Knowledge Base
-        self.knowledge_base = KnowledgeBase()
+        self.knowledge_base = KnowledgeBase(seed=True)
 
         # Layer 3: Reasoning Engine
         self.reasoning_engine = ReasoningEngine()

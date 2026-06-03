@@ -50,6 +50,7 @@ class ConceptComposer:
         """
         Placeholder for composing analogical concepts.
         """
+        print(f"ConceptComposer: Composing analogies for sub-goal '{sub_goal.name}' (placeholder)")
         if analogical:
             return self.rank_by_strength(analogical)[0]
         return None
@@ -58,4 +59,5 @@ class ConceptComposer:
         """
         Placeholder for synthesizing a concept from primitives.
         """
+        print(f"ConceptComposer: Synthesizing from primitives for sub-goal '{sub_goal.name}' (placeholder)")
         return None

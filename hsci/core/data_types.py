@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Any, Tuple
+from typing import Dict, List, Optional, Any, Tuple, Union
 from enum import Enum
 from datetime import datetime
 from uuid import uuid4
@@ -9,6 +9,13 @@ from uuid import uuid4
 # ─────────────────────────────────────────────
 
 Graph = Dict[str, Any]
+
+@dataclass
+class InputSignal:
+    raw_text: str
+    structured_data: Optional[Dict[str, Any]] = None
+    timestamp: datetime = field(default_factory=datetime.now)
+    session_id: str = "default_session"
 
 @dataclass
 class Expression:
@@ -80,14 +87,14 @@ class PerceptionMap:
     intent: AxiomType
     confidence: float
     entity_graph: Graph
-    domain: str
-    operation_hint: str
+    domain: str = "general"
+    operation_hint: str = ""
 
 # ─────────────────────────────────────────────
 # LAYER 2: KNOWLEDGE TYPES
 # ─────────────────────────────────────────────
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class Concept:
     id: str = field(default_factory=lambda: str(uuid4()))
     name: str = ""
@@ -95,21 +102,24 @@ class Concept:
     abstract_rule: str = ""       # "result = a + b"
     z3_template: str = ""         # Z3-compatible constraint string
     domain: str = "arithmetic"
-    learned_from_domains: List[str] = field(default_factory=list)
+    learned_from_domains: List[str] = field(default_factory=list, hash=False)
     strength: float = 0.5         # 0.0 to 1.0
     proof_count: int = 0
-    created_at: datetime = field(default_factory=datetime.now)
-    last_used: datetime = field(default_factory=datetime.now)
-    generalizes_to: List[str] = field(default_factory=list)
-    required_entities: List[str] = field(default_factory=list)
+    created_at: datetime = field(default_factory=datetime.now, hash=False)
+    last_used: datetime = field(default_factory=datetime.now, hash=False)
+    generalizes_to: List[str] = field(default_factory=list, hash=False)
+    required_entities: List[str] = field(default_factory=list, hash=False)
+    optional_entities: List[str] = field(default_factory=list, hash=False)
     z3_verified: bool = False
 
 @dataclass
 class Episode:
     id: str = field(default_factory=lambda: str(uuid4()))
+    input: Optional[PerceptionMap] = None # Added for test compatibility
     input_summary: str = ""
     domain: str = ""
-    solution: str = ""
+    solution: Any = None # Changed from str to Any for Expression
+    proof: Optional['ProofTrace'] = None # Added for test compatibility
     concepts_used: List[str] = field(default_factory=list)
     was_verified: bool = False
     timestamp: datetime = field(default_factory=datetime.now)
@@ -125,21 +135,23 @@ class KnowledgeResult:
 # LAYER 3: REASONING TYPES
 # ─────────────────────────────────────────────
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class SubGoal:
     id: str = field(default_factory=lambda: str(uuid4()))
+    name: str = "" # Added for test compatibility
     description: str = ""
-    required_entities: List[str] = field(default_factory=list)
+    required_entities: List[str] = field(default_factory=list, hash=False)
     target_entity: str = ""
     axiom_type: AxiomType = AxiomType.REDUCTION
 
 @dataclass
 class ReasoningPlan:
     sub_goals: List[SubGoal]
-    concept_assignments: Dict[str, Concept]
+    concept_assignments: Dict[SubGoal, Concept] # Changed from str to SubGoal for test compatibility
     candidate_solution: Expression
-    concepts_used: List[str]
-    primary_concept: Optional[Concept]
+    concepts_used: List[str] = field(default_factory=list) # Added default
+    primary_concept: Optional[Concept] = None # Added default
+    composition_order: List[Any] = field(default_factory=list) # Added for test compatibility
     perception: Optional[PerceptionMap] = None
     knowledge: Optional[KnowledgeResult] = None
 
@@ -162,6 +174,17 @@ class ProofTrace:
     concepts_applied: List[str]
     structural_pattern: str
     version: int = 0
+
+    @property
+    def variables(self):
+        return self.variable_assignments
+
+    def __init__(self, steps, variable_assignments=None, concepts_applied=None, structural_pattern=None, version=0, variables=None):
+        self.steps = steps
+        self.variable_assignments = variable_assignments or variables or {}
+        self.concepts_applied = concepts_applied or []
+        self.structural_pattern = structural_pattern or ""
+        self.version = version
 
     def feature_relevance(self, feature_name: str) -> float:
         return 1.0 if feature_name in self.concepts_applied else 0.1

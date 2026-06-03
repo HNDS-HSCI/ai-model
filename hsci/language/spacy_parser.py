@@ -1,89 +1,43 @@
 import re
 from typing import Dict, List, Any, Optional
 from hsci.core.data_types import StructuredInput, EntityValue, AxiomType
+from hsci.neural.entity_extractor import EntityExtractor
 
 class SpacyParser:
     """
-    Rule-based language parser using regex and heuristics.
+    Rule-based language parser using heuristics and EntityExtractor.
     v3.1: Improved to avoid duplicate entity extraction.
     """
 
     def __init__(self):
-        # Key must start with letter. Unit is optional and should not be a conjunction.
-        self.known_pattern = re.compile(r'([a-zA-Z_]\w*)\s*(?:is|=)\s*(\d+(?:\.\d+)?)(?:\s*(?!and|or|then|if|but)(\w+|%))?')
-        self.unknown_pattern = re.compile(r'(?:find|calculate|solve for|what is)\s+([\w\s-]+)(?=\W|$)')
-        self.number_pattern = re.compile(r'\b(\d+(?:\.\d+)?)(?:\s*(?!and|or|then|if|but)(\w+|%))?\b')
-        self.coef_pattern = re.compile(r'\b(\d+)([a-zA-Z_])\b')
+        self.entity_extractor = EntityExtractor()
 
     def parse(self, text: str) -> StructuredInput:
         """
         Parses text into StructuredInput.
         """
+        # 1. Delegate entity extraction to the more robust EntityExtractor
+        entities_raw = self.entity_extractor.extract(text)
+        
         entities: Dict[str, EntityValue] = {}
         unknowns: List[str] = []
-
-        # 1. Extract knowns (e.g., "salary is 5000")
-        # We track character spans to avoid overlapping matches
-        spans = []
-        for match in self.known_pattern.finditer(text):
-            name = match.group(1)
-            val_str = match.group(2)
-            unit = match.group(3)
-            val = float(val_str) if '.' in val_str else int(val_str)
-            
-            # Normalize percentage
-            if unit == '%':
-                val = val / 100.0
-                unit = 'percentage'
-            
-            entities[name] = EntityValue(
-                value=val,
-                unit=unit,
-                known=True,
-                raw_text=match.group(0)
-            )
-            spans.append(match.span())
-
-        # 2. Extract unknowns
-        for match in self.unknown_pattern.finditer(text):
-            name = match.group(1).strip().lower().replace(' ', '_').replace('-', '_')
-            if name not in entities:
-                entities[name] = EntityValue(
-                    value=None,
-                    unit=None,
-                    known=False,
-                    raw_text=match.group(0)
-                )
-                unknowns.append(name)
-            spans.append(match.span())
-
-        # 3. Handle standalone numbers (only if not part of previous spans)
-        unassigned_idx = 1
-        for match in self.number_pattern.finditer(text):
-            start, end = match.span()
-            # Check if this number is already covered by a known_pattern span
-            if any(s <= start and end <= e for s, e in spans):
-                continue
-                
-            val_str = match.group(1)
-            unit = match.group(2)
-            val = float(val_str) if '.' in val_str else int(val_str)
-            if unit == '%':
-                val = val / 100.0
-                unit = 'percentage'
-            
-            key = f"op_{unassigned_idx}"
-            while key in entities:
-                unassigned_idx += 1
-                key = f"op_{unassigned_idx}"
-            
-            entities[key] = EntityValue(
-                value=val,
-                unit=unit,
-                known=True,
-                raw_text=match.group(0)
-            )
-            unassigned_idx += 1
+        
+        # 2. Convert to EntityValue and track unknowns
+        for k, v in entities_raw.items():
+            if isinstance(v, EntityValue):
+                 entities[k] = v
+                 if not v.known:
+                     unknowns.append(k)
+            else:
+                 is_known = v is not None
+                 entities[k] = EntityValue(
+                     value=v,
+                     unit=None,
+                     known=is_known,
+                     raw_text=str(v)
+                 )
+                 if not is_known:
+                     unknowns.append(k)
 
         # Default unknowns
         if not unknowns:
