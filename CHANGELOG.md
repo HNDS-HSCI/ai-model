@@ -1,3 +1,10 @@
+## [2.11.1](https://github.com/HNDS-HSCI/ai-model/compare/v2.11.0...v2.11.1) (2026-06-11)
+
+
+### Bug Fixes
+
+* resolve data type hashing errors and stabilize HSCI tests ([e4092e6](https://github.com/HNDS-HSCI/ai-model/commit/e4092e690f49f8aea6a5a833856e14d4202427dc))
+
 # [2.11.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.10.0...v2.11.0) (2026-05-01)
 
 
