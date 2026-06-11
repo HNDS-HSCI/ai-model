@@ -1,3 +1,10 @@
+# [2.11.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.10.0...v2.11.0) (2026-05-01)
+
+
+### Features
+
+* stabilize RIR v3.1 and enable cross-axiomatic reasoning ([53b0c2b](https://github.com/HNDS-HSCI/ai-model/commit/53b0c2bc1ea74abee647005cb8db62882a4eea0b))
+
 # [2.10.0](https://github.com/HNDS-HSCI/ai-model/compare/v2.9.0...v2.10.0) (2026-04-30)
 
 
