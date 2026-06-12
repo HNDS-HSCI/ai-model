@@ -210,6 +210,7 @@ class WeightUpdate:
     learning_rate: float
     proof_version: int
     source: str                    # "proof" or "counterexample"
+    direction_hint: str = ""       # Phase 3: AxiomType.value used, passed to perceiver
 
 @dataclass
 class LearningResult:

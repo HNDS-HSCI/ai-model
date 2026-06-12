@@ -13,6 +13,7 @@ from hsci.symbolic.z3_verifier import Z3VerificationEngine
 from hsci.learning.learning_engine import LearningEngine
 from hsci.response.response_bridge import ResponseBridge
 from hsci.self_play.engine import SelfPlayEngine
+from hsci.training.weight_persistence import WeightPersistence  # Phase 5
 
 class RIRLoop:
     """
@@ -57,7 +58,13 @@ class RIRLoop:
         )
         self.self_play.start()
 
+        # Phase 5: Auto-load persisted neural weights
+        self._weight_persistence = WeightPersistence()
+        self._weight_persistence.load(self.perceiver)
+
         print(f"HSCI initialized. Concepts loaded: {len(self.knowledge_base.concept_library.concepts)}")
+        print(f"  Neural classifier proof count: {self.perceiver.intent_classifier.proof_count}")
+        print(f"  Weight version: {self.perceiver.weight_version}")
 
     def process_internal(self, raw_input: str) -> FinalOutput:
         """
@@ -170,3 +177,14 @@ class RIRLoop:
             elif plan and plan.candidate_solution:
                 return plan.candidate_solution.value
         return "Unverified or Error"
+
+    def save_weights(self):
+        """Phase 5: Manually trigger weight save."""
+        self._weight_persistence.save(self.perceiver)
+
+    def get_neural_stats(self) -> dict:
+        """Return current neural classifier training stats."""
+        return {
+            "weight_version": self.perceiver.weight_version,
+            "classifier": self.perceiver.intent_classifier.stats(),
+        }

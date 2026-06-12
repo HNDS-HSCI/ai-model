@@ -17,7 +17,7 @@ class ResponseBridge:
         """
         # 1. Handle SYNTHESIS (Code Generation)
         if any(c in ["SYNTHESIS"] for c in final_output.concepts_used) or domain == "software_engineering":
-            prefix = "💻 Code Synthesis Result:\n"
+            prefix = "[CODE SYNTHESIS]\n"
             code = final_output.answer if isinstance(final_output.answer, str) else str(final_output.answer)
             return f"{prefix}I have synthesized the following algorithm based on your request:\n\n```python\n{code}\n```\n\nVerified by structural induction."
 
@@ -50,12 +50,12 @@ class ResponseBridge:
         prefix = ""
         unit = ""
         if domain == "finance":
-            prefix = "💰 Financial Calculation Result:\n"
-            unit = "₹" # Default for India as per previous memories
+            prefix = "[FINANCE] Calculation Result:\n"
+            unit = "Rs."  # ASCII-safe rupee
         elif domain == "physics":
-            prefix = "⚛️ Physics Calculation Result:\n"
+            prefix = "[PHYSICS] Calculation Result:\n"
         else:
-            prefix = "✅ Calculation Result:\n"
+            prefix = "[VERIFIED] Calculation Result:\n"
 
         display_answer = f"{unit}{answer_val}" if unit else f"{answer_val}"
         answer_text = f"The answer is {display_answer}."
@@ -64,7 +64,7 @@ class ResponseBridge:
         for i, step in enumerate(final_output.reasoning_trace):
              trace_text += f"\n  {i+1}. {step}"
         
-        verification_text = f"\n\n✓ Mathematically verified by Z3 SMT Solver."
+        verification_text = f"\n\n[OK] Mathematically verified by Z3 SMT Solver."
         concepts_text = f"\nConcepts used: {', '.join(final_output.concepts_used)}"
 
         full_response = f"{prefix}{answer_text}{trace_text}{verification_text}{concepts_text}"
@@ -72,7 +72,7 @@ class ResponseBridge:
         return full_response
 
     def _generate_unverified_response(self, final_output: FinalOutput) -> str:
-        msg = "⚠ I was unable to formally verify this answer."
+        msg = "[WARNING] I was unable to formally verify this answer."
         if final_output.correction_hint:
             msg += f"\nHint: {final_output.correction_hint}"
         

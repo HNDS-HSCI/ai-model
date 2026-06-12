@@ -63,12 +63,13 @@ class LearningEngine:
             self.knowledge.ontology.integrate(new_concept)
             learned = new_concept
 
-        # 3. Update neural weights based on proof
+        # 3. Update neural weights based on proof (Phase 3)
         weight_update = self.proof_guided_updater.compute_update(
             perception=perception,
             proof_trace=verification.proof_trace,
             direction="strengthen",
-            learning_rate=self.learning_rate
+            learning_rate=self.learning_rate,
+            intent_hint=perception.intent.value   # Phase 3: pass correct intent
         )
         self.perceiver.update_weights_from_proof(weight_update)
 
@@ -98,7 +99,8 @@ class LearningEngine:
             perception=perception,
             proof_trace=verification.counterexample or {},
             direction="weaken",
-            learning_rate=self.learning_rate * 0.5
+            learning_rate=self.learning_rate * 0.5,
+            intent_hint=perception.intent.value   # Phase 3: pass intent even on failure
         )
         self.perceiver.update_weights_from_proof(weight_update)
 

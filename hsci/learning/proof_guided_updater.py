@@ -1,4 +1,4 @@
-from typing import Any, List, Dict
+from typing import Any, List, Dict, Optional
 from hsci.core.data_types import PerceptionMap, ProofTrace, WeightUpdate
 
 class ProofGuidedWeightUpdater:
@@ -7,6 +7,8 @@ class ProofGuidedWeightUpdater:
 
     Key insight: A proof trace tells us WHICH features of the
     perception were structurally relevant to the correct solution.
+    The direction_hint carries the correct AxiomType to the NeuralPerceiver
+    so it can run a real gradient update on the NativeNeuralClassifier.
     """
 
     def compute_update(
@@ -14,7 +16,8 @@ class ProofGuidedWeightUpdater:
         perception: PerceptionMap,
         proof_trace: Any,
         direction: str,
-        learning_rate: float
+        learning_rate: float,
+        intent_hint: str = ""      # Phase 3: pass correct AxiomType.value
     ) -> WeightUpdate:
 
         deltas = {}
@@ -30,7 +33,7 @@ class ProofGuidedWeightUpdater:
         contributing = set()
         if hasattr(proof_trace, 'variable_assignments'):
              contributing = set(proof_trace.variable_assignments.keys())
-        
+
         non_contributing = all_features - contributing
         for feature in non_contributing:
             deltas[f"entity_weight_{feature}"] = -0.001
@@ -40,5 +43,6 @@ class ProofGuidedWeightUpdater:
             direction=direction,
             learning_rate=learning_rate,
             proof_version=getattr(proof_trace, 'version', 0) if hasattr(proof_trace, 'version') else 0,
-            source="proof" if direction == "strengthen" else "counterexample"
+            source="proof" if direction == "strengthen" else "counterexample",
+            direction_hint=intent_hint,   # Phase 3: carry intent to perceiver
         )

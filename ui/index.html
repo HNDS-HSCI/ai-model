@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HSCI - Hyper-Symbolic AI</title>
+    <title>HSCI v3.0 — Neurosymbolic AI Dashboard</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -114,8 +114,8 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
-        const { Send, cpu, Brain, Sparkles, ChevronDown, ChevronRight, Terminal, CheckCircle2, XCircle, AlertCircle, History, Trash2 } = lucide;
+        const { useState, useEffect, useRef, useCallback } = React;
+        const { Send, Brain, Sparkles, ChevronDown, ChevronRight, Terminal, CheckCircle2, XCircle, AlertCircle, History, Trash2, Activity, Cpu, Zap } = lucide;
 
         // --- Component: Thinking Indicator ---
         const ThinkingIndicator = () => (
@@ -206,19 +206,34 @@
         function App() {
             const [input, setInput] = useState("");
             const [messages, setMessages] = useState([
-                { role: 'ai', content: "Hello. I am HSCI, a Hyper-Symbolic Cognitive Intelligence.\n\nI don't just guess—I prove. Ask me to solve a math problem, generate code, or analyze data, and I will show you my reasoning.", reasoning: null }
+                { role: 'ai', content: "Hello. I am HSCI v3.0, a Neurosymbolic Cognitive Intelligence.\n\nI don't guess — I prove. Every answer is verified by a Z3 SMT solver and backed by a real neural network trained on mathematical proofs.\n\nAsk me anything: math, physics, finance, geometry, or code.", reasoning: null }
             ]);
             const [isThinking, setIsThinking] = useState(false);
+            const [neuralStats, setNeuralStats] = useState({ weight_version: 0, proof_count: 0, avg_loss: 0 });
             const messagesEndRef = useRef(null);
 
             const scrollToBottom = () => {
                 messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
             };
 
+            // Fetch neural stats from API
+            const fetchNeuralStats = useCallback(async () => {
+                try {
+                    const res = await fetch('/neural-stats');
+                    if (res.ok) setNeuralStats(await res.json());
+                } catch {}
+            }, []);
+
             useEffect(() => {
                 scrollToBottom();
-                lucide.createIcons(); // Re-render icons on updates
+                lucide.createIcons();
             }, [messages, isThinking]);
+
+            useEffect(() => {
+                fetchNeuralStats();
+                const interval = setInterval(fetchNeuralStats, 5000);
+                return () => clearInterval(interval);
+            }, [fetchNeuralStats]);
 
             const handleSend = async (e) => {
                 e.preventDefault();
@@ -242,13 +257,20 @@
                     if (!response.ok) throw new Error("Brain unreachable");
                     
                     const data = await response.json();
+                    fetchNeuralStats(); // Refresh stats after each proof
                     
                     // Add AI Response
                     setMessages(prev => [...prev, {
                         role: 'ai',
                         content: data.solution || "I could not derive a solution.",
                         reasoning: data.deliberation,
-                        success: data.success
+                        success: data.success,
+                        confidence: data.confidence,
+                        concepts: data.concepts_used,
+                        domain: data.domain,
+                        intent: data.intent,
+                        attempts: data.attempts,
+                        proof_count: data.proof_count,
                     }]);
 
                 } catch (error) {
@@ -281,15 +303,32 @@
                                 </div>
                                 <div>
                                     <h1 className="font-bold text-lg tracking-tight text-white leading-none">HSCI</h1>
-                                    <span className="text-[10px] text-accent-500 uppercase tracking-widest font-semibold">Neuro-Symbolic Core</span>
+                                    <span className="text-[10px] text-accent-500 uppercase tracking-widest font-semibold">v3.0 · Neurosymbolic Core</span>
                                 </div>
                             </a>
                         </div>
                         
                         <div className="flex items-center gap-4">
-                            <div className="hidden md:flex items-center gap-6 text-xs font-medium text-slate-500">
-                                <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div> PROVER ONLINE</span>
-                                <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-accent-500 shadow-[0_0_8px_rgba(6,182,212,0.5)]"></div> MODEL ONLINE</span>
+                            {/* Live Neural Stats */}
+                            <div className="hidden md:flex items-center gap-5 text-xs font-mono text-slate-400 bg-slate-900 px-4 py-2 rounded-lg border border-slate-800">
+                                <span title="Total Z3 proofs processed by neural classifier">
+                                    <span className="text-slate-500">PROOFS </span>
+                                    <span className="text-accent-500 font-bold">{neuralStats.proof_count}</span>
+                                </span>
+                                <span className="text-slate-700">|</span>
+                                <span title="Neural weight update version">
+                                    <span className="text-slate-500">WGT-v</span>
+                                    <span className="text-purple-400 font-bold">{neuralStats.weight_version}</span>
+                                </span>
+                                <span className="text-slate-700">|</span>
+                                <span title="Average classifier loss (lower = smarter)">
+                                    <span className="text-slate-500">LOSS </span>
+                                    <span className="text-emerald-400 font-bold">{neuralStats.avg_loss?.toFixed(4) ?? '—'}</span>
+                                </span>
+                            </div>
+                            <div className="hidden md:flex items-center gap-4 text-xs font-medium text-slate-500">
+                                <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div> Z3 ONLINE</span>
+                                <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-accent-500 shadow-[0_0_8px_rgba(6,182,212,0.5)]"></div> GNN ONLINE</span>
                             </div>
                             <button onClick={clearHistory} className="p-2 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white transition-colors" title="Clear History">
                                 <i data-lucide="trash-2" className="w-4 h-4"></i>

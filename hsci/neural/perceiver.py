@@ -1,14 +1,15 @@
 import torch
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Union, Optional
 from hsci.core.data_types import (
-    StructuredInput, PerceptionMap, Graph, 
+    StructuredInput, PerceptionMap, Graph,
     Relationship, WeightUpdate, AxiomType, InputSignal, EntityValue
 )
 from hsci.core.config import PerceiverConfig
 from hsci.neural.encoder import GraphEncoder
 from hsci.neural.relationship_detector import RelationshipDetector
-from hsci.neural.intent_classifier import IntentClassifier
 from hsci.neural.entity_extractor import EntityExtractor
+from hsci.neural.text_feature_encoder import NativeTextEncoder   # Phase 1
+from hsci.neural.native_neural_classifier import NativeNeuralClassifier  # Phase 2
 
 class NeuralPerceiver:
     """
@@ -26,9 +27,18 @@ class NeuralPerceiver:
             num_layers=config.num_layers
         )
         self.relationship_detector = RelationshipDetector()
-        self.intent_classifier = IntentClassifier(input_dim=config.input_dim, num_classes=4)
+        # Phase 2: Real neural classifier (replaces keyword IntentClassifier)
+        self.intent_classifier = NativeNeuralClassifier(
+            input_dim=config.output_dim,  # GNN output dim (128)
+            num_classes=4
+        )
         self.entity_extractor = EntityExtractor()
+        # Phase 1: Real text-to-tensor encoder
+        self.text_encoder = NativeTextEncoder()
         self.weight_version = 0
+        # Phase 3: Store last embedding for proof-guided backprop
+        self.last_embedding: Optional[torch.Tensor] = None
+        self.last_raw_text: str = ""
 
     def perceive(self, structured: Union[StructuredInput, InputSignal]) -> PerceptionMap:
         """
@@ -56,29 +66,52 @@ class NeuralPerceiver:
                 parse_method="neural_fallback"
             )
 
-        # Step 1: Build entity graph (placeholder for rich structure)
+        # Step 1: Build entity graph
         graph = self._build_graph(structured)
 
-        # Step 2: Encode graph (using real GNN encoder)
+        # Step 2: Encode graph using REAL entity features (Phase 1)
         with torch.no_grad():
-             dummy_x = torch.randn(len(structured.entities) or 1, self.config.input_dim)
-             dummy_edge_index = torch.zeros((2, 0), dtype=torch.long)
-             dummy_batch = torch.zeros(dummy_x.size(0), dtype=torch.long)
-             # Standard module call invokes forward()
-             embedding = self.encoder(dummy_x, dummy_edge_index, dummy_batch)
+            x = self.text_encoder.encode_entities(
+                structured.entities,
+                self.config.input_dim,
+                domain=structured.domain
+            )
+            edge_index = self.text_encoder.build_edge_index(x.size(0))
+            batch = torch.zeros(x.size(0), dtype=torch.long)
+            embedding = self.encoder(x, edge_index, batch)
 
         # Step 3: Extract relationships
         relationships = self.relationship_detector.detect(graph, embedding)
 
-        # Map intent string to AxiomType enum
-        intent = AxiomType(structured.intent)
+        # Step 4: Store embedding for proof-guided learning (Phase 3)
+        self.last_embedding = embedding.detach().clone()
+        self.last_raw_text = structured.raw_normalized
+
+        # Step 5: Neural intent classification (Phase 2)
+        neural_intent, neural_conf = self.intent_classifier.classify_with_fallback(
+            embedding, raw_text=structured.raw_normalized
+        )
+
+        # Blend: trust language bridge if it has high confidence (e.g. clear keywords),
+        # otherwise use neural classification
+        if structured.confidence >= 0.90:
+            # Language bridge is very confident (e.g. social greeting) — trust it
+            try:
+                final_intent = AxiomType(structured.intent)
+                final_confidence = structured.confidence
+            except ValueError:
+                final_intent = neural_intent
+                final_confidence = neural_conf
+        else:
+            final_intent = neural_intent
+            final_confidence = neural_conf
 
         return PerceptionMap(
             entities=structured.entities,
             unknown_entities=structured.unknowns,
             relationships=relationships,
-            intent=intent,
-            confidence=structured.confidence,
+            intent=final_intent,
+            confidence=final_confidence,
             entity_graph=graph,
             domain=structured.domain,
             operation_hint=structured.operation_hint
@@ -90,7 +123,35 @@ class NeuralPerceiver:
 
     def update_weights_from_proof(self, update: WeightUpdate):
         """
-        CRITICAL: ONLY way weights change.
+        Phase 3: REAL gradient-based weight update.
+        Uses the stored embedding + proof direction to train the neural classifier.
         """
-        print(f"NeuralPerceiver: Proof-guided weight update direction='{update.direction}' (version {update.proof_version})")
+        if self.last_embedding is None:
+            print(f"[NeuralPerceiver] No embedding stored yet, skipping weight update.")
+            return
+
+        strengthen = (update.direction == "strengthen")
+
+        # Resolve intent from direction_hint (set by LearningEngine)
+        intent_hint = getattr(update, 'direction_hint', '')
+        try:
+            correct_intent = AxiomType(intent_hint) if intent_hint else None
+        except ValueError:
+            correct_intent = None
+
+        if correct_intent is not None:
+            loss = self.intent_classifier.update_from_proof(
+                self.last_embedding,
+                correct_intent,
+                strengthen=strengthen,
+                learning_rate=update.learning_rate
+            )
+            print(
+                f"[NeuralPerceiver] Proof-guided update | "
+                f"intent={correct_intent.value} | strengthen={strengthen} | "
+                f"loss={loss:.4f} | version={self.weight_version + 1}"
+            )
+        else:
+            print(f"[NeuralPerceiver] Proof update skipped (no intent hint). direction='{update.direction}'")
+
         self.weight_version += 1

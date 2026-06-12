@@ -68,12 +68,19 @@ async def get_dashboard():
 @app.get("/health")
 async def health():
     # Health check endpoint for production monitoring
+    episode_count = len(brain.knowledge_base.episode_memory.episodes) if hasattr(brain.knowledge_base.episode_memory, 'episodes') else 0
+    neural_stats = brain.get_neural_stats()
     return {
         "status": "healthy",
         "concepts": len(brain.knowledge_base.concept_library.concepts),
         "weight_version": brain.perceiver.weight_version,
         "uptime": time.time() - start_time,
-        "version": "3.0.0"
+        "version": "3.0.0",
+        # Fields expected by landing page live pulse
+        "episodes": episode_count,
+        "weights": neural_stats["weight_version"],
+        "proof_count": neural_stats["classifier"]["proof_count"],
+        "avg_loss": neural_stats["classifier"]["avg_loss"],
     }
 
 
@@ -81,27 +88,53 @@ async def health():
 async def process_stimulus(request: StimulusRequest):
     try:
         # Trigger the Native Cognitive Core v3.0
-        # Use process_internal to get rich metadata for the UI
         final_out, structured = brain.process_internal(request.stimulus)
         
         # Generate the natural response
         response_text = brain.response_bridge.generate(final_out, request.stimulus, structured.domain)
 
-        # Build the deliberation trace from the reasoning trace
+        # Build the deliberation trace
         deliberation_report = "\n".join(final_out.reasoning_trace)
+
+        # Neural stats for dashboard
+        neural_stats = brain.get_neural_stats()
 
         return {
             "solution": response_text,
             "deliberation": deliberation_report,
             "success": final_out.is_verified,
             "confidence": final_out.confidence,
-            "concepts_used": final_out.concepts_used
+            "concepts_used": final_out.concepts_used,
+            "attempts": final_out.attempts,
+            "domain": structured.domain,
+            "intent": structured.intent,
+            "weight_version": neural_stats["weight_version"],
+            "proof_count": neural_stats["classifier"]["proof_count"],
         }
     except Exception as e:
         import traceback
-
         logging.error(f"Brain Fault: {str(e)}\n{traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/neural-stats")
+async def neural_stats():
+    """Returns live neural training statistics for the dashboard."""
+    stats = brain.get_neural_stats()
+    return {
+        "weight_version": stats["weight_version"],
+        "proof_count": stats["classifier"]["proof_count"],
+        "avg_loss": stats["classifier"]["avg_loss"],
+        "concepts": len(brain.knowledge_base.concept_library.concepts),
+        "episodes": len(brain.knowledge_base.episode_memory.episodes) if hasattr(brain.knowledge_base.episode_memory, 'episodes') else 0,
+    }
+
+
+@app.post("/save-weights")
+async def save_weights():
+    """Manually trigger a neural weight save."""
+    brain.save_weights()
+    return {"status": "saved", "weight_version": brain.perceiver.weight_version}
 
 
 if __name__ == "__main__":
