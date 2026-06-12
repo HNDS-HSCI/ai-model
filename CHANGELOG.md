@@ -1,3 +1,10 @@
+## [2.11.2](https://github.com/HNDS-HSCI/ai-model/compare/v2.11.1...v2.11.2) (2026-06-12)
+
+
+### Bug Fixes
+
+* add missing dependencies and stabilize HSCI v3.0 architecture ([9ba2bcb](https://github.com/HNDS-HSCI/ai-model/commit/9ba2bcb5a5231779af4daabacc661ffb11406e2e))
+
 ## [2.11.1](https://github.com/HNDS-HSCI/ai-model/compare/v2.11.0...v2.11.1) (2026-06-11)
 
 
