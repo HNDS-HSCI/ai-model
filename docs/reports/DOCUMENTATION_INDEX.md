@@ -54,3 +54,4 @@ This index provides a structured directory mapping all architecture reviews, des
 *   **Milestone 1 release notes**: [MILESTONE_1_COGNITIVE_INFRASTRUCTURE.md](file:///C:/Work/P/ai-model/docs/releases/MILESTONE_1_COGNITIVE_INFRASTRUCTURE.md)
 *   **Evaluation Runner report**: [evaluation_report.md](file:///C:/Work/P/ai-model/evaluation_report.md)
 *   **Performance metrics snapshot**: [PERFORMANCE_SNAPSHOT.md](file:///C:/Work/P/ai-model/docs/reports/PERFORMANCE_SNAPSHOT.md)
+*   **CI/CD Pipeline Report**: [CI_PIPELINE_REPORT.md](file:///C:/Work/P/ai-model/docs/reports/CI_PIPELINE_REPORT.md)

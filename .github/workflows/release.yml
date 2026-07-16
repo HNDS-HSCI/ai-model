@@ -1,33 +1,56 @@
-name: Automated Semantic Release
+name: Automated Tagged Release
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*'
 
 jobs:
   release:
-    name: Release
+    name: Build & Release
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      issues: write
-      pull-requests: write
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          node-version: 'lts/*'
+          python-version: '3.11'
 
       - name: Install dependencies
-        run: npm install -g semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/changelog @semantic-release/github @semantic-release/git
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      - name: Release
+      - name: Run Test Suite
+        run: pytest
+
+      - name: Run Evaluation Suite & Compile Snapshots
+        run: python evaluation_runner.py
+
+      - name: Create GitHub Release and Upload Artifacts
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Release ${{ github.ref_name }}
+          body: |
+            ## HSCI Milestone 1 Release
+            Automated build for version ${{ github.ref_name }}.
+            
+            ### Included Release Artifacts
+            The verified system performance snapshots and research technical papers have been compiled and attached as release assets.
+          draft: false
+          prerelease: false
+          files: |
+            docs/reports/PERFORMANCE_SNAPSHOT.md
+            evaluation_report.md
+            docs/reports/REPOSITORY_AUDIT.md
+            docs/reports/ARCHITECTURE_OVERVIEW.md
+            paper/HSCI_V4_Technical_Paper.md
+            docs/reports/DOCUMENTATION_INDEX.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release

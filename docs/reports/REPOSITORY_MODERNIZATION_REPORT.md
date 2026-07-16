@@ -17,3 +17,10 @@ This report details the validation audit results and documentation updates execu
 *   **Dead Files**: Clean.
 *   **License**: Checked and updated header blocks to match `v0.1.0-alpha` requirements.
 *   **Automation Config**: Reviewed `.releaserc` configurations. Standard semantic release 분석 rules are successfully preserved.
+
+---
+
+## 3. CI/CD Workflows Audit & Modernization
+
+*   **Continuous Intelligence Verification**: Refactored `.github/workflows/verify.yml` to replace legacy capability checks with `pytest` and `evaluation_runner.py`.
+*   **Tagged Releases**: Modernized `.github/workflows/release.yml` to trigger only on pushes to tags matching `v*` and attach compiled reports and papers as release assets.
