@@ -1,0 +1,9 @@
+[
+  {
+    "question": "Solve equation 5+2",
+    "expected_concepts": ["Equation"],
+    "expected_reasoning": "SolveEquation",
+    "expected_answer": "SolveEquation",
+    "success_criteria": "intent == 'SolveEquation'"
+  }
+]

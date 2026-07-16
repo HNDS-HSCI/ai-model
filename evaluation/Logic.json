@@ -1,0 +1,9 @@
+[
+  {
+    "question": "Verify if axiom 5=5 is true",
+    "expected_concepts": ["Axiom"],
+    "expected_reasoning": "VerifyAxiom",
+    "expected_answer": "VerifyAxiom",
+    "success_criteria": "intent == 'VerifyAxiom'"
+  }
+]

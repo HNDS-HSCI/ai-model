@@ -1,0 +1,9 @@
+[
+  {
+    "question": "What is inheritance in Java?",
+    "expected_concepts": ["Inheritance", "Java", "Class", "Object"],
+    "expected_reasoning": "Inheritance generalizes to Class",
+    "expected_answer": "Inheritance generalizes to Class",
+    "success_criteria": "intent == 'ExplainConcept' and 'Inheritance' in seed_concepts"
+  }
+]

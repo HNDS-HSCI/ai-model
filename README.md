@@ -1,78 +1,138 @@
 # Hyper-Symbolic Cognitive Invention (HSCI) v0.1.0-alpha
-## The Era of Axiomatic Cognitive Intelligence
-
-[![Continuous Intelligence Verification](https://github.com/HNDS-HSCI/ai-model/actions/workflows/verify.yml/badge.svg)](https://github.com/HNDS-HSCI/ai-model/actions/workflows/verify.yml)
-[![Semantic Release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-[![CodeQL](https://github.com/HNDS-HSCI/ai-model/actions/workflows/codeql.yml/badge.svg)](https://github.com/HNDS-HSCI/ai-model/actions/workflows/codeql.yml)
-[![Documentation](https://img.shields.io/badge/docs-MkDocs-cyan.svg)](https://HNDS-HSCI.github.io/ai-model/)
 
 HSCI is a **Self-Verifying Cognitive Architecture** that replaces the probabilistic weights of traditional AI with a **Symbolic Brain**. It is a deterministic reasoning machine built to solve, prove, and explain with mathematical certainty.
 
-**[Read the Vision: Beyond Probabilistic Inference](https://github.com/HNDS-HSCI/ai-model/blob/ui/blog.html)**
+---
+
+## 1. Executive Summary
+
+Unlike Large Language Models (LLMs) that estimate the next token based on statistical probabilities, HSCI operates through **Axiomatic Deliberation**. It perceives input as structured entity maps, resolves them to conceptual networks, verifies logic statements using SMT (Microsoft Z3) solvers, and outputs explainable answers.
 
 ---
 
-## 🧠 The Invention: Hyper-Symbolic Integration
+## 2. Current Architecture
 
-Unlike Large Language Models (LLMs) that guess the next token, HSCI operates through **Axiomatic Deliberation**. It perceives the world as a logical environment and applies proven mental axioms to bridge state gaps.
-
-### Key Breakthroughs:
-- **Instructional Priming**: Learn any complex concept from a **single mastery lesson** using the `teach:` interface. No massive datasets required.
-- **Deterministic Truth**: 100% hallucination-free. Every hypothesis is passed through the **Verified Lobe (Microsoft Z3 SMT Prover)** for formal mathematical proof.
-- **Environmental Awareness**: Input is processed as a **Structural Map** of entities and relationships, not as a fragmented sequence of tokens.
-- **Recursive Decomposition**: Automatically splits complex software engineering and logic tasks into manageable, verifiable sub-tasks using the **HTN Planner**.
+```
+                       Raw User Text
+                             │
+                             ▼
+                    Understanding Engine
+                             │
+                             ▼
+                     Knowledge Manager
+                             │
+                             ▼
+                  Concept Activation Engine
+                             │
+                             ▼
+                         Workspace
+                             │
+                             ▼
+                 Cognitive Reasoning Engine
+                             │
+                             ▼
+                  Answer Generation Engine
+                             │
+                             ▼
+                    Final User Response
+```
 
 ---
 
-## 🏛 Architecture
+## 3. Cognitive Pipeline Subsystems
 
-The system functions as a unified **Symbolic Brain** divided into specialized functional lobes:
-
-1.  **Perception Lobe**: Transduces human stimulus into logical signals via the **Symbolic Knowledge Graph**.
-2.  **Logic Lobe (The Formalizer)**: Constructs the **Universal Symbolic Specification ($\Sigma$)**.
-3.  **Executive Lobe (The Planner)**: Strategizes high-level task decomposition.
-4.  **Reasoning Lobe (The Synthesizer)**: Generates hypotheses with **Self-Correction Loops**.
-5.  **Verified Lobe (The Prover)**: Uses SMT (Z3) to mathematically prove every thought.
-6.  **Memory Lobe (The Synapse)**: Stores proven episodes to build "Symbolic Intuition."
+*   **BrainKernel**: Manages context initialization, stage transitions, and Z3 thread-isolated cleanups.
+*   **WorkingMemory**: Holds semantic frames, attention buffers, and snapshot states.
+*   **Universal Knowledge Model (UKM)**: Transactional SQLite database engine supporting nested SAVEPOINT rollbacks.
+*   **KnowledgeManager**: Lookup cache facade with event-driven cache invalidation hooks.
+*   **Concept Activation Engine (CAE)**: Spreads activation values over concept graphs.
+*   **Understanding Engine**: Tokenizer and intent classifier resolving raw user queries.
+*   **Cognitive Reasoning Engine (CRE)**: Iterative reasoning loop verifying duplicate, circular, or contradictory statements.
+*   **Answer Generation Engine (AGE)**: Standard, Step-by-Step, and Technical output formatter.
+*   **Evaluation Framework**: Multi-domain benchmarking dataset and execution runner.
 
 ---
 
-## 🚀 Getting Started
+## 4. Repository Structure
+
+```
+.
+├── docs/                     # Documentation files
+│   ├── design/               # Design specifications
+│   ├── releases/             # Release notes
+│   └── reports/              # Status reports & index files
+├── evaluation/               # Evaluation datasets
+│   ├── Basic_Math.json
+│   ├── Java_OOP.json
+│   └── Logic.json
+├── hnsds/                    # Legacy solvers & neural perceivers
+├── hsci/                     # Core V4 packages
+│   ├── core/                 # Kernel, working memory, and storage
+│   ├── knowledge/            # ConceptStore, CAE, and demo scripts
+│   ├── reasoning/            # Reasoning engines and planners
+│   └── response/             # AGE response formatting
+├── paper/                    # Technical research paper
+├── evaluation_runner.py      # Benchmark runner execution script
+├── pyproject.toml            # Project configuration & version
+├── requirements.txt          # Package dependencies
+└── run_app.py                # Server execution entrypoint
+```
+
+---
+
+## 5. Performance Snapshot Benchmarks
+
+Measured latencies calculated by the evaluation runner framework:
+*   **BrainKernel startup**: `1.82ms`
+*   **WorkingMemory allocation**: `0.0036ms`
+*   **KnowledgeManager lookup**: `0.04ms`
+*   **Concept Activation latency**: `2.12ms`
+*   **Understanding latency**: `1.93ms`
+*   **Reasoning latency**: `0.09ms`
+*   **Overall cognitive pipeline latency**: `6.89ms`
+*   **Total Passing Tests**: 206 tests.
+
+---
+
+## 6. Installation & Execution
 
 ### Prerequisites
-- Python 3.10+
-- [Z3 Theorem Prover](https://github.com/Z3Prover/z3)
+*   Python 3.11+
+*   [Z3 Theorem Prover](https://github.com/Z3Prover/z3)
 
-### Installation
+### Setup
 ```bash
-git clone https://github.com/HNDS-HSCI/ai-model.git
-cd ai-model
 pip install -r requirements.txt
 ```
 
-### Launch the Brain
+### Running Tests
 ```bash
-python run_app.py
+pytest
 ```
-This launches the **FastAPI Backend** and the **Glassmorphic React Dashboard**. Interact with the brain, watch the live cognitive trace, and teach it new axioms in real-time.
+
+### Running Evaluation Runner
+```bash
+python evaluation_runner.py
+```
+This executes the evaluation runner over the JSON datasets, checks accuracy metrics, and writes the output report to `evaluation_report.md`.
+
+### Running Demonstrations
+*   **CAE Spreading Demo**: `python -m hsci.knowledge.demo_concept_activation`
+*   **Understanding Engine Demo**: `python -m hsci.knowledge.demo_understanding_engine`
+*   **Reasoning Engine Demo**: `python -m hsci.knowledge.demo_reasoning_engine`
+*   **AGE Response Demo**: `python -m hsci.knowledge.demo_answer_generation`
 
 ---
 
-## 🛠 Lab Automation (Industrial Grade)
-
-HSCI is developed within a professional AI Research Laboratory environment:
-- **Continuous Intelligence (CI)**: Every push triggers an automated IQ benchmark to prevent cognitive regression.
-- **Automated Semantic Release**: Versioning and changelogs are calculated mathematically based on commit intent.
-- **Industrial Security**: Automated CodeQL scanning ensures architecture integrity.
-- **Auto-Docs**: Technical documentation is automatically generated and deployed to GitHub Pages.
+## 7. Documentation Index
+All specification files are mapped under the [Documentation Index](file:///C:/Work/P/ai-model/docs/reports/DOCUMENTATION_INDEX.md).
 
 ---
 
-## 📖 Documentation
-- **[Technical Docs](https://HNDS-HSCI.github.io/ai-model/)**: Full API Reference and Architecture Deep Dives.
-- **[Research Paper](HSCI_RESEARCH_PAPER.md)**: Theoretical foundations of Non-Tokenized Environmental Awareness.
+## 8. Roadmap & Backlog
+Refer to [ROADMAP.md](file:///C:/Work/P/ai-model/docs/reports/ROADMAP.md) and [BACKLOG.md](file:///C:/Work/P/ai-model/docs/reports/BACKLOG.md) for future release goals.
 
 ---
-**Chief Architect:** [Brijesh Yadav (recscse)](https://recscse.github.io/portfolio/index.html)  
-**Research Lab:** HSCI Research Group  
-*Built for deterministic excellence.*
+
+## 9. License
+HSCI is licensed under the Apache 2.0 License.
