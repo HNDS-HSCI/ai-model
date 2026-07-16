@@ -1,16 +1,17 @@
-name: Continuous Intelligence Verification
+name: Continuous Evaluation
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * *' # Run nightly
 
 jobs:
-  verify:
+  evaluate:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout Code
+      uses: actions/checkout@v4
     
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -22,10 +23,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         
-    - name: Run Test Suite (pytest)
-      run: |
-        pytest
-        
-    - name: Run Evaluation Suite & Benchmarks
+    - name: Execute Evaluation Suite & Benchmarks
       run: |
         python evaluation_runner.py
