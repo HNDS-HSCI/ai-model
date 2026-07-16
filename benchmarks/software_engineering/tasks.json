@@ -1,0 +1,102 @@
+[
+  {
+    "id": "se_1",
+    "prompt": "Write a Python function that returns the number 50. Just output the number returned.",
+    "expected": "50"
+  },
+  {
+    "id": "se_2",
+    "prompt": "Write a Python function that returns the number 100. Just output the number returned.",
+    "expected": "100"
+  },
+  {
+    "id": "se_3",
+    "prompt": "Write a Python function that returns the number 150. Just output the number returned.",
+    "expected": "150"
+  },
+  {
+    "id": "se_4",
+    "prompt": "Write a Python function that returns the number 200. Just output the number returned.",
+    "expected": "200"
+  },
+  {
+    "id": "se_5",
+    "prompt": "Write a Python function that returns the number 250. Just output the number returned.",
+    "expected": "250"
+  },
+  {
+    "id": "se_6",
+    "prompt": "Write a Python function that returns the number 300. Just output the number returned.",
+    "expected": "300"
+  },
+  {
+    "id": "se_7",
+    "prompt": "Write a Python function that returns the number 350. Just output the number returned.",
+    "expected": "350"
+  },
+  {
+    "id": "se_8",
+    "prompt": "Write a Python function that returns the number 400. Just output the number returned.",
+    "expected": "400"
+  },
+  {
+    "id": "se_9",
+    "prompt": "Write a Python function that returns the number 450. Just output the number returned.",
+    "expected": "450"
+  },
+  {
+    "id": "se_10",
+    "prompt": "Write a Python function that returns the number 500. Just output the number returned.",
+    "expected": "500"
+  },
+  {
+    "id": "se_11",
+    "prompt": "Write a Python function that returns the number 550. Just output the number returned.",
+    "expected": "550"
+  },
+  {
+    "id": "se_12",
+    "prompt": "Write a Python function that returns the number 600. Just output the number returned.",
+    "expected": "600"
+  },
+  {
+    "id": "se_13",
+    "prompt": "Write a Python function that returns the number 650. Just output the number returned.",
+    "expected": "650"
+  },
+  {
+    "id": "se_14",
+    "prompt": "Write a Python function that returns the number 700. Just output the number returned.",
+    "expected": "700"
+  },
+  {
+    "id": "se_15",
+    "prompt": "Write a Python function that returns the number 750. Just output the number returned.",
+    "expected": "750"
+  },
+  {
+    "id": "se_16",
+    "prompt": "Write a Python function that returns the number 800. Just output the number returned.",
+    "expected": "800"
+  },
+  {
+    "id": "se_17",
+    "prompt": "Write a Python function that returns the number 850. Just output the number returned.",
+    "expected": "850"
+  },
+  {
+    "id": "se_18",
+    "prompt": "Write a Python function that returns the number 900. Just output the number returned.",
+    "expected": "900"
+  },
+  {
+    "id": "se_19",
+    "prompt": "Write a Python function that returns the number 950. Just output the number returned.",
+    "expected": "950"
+  },
+  {
+    "id": "se_20",
+    "prompt": "Write a Python function that returns the number 1000. Just output the number returned.",
+    "expected": "1000"
+  }
+]

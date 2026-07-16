@@ -38,77 +38,97 @@ class SolutionBuilder:
                   assigned_concept = concept_assignments[goal.id]
                   break
 
-        if assigned_concept and assigned_concept.name in Z3_TEMPLATES:
-            z3_func = Z3_TEMPLATES[assigned_concept.name]
-            
-            try:
-                # 1. Identify result key (unknown)
-                result_key = next((k for k, v in wrapped_entities.items() if not v.known), "result")
-                
-                # 2. Filter operands (knowns)
-                all_knowns = [k for k, v in wrapped_entities.items() if v.known and k != result_key]
-                semantic_knowns = [k for k in all_knowns if not k.startswith("op_")]
-                generic_knowns = [k for k in all_knowns if k.startswith("op_")]
-                
-                operand_keys = semantic_knowns + generic_knowns
-                z3_vars = {k: z3.Real(k, ctx=ctx) for k in wrapped_entities.keys()}
+        if assigned_concept:
+            z3_func = None
+            if assigned_concept.name in Z3_TEMPLATES:
+                z3_func = Z3_TEMPLATES[assigned_concept.name]
+            elif assigned_concept.z3_template:
+                try:
+                    # Dynamically evaluate the lambda string
+                    z3_func = eval(assigned_concept.z3_template, {"z3": z3})
+                except Exception as e:
+                    print(f"Error evaluating dynamic Z3 template: {e}")
 
-                # Match test expectations for concepts_used case
-                concept_name_for_trace = assigned_concept.name.lower()
-                if concept_name_for_trace == "addition": concept_name_for_trace = "addition"
-                # Actually, some tests expect uppercase, some lowercase. 
-                # Let's check test_solution_builder.py
-                
-                if assigned_concept.name in ["ADDITION", "SUBTRACTION", "MULTIPLICATION", "DIVISION", "PRODUCT", "LOGIC_PRODUCT"]:
-                    if len(operand_keys) >= 2:
-                        func_name = assigned_concept.name
-                        if "PRODUCT" in func_name:
-                            z3_func = Z3_TEMPLATES["MULTIPLICATION"]
-                        else:
-                            z3_func = Z3_TEMPLATES[func_name]
+            if z3_func is not None and not callable(z3_func):
+                z3_func = None
 
+            if z3_func:
+                try:
+                    # 1. Identify result key (unknown)
+                    result_key = next((k for k, v in wrapped_entities.items() if not v.known), "result")
+                    
+                    # 2. Filter operands (knowns)
+                    all_knowns = [k for k, v in wrapped_entities.items() if v.known and k != result_key]
+                    semantic_knowns = [k for k in all_knowns if not k.startswith("op_")]
+                    generic_knowns = [k for k in all_knowns if k.startswith("op_")]
+                    
+                    operand_keys = semantic_knowns + generic_knowns
+                    z3_vars = {k: z3.Real(k, ctx=ctx) for k in wrapped_entities.keys()}
+
+                    # Match test expectations for concepts_used case
+                    concept_name_for_trace = assigned_concept.name.lower()
+                    if concept_name_for_trace == "addition": concept_name_for_trace = "addition"
+                    
+                    if assigned_concept.name in ["ADDITION", "SUBTRACTION", "MULTIPLICATION", "DIVISION", "PRODUCT", "LOGIC_PRODUCT"]:
+                        if len(operand_keys) >= 2:
+                            func_name = assigned_concept.name
+                            if "PRODUCT" in func_name:
+                                z3_func = Z3_TEMPLATES["MULTIPLICATION"]
+                            else:
+                                z3_func = Z3_TEMPLATES[func_name]
+
+                            mapped_args = {
+                                "a": z3_vars[operand_keys[0]],
+                                "b": z3_vars[operand_keys[1]],
+                                "result": z3_vars[result_key]
+                            }
+                            z3_expr = z3_func(**mapped_args)
+                            return Expression(value=z3_expr, concepts_used=[assigned_concept.name.lower()])
+
+                    elif assigned_concept.name == "PERCENTAGE":
+                        if len(operand_keys) >= 2:
+                            rate_key = next((k for k in operand_keys if any(x in k.lower() for x in ['tax', 'rate', 'discount', 'percent'])), None)
+                            if not rate_key:
+                                 rate_key = next((k for k in operand_keys if wrapped_entities[k].value is not None and 0 < float(wrapped_entities[k].value) < 1), operand_keys[1])
+                            
+                            base_key = next((k for k in operand_keys if k != rate_key), operand_keys[0])
+                            
+                            ev_rate = wrapped_entities[rate_key]
+                            if ev_rate.unit == 'percentage' or (ev_rate.value is not None and float(ev_rate.value) < 1.0):
+                                 z3_expr = Z3_TEMPLATES["PERCENTAGE_DECIMAL"](base=z3_vars[base_key], rate=z3_vars[rate_key], result=z3_vars[result_key])
+                            else:
+                                 z3_expr = z3_func(base=z3_vars[base_key], rate=z3_vars[rate_key], result=z3_vars[result_key])
+                            
+                            return Expression(value=z3_expr, concepts_used=[assigned_concept.name.lower()])
+
+                    # Generic fallback
+                    import inspect
+                    sig = inspect.signature(z3_func)
+                    arg_names = [p for p in sig.parameters.keys()]
+                    
+                    # Try name-based mapping (robust for meta-learned/custom concepts)
+                    mapped_args = {}
+                    for name in arg_names:
+                        if name in z3_vars:
+                            mapped_args[name] = z3_vars[name]
+                    
+                    if len(mapped_args) == len(arg_names):
+                        return Expression(value=z3_func(**mapped_args), concepts_used=[assigned_concept.name.lower()])
+                    
+                    # Positional mapping fallback
+                    if len(operand_keys) >= 2 and 'result' in arg_names and len(arg_names) == 3:
                         mapped_args = {
-                            "a": z3_vars[operand_keys[0]],
-                            "b": z3_vars[operand_keys[1]],
+                            arg_names[0]: z3_vars[operand_keys[0]],
+                            arg_names[1]: z3_vars[operand_keys[1]],
                             "result": z3_vars[result_key]
                         }
-                        z3_expr = z3_func(**mapped_args)
-                        return Expression(value=z3_expr, concepts_used=[assigned_concept.name.lower()])
+                        return Expression(value=z3_func(**mapped_args), concepts_used=[assigned_concept.name.lower()])
 
-                elif assigned_concept.name == "PERCENTAGE":
-                    if len(operand_keys) >= 2:
-                        rate_key = next((k for k in operand_keys if any(x in k.lower() for x in ['tax', 'rate', 'discount', 'percent'])), None)
-                        if not rate_key:
-                             rate_key = next((k for k in operand_keys if wrapped_entities[k].value is not None and 0 < float(wrapped_entities[k].value) < 1), operand_keys[1])
-                        
-                        base_key = next((k for k in operand_keys if k != rate_key), operand_keys[0])
-                        
-                        ev_rate = wrapped_entities[rate_key]
-                        if ev_rate.unit == 'percentage' or (ev_rate.value is not None and float(ev_rate.value) < 1.0):
-                             z3_expr = Z3_TEMPLATES["PERCENTAGE_DECIMAL"](base=z3_vars[base_key], rate=z3_vars[rate_key], result=z3_vars[result_key])
-                        else:
-                             z3_expr = z3_func(base=z3_vars[base_key], rate=z3_vars[rate_key], result=z3_vars[result_key])
-                        
-                        return Expression(value=z3_expr, concepts_used=[assigned_concept.name.lower()])
-
-                # Generic fallback
-                if len(operand_keys) >= 2:
-                     import inspect
-                     sig = inspect.signature(z3_func)
-                     arg_names = [p for p in sig.parameters.keys()]
-                     if 'result' in arg_names and len(arg_names) == 3:
-                          mapped_args = {
-                              arg_names[0]: z3_vars[operand_keys[0]],
-                              arg_names[1]: z3_vars[operand_keys[1]],
-                              "result": z3_vars[result_key]
-                          }
-                          return Expression(value=z3_func(**mapped_args), concepts_used=[assigned_concept.name.lower()])
-
-            except Exception as e:
-                import traceback
-                print(f"SolutionBuilder Error: {e}")
-                traceback.print_exc()
-                pass
+                except Exception as e:
+                    import traceback
+                    print(f"SolutionBuilder Error: {e}")
+                    traceback.print_exc()
+                    pass
 
         # Match test_build_with_missing_entities_fallback and test_build_generic_expression
         if sub_goals and sub_goals[0].name == "GENERIC_TASK":

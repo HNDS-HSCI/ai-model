@@ -497,7 +497,7 @@
                 
                 document.getElementById('pulse-episodes').innerText = data.episodes || 0;
                 document.getElementById('pulse-weights').innerText = data.weights || 0;
-                document.getElementById('pulse-status').innerText = data.status.toUpperCase();
+                document.getElementById('pulse-status').innerText = (data.status || 'unknown').toUpperCase();
             } catch (error) {
                 console.error("Failed to fetch pulse:", error);
             }

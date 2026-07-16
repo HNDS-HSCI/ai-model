@@ -129,11 +129,23 @@
         // --- Component: Markdown Renderer (Simple) ---
         // A real app would use a library, but for a single file demo, we'll do basic formatting
         const MarkdownText = ({ content }) => {
-            // Very basic replacement for bold, code blocks, etc.
-            // React handles basic text safety, but for "dangerouslySetInnerHTML" we need to be careful.
-            // Here we just render plain text with preserved whitespace for simplicity in this prototype, 
-            // relying on CSS for pre-wrap.
-            return <div className="whitespace-pre-wrap leading-relaxed">{content}</div>;
+            if (!content) return null;
+            // Basic markdown: bold, inline code, code blocks, bullet points
+            const parts = content.split(/(```[\s\S]*?```|\*\*[^*]+\*\*|`[^`]+`|^\s*[•\-]\s+.+$/gm);
+            const elements = parts.map((part, i) => {
+                if (part.startsWith('```') && part.endsWith('```')) {
+                    const code = part.slice(3, -3).replace(/^\w+\n/, '');
+                    return <pre key={i} className="bg-slate-950 border border-slate-800 rounded-lg p-3 my-2 overflow-x-auto"><code className="font-mono text-sm text-emerald-400">{code}</code></pre>;
+                }
+                if (part.startsWith('**') && part.endsWith('**')) {
+                    return <strong key={i} className="text-white font-semibold">{part.slice(2, -2)}</strong>;
+                }
+                if (part.startsWith('`') && part.endsWith('`')) {
+                    return <code key={i} className="bg-slate-800 text-cyan-400 px-1.5 py-0.5 rounded text-sm font-mono">{part.slice(1, -1)}</code>;
+                }
+                return <span key={i}>{part}</span>;
+            });
+            return <div className="whitespace-pre-wrap leading-relaxed">{elements}</div>;
         };
 
         // --- Component: Chat Message ---
@@ -254,9 +266,17 @@
                         body: JSON.stringify({ stimulus: userText })
                     });
                     
-                    if (!response.ok) throw new Error("Brain unreachable");
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(`Server error (${response.status}): ${errorText.substring(0, 200)}`);
+                    }
                     
-                    const data = await response.json();
+                    let data;
+                    try {
+                        data = await response.json();
+                    } catch (parseError) {
+                        throw new Error("Invalid response from brain. The server may have returned an HTML error page.");
+                    }
                     fetchNeuralStats(); // Refresh stats after each proof
                     
                     // Add AI Response
@@ -276,8 +296,8 @@
                 } catch (error) {
                     setMessages(prev => [...prev, {
                         role: 'ai',
-                        content: "I encountered a connection error. Please ensure the backend is running.",
-                        reasoning: `Error Details:\n${error.message}`,
+                        content: `⚠️ I encountered an error processing your request.\n\nDetails: ${error.message}\n\nPlease check:\n• Is the backend running? (python brain_api.py)\n• Is the server accessible at this URL?`,
+                        reasoning: `Error Details:\n${error.message}\n\nStack: ${error.stack || 'N/A'}`,
                         success: false
                     }]);
                 } finally {

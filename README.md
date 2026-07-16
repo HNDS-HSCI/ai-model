@@ -1,4 +1,4 @@
-# Hyper-Symbolic Cognitive Invention (HSCI) v2.1.0
+# Hyper-Symbolic Cognitive Invention (HSCI) v0.1.0-alpha
 ## The Era of Axiomatic Cognitive Intelligence
 
 [![Continuous Intelligence Verification](https://github.com/HNDS-HSCI/ai-model/actions/workflows/verify.yml/badge.svg)](https://github.com/HNDS-HSCI/ai-model/actions/workflows/verify.yml)
@@ -8,7 +8,7 @@
 
 HSCI is a **Self-Verifying Cognitive Architecture** that replaces the probabilistic weights of traditional AI with a **Symbolic Brain**. It is a deterministic reasoning machine built to solve, prove, and explain with mathematical certainty.
 
-**[Read the Vision: Beyond Probabilistic Inference](https://github.com/HNDS-HSCI/ai-model/blob/main/ui/blog.html)**
+**[Read the Vision: Beyond Probabilistic Inference](https://github.com/HNDS-HSCI/ai-model/blob/ui/blog.html)**
 
 ---
 

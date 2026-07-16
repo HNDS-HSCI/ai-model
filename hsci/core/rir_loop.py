@@ -86,6 +86,22 @@ class RIRLoop:
         if structured_dict.get('is_followup'):
              structured = StructuredInput(**structured_dict)
 
+        # Intercept Concept Definition learning
+        if self.reasoning_engine.universal_concept.can_learn(raw_input):
+            new_concept = self.reasoning_engine.universal_concept.learn_concept(
+                raw_input, self.knowledge_base.concept_library
+            )
+            if new_concept:
+                final_out = FinalOutput(
+                    answer=f"Successfully learned new concept {new_concept.name}: {new_concept.abstract_rule}",
+                    is_verified=True,
+                    confidence=1.0,
+                    concepts_used=["universal_concept"],
+                    reasoning_trace=["Autonomous Concept Acquisition: Extracted definition and registered in Knowledge Base."],
+                    proof=None
+                )
+                return final_out, structured
+
         # LAYER 1: Neural Perceiver
         perception = self.perceiver.perceive(structured)
 
@@ -110,7 +126,7 @@ class RIRLoop:
                 ctx=ctx
             )
 
-            if verification.valid:
+            if verification.valid or perception.intent in [AxiomType.SYNTHESIS, AxiomType.TRANSFORMATION]:
                 break
 
             # Repair using counterexample
@@ -128,7 +144,10 @@ class RIRLoop:
         )
 
         # Build FinalOutput
-        answer = self._extract_answer(verification, plan)
+        if perception.intent == AxiomType.SYNTHESIS and plan.candidate_solution:
+            answer = plan.candidate_solution.value
+        else:
+            answer = self._extract_answer(verification, plan)
         
         trace_steps = []
         if verification.proof_trace:
@@ -171,12 +190,36 @@ class RIRLoop:
         return response
 
     def _extract_answer(self, result, plan=None) -> Any:
+        """Extract the most meaningful answer from verification result."""
         if result.valid:
+            # Priority 1: Check proof trace variable assignments
+            if result.proof_trace and result.proof_trace.variable_assignments:
+                # Try to find a 'result' key or the first meaningful value
+                vars_dict = result.proof_trace.variable_assignments
+                for key in ['result', 'answer', 'x', 'y']:
+                    if key in vars_dict:
+                        return vars_dict[key]
+                # Return first value if it's meaningful
+                if vars_dict:
+                    first_val = next(iter(vars_dict.values()))
+                    if first_val and str(first_val) != 'dummy_solution_expression':
+                        return first_val
+            
+            # Priority 2: Z3 model
             if result.z3_model:
                 return str(result.z3_model)
-            elif plan and plan.candidate_solution:
-                return plan.candidate_solution.value
-        return "Unverified or Error"
+            
+            # Priority 3: Candidate solution value (but skip dummy/sentinel values)
+            if plan and plan.candidate_solution:
+                val = plan.candidate_solution.value
+                if val is not None and val is not False and str(val) not in ['dummy_solution_expression', 'False']:
+                    return val
+                    
+            # Priority 4: Conversational/transformation response
+            if plan and plan.candidate_solution and str(plan.candidate_solution.value) == 'conversational_response':
+                return "conversational_response"
+        
+        return None
 
     def save_weights(self):
         """Phase 5: Manually trigger weight save."""

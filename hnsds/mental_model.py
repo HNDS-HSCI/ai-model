@@ -12,14 +12,14 @@ class MentalModel:
     
     Shift from Hardcoded Rules -> Learned Synaptic Weights + Neural Intuition.
     """
-    def __init__(self, learner=None, synthesizer=None, cognitive_lobe=None):
+    def __init__(self, learner=None, synthesizer=None, cognitive_lobe=None, neural_lobe=None):
         self.state = "IDLE"
         self.memory_trace = []
         self.current_goal = None
         self.derived_solution = None
         self.learner = learner 
         self.synthesizer = synthesizer
-        self.cognitive_lobe = cognitive_lobe # The Native "Cognitive Frame" Lobe
+        self.cognitive_lobe = cognitive_lobe or neural_lobe # The Native "Cognitive Frame" Lobe
         self.planner = NativePlanner() # The Native "Reasoning" Lobe
         self.recalled_episode = None
         self.final_proof = None
@@ -61,7 +61,7 @@ class MentalModel:
                 return self.state
 
         # 2. NATIVE COGNITIVE FRAMING (Predictive Trajectory)
-        if self.cognitive_lobe:
+        if self.cognitive_lobe and hasattr(self.cognitive_lobe, "simulate_trajectory"):
             # The Cognitive Lobe predicts the process trajectory based on Concept Graph
             sigma = self.cognitive_lobe.simulate_trajectory(raw_input)
             self.symbolic_spec = sigma

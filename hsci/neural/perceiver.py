@@ -106,7 +106,7 @@ class NeuralPerceiver:
             final_intent = neural_intent
             final_confidence = neural_conf
 
-        return PerceptionMap(
+        perception = PerceptionMap(
             entities=structured.entities,
             unknown_entities=structured.unknowns,
             relationships=relationships,
@@ -116,18 +116,23 @@ class NeuralPerceiver:
             domain=structured.domain,
             operation_hint=structured.operation_hint
         )
+        # Keep the training sample on the perception that produced the proof.
+        # A shared "last embedding" can be replaced by another request.
+        perception._neural_embedding = embedding.detach().clone()
+        return perception
 
     def _build_graph(self, structured: StructuredInput) -> Dict[str, Any]:
         """Simple graph structure for now."""
         return {"nodes": list(structured.entities.keys()), "text": structured.raw_normalized}
 
-    def update_weights_from_proof(self, update: WeightUpdate):
+    def update_weights_from_proof(self, update: WeightUpdate, embedding: Optional[torch.Tensor] = None):
         """
         Phase 3: REAL gradient-based weight update.
         Uses the stored embedding + proof direction to train the neural classifier.
         """
-        if self.last_embedding is None:
-            print(f"[NeuralPerceiver] No embedding stored yet, skipping weight update.")
+        training_embedding = embedding
+        if training_embedding is None:
+            print("[NeuralPerceiver] No matching embedding, skipping weight update.")
             return
 
         strengthen = (update.direction == "strengthen")
@@ -141,17 +146,16 @@ class NeuralPerceiver:
 
         if correct_intent is not None:
             loss = self.intent_classifier.update_from_proof(
-                self.last_embedding,
+                training_embedding,
                 correct_intent,
                 strengthen=strengthen,
                 learning_rate=update.learning_rate
             )
+            self.weight_version += 1
             print(
                 f"[NeuralPerceiver] Proof-guided update | "
                 f"intent={correct_intent.value} | strengthen={strengthen} | "
-                f"loss={loss:.4f} | version={self.weight_version + 1}"
+                f"loss={loss:.4f} | version={self.weight_version}"
             )
         else:
             print(f"[NeuralPerceiver] Proof update skipped (no intent hint). direction='{update.direction}'")
-
-        self.weight_version += 1

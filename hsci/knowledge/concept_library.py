@@ -60,11 +60,25 @@ class ConceptLibrary:
     def find_by_intent(self, intent: AxiomType, entity_types: List[str]) -> List[Concept]:
         """
         Retrieves concepts matching a given intent.
+        Ranks by entity overlap for better concept selection.
         """
         matched_concepts = [
             concept for concept in self._concepts.values()
             if concept.axiom_type == intent
         ]
+        
+        # Sort by entity overlap: concepts whose required entities 
+        # match the query entities should rank higher
+        if entity_types and matched_concepts:
+            entity_set = set(e.lower() for e in entity_types)
+            matched_concepts.sort(
+                key=lambda c: (
+                    len(set(e.lower() for e in c.required_entities) & entity_set),
+                    c.strength
+                ),
+                reverse=True
+            )
+        
         return matched_concepts
 
     def update_strength(self, concept_id: str, strength: float):

@@ -35,7 +35,8 @@ def main() -> int:
     args = parser.parse_args()
 
     banner = "=" * 58
-    url = f"http://{args.host}:{args.port}"
+    browser_host = "127.0.0.1" if args.host == "0.0.0.0" else args.host
+    url = f"http://{browser_host}:{args.port}/dashboard"
 
     print(banner)
     print("HSCI Application Launcher v2.1.0 (Axiomatic)")

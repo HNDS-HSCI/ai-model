@@ -1,7 +1,7 @@
 import time
 import logging
 import z3
-from threading import Thread
+from threading import Event, Thread, current_thread
 from typing import Any, List
 from hsci.self_play.hypothesis_builder import HypothesisBuilder
 from hsci.core.data_types import PerceptionMap
@@ -20,6 +20,8 @@ class SelfPlayEngine:
         self.learning = learning_engine
         self.hypothesis_builder = HypothesisBuilder()
         self.running = False
+        self._stop_event = Event()
+        self._thread = None
         self.logger = logging.getLogger("SelfPlayEngine")
         if not self.logger.handlers:
             ch = logging.StreamHandler()
@@ -32,12 +34,16 @@ class SelfPlayEngine:
     def start(self):
         if not self.running:
             self.running = True
-            thread = Thread(target=self._run_loop, daemon=True)
-            thread.start()
+            self._stop_event.clear()
+            self._thread = Thread(target=self._run_loop, daemon=True)
+            self._thread.start()
             self.logger.info("🧠 Self-play engine ACTIVATED.")
 
     def stop(self):
         self.running = False
+        self._stop_event.set()
+        if self._thread and self._thread is not current_thread():
+            self._thread.join(timeout=2.0)
         self.logger.info("💤 Self-play engine STOPPED.")
 
     def _run_loop(self):
@@ -59,10 +65,10 @@ class SelfPlayEngine:
                     )
                     self._solve_and_learn(practice_hypothesis)
 
-                time.sleep(2.0) 
+                self._stop_event.wait(2.0)
 
             except Exception as e:
-                time.sleep(5.0) 
+                self._stop_event.wait(5.0)
                 continue
 
     def _generate_hypothesis(self) -> PerceptionMap:

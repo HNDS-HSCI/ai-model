@@ -3,7 +3,7 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 import logging
 import time
 
@@ -31,6 +31,14 @@ DISCOVERY_BLOG_PATH = Path(__file__).resolve().parent / "ui" / "blog-self-play.h
 
 class StimulusRequest(BaseModel):
     stimulus: str
+
+    @field_validator("stimulus")
+    @classmethod
+    def validate_stimulus(cls, value: str) -> str:
+        value = value.strip()
+        if not value:
+            raise ValueError("stimulus must not be empty")
+        return value
 
 
 @app.get("/")

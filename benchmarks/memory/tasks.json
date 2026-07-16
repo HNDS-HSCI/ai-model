@@ -1,0 +1,102 @@
+[
+  {
+    "id": "memory_1",
+    "prompt": "The secret code is 999. What is the secret code?",
+    "expected": "999"
+  },
+  {
+    "id": "memory_2",
+    "prompt": "The secret code is 1998. What is the secret code?",
+    "expected": "1998"
+  },
+  {
+    "id": "memory_3",
+    "prompt": "The secret code is 2997. What is the secret code?",
+    "expected": "2997"
+  },
+  {
+    "id": "memory_4",
+    "prompt": "The secret code is 3996. What is the secret code?",
+    "expected": "3996"
+  },
+  {
+    "id": "memory_5",
+    "prompt": "The secret code is 4995. What is the secret code?",
+    "expected": "4995"
+  },
+  {
+    "id": "memory_6",
+    "prompt": "The secret code is 5994. What is the secret code?",
+    "expected": "5994"
+  },
+  {
+    "id": "memory_7",
+    "prompt": "The secret code is 6993. What is the secret code?",
+    "expected": "6993"
+  },
+  {
+    "id": "memory_8",
+    "prompt": "The secret code is 7992. What is the secret code?",
+    "expected": "7992"
+  },
+  {
+    "id": "memory_9",
+    "prompt": "The secret code is 8991. What is the secret code?",
+    "expected": "8991"
+  },
+  {
+    "id": "memory_10",
+    "prompt": "The secret code is 9990. What is the secret code?",
+    "expected": "9990"
+  },
+  {
+    "id": "memory_11",
+    "prompt": "The secret code is 10989. What is the secret code?",
+    "expected": "10989"
+  },
+  {
+    "id": "memory_12",
+    "prompt": "The secret code is 11988. What is the secret code?",
+    "expected": "11988"
+  },
+  {
+    "id": "memory_13",
+    "prompt": "The secret code is 12987. What is the secret code?",
+    "expected": "12987"
+  },
+  {
+    "id": "memory_14",
+    "prompt": "The secret code is 13986. What is the secret code?",
+    "expected": "13986"
+  },
+  {
+    "id": "memory_15",
+    "prompt": "The secret code is 14985. What is the secret code?",
+    "expected": "14985"
+  },
+  {
+    "id": "memory_16",
+    "prompt": "The secret code is 15984. What is the secret code?",
+    "expected": "15984"
+  },
+  {
+    "id": "memory_17",
+    "prompt": "The secret code is 16983. What is the secret code?",
+    "expected": "16983"
+  },
+  {
+    "id": "memory_18",
+    "prompt": "The secret code is 17982. What is the secret code?",
+    "expected": "17982"
+  },
+  {
+    "id": "memory_19",
+    "prompt": "The secret code is 18981. What is the secret code?",
+    "expected": "18981"
+  },
+  {
+    "id": "memory_20",
+    "prompt": "The secret code is 19980. What is the secret code?",
+    "expected": "19980"
+  }
+]

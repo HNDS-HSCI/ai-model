@@ -1,0 +1,102 @@
+[
+  {
+    "id": "logic_1",
+    "prompt": "If A is 1 times B, and B is 2, what is A?",
+    "expected": "2"
+  },
+  {
+    "id": "logic_2",
+    "prompt": "If A is 2 times B, and B is 4, what is A?",
+    "expected": "8"
+  },
+  {
+    "id": "logic_3",
+    "prompt": "If A is 3 times B, and B is 6, what is A?",
+    "expected": "18"
+  },
+  {
+    "id": "logic_4",
+    "prompt": "If A is 4 times B, and B is 8, what is A?",
+    "expected": "32"
+  },
+  {
+    "id": "logic_5",
+    "prompt": "If A is 5 times B, and B is 10, what is A?",
+    "expected": "50"
+  },
+  {
+    "id": "logic_6",
+    "prompt": "If A is 6 times B, and B is 12, what is A?",
+    "expected": "72"
+  },
+  {
+    "id": "logic_7",
+    "prompt": "If A is 7 times B, and B is 14, what is A?",
+    "expected": "98"
+  },
+  {
+    "id": "logic_8",
+    "prompt": "If A is 8 times B, and B is 16, what is A?",
+    "expected": "128"
+  },
+  {
+    "id": "logic_9",
+    "prompt": "If A is 9 times B, and B is 18, what is A?",
+    "expected": "162"
+  },
+  {
+    "id": "logic_10",
+    "prompt": "If A is 10 times B, and B is 20, what is A?",
+    "expected": "200"
+  },
+  {
+    "id": "logic_11",
+    "prompt": "If A is 11 times B, and B is 22, what is A?",
+    "expected": "242"
+  },
+  {
+    "id": "logic_12",
+    "prompt": "If A is 12 times B, and B is 24, what is A?",
+    "expected": "288"
+  },
+  {
+    "id": "logic_13",
+    "prompt": "If A is 13 times B, and B is 26, what is A?",
+    "expected": "338"
+  },
+  {
+    "id": "logic_14",
+    "prompt": "If A is 14 times B, and B is 28, what is A?",
+    "expected": "392"
+  },
+  {
+    "id": "logic_15",
+    "prompt": "If A is 15 times B, and B is 30, what is A?",
+    "expected": "450"
+  },
+  {
+    "id": "logic_16",
+    "prompt": "If A is 16 times B, and B is 32, what is A?",
+    "expected": "512"
+  },
+  {
+    "id": "logic_17",
+    "prompt": "If A is 17 times B, and B is 34, what is A?",
+    "expected": "578"
+  },
+  {
+    "id": "logic_18",
+    "prompt": "If A is 18 times B, and B is 36, what is A?",
+    "expected": "648"
+  },
+  {
+    "id": "logic_19",
+    "prompt": "If A is 19 times B, and B is 38, what is A?",
+    "expected": "722"
+  },
+  {
+    "id": "logic_20",
+    "prompt": "If A is 20 times B, and B is 40, what is A?",
+    "expected": "800"
+  }
+]

@@ -71,7 +71,10 @@ class LearningEngine:
             learning_rate=self.learning_rate,
             intent_hint=perception.intent.value   # Phase 3: pass correct intent
         )
-        self.perceiver.update_weights_from_proof(weight_update)
+        self.perceiver.update_weights_from_proof(
+            weight_update,
+            embedding=getattr(perception, "_neural_embedding", None),
+        )
 
         # 4. Store episode
         episode = Episode(
@@ -102,7 +105,10 @@ class LearningEngine:
             learning_rate=self.learning_rate * 0.5,
             intent_hint=perception.intent.value   # Phase 3: pass intent even on failure
         )
-        self.perceiver.update_weights_from_proof(weight_update)
+        self.perceiver.update_weights_from_proof(
+            weight_update,
+            embedding=getattr(perception, "_neural_embedding", None),
+        )
 
         return LearningResult(
             weight_updates=weight_update,

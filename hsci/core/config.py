@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from typing import Dict, Any
 
 @dataclass
 class PerceiverConfig:
@@ -9,8 +10,12 @@ class PerceiverConfig:
 
 @dataclass
 class SystemConfig:
+    # Database Settings
+    sqlite_busy_timeout_ms: int = 3000
+    
     # Z3 Verification Engine
     z3_timeout_ms: int = 5000
+    cegis_max_iterations: int = 5
 
     # Neural Perceiver
     perceiver_config: PerceiverConfig = field(default_factory=PerceiverConfig)

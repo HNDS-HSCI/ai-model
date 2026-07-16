@@ -1,0 +1,102 @@
+[
+  {
+    "id": "plan_1",
+    "prompt": "Plan exactly 1 steps to boil water. Only output the final step number.",
+    "expected": "1"
+  },
+  {
+    "id": "plan_2",
+    "prompt": "Plan exactly 2 steps to boil water. Only output the final step number.",
+    "expected": "2"
+  },
+  {
+    "id": "plan_3",
+    "prompt": "Plan exactly 3 steps to boil water. Only output the final step number.",
+    "expected": "3"
+  },
+  {
+    "id": "plan_4",
+    "prompt": "Plan exactly 4 steps to boil water. Only output the final step number.",
+    "expected": "4"
+  },
+  {
+    "id": "plan_5",
+    "prompt": "Plan exactly 5 steps to boil water. Only output the final step number.",
+    "expected": "5"
+  },
+  {
+    "id": "plan_6",
+    "prompt": "Plan exactly 6 steps to boil water. Only output the final step number.",
+    "expected": "6"
+  },
+  {
+    "id": "plan_7",
+    "prompt": "Plan exactly 7 steps to boil water. Only output the final step number.",
+    "expected": "7"
+  },
+  {
+    "id": "plan_8",
+    "prompt": "Plan exactly 8 steps to boil water. Only output the final step number.",
+    "expected": "8"
+  },
+  {
+    "id": "plan_9",
+    "prompt": "Plan exactly 9 steps to boil water. Only output the final step number.",
+    "expected": "9"
+  },
+  {
+    "id": "plan_10",
+    "prompt": "Plan exactly 10 steps to boil water. Only output the final step number.",
+    "expected": "10"
+  },
+  {
+    "id": "plan_11",
+    "prompt": "Plan exactly 11 steps to boil water. Only output the final step number.",
+    "expected": "11"
+  },
+  {
+    "id": "plan_12",
+    "prompt": "Plan exactly 12 steps to boil water. Only output the final step number.",
+    "expected": "12"
+  },
+  {
+    "id": "plan_13",
+    "prompt": "Plan exactly 13 steps to boil water. Only output the final step number.",
+    "expected": "13"
+  },
+  {
+    "id": "plan_14",
+    "prompt": "Plan exactly 14 steps to boil water. Only output the final step number.",
+    "expected": "14"
+  },
+  {
+    "id": "plan_15",
+    "prompt": "Plan exactly 15 steps to boil water. Only output the final step number.",
+    "expected": "15"
+  },
+  {
+    "id": "plan_16",
+    "prompt": "Plan exactly 16 steps to boil water. Only output the final step number.",
+    "expected": "16"
+  },
+  {
+    "id": "plan_17",
+    "prompt": "Plan exactly 17 steps to boil water. Only output the final step number.",
+    "expected": "17"
+  },
+  {
+    "id": "plan_18",
+    "prompt": "Plan exactly 18 steps to boil water. Only output the final step number.",
+    "expected": "18"
+  },
+  {
+    "id": "plan_19",
+    "prompt": "Plan exactly 19 steps to boil water. Only output the final step number.",
+    "expected": "19"
+  },
+  {
+    "id": "plan_20",
+    "prompt": "Plan exactly 20 steps to boil water. Only output the final step number.",
+    "expected": "20"
+  }
+]

@@ -98,6 +98,10 @@ class PerceptionMap:
 class Concept:
     id: str = field(default_factory=lambda: str(uuid4()))
     name: str = ""
+    namespace: str = "general"
+    version: int = 1
+    status: str = "ACTIVE"
+    aliases: List[str] = field(default_factory=list, hash=False)
     axiom_type: AxiomType = AxiomType.REDUCTION
     abstract_rule: str = ""       # "result = a + b"
     z3_template: str = ""         # Z3-compatible constraint string

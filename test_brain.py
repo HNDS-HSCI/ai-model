@@ -1,47 +1,35 @@
-import logging
+# -*- coding: utf-8 -*-
+"""Quick integration test for HSCI brain fixes."""
 import sys
 import os
-from hnsds.brain.cognitive_core import HyperSymbolicBrain
+sys.stdout.reconfigure(encoding='utf-8')
+sys.stderr.reconfigure(encoding='utf-8')
 
-def main():
-    # Clear cache for a clean tutorial experience
-    if os.path.exists("mental_intelligence.json"):
-        os.remove("mental_intelligence.json")
+from hsci.core.rir_loop import RIRLoop
 
-    # 1. Build the Brain
-    brain = HyperSymbolicBrain()
+brain = RIRLoop(use_llm=False)
 
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(levelname)s - %(message)s',
-        stream=sys.stdout
-    )
-    
-    print("==================================================")
-    print("   HSCI TUTORIAL: Axiomatic Reasoning Flow        ")
-    print("==================================================\n")
+tests = [
+    ("hello", "Greeting"),
+    ("what is 5 + 3", "Math"),
+    ("What is quantum computing", "Knowledge"),
+    ("find velocity if distance = 100 and time = 5", "Physics"),
+    ("What is the capital of India", "Capital"),
+    ("Tell me about gravity", "Science"),
+    ("Explain DNA", "Biology"),
+    ("calculate 100 * 3", "Arithmetic"),
+]
 
-    # CASE 1: Instructional Priming (Teaching)
-    print("--- STEP 1: TEACHING THE BRAIN ---")
-    lesson = "teach: find the total if base is x and bonus is y | SALARY_SUMMATION | REDUCTION"
-    print(f"Input: {lesson}")
-    res1 = brain.process(lesson)
-    print(f"Brain Output: {res1}\n")
+for query, label in tests:
+    print(f"\n{'='*60}")
+    print(f"TEST [{label}]: {query}")
+    print(f"{'='*60}")
+    try:
+        result = brain.process(query)
+        print(result)
+    except Exception as e:
+        print(f"ERROR: {type(e).__name__}: {e}")
 
-    # CASE 2: Generalization (Zero-Shot using learned logic)
-    print("--- STEP 2: ANALOGICAL REASONING ---")
-    problem = "Calculate the total result if the base is 5000 and the bonus is 200"
-    print(f"Input: {problem}")
-    res2 = brain.process(problem)
-    print(f"Brain Output: {res2}\n")
-
-    # CASE 3: View the Cognitive Trace
-    print("--- STEP 3: COGNITIVE TRACE (The Mental Model) ---")
-    trace = brain.get_mind_state()
-    for i, step in enumerate(trace):
-        print(f"[{i:02d}] {step}")
-
-    print("\n✅ Tutorial Complete. The brain has mastered the concept and solved the problem.")
-
-if __name__ == "__main__":
-    main()
+print(f"\n{'='*60}")
+print("ALL TESTS COMPLETE")
+print(f"{'='*60}")

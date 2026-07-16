@@ -56,3 +56,5 @@ coverage.xml
 mental_intelligence.json
 episodes.jsonl
 hnsds/brain/knowledge/concept_graph.json
+*.db
+*.db-journal

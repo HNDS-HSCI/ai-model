@@ -1,0 +1,102 @@
+[
+  {
+    "id": "math_1",
+    "prompt": "Solve: 2x + 3 = 23",
+    "expected": "10"
+  },
+  {
+    "id": "math_2",
+    "prompt": "Solve: 4x + 6 = 46",
+    "expected": "10"
+  },
+  {
+    "id": "math_3",
+    "prompt": "Solve: 6x + 9 = 69",
+    "expected": "10"
+  },
+  {
+    "id": "math_4",
+    "prompt": "Solve: 8x + 12 = 92",
+    "expected": "10"
+  },
+  {
+    "id": "math_5",
+    "prompt": "Solve: 10x + 15 = 115",
+    "expected": "10"
+  },
+  {
+    "id": "math_6",
+    "prompt": "Solve: 12x + 18 = 138",
+    "expected": "10"
+  },
+  {
+    "id": "math_7",
+    "prompt": "Solve: 14x + 21 = 161",
+    "expected": "10"
+  },
+  {
+    "id": "math_8",
+    "prompt": "Solve: 16x + 24 = 184",
+    "expected": "10"
+  },
+  {
+    "id": "math_9",
+    "prompt": "Solve: 18x + 27 = 207",
+    "expected": "10"
+  },
+  {
+    "id": "math_10",
+    "prompt": "Solve: 20x + 30 = 230",
+    "expected": "10"
+  },
+  {
+    "id": "math_11",
+    "prompt": "Solve: 22x + 33 = 253",
+    "expected": "10"
+  },
+  {
+    "id": "math_12",
+    "prompt": "Solve: 24x + 36 = 276",
+    "expected": "10"
+  },
+  {
+    "id": "math_13",
+    "prompt": "Solve: 26x + 39 = 299",
+    "expected": "10"
+  },
+  {
+    "id": "math_14",
+    "prompt": "Solve: 28x + 42 = 322",
+    "expected": "10"
+  },
+  {
+    "id": "math_15",
+    "prompt": "Solve: 30x + 45 = 345",
+    "expected": "10"
+  },
+  {
+    "id": "math_16",
+    "prompt": "Solve: 32x + 48 = 368",
+    "expected": "10"
+  },
+  {
+    "id": "math_17",
+    "prompt": "Solve: 34x + 51 = 391",
+    "expected": "10"
+  },
+  {
+    "id": "math_18",
+    "prompt": "Solve: 36x + 54 = 414",
+    "expected": "10"
+  },
+  {
+    "id": "math_19",
+    "prompt": "Solve: 38x + 57 = 437",
+    "expected": "10"
+  },
+  {
+    "id": "math_20",
+    "prompt": "Solve: 40x + 60 = 460",
+    "expected": "10"
+  }
+]

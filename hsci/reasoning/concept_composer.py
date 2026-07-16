@@ -17,9 +17,22 @@ class ConceptComposer:
         # Improved selection logic: use context_text to bias concept choice
         if direct:
             ranked = self.rank_by_strength(direct)
+            text = context_text.lower()
+            
+            # 1. Prioritize concept if its name is mentioned in the query text
+            for concept in ranked:
+                c_name = concept.name.lower()
+                if c_name in text or c_name.replace("_", " ") in text:
+                    return concept
+
+            # 2. Prioritize concept if its required entities match the query text entities
+            for concept in ranked:
+                if concept.required_entities:
+                    overlap = [e for e in concept.required_entities if e.lower() in text]
+                    if len(overlap) >= len(concept.required_entities) - 1 and len(concept.required_entities) >= 2:
+                        return concept
             
             # Domain-specific heuristics
-            text = context_text.lower()
             if any(w in text for w in ["distance", "velocity", "force", "mass", "acceleration", "interest"]):
                  # Prioritize MULTIPLICATION or LINEAR_EQUATION for these
                  mult_concepts = [c for c in ranked if c.name == "MULTIPLICATION"]
