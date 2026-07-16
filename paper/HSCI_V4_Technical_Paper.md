@@ -18,6 +18,8 @@ State-of-the-art Large Language Models (LLMs) operate by predicting subsequent t
 
 HSCI v4 approaches cognitive automation differently. Instead of guessing tokens, it parses input into semantic frames, activates relevant concept subgraphs, verifies axioms using SMT solvers, and compiles explainable answers.
 
+For the governing principles and decision frameworks, refer to the [HSCI Design Philosophy](file:///C:/Work/P/ai-model/docs/philosophy/HSCI_DESIGN_PHILOSOPHY.md).
+
 ---
 
 ## 3. Motivation

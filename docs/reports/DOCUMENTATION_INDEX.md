@@ -10,6 +10,7 @@ This index provides a structured directory mapping all architecture reviews, des
 *   [PROJECT_RULES.md](file:///C:/Work/P/ai-model/PROJECT_RULES.md): Coding philosophy, CLEAN/SOLID principles, thread safety.
 *   [ARCHITECTURE_CONSTITUTION.md](file:///C:/Work/P/ai-model/ARCHITECTURE_CONSTITUTION.md): Immutable architectural rules.
 *   [IMPLEMENTATION_WORKFLOW.md](file:///C:/Work/P/ai-model/IMPLEMENTATION_WORKFLOW.md): Step-by-step lifecycle workflow.
+*   [HSCI_DESIGN_PHILOSOPHY.md](file:///C:/Work/P/ai-model/docs/philosophy/HSCI_DESIGN_PHILOSOPHY.md): Foundational design philosophy and decision frameworks.
 
 ---
 

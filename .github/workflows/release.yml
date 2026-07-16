@@ -25,10 +25,10 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r requirements.txt pytest
 
       - name: Run Test Suite
-        run: pytest
+        run: python -m pytest
 
       - name: Run Evaluation Suite & Compile Snapshots
         run: python evaluation_runner.py

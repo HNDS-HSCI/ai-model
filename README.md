@@ -143,6 +143,7 @@ python evaluation_runner.py
 
 ## 8. Documentation Index
 All specification files are mapped under the [Documentation Index](file:///C:/Work/P/ai-model/docs/reports/DOCUMENTATION_INDEX.md).
+Foundational rules are defined in the [HSCI Design Philosophy](file:///C:/Work/P/ai-model/docs/philosophy/HSCI_DESIGN_PHILOSOPHY.md).
 
 ---
 
