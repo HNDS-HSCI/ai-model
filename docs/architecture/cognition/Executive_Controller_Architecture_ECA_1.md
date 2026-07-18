@@ -8,70 +8,128 @@
 
 ## 1. Purpose
 
-The Executive Controller decides what cognitive action the system should execute next.
-*   **BrainKernel**: The micro-kernel orchestrating thread execution and scheduling.
-*   **Executive Controller**: The cognitive scheduler that acts like the prefrontal cortex, choosing the pipeline path (e.g. reasoning vs. memory search vs. user prompt).
-*   **Reasoning Engine (CRE)**: The SMT solver verifying logic.
-*   **Task Planner (HTN)**: Sequences action tasks.
-*   **Meta Cognition**: Monitors confidence levels and flags inconsistencies.
+The Executive Controller (EC) is the cognitive executive function of HSCI. It does not perform reasoning or task sequencing; instead, it determines the next cognitive action the system should perform. It is analogous to the prefrontal cortex in humans and the scheduler in a real-time operating system (RTOS).
+
+### Distinction Matrix
+*   **BrainKernel**: The low-level operating system micro-kernel. It orchestrates threads, memory mappings, and raw process scheduling.
+*   **Executive Controller**: The cognitive scheduler that acts on semantically enriched Meaning Graphs to direct attention and decide which engine (Reasoning, Memory, Planning, Acquisition) runs next.
+*   **Reasoning Engine (CRE)**: A downstream symbolic executor that verifies constraints using the Microsoft Z3 SMT solver.
+*   **Task Planner**: Sequences actions using Hierarchical Task Networks (HTN).
+*   **Meta Cognition**: Evaluates logical consistency and monitors confidence metrics.
 
 ---
 
 ## 2. Positioning Inside HSCI
 
 ```
-Context-Enriched Meaning Graph ──► Executive Controller ──► Target Engine
-                                                                 │
-                                           ┌─────────────────────┼─────────────────────┐
-                                           ▼                     ▼                     ▼
-                                    Reasoning Engine       Task Planner        Answer Generation
+Semantic Interpreter (SIA-1)
+          ↓  [Outputs raw Meaning Graph]
+Meaning Graph (MGS-1)
+          ↓
+Context Engine (CEA-1)
+          ↓  [Enriches graph with situational variables]
+Executive Controller (ECA-1)  ◄── Meta-Cognition (Flags preemption/correction)
+          ↓  [Schedules & dispatches task]
+Logical Engines (CRE / HTN / USM / Answer Generation)
 ```
+
 ### Why Executive Control Precedes Reasoning
-Before running Z3 proofs, the system must decide if reasoning is necessary. If the target query is answered by direct fact matching in memory, executing the reasoning engine consumes CPU cycles unnecessarily. The Executive Controller schedules the optimal processing path.
+Executive control coordinates resource consumption. Formulating logical formulas and invoking SMT solvers (Z3) is computationally expensive. The Executive Controller intercepts the enriched Meaning Graph to determine if the query can be resolved via low-cost memory cache hits before invoking the full reasoning pipeline.
 
 ---
 
-## 3. Subsystem Architecture Overview
+## 3. Internal Architecture & Modules
 
 ```mermaid
 graph TD
-    EM["Executive Manager"] --> RE["Decision Engine"]
-    RE --> TS["Priority Scheduler"]
-    RE --> IM["Interrupt Manager"]
+    EM["Executive Manager"] --> DE["Decision Engine"]
+    DE --> AC["Attention Coordinator"]
+    DE --> PS["Priority Scheduler"]
+    PS --> RA["Resource Allocator"]
+    PS --> IM["Interrupt Manager"]
     
     subgraph Dispatchers
-        TS --> RD["Reasoning Dispatcher"]
-        TS --> PD["Planning Dispatcher"]
-        TS --> LD["Learning Dispatcher"]
-        TS --> CD["Clarification Dispatcher"]
+        PS --> GD["Goal Dispatcher"]
+        PS --> RD["Reasoning Dispatcher"]
+        PS --> PD["Planning Dispatcher"]
+        PS --> LD["Learning Dispatcher"]
+        PS --> SD["Simulation Dispatcher"]
+        PS --> CM["Clarification Manager"]
+        PS --> VM["Verification Manager"]
     end
 ```
 
+### 3.1 Executive Manager
+*   **Purpose**: Orchestrates the main cognitive scheduling loop.
+*   **Inputs**: Enriched Meaning Graph, Meta-cognitive alerts.
+*   **Outputs**: Dispatched task blocks.
+*   **Responsibilities**: Controls initialization, execution cycles, and shutdown routines of the controller.
+
+### 3.2 Decision Engine
+*   **Purpose**: Evaluates candidate cognitive paths.
+*   **Inputs**: Context vectors, goals state.
+*   **Outputs**: Selected Decision Policy Type (e.g. `Reason`, `Search Memory`).
+*   **Responsibilities**: Selects optimal cognitive actions based on active policy models.
+
+### 3.3 Attention Coordinator
+*   **Purpose**: Directs activation variables in WorkingMemory.
+*   **Inputs**: Ingestion concept references.
+*   **Outputs**: Active Focus Set.
+*   **Responsibilities**: Adjusts concept activation potentials to focus processing on relevant subgraphs.
+
+### 3.4 Priority Scheduler
+*   **Purpose**: Manages queue execution priorities.
+*   **Inputs**: Action tasks.
+*   **Outputs**: Sequenced execution queues.
+*   **Responsibilities**: Schedules tasks using real-time deadline-driven and priority-driven algorithms.
+
+### 3.5 Resource Allocator
+*   **Purpose**: Enforces processing ceilings.
+*   **Inputs**: Request profiles.
+*   **Outputs**: Thread budgets and memory constraints.
+*   **Responsibilities**: Limits workspace memory buffers and Z3 execution times.
+
+### 3.6 Interrupt Manager
+*   **Purpose**: Process preemption and exceptions.
+*   **Inputs**: Metacognitive inconsistency flags, thread timeouts.
+*   **Outputs**: Thread abort commands.
+*   **Responsibilities**: Preempts lower-priority tasks when critical logical contradictions are detected.
+
 ---
 
-## 4. Decision Lifecycle & Scheduling Policies
+## 4. Decision Policies & Types
 
-### 4.1 Decision States
-`Created` \(\rightarrow\) `Evaluation` \(\rightarrow\) `Prioritization` \(\rightarrow\) `Dispatch` \(\rightarrow\) `Monitoring` \(\rightarrow\) `Completion/Abort`.
+The Executive Controller evaluates state conditions to choose the appropriate policy:
 
-### 4.2 Scheduling Policies
-*   **Preemption**: Meta-cognition flags (such as finding logical contradictions) interrupt running reasoning threads.
+| Policy | Triggering Condition | Subsystem Dispatched |
+|---|---|---|
+| **Search Memory** | Concepts have high confidence (\(\ge 0.85\)) and exist in USM. | `UniversalSemanticMemory` |
+| **Reason** | Logical contradictions or missing implications exist in active workspace. | `ReasoningEngine` (Z3) |
+| **Plan** | Input contains target goals or action dependencies. | `TaskPlanner` (HTN) |
+| **Verify** | Active assertions contain contradictory evidence. | `VerificationManager` |
+| **Clarify** | Concept matches multiple ambiguous namespaces with equal scores. | `ClarificationManager` (Ask User) |
+| **Simulate** | Testing outcomes of task plans without executing them. | `SimulationDispatcher` |
+| **Abort** | Contradiction entropy (\(H_c\)) exceeds maximum limits or thread timeouts fire. | `InterruptManager` |
+
+---
+
+## 5. Task Scheduling & Preemption
+
+HSCI employs a **Priority-Based Preemptive Scheduler** for cognitive operations:
+*   **Priority Levels**:
+    1.  `CRITICAL`: Metacognitive contradictions, interrupts (Preempts all tasks).
+    2.  `HIGH`: Verification and SMT proofs.
+    3.  `MEDIUM`: standard context-matching and memory queries.
+    4.  `LOW`: Learning optimizations and Ebbinghaus decays.
+*   **Preemption Logic**: If a `CRITICAL` metacognitive contradiction is raised while a `MEDIUM` reasoning proof is executing, the Interrupt Manager immediately aborts the active Z3 thread, rolling back database staging transactions.
 *   **Deadlock Prevention**: Nested SMT proofs are constrained to depth thresholds, aborting dependencies that cycle.
 
 ---
 
-## 5. Attention Coordination & Goal Integration
+## 6. Exception Handling & Recovery Strategies
 
-The attention coordinator manages WorkingMemory focus.
-*   Concepts with activation thresholds above \(0.80\) are cached in local registers.
-*   **Goal Influence**: Active goals adjust context weights, steering scheduling priorities (e.g. if current task is `verify`, scheduling defaults to Z3 proofs over memory retrieval).
-
----
-
-## 6. Resource Budgets
-
-*   **Memory Budget**: Workspace buffers are capped at 50 active concepts.
-*   **SMT Solver Budget**: Z3 executions are capped at 50ms per proof run.
+*   **Reasoning Failure / Timeout**: If a Z3 proof fails to resolve within 50ms, the scheduler aborts the task, flags the assertion state as `Uncertain`, and dispatches the `Clarification Manager` to prompt the user.
+*   **Ambiguous Meanings**: If the Context Engine returns identical scoring candidates, the `Clarification Manager` formats a multiple-choice question to ask the user.
 
 ---
 
@@ -79,30 +137,31 @@ The attention coordinator manages WorkingMemory focus.
 
 ```mermaid
 sequenceDiagram
-    participant EC as Executive Controller
-    participant USM as Semantic Memory
+    participant EC as Executive Controller (ECA-1)
+    participant USM as Semantic Memory DB
     participant CRE as Reasoning Engine (Z3)
     participant AGE as Answer Generation
     
-    EC->>USM: Query concept coordinates ("penguin", "fly")
+    Note over EC: Meaning Graph Ingested. Identify concepts: Penguin, Fly.
+    EC->>USM: Query concept coordinates
     USM-->>EC: Return nodes: concept.animal.penguin, concept.action.fly
-    Note over EC: Goal: Verify assertion. Run Z3 solver.
+    Note over EC: Check axioms: Penguin IS_A Bird, Bird CAN_FLY.
+    Note over EC: Conflict detected: Penguin has flag 'flightless'. Dispatches 'Reason'.
     EC->>CRE: Dispatch proof: CAN_FLY(penguin)
-    CRE->>CRE: Load axioms: Penguin IS_A Bird, Bird CAN_FLY, Penguin EXCEPT fly
-    CRE-->>EC: Return contradiction proof (sat: False)
+    CRE->>CRE: Load axioms into Z3 context
+    CRE-->>EC: Return proof (sat: False, Contradiction: True)
+    Note over EC: Select 'Answer' policy.
     EC->>AGE: Dispatch response compilation
-    AGE-->>EC: Complete Answer
+    AGE-->>EC: Return Answer: "No, penguins are flightless birds."
 ```
-*   **Final Answer**: "No, penguins cannot fly because they are flightless birds."
-*   **Reasoning trace**: `Penguin(x) -> Bird(x); Bird(x) -> CanFly(x) [except x=penguin]`.
 
 ---
 
 ## 8. ECA-1 Architecture Principles
 
 The Executive Controller **MUST NOT**:
-1.  Perform SMT logic proofs.
-2.  Store concept parameters.
-3.  Write directly to databases.
+1.  Perform SMT logic proofs or construct Z3 equations.
+2.  Store vocabulary parameters or permanent concept indices.
+3.  Write directly to databases or caches.
 
-Its sole responsibility is scheduling and dispatching cognitive tasks.
+Its sole responsibility is scheduling and dispatching tasks to target cognitive engines.
