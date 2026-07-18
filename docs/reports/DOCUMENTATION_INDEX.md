@@ -107,3 +107,4 @@ This index provides a structured directory mapping all architecture reviews, des
 *   **Runtime Monitoring & Observability Architecture (RMA-1)**: [Runtime_Monitoring_Observability_Architecture_RMA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Runtime_Monitoring_Observability_Architecture_RMA_1.md)
 *   **Architecture Standards & Contracts (ASC-1)**: [Architecture_Standards_Contracts_ASC_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Architecture_Standards_Contracts_ASC_1.md)
 *   **Reference Implementation Blueprint (RIB-1)**: [Reference_Implementation_Blueprint_RIB_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Reference_Implementation_Blueprint_RIB_1.md)
+*   **Service & Communication Architecture (SCA-1)**: [Service_Communication_Architecture_SCA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Service_Communication_Architecture_SCA_1.md)
