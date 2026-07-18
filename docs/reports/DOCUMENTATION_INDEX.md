@@ -106,3 +106,4 @@ This index provides a structured directory mapping all architecture reviews, des
 *   **Verification & Validation Architecture (VVA-1)**: [Verification_Validation_Architecture_VVA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Verification_Validation_Architecture_VVA_1.md)
 *   **Runtime Monitoring & Observability Architecture (RMA-1)**: [Runtime_Monitoring_Observability_Architecture_RMA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Runtime_Monitoring_Observability_Architecture_RMA_1.md)
 *   **Architecture Standards & Contracts (ASC-1)**: [Architecture_Standards_Contracts_ASC_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Architecture_Standards_Contracts_ASC_1.md)
+*   **Reference Implementation Blueprint (RIB-1)**: [Reference_Implementation_Blueprint_RIB_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Reference_Implementation_Blueprint_RIB_1.md)
