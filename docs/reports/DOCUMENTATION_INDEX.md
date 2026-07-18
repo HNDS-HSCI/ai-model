@@ -89,3 +89,4 @@ This index provides a structured directory mapping all architecture reviews, des
 *   **HSCI Reference Cognitive Architecture (RCA-1)**: [HSCI_Reference_Cognitive_Architecture_RCA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/HSCI_Reference_Cognitive_Architecture_RCA_1.md)
 *   **Semantic Interpreter Architecture (SIA-1)**: [Semantic_Interpreter_Architecture_SIA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Semantic_Interpreter_Architecture_SIA_1.md)
 *   **Meaning Graph Specification (MGS-1)**: [Meaning_Graph_Specification_MGS_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Meaning_Graph_Specification_MGS_1.md)
+*   **Context Engine Architecture (CEA-1)**: [Context_Engine_Architecture_CEA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Context_Engine_Architecture_CEA_1.md)
