@@ -104,3 +104,4 @@ This index provides a structured directory mapping all architecture reviews, des
 *   **Inter-Agent Collaboration Architecture (ICA-1)**: [Inter_Agent_Collaboration_Architecture_ICA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Inter_Agent_Collaboration_Architecture_ICA_1.md)
 *   **Governance & Constitutional Architecture (GCA-1)**: [Governance_Constitution_Architecture_GCA_1.md](file:///C:/Work/P/ai-model/docs/reports/Governance_Constitution_Architecture_GCA_1.md)
 *   **Verification & Validation Architecture (VVA-1)**: [Verification_Validation_Architecture_VVA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Verification_Validation_Architecture_VVA_1.md)
+*   **Runtime Monitoring & Observability Architecture (RMA-1)**: [Runtime_Monitoring_Observability_Architecture_RMA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Runtime_Monitoring_Observability_Architecture_RMA_1.md)
