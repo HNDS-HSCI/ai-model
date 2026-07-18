@@ -86,3 +86,4 @@ This index provides a structured directory mapping all architecture reviews, des
 *   **Cognitive Memory Architecture**: [Cognitive_Memory_Architecture.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Cognitive_Memory_Architecture.md)
 *   **Meta-Cognition Design**: [Meta_Cognition_Design.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Meta_Cognition_Design.md)
 *   **Cognitive Architecture Decision Records (ADR)**: [ADR_0002_Cognitive_Language_Of_Thought.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/adr/ADR_0002_Cognitive_Language_Of_Thought.md)
+*   **HSCI Reference Cognitive Architecture (RCA-1)**: [HSCI_Reference_Cognitive_Architecture_RCA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/HSCI_Reference_Cognitive_Architecture_RCA_1.md)
