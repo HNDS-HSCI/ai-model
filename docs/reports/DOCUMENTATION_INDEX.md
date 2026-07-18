@@ -102,3 +102,4 @@ This index provides a structured directory mapping all architecture reviews, des
 *   **Curiosity & Intrinsic Motivation Architecture (CUE-1)**: [Curiosity_Motivation_Architecture_CUE_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Curiosity_Motivation_Architecture_CUE_1.md)
 *   **Tool & Capability Architecture (TCA-1)**: [Tool_Capability_Architecture_TCA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Tool_Capability_Architecture_TCA_1.md)
 *   **Inter-Agent Collaboration Architecture (ICA-1)**: [Inter_Agent_Collaboration_Architecture_ICA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Inter_Agent_Collaboration_Architecture_ICA_1.md)
+*   **Governance & Constitutional Architecture (GCA-1)**: [Governance_Constitution_Architecture_GCA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Governance_Constitution_Architecture_GCA_1.md)
