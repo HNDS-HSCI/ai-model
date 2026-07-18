@@ -1,7 +1,7 @@
 # HSCI V4 — Current Sprint Status (CURRENT_SPRINT.md)
 
 **Sprint ID**: HSCI V4 Milestone 2 Inception Sprint  
-**Sprint Goal**: Design, review, and compile the unified Reference Cognitive Architecture (RCA-1) specs.  
+**Sprint Goal**: Design, review, and compile the reference architectures and semantic interpreter specifications.  
 **Start Date**: 2026-07-18  
 **End Date**: 2026-07-18  
 **Status**: Completed  
@@ -20,7 +20,8 @@
 | **TSK-M206** | Author memory architectures and meta-cognition design. | Antigravity | **Completed** |
 | **TSK-M207** | Write LoT representation ADR-0002 record. | Antigravity | **Completed** |
 | **TSK-M208** | Integrate and compile the `HSCI_Reference_Cognitive_Architecture_RCA_1.md` constitutional spec. | Antigravity | **Completed** |
-| **TSK-M209** | Synchronize documentation indexes. | Antigravity | **Completed** |
+| **TSK-M209** | Author the `Semantic_Interpreter_Architecture_SIA_1.md` processing specification. | Antigravity | **Completed** |
+| **TSK-M210** | Synchronize documentation indexes. | Antigravity | **Completed** |
 
 ---
 
