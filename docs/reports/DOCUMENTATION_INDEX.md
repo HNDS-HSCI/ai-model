@@ -96,3 +96,4 @@ This index provides a structured directory mapping all architecture reviews, des
 *   **Attention System Architecture (ASA-1)**: [Attention_System_Architecture_ASA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Attention_System_Architecture_ASA_1.md)
 *   **Belief System Architecture (BSA-1)**: [Belief_System_Architecture_BSA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Belief_System_Architecture_BSA_1.md)
 *   **Simulation Engine Architecture (SEA-1)**: [Simulation_Engine_Architecture_SEA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Simulation_Engine_Architecture_SEA_1.md)
+*   **Self Model Architecture (SMA-1)**: [Self_Model_Architecture_SMA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Self_Model_Architecture_SMA_1.md)
