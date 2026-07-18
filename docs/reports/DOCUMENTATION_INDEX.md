@@ -72,3 +72,17 @@ This index provides a structured directory mapping all architecture reviews, des
 *   **Universal Semantic Memory Specification**: [Universal_Semantic_Memory_Specification.md](file:///C:/Work/P/ai-model/docs/architecture/knowledge/Universal_Semantic_Memory_Specification.md)
 *   **Architecture Decision Records (ADR)**: [ADR_0001_Knowledge_Storage_Scaling.md](file:///C:/Work/P/ai-model/docs/architecture/knowledge/adr/ADR_0001_Knowledge_Storage_Scaling.md)
 *   **System Architecture Review (SAR-1)**: [SAR_1_Architecture_Review.md](file:///C:/Work/P/ai-model/docs/architecture/knowledge/SAR_1_Architecture_Review.md)
+
+---
+
+## 6. Cognitive Processing Pipeline (CPP-1)
+
+*   **Intelligence Theory**: [Intelligence_Theory.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Intelligence_Theory.md)
+*   **Cognitive Processing Pipeline**: [Cognitive_Processing_Pipeline.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Cognitive_Processing_Pipeline.md)
+*   **Language Understanding Architecture**: [Language_Understanding_Architecture.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Language_Understanding_Architecture.md)
+*   **Semantic Representation Layer**: [Semantic_Representation_Layer.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Semantic_Representation_Layer.md)
+*   **Concept Formation Theory**: [Concept_Formation_Theory.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Concept_Formation_Theory.md)
+*   **Semantic Identity Framework**: [Semantic_Identity_Framework.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Semantic_Identity_Framework.md)
+*   **Cognitive Memory Architecture**: [Cognitive_Memory_Architecture.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Cognitive_Memory_Architecture.md)
+*   **Meta-Cognition Design**: [Meta_Cognition_Design.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Meta_Cognition_Design.md)
+*   **Cognitive Architecture Decision Records (ADR)**: [ADR_0002_Cognitive_Language_Of_Thought.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/adr/ADR_0002_Cognitive_Language_Of_Thought.md)
