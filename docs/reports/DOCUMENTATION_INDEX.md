@@ -100,3 +100,4 @@ This index provides a structured directory mapping all architecture reviews, des
 *   **Meta-Reasoning Architecture (MRA-1)**: [Meta_Reasoning_Architecture_MRA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Meta_Reasoning_Architecture_MRA_1.md)
 *   **Learning & Adaptation Architecture (LAA-1)**: [Learning_Adaptation_Architecture_LAA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Learning_Adaptation_Architecture_LAA_1.md)
 *   **Curiosity & Intrinsic Motivation Architecture (CUE-1)**: [Curiosity_Motivation_Architecture_CUE_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Curiosity_Motivation_Architecture_CUE_1.md)
+*   **Tool & Capability Architecture (TCA-1)**: [Tool_Capability_Architecture_TCA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Tool_Capability_Architecture_TCA_1.md)
