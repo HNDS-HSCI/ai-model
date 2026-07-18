@@ -1,0 +1,1208 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Axiomatic Cognitive Intelligence Architecture">
+      
+      
+        <meta name="author" content="Brijesh Yadav">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>HSCI V4 — Implementation Phases - HSCI Technical Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hsci-v4-implementation-phases" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="HSCI Technical Documentation" class="md-header__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HSCI Technical Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              HSCI V4 — Implementation Phases
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../architecture/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../api/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tutorials/teaching.md" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="HSCI Technical Documentation" class="md-nav__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    HSCI Technical Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/teaching.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instructional Priming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/proofs.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Proofs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#phase-1-repository-stabilization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Repository Stabilization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-2-universal-knowledge-model-ukm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Universal Knowledge Model (UKM)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-3-working-memory-session-isolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Working Memory (Session Isolation)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-4-brain-kernel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Brain Kernel
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-5-solver-registry-solver-plugins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 5: Solver Registry &amp; Solver Plugins
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-6-concept-activation-engine-cae" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 6: Concept Activation Engine (CAE)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-7-understanding-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 7: Understanding Engine
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-8-mental-model-engine-mme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 8: Mental Model Engine (MME)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-9-goal-manager-planner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 9: Goal Manager &amp; Planner
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-10-reflection-engine-cee" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 10: Reflection Engine &amp; CEE
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-11-learning-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 11: Learning Engine
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-12-teaching-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 12: Teaching Protocol
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-13-programming-domain-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 13: Programming Domain Integration
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="hsci-v4-implementation-phases">HSCI V4 — Implementation Phases</h1>
+<p>This document details the 13 sequential engineering phases required to execute the HSCI V4 migration. Each phase is self-contained and does not depend on unfinished future work.</p>
+<hr />
+<h2 id="phase-1-repository-stabilization">Phase 1: Repository Stabilization</h2>
+<ul>
+<li><strong>Objectives</strong>:<ul>
+<li>Clean legacy dead code to reduce complexity.</li>
+<li>Implement standard thread locks on legacy file-based databases to prevent corruption before migration.</li>
+<li>Fix the <code>NativeGraph</code> slow write performance issue.</li>
+</ul>
+</li>
+<li><strong>Files affected</strong>:<ul>
+<li><code>hnsds/formalizer/spec_builder.py</code> (Delete)</li>
+<li><code>hnsds/perception/parser.py</code> (Delete)</li>
+<li><code>hnsds/verifier/pytest_runner.py</code> (Delete)</li>
+<li><code>self_play_engine.py</code> (Delete)</li>
+<li><code>hnsds/learner/episode_logger.py</code> (Add <code>threading.RLock</code>)</li>
+<li><code>hnsds/brain/lobes/native_graph.py</code> (Implement batching)</li>
+</ul>
+</li>
+<li><strong>Expected duration</strong>: 3 days</li>
+<li><strong>Risks</strong>:<ul>
+<li>Deleting files might break legacy tests referencing them.</li>
+<li><em>Mitigation</em>: Run grep searches to check imports before deleting; update demo scripts to import from <code>logic_parser.py</code>.</li>
+</ul>
+</li>
+<li><strong>Testing strategy</strong>:<ul>
+<li>Run legacy unit tests: <code>pytest hnsds/tests/</code> and verify 100% pass rates.</li>
+<li>Execute concurrent write stress tests against <code>EpisodeLogger</code> to verify lock safety.</li>
+</ul>
+</li>
+<li><strong>Rollback strategy</strong>:<ul>
+<li>Revert files using <code>git checkout</code> or restore deleted files from Git history.</li>
+</ul>
+</li>
+<li><strong>Completion criteria</strong>:<ul>
+<li>All identified dead code files are deleted.</li>
+<li>Zero compile-time or import errors in tests.</li>
+<li>Concurrent writes to legacy logs do not raise exceptions.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="phase-2-universal-knowledge-model-ukm">Phase 2: Universal Knowledge Model (UKM)</h2>
+<ul>
+<li><strong>Objectives</strong>:<ul>
+<li>Create the unified SQLite database schema matching the V4 Knowledge Architecture.</li>
+<li>Write a migration script to import all legacy JSON and JSONL data files into SQLite.</li>
+<li>Implement the SQLite-backed stores (<code>ConceptStore</code>, <code>OntologyStore</code>, <code>EpisodeStore</code>, <code>WeightStore</code>).</li>
+</ul>
+</li>
+<li><strong>Files affected</strong>:<ul>
+<li>Create <code>hsci/knowledge/ukm.py</code></li>
+<li>Create <code>hsci/knowledge/sqlite_store.py</code></li>
+<li>Create <code>migrations/v2_to_v4.py</code></li>
+<li><code>hsci/knowledge/concept_library.py</code> (Deprecate)</li>
+<li><code>hsci/knowledge/ontology_graph.py</code> (Deprecate)</li>
+<li><code>hsci/knowledge/episode_memory.py</code> (Deprecate)</li>
+</ul>
+</li>
+<li><strong>Expected duration</strong>: 5 days</li>
+<li><strong>Risks</strong>:<ul>
+<li>SQLite database lock contention during concurrent weight serialization and concept updates.</li>
+<li><em>Mitigation</em>: Enforce SQLite WAL (Write-Ahead Logging) mode and implement an asynchronous write-buffering mechanism.</li>
+</ul>
+</li>
+<li><strong>Testing strategy</strong>:<ul>
+<li>Unit test database schema migrations.</li>
+<li>Verify data parity between source JSON files and migrated SQLite tables.</li>
+<li>Test transactional atomicity: verify a failed concept insert rolls back its associated ontology edges.</li>
+</ul>
+</li>
+<li><strong>Rollback strategy</strong>:<ul>
+<li>Delete the SQLite file <code>hsci_v4.db</code> and revert to reading from the original read-only JSON backups.</li>
+</ul>
+</li>
+<li><strong>Completion criteria</strong>:<ul>
+<li>Unified SQLite database is successfully initialized.</li>
+<li>All concept and episode logs are migrated with 100% record parity.</li>
+<li>Write buffer flush operations commit atomic transactions.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="phase-3-working-memory-session-isolation">Phase 3: Working Memory (Session Isolation)</h2>
+<ul>
+<li><strong>Objectives</strong>:<ul>
+<li>Implement the request-scoped <code>WorkingMemory</code> class.</li>
+<li>Remove stateful variables (<code>self.last_embedding</code>) from <code>NeuralPerceiver</code> and <code>intent_classifier.py</code>.</li>
+<li>Add the <code>CognitiveContext</code> parameter to all layer classes to propagate state.</li>
+</ul>
+</li>
+<li><strong>Files affected</strong>:<ul>
+<li>Create <code>hsci/core/working_memory.py</code></li>
+<li><code>hsci/neural/perceiver.py</code> (Refactor methods to accept context)</li>
+<li><code>hsci/neural/intent_classifier.py</code> (Refactor methods)</li>
+<li><code>hsci/core/data_types.py</code> (Introduce <code>CognitiveContext</code>)</li>
+</ul>
+</li>
+<li><strong>Expected duration</strong>: 4 days</li>
+<li><strong>Risks</strong>:<ul>
+<li>High refactoring footprint; passing <code>context</code> through every method signature could break interface boundaries.</li>
+<li><em>Mitigation</em>: Keep helper wrappers with backward-compatible method signatures where context is optional and defaults to a fresh instance.</li>
+</ul>
+</li>
+<li><strong>Testing strategy</strong>:<ul>
+<li>Run parallel classification requests in multiple threads; verify that distinct <code>WorkingMemory</code> instances maintain isolated embeddings.</li>
+</ul>
+</li>
+<li><strong>Rollback strategy</strong>:<ul>
+<li>Revert context-passing changes via Git.</li>
+</ul>
+</li>
+<li><strong>Completion criteria</strong>:<ul>
+<li><code>NeuralPerceiver</code> class is completely stateless.</li>
+<li>Type signatures of all pipeline layers accept a unified <code>CognitiveContext</code>.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="phase-4-brain-kernel">Phase 4: Brain Kernel</h2>
+<ul>
+<li><strong>Objectives</strong>:<ul>
+<li>Implement the unified <code>BrainKernel</code> orchestrator.</li>
+<li>Build the 10-stage execution pipeline structure, managing transitions through the cognitive stages.</li>
+<li>Expose the main process entry point to replace <code>RIRLoop</code>.</li>
+</ul>
+</li>
+<li><strong>Files affected</strong>:<ul>
+<li>Create <code>hsci/core/kernel.py</code></li>
+<li><code>hsci/core/rir_loop.py</code> (Mark as deprecated, route to kernel)</li>
+</ul>
+</li>
+<li><strong>Expected duration</strong>: 5 days</li>
+<li><strong>Risks</strong>:<ul>
+<li>Changes to orchestration logic might introduce control-flow bugs.</li>
+<li><em>Mitigation</em>: Implement the orchestrator as a step-by-step state machine with logging hooks at every transition.</li>
+</ul>
+</li>
+<li><strong>Testing strategy</strong>:<ul>
+<li>Run test cases for each execution stage independently using mock inputs.</li>
+<li>Verify stage timing and transition trace logging.</li>
+</ul>
+</li>
+<li><strong>Rollback strategy</strong>:<ul>
+<li>Redirect imports back to the V3 <code>RIRLoop</code>.</li>
+</ul>
+</li>
+<li><strong>Completion criteria</strong>:<ul>
+<li><code>BrainKernel</code> executes the complete 10-stage sequence.</li>
+<li>Request executions return structured <code>FinalOutput</code> dataclass tokens.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="phase-5-solver-registry-solver-plugins">Phase 5: Solver Registry &amp; Solver Plugins</h2>
+<ul>
+<li><strong>Objectives</strong>:<ul>
+<li>Create the <code>SolverRegistry</code> locator.</li>
+<li>Wrap all five HNSDS solvers as plugins implementing <code>AbstractSolver</code>.</li>
+<li>Implement the dispatch logic to route sub-goals to solver plugins.</li>
+</ul>
+</li>
+<li><strong>Files affected</strong>:<ul>
+<li>Create <code>hsci/reasoning/solver_registry.py</code></li>
+<li>Create <code>hsci/reasoning/plugins/</code> (Wrap HNSDS verifiers)</li>
+<li><code>hnsds/brain/cognitive_core.py</code> (Reroute to registry)</li>
+</ul>
+</li>
+<li><strong>Expected duration</strong>: 5 days</li>
+<li><strong>Risks</strong>:<ul>
+<li>Legacy solver outputs may not match V4 <code>Expression</code> type expectations.</li>
+<li><em>Mitigation</em>: Write clean adapters that coerce solver outputs to V4 dataclasses.</li>
+</ul>
+</li>
+<li><strong>Testing strategy</strong>:<ul>
+<li>Execute the full HNSDS benchmark task suite (<code>tasks.json</code>) against the new <code>SolverRegistry</code> runner. Verify 100% parity.</li>
+</ul>
+</li>
+<li><strong>Rollback strategy</strong>:<ul>
+<li>Fall back to legacy <code>cognitive_core.py</code> routing checks.</li>
+</ul>
+</li>
+<li><strong>Completion criteria</strong>:<ul>
+<li>All five benchmark solvers successfully run as registry plugins.</li>
+<li>All benchmark domains pass with identical or improved execution latency.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="phase-6-concept-activation-engine-cae">Phase 6: Concept Activation Engine (CAE)</h2>
+<ul>
+<li><strong>Objectives</strong>:<ul>
+<li>Implement spreading activation with the 0.6 decay rate over the <code>OntologyStore</code>.</li>
+<li>Add an LRU cache (256 slots) for activation field results.</li>
+<li>Define active concept pruning thresholds (minimum activation 0.1).</li>
+</ul>
+</li>
+<li><strong>Files affected</strong>:<ul>
+<li>Refactor <code>hsci/knowledge/knowledge_base.py</code> -&gt; <code>hsci/knowledge/concept_activation.py</code></li>
+</ul>
+</li>
+<li><strong>Expected duration</strong>: 4 days</li>
+<li><strong>Risks</strong>:<ul>
+<li>Spreading activation traversal causing latency spikes on deep graphs.</li>
+<li><em>Mitigation</em>: Hard cap traversal depth at 2 hops and enforce maximum concept limits (max 500 nodes).</li>
+</ul>
+</li>
+<li><strong>Testing strategy</strong>:<ul>
+<li>Verify concept retrieval precision/recall ratios using configured decay values (0.3, 0.5, 0.6, 0.7).</li>
+</ul>
+</li>
+<li><strong>Rollback strategy</strong>:<ul>
+<li>Fallback to direct name/intent matches.</li>
+</ul>
+</li>
+<li><strong>Completion criteria</strong>:<ul>
+<li>Activation traversal returns decay-weighted concept lists.</li>
+<li>Average CAE retrieval latency is under 15ms.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="phase-7-understanding-engine">Phase 7: Understanding Engine</h2>
+<ul>
+<li><strong>Objectives</strong>:<ul>
+<li>Build the <code>UnderstandingEngine</code> for Stage 0.5 semantic grounding.</li>
+<li>Add co-reference resolution and follow-up context parsing.</li>
+<li>Implement <code>SemanticFrame</code> generation and <code>ClarificationRequest</code> interruption rules.</li>
+</ul>
+</li>
+<li><strong>Files affected</strong>:<ul>
+<li>Create <code>hsci/language/understanding.py</code></li>
+<li><code>hsci/language/bridge.py</code> (Update calls)</li>
+</ul>
+</li>
+<li><strong>Expected duration</strong>: 4 days</li>
+<li><strong>Risks</strong>:<ul>
+<li>Incorrect co-reference mappings lead to nonsensical input interpretations.</li>
+<li><em>Mitigation</em>: Restrict automatic co-reference resolution to the most recent entity of a matching type; generate clarification requests if ambiguous.</li>
+</ul>
+</li>
+<li><strong>Testing strategy</strong>:<ul>
+<li>Run test scripts containing 50 conversation pairs with nested pronoun references. Verify grounding accuracy.</li>
+</ul>
+</li>
+<li><strong>Rollback strategy</strong>:<ul>
+<li>Disable context resolution; parse every user input as an isolated query.</li>
+</ul>
+</li>
+<li><strong>Completion criteria</strong>:<ul>
+<li>Inputs yield fully resolved <code>SemanticFrame</code> attributes.</li>
+<li>Ambiguous inputs trigger appropriate clarification structures.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="phase-8-mental-model-engine-mme">Phase 8: Mental Model Engine (MME)</h2>
+<ul>
+<li><strong>Objectives</strong>:<ul>
+<li>Implement the <code>WorldStateGraph</code> using the SQLite-backed EAV FactStore.</li>
+<li>Implement fact confidence decay rules (<code>e^(-0.01 * t)</code>).</li>
+<li>Build the <code>SelfModel</code> aggregator for tracking system proof counts.</li>
+</ul>
+</li>
+<li><strong>Files affected</strong>:<ul>
+<li>Create <code>hsci/knowledge/mental_model.py</code></li>
+</ul>
+</li>
+<li><strong>Expected duration</strong>: 4 days</li>
+<li><strong>Risks</strong>:<ul>
+<li>Fact confidence decay running continuously degrades database performance.</li>
+<li><em>Mitigation</em>: Compute decay lazily during query execution instead of running batch updates.</li>
+</ul>
+</li>
+<li><strong>Testing strategy</strong>:<ul>
+<li>Verify fact confidence levels decay correctly over mock timeline steps.</li>
+</ul>
+</li>
+<li><strong>Rollback strategy</strong>:<ul>
+<li>Use non-decaying permanent attributes.</li>
+</ul>
+</li>
+<li><strong>Completion criteria</strong>:<ul>
+<li>World state facts update dynamically on successful verifications.</li>
+<li>Decayed facts correctly trigger knowledge gap warnings.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="phase-9-goal-manager-planner">Phase 9: Goal Manager &amp; Planner</h2>
+<ul>
+<li><strong>Objectives</strong>:<ul>
+<li>Build the <code>GoalManager</code> prioritizing priority goal queues.</li>
+<li>Create the genuine Hierarchical Task Network (<code>HTNPlanner</code>) guided by <code>DECOMPOSITION_RULES</code> and <code>SkillMemory</code>.</li>
+</ul>
+</li>
+<li><strong>Files affected</strong>:<ul>
+<li>Create <code>hsci/reasoning/goal_manager.py</code></li>
+<li><code>hsci/reasoning/htn_planner.py</code> (Rewrite)</li>
+</ul>
+</li>
+<li><strong>Expected duration</strong>: 5 days</li>
+<li><strong>Risks</strong>:<ul>
+<li>Planner enters infinite decomposition loops if rules contain cyclic definitions.</li>
+<li><em>Mitigation</em>: Enforce structural validation checks on planning rule trees to prevent cycles.</li>
+</ul>
+</li>
+<li><strong>Testing strategy</strong>:<ul>
+<li>Test decompositions across all four canonical AxiomTypes.</li>
+</ul>
+</li>
+<li><strong>Rollback strategy</strong>:<ul>
+<li>Fallback to static procedural step mappings.</li>
+</ul>
+</li>
+<li><strong>Completion criteria</strong>:<ul>
+<li>Planner correctly maps complex intents to ordered sub-goal sequences.</li>
+<li><code>GoalManager</code> successfully resolves priority goals.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="phase-10-reflection-engine-cee">Phase 10: Reflection Engine &amp; CEE</h2>
+<ul>
+<li><strong>Objectives</strong>:<ul>
+<li>Implement the <code>ReflectionEngine</code> using the diagnosis decision tree.</li>
+<li>Create <code>ConceptEvolutionEngine</code> (CEE) for structural concept mergers (Generalisation) and splits (Specialisation).</li>
+<li>Implement counterfactual reasoning loops executing Z3 proof comparisons.</li>
+</ul>
+</li>
+<li><strong>Files affected</strong>:<ul>
+<li>Create <code>hsci/learning/reflection.py</code></li>
+<li>Create <code>hsci/learning/evolution.py</code></li>
+</ul>
+</li>
+<li><strong>Expected duration</strong>: 6 days</li>
+<li><strong>Risks</strong>:<ul>
+<li>Incorrect generalisations (merging separate concepts) can corrupt the knowledge database.</li>
+<li><em>Mitigation</em>: Set CEE auto-generalisation to <code>False</code> by default (dry-run mode). Require manual approval before applying mergers.</li>
+</ul>
+</li>
+<li><strong>Testing strategy</strong>:<ul>
+<li>Inject artificial failures (e.g., incorrect formulas) and verify that reflection diagnoses the failure correctly.</li>
+</ul>
+</li>
+<li><strong>Rollback strategy</strong>:<ul>
+<li>Disable automatic evolution; restrict database writes to explicit updates.</li>
+</ul>
+</li>
+<li><strong>Completion criteria</strong>:<ul>
+<li>Failures yield actionable correction proposals.</li>
+<li>Auto-evolution proposals are logged with detailed justification.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="phase-11-learning-engine">Phase 11: Learning Engine</h2>
+<ul>
+<li><strong>Objectives</strong>:<ul>
+<li>Refactor the <code>LearningEngine</code> to coordinate proof-guided neural weight updates and concept database commits.</li>
+<li>Implement strengthening and weakening updates asynchronously.</li>
+</ul>
+</li>
+<li><strong>Files affected</strong>:<ul>
+<li><code>hsci/learning/learning_engine.py</code> (Refactor)</li>
+<li><code>hsci/learning/proof_guided_updater.py</code> (Refactor)</li>
+</ul>
+</li>
+<li><strong>Expected duration</strong>: 4 days</li>
+<li><strong>Risks</strong>:<ul>
+<li>Slow neural updates degrade cycle latency times.</li>
+<li><em>Mitigation</em>: Run neural training steps asynchronously on a background helper thread.</li>
+</ul>
+</li>
+<li><strong>Testing strategy</strong>:<ul>
+<li>Verify concept strength changes match mathematical expectations after successes or failures.</li>
+</ul>
+</li>
+<li><strong>Rollback strategy</strong>:<ul>
+<li>Disable neural feedback updates; run in deterministic validation-only mode.</li>
+</ul>
+</li>
+<li><strong>Completion criteria</strong>:<ul>
+<li>Verification outcomes trigger appropriate strength updates in the database.</li>
+<li>Weight updates successfully run without blocking request loops.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="phase-12-teaching-protocol">Phase 12: Teaching Protocol</h2>
+<ul>
+<li><strong>Objectives</strong>:<ul>
+<li>Implement <code>TeachingProtocol</code> managing lesson compilation and ingestion validation.</li>
+<li>Add HTTP endpoints for interactive human teaching.</li>
+</ul>
+</li>
+<li><strong>Files affected</strong>:<ul>
+<li>Create <code>hsci/core/teaching.py</code></li>
+<li><code>brain_api.py</code> (Add <code>/v1/teach</code> routing endpoints)</li>
+</ul>
+</li>
+<li><strong>Expected duration</strong>: 3 days</li>
+<li><strong>Risks</strong>:<ul>
+<li>Ingesting incorrect teaching formulas corrupts Z3 solver logic.</li>
+<li><em>Mitigation</em>: Run syntactic AST parsing and Z3 semantic validation checks on all candidate formulas before database commit.</li>
+</ul>
+</li>
+<li><strong>Testing strategy</strong>:<ul>
+<li>Simulate teaching calls with both valid and invalid formulas. Verify reject behaviors.</li>
+</ul>
+</li>
+<li><strong>Rollback strategy</strong>:<ul>
+<li>Disable teaching API endpoints.</li>
+</ul>
+</li>
+<li><strong>Completion criteria</strong>:<ul>
+<li>Valid lesson inputs insert active concept rows into SQLite.</li>
+<li>Invalid inputs return structured validation warnings.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="phase-13-programming-domain-integration">Phase 13: Programming Domain Integration</h2>
+<ul>
+<li><strong>Objectives</strong>:<ul>
+<li>Sandbox <code>exec</code> and <code>eval</code> execution paths inside the code synthesis engine.</li>
+<li>Refactor code generation to run in an isolated environment.</li>
+</ul>
+</li>
+<li><strong>Files affected</strong>:<ul>
+<li><code>hnsds/synthesizer/enumerative.py</code> (Sandbox)</li>
+<li><code>hsci/reasoning/synthesizer.py</code> (Sandbox)</li>
+</ul>
+</li>
+<li><strong>Expected duration</strong>: 4 days</li>
+<li><strong>Risks</strong>:<ul>
+<li>Execution sandboxing blocks legitimate synthesis operations.</li>
+<li><em>Mitigation</em>: Restrict execution calls using a secure sub-process runner or strict AST validation whitelists.</li>
+</ul>
+</li>
+<li><strong>Testing strategy</strong>:<ul>
+<li>Attempt code injections (e.g., executing system calls). Verify execution blocks.</li>
+</ul>
+</li>
+<li><strong>Rollback strategy</strong>:<ul>
+<li>Restore previous execution hooks with warn-only flags.</li>
+</ul>
+</li>
+<li><strong>Completion criteria</strong>:<ul>
+<li>Code generation runs correctly.</li>
+<li>Arbitrary code executions are blocked and logged.</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

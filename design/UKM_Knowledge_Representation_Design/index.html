@@ -1,0 +1,1026 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Axiomatic Cognitive Intelligence Architecture">
+      
+      
+        <meta name="author" content="Brijesh Yadav">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>HSCI V4 — UKM Knowledge Representation Design (UKM_Knowledge_Representation_Design.md) - HSCI Technical Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hsci-v4-ukm-knowledge-representation-design-ukm_knowledge_representation_designmd" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="HSCI Technical Documentation" class="md-header__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HSCI Technical Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              HSCI V4 — UKM Knowledge Representation Design (UKM_Knowledge_Representation_Design.md)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../architecture/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../api/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tutorials/teaching.md" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="HSCI Technical Documentation" class="md-nav__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    HSCI Technical Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/teaching.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instructional Priming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/proofs.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Proofs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-purpose-core-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Purpose &amp; Core Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Purpose &amp; Core Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Principles
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-core-cognitive-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Core Cognitive Objects
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Core Cognitive Objects">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-concept" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Concept
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-fact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Fact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-procedure-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Procedure &amp; Skill
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-hypothesis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Hypothesis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-episode-proof" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Episode &amp; Proof
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-additional-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7 Additional Objects
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-knowledge-relationships" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Knowledge Relationships
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-concept-identity-evolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Concept Identity &amp; Evolution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-confidence-uncertainty-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Confidence &amp; Uncertainty Model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-abstract-interfaces-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Abstract Interfaces (APIs)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-scalability-extensibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Scalability &amp; Extensibility
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="hsci-v4-ukm-knowledge-representation-design-ukm_knowledge_representation_designmd">HSCI V4 — UKM Knowledge Representation Design (UKM_Knowledge_Representation_Design.md)</h1>
+<p>This document establishes the storage-independent cognitive knowledge representation model for the Universal Knowledge Model (UKM) of the HSCI V4 Cognitive Operating System.</p>
+<hr />
+<h2 id="1-purpose-core-principles">1. Purpose &amp; Core Principles</h2>
+<p>The Universal Knowledge Model (UKM) represents the permanent memory, logical reasoning core, and cognitive associations of the HSCI system. The primary goal of this design is <strong>Storage Independence</strong>. The Knowledge Layer must exist as a set of logical structures and abstract interfaces, completely decoupled from concrete storage engines (such as SQLite, PostgreSQL, Neo4j, Redis, or local flat files). </p>
+<h3 id="core-principles">Core Principles</h3>
+<ol>
+<li><strong>Axiomatic Validity</strong>: No knowledge object is registered as "verified" without a mathematical proof trace mapped to Z3 verification outcomes.</li>
+<li><strong>Referential Provenance</strong>: Every stored fact or concept must maintain an immutable link to the exact cognitive episode and verification trace that established it.</li>
+<li><strong>Dynamic Evolution</strong>: Concepts are not static; they evolve through splits (specialisation) and mergers (generalisation) driven by reflection.</li>
+<li><strong>Epistemic Decoupling</strong>: Storage implementations (relational, graph, or vector databases) are treated as pluggable providers.</li>
+</ol>
+<hr />
+<h2 id="2-core-cognitive-objects">2. Core Cognitive Objects</h2>
+<p>Every knowledge object is modeled with its purpose, schema fields, lifecycle states, relationships, ownership, mutability, persistence, validation rules, and confidence metrics.</p>
+<pre><code>                  ┌─────────────────────────────────┐
+                  │          KnowledgeObject        │
+                  │   (Base metadata + provenance)  │
+                  └────────────────┬────────────────┘
+                                   │
+         ┌─────────────────────────┼─────────────────────────┐
+         ▼                         ▼                         ▼
+  ┌─────────────┐           ┌─────────────┐           ┌─────────────┐
+  │   Concept   │           │    Fact     │           │   Episode   │
+  │ (Axiomatic) │           │ (Temporal)  │           │ (Historical)│
+  └─────────────┘           └─────────────┘           └─────────────┘
+</code></pre>
+<h3 id="21-concept">2.1 Concept</h3>
+<ul>
+<li><strong>Purpose</strong>: Represents an abstract mathematical rule, mathematical definition, or reasoning pattern.</li>
+<li><strong>Fields</strong>: <code>concept_id: str</code>, <code>name: str</code>, <code>namespace: str</code>, <code>axiom_type: AxiomType</code>, <code>abstract_rule: str</code>, <code>z3_template: str</code>, <code>strength: float</code>, <code>proof_count: int</code>, <code>status: ConceptStatus</code>.</li>
+<li><strong>Lifecycle</strong>: <code>CANDIDATE</code> $\rightarrow$ <code>ACTIVE</code> $\rightarrow$ <code>WEAKENED</code> $\rightarrow$ <code>DEPRECATED</code> $\rightarrow$ <code>ARCHIVED</code>.</li>
+<li><strong>Ownership</strong>: Owned globally or linked to the creator session.</li>
+<li><strong>Mutability</strong>: Immutable except for strength metadata and status transitions. Rule changes spawn a new concept version.</li>
+<li><strong>Validation Rules</strong>: Rules must compile to valid AST nodes. Z3 templates must parse cleanly.</li>
+</ul>
+<h3 id="22-fact">2.2 Fact</h3>
+<ul>
+<li><strong>Purpose</strong>: An Entity-Attribute-Value (EAV) representation of a state in the world model.</li>
+<li><strong>Fields</strong>: <code>fact_id: str</code>, <code>entity: str</code>, <code>attribute: str</code>, <code>value: Any</code>, <code>confidence: float</code>, <code>timestamp: float</code>.</li>
+<li><strong>Lifecycle</strong>: <code>OBSERVED</code> $\rightarrow$ <code>BELIEVED</code> $\rightarrow$ <code>DECAYED</code> $\rightarrow$ <code>PRUNED</code>.</li>
+<li><strong>Mutability</strong>: Mutable confidence; values are updated by appending new versions.</li>
+<li><strong>Confidence Model</strong>: Decays over time via <code>e^(-0.01 * t)</code>.</li>
+</ul>
+<h3 id="23-rule">2.3 Rule</h3>
+<ul>
+<li><strong>Purpose</strong>: Represents an implication constraint ($A \implies B$) used by solvers and planners.</li>
+<li><strong>Fields</strong>: <code>rule_id: str</code>, <code>premise: Expression</code>, <code>conclusion: Expression</code>, <code>z3_constraint: str</code>.</li>
+<li><strong>Mutability</strong>: Immutable.</li>
+</ul>
+<h3 id="24-procedure-skill">2.4 Procedure &amp; Skill</h3>
+<ul>
+<li><strong>Purpose</strong>: <code>Procedure</code> maps sequential actions. <code>Skill</code> maps the procedural blueprint triggered by a specific neural embedding.</li>
+<li><strong>Fields</strong>: <code>skill_id: str</code>, <code>trigger_embedding: List[float]</code>, <code>ordered_tasks: List[Task]</code>, <code>success_rate: float</code>.</li>
+<li><strong>Mutability</strong>: Success rate is mutable; task sequences require version increments.</li>
+</ul>
+<h3 id="25-hypothesis">2.5 Hypothesis</h3>
+<ul>
+<li><strong>Purpose</strong>: A candidate rule proposed during self-play or reflection before validation.</li>
+<li><strong>Fields</strong>: <code>hypothesis_id: str</code>, <code>proposed_rule: str</code>, <code>concept_sources: List[str]</code>, <code>verification_status: VerificationStatus</code>.</li>
+<li><strong>Lifecycle</strong>: <code>PROPOSED</code> $\rightarrow$ <code>VERIFIED</code> (becomes active Concept) or <code>REFUTED</code> (becomes archived).</li>
+</ul>
+<h3 id="26-episode-proof">2.6 Episode &amp; Proof</h3>
+<ul>
+<li><strong>Purpose</strong>: <code>Episode</code> stores a problem solving instance. <code>Proof</code> stores the Z3 validation trace.</li>
+<li><strong>Fields</strong>: <code>episode_id: str</code>, <code>stimulus: str</code>, <code>proof_trace: ProofTrace</code>, <code>was_verified: bool</code>, <code>pnl_outcomes: float</code>.</li>
+<li><strong>Mutability</strong>: Read-only (strictly immutable).</li>
+</ul>
+<h3 id="27-additional-objects">2.7 Additional Objects</h3>
+<ul>
+<li><strong>Goal</strong>: The target state description.</li>
+<li><strong>Counterexample</strong>: A dictionary of assignments falsifying a hypothesis.</li>
+<li><strong>Observation</strong>: A raw sensor or parsing output.</li>
+<li><strong>Task / Action</strong>: Planner execution elements.</li>
+<li><strong>Reflection</strong>: Logs diagnosed failures and CEE evolution proposals.</li>
+<li><strong>Learning Event</strong>: Tracks PYG weight modifications.</li>
+</ul>
+<hr />
+<h2 id="3-knowledge-relationships">3. Knowledge Relationships</h2>
+<p>Cognitive objects are linked in the <code>OntologyGraph</code> via the following relationship types:</p>
+<table>
+<thead>
+<tr>
+<th>Relationship Type</th>
+<th>Source Object</th>
+<th>Target Object</th>
+<th>Semantic Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>IS_A</code></td>
+<td>Concept</td>
+<td>Concept</td>
+<td>Inheritance / Taxonomic subclassing.</td>
+</tr>
+<tr>
+<td><code>PART_OF</code></td>
+<td>Task</td>
+<td>Procedure</td>
+<td>Decomposition structure.</td>
+</tr>
+<tr>
+<td><code>CAUSES</code></td>
+<td>Fact / Rule</td>
+<td>Fact</td>
+<td>Causal implication logic.</td>
+</tr>
+<tr>
+<td><code>USES</code></td>
+<td>SubGoal</td>
+<td>Skill</td>
+<td>Procedural assignment.</td>
+</tr>
+<tr>
+<td><code>DEPENDS_ON</code></td>
+<td>Concept</td>
+<td>Concept</td>
+<td>Prerequisite requirement.</td>
+</tr>
+<tr>
+<td><code>CONFLICTS_WITH</code></td>
+<td>Concept</td>
+<td>Concept</td>
+<td>Logical contradiction (Z3 proven).</td>
+</tr>
+<tr>
+<td><code>SUPERSEDES</code></td>
+<td>Concept (v2)</td>
+<td>Concept (v1)</td>
+<td>Version deprecation mapping.</td>
+</tr>
+<tr>
+<td><code>PROVES</code></td>
+<td>Proof</td>
+<td>Hypothesis</td>
+<td>Formal verification confirmation.</td>
+</tr>
+<tr>
+<td><code>REFUTES</code></td>
+<td>Counterexample</td>
+<td>Hypothesis</td>
+<td>Falsification link.</td>
+</tr>
+<tr>
+<td><code>LEARNED_FROM</code></td>
+<td>Concept</td>
+<td>Episode</td>
+<td>Provenance mapping.</td>
+</tr>
+<tr>
+<td><code>GENERALIZES</code></td>
+<td>Concept</td>
+<td>Concept</td>
+<td>Conceptual merger target.</td>
+</tr>
+<tr>
+<td><code>SPECIALIZES</code></td>
+<td>Concept</td>
+<td>Concept</td>
+<td>Conceptual split target.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-concept-identity-evolution">4. Concept Identity &amp; Evolution</h2>
+<ul>
+<li><strong>Identifiers &amp; Namespaces</strong>: Every concept belongs to a hierarchical namespace (e.g., <code>hsci.math.arithmetic.addition</code>) and has a UUID4 key.</li>
+<li><strong>Synonyms &amp; Aliases</strong>: Concepts map to lists of text aliases to support semantic matches.</li>
+<li><strong>Concept Merger (Generalisation)</strong>: When two concepts are structurally identical and behave symmetrically across all verified episodes, they are merged. A new concept is created (<code>vMajor+1</code>), and the original concepts transition to <code>DEPRECATED</code> status with a <code>SUPERSEDES</code> relation.</li>
+<li><strong>Concept Split (Specialisation)</strong>: When a general concept fails verification on a subclass of inputs, the Concept Evolution Engine splits it into two targeted sub-concepts linked by a <code>SPECIALIZES</code> relationship.</li>
+</ul>
+<hr />
+<h2 id="5-confidence-uncertainty-model">5. Confidence &amp; Uncertainty Model</h2>
+<ul>
+<li><strong>Concept Strength</strong>: A float value ($[0.0, 1.0]$) representing the reliability of the concept.<ul>
+<li><em>Strengthening (Success)</em>: $S_{t+1} = S_t + \eta \cdot (1 - S_t)$</li>
+<li><em>Weakening (Failure)</em>: $S_{t+1} = S_t - \eta \cdot S_t$ (where $\eta$ is the learning rate, default 0.01).</li>
+</ul>
+</li>
+<li><strong>Temporal Fact Decay</strong>: Fact confidence decays lazily:
+    $$\text{Confidence}(t) = \text{Confidence}_0 \cdot e^{-0.01 \cdot \Delta t}$$</li>
+<li><strong>Source Reliability</strong>: Knowledge ingested via direct human teaching (<code>TeachingProtocol</code>) initializes with a baseline confidence of $1.0$. Knowledge generated via self-play guesses initializes at $0.4$.</li>
+</ul>
+<hr />
+<h2 id="6-abstract-interfaces-apis">6. Abstract Interfaces (APIs)</h2>
+<pre><code class="language-python">class IConceptStore(ABC):
+    @abstractmethod
+    def create_concept(self, concept: Concept) -&gt; str:
+        &quot;&quot;&quot;Saves a new concept and returns its unique ID.&quot;&quot;&quot;
+        pass
+
+    @abstractmethod
+    def get_concept(self, concept_id: str) -&gt; Optional[Concept]:
+        pass
+
+    @abstractmethod
+    def update_strength(self, concept_id: str, success: bool) -&gt; None:
+        &quot;&quot;&quot;Applies Hebbian updates to strength and proof counts.&quot;&quot;&quot;
+        pass
+
+    @abstractmethod
+    def deprecate_concept(self, concept_id: str, superseded_by: str) -&gt; None:
+        &quot;&quot;&quot;Sets status=DEPRECATED and registers the replacement link.&quot;&quot;&quot;
+        pass
+
+
+class IOntologyStore(ABC):
+    @abstractmethod
+    def add_relationship(self, source_id: str, target_id: str, rel_type: str) -&gt; None:
+        pass
+
+    @abstractmethod
+    def remove_relationship(self, source_id: str, target_id: str, rel_type: str) -&gt; None:
+        pass
+
+    @abstractmethod
+    def get_related_objects(self, object_id: str, rel_type: Optional[str] = None) -&gt; List[Tuple[str, str]]:
+        &quot;&quot;&quot;Returns related object IDs and relationship types.&quot;&quot;&quot;
+        pass
+
+
+class IEpisodeStore(ABC):
+    @abstractmethod
+    def store_episode(self, episode: Episode) -&gt; str:
+        pass
+
+    @abstractmethod
+    def find_similar_episodes(self, query_embedding: List[float], limit: int = 5) -&gt; List[Episode]:
+        &quot;&quot;&quot;Analogical experience search.&quot;&quot;&quot;
+        pass
+</code></pre>
+<hr />
+<h2 id="7-scalability-extensibility">7. Scalability &amp; Extensibility</h2>
+<ul>
+<li><strong>Federated Providers</strong>: The abstract APIs allow developers to implement local SQLite stores for desktop execution, while wrapping them behind PostgreSQL or Neo4j server nodes for distributed enterprise deployments.</li>
+<li><strong>Vector Search Adaptability</strong>: The <code>find_similar_episodes</code> interface accepts standard float vectors. This supports simple TF-IDF indexing in the initial phases, while accommodating pluggable HNSW vector indexes as the database expands.</li>
+<li><strong>Domain Partitioning</strong>: The ontology traversals are partitioned by domain namespaces, preventing computational complexity degradation in large graphs.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
