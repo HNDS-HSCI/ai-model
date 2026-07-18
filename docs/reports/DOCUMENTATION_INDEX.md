@@ -71,3 +71,4 @@ This index provides a structured directory mapping all architecture reviews, des
 *   **Knowledge Lifecycle Specification**: [Knowledge_Lifecycle_Specification.md](file:///C:/Work/P/ai-model/docs/architecture/knowledge/Knowledge_Lifecycle_Specification.md)
 *   **Universal Semantic Memory Specification**: [Universal_Semantic_Memory_Specification.md](file:///C:/Work/P/ai-model/docs/architecture/knowledge/Universal_Semantic_Memory_Specification.md)
 *   **Architecture Decision Records (ADR)**: [ADR_0001_Knowledge_Storage_Scaling.md](file:///C:/Work/P/ai-model/docs/architecture/knowledge/adr/ADR_0001_Knowledge_Storage_Scaling.md)
+*   **System Architecture Review (SAR-1)**: [SAR_1_Architecture_Review.md](file:///C:/Work/P/ai-model/docs/architecture/knowledge/SAR_1_Architecture_Review.md)
