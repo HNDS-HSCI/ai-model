@@ -56,3 +56,18 @@ This index provides a structured directory mapping all architecture reviews, des
 *   **Evaluation Runner report**: [evaluation_report.md](file:///C:/Work/P/ai-model/evaluation_report.md)
 *   **Performance metrics snapshot**: [PERFORMANCE_SNAPSHOT.md](file:///C:/Work/P/ai-model/docs/reports/PERFORMANCE_SNAPSHOT.md)
 *   **CI/CD Pipeline Audit Report**: [CI_PIPELINE_AUDIT.md](file:///C:/Work/P/ai-model/docs/reports/CI_PIPELINE_AUDIT.md)
+
+---
+
+## 5. Knowledge Infrastructure Specifications (Milestone 2)
+
+*   **Knowledge Infrastructure Architecture**: [Knowledge_Infrastructure_Architecture.md](file:///C:/Work/P/ai-model/docs/architecture/knowledge/Knowledge_Infrastructure_Architecture.md)
+*   **Core Ontology Specification**: [Core_Ontology_Specification.md](file:///C:/Work/P/ai-model/docs/architecture/knowledge/ontology/Core_Ontology_Specification.md)
+*   **Knowledge Acquisition Design**: [Knowledge_Acquisition_Design.md](file:///C:/Work/P/ai-model/docs/architecture/knowledge/Knowledge_Acquisition_Design.md)
+*   **Knowledge Compiler Design**: [Knowledge_Compiler_Design.md](file:///C:/Work/P/ai-model/docs/architecture/knowledge/Knowledge_Compiler_Design.md)
+*   **Knowledge Validation Design**: [Knowledge_Validation_Design.md](file:///C:/Work/P/ai-model/docs/architecture/knowledge/Knowledge_Validation_Design.md)
+*   **Learning Engine Design**: [Learning_Engine_Design.md](file:///C:/Work/P/ai-model/docs/architecture/knowledge/Learning_Engine_Design.md)
+*   **Relationship Discovery Design**: [Relationship_Discovery_Design.md](file:///C:/Work/P/ai-model/docs/architecture/knowledge/Relationship_Discovery_Design.md)
+*   **Knowledge Lifecycle Specification**: [Knowledge_Lifecycle_Specification.md](file:///C:/Work/P/ai-model/docs/architecture/knowledge/Knowledge_Lifecycle_Specification.md)
+*   **Universal Semantic Memory Specification**: [Universal_Semantic_Memory_Specification.md](file:///C:/Work/P/ai-model/docs/architecture/knowledge/Universal_Semantic_Memory_Specification.md)
+*   **Architecture Decision Records (ADR)**: [ADR_0001_Knowledge_Storage_Scaling.md](file:///C:/Work/P/ai-model/docs/architecture/knowledge/adr/ADR_0001_Knowledge_Storage_Scaling.md)

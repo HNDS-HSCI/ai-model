@@ -1,9 +1,9 @@
 # HSCI V4 — Current Sprint Status (CURRENT_SPRINT.md)
 
-**Sprint ID**: HSCI V4 Repository Infrastructure & Modernization Sprint  
-**Sprint Goal**: Modernize CI/CD pipelines, tag-based release workflows, badges, and document files for Milestone 1 (v0.1.0-alpha).  
-**Start Date**: 2026-07-16  
-**End Date**: 2026-07-16  
+**Sprint ID**: HSCI V4 Milestone 2 Inception Sprint  
+**Sprint Goal**: Design the complete Knowledge Infrastructure specifications and architectural diagrams.  
+**Start Date**: 2026-07-18  
+**End Date**: 2026-07-18  
 **Status**: Completed  
 
 ---
@@ -12,17 +12,16 @@
 
 | Task ID | Description | Assigned Owner | Status |
 |---|---|---|---|
-| **TSK-M101** | Perform repository audit and compile `REPOSITORY_MODERNIZATION_REPORT.md`. | Antigravity | **Completed** |
-| **TSK-M102** | Redesign the `README.md` with shields.io badges and pipeline details. | Antigravity | **Completed** |
-| **TSK-M103** | Compile `paper/HSCI_V4_Technical_Paper.md` technical research manual. | Antigravity | **Completed** |
-| **TSK-M104** | Index specifications inside `DOCUMENTATION_INDEX.md` and write `ARCHITECTURE_OVERVIEW.md`. | Antigravity | **Completed** |
-| **TSK-M105** | Refactor `.github/workflows/verify.yml` to trigger pytest and evaluation suites. | Antigravity | **Completed** |
-| **TSK-M106** | Refactor `.github/workflows/release.yml` for tag-based release assets uploading. | Antigravity | **Completed** |
-| **TSK-M107** | Create `docs/reports/CI_PIPELINE_REPORT.md` documenting pipeline behaviors. | Antigravity | **Completed** |
+| **TSK-M201** | Create main `Knowledge_Infrastructure_Architecture.md` with system flows. | Antigravity | **Completed** |
+| **TSK-M202** | Author `Core_Ontology_Specification.md` defining primitive nodes. | Antigravity | **Completed** |
+| **TSK-M203** | Author acquisition, compilation, and validation designs. | Antigravity | **Completed** |
+| **TSK-M204** | Author learning engine, relationship discovery, lifecycle, and memory specs. | Antigravity | **Completed** |
+| **TSK-M205** | Write storage scaling ADR trade-offs record. | Antigravity | **Completed** |
+| **TSK-M206** | Synchronize documentation indexes. | Antigravity | **Completed** |
 
 ---
 
 ## 2. Sprint Retrospective
 
-*   **Workflow Verification**: Triggered testing pipelines via tag-based patterns, uploading documentation assets directly as release files.
-*   **Clean build targets**: Eliminated old `test_capabilities.py` job steps, aligning verify workflows with pytest configurations.
+*   **No Code Modifications**: Kept strictly to architecture specification design docs as ordered by the Chief AI Architect, guaranteeing zero regression risks.
+*   **Decoupled Subsystems**: Standard interfaces define the boundaries of the compiler, validator, and lifecycle pipelines, simplifying implementation tasks.
