@@ -92,3 +92,4 @@ This index provides a structured directory mapping all architecture reviews, des
 *   **Context Engine Architecture (CEA-1)**: [Context_Engine_Architecture_CEA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Context_Engine_Architecture_CEA_1.md)
 *   **Executive Controller Architecture (ECA-1)**: [Executive_Controller_Architecture_ECA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Executive_Controller_Architecture_ECA_1.md)
 *   **World Model Architecture (WMA-1)**: [World_Model_Architecture_WMA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/World_Model_Architecture_WMA_1.md)
+*   **Goal Manager Architecture (GMA-1)**: [Goal_Manager_Architecture_GMA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Goal_Manager_Architecture_GMA_1.md)
