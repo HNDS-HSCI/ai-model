@@ -1,7 +1,7 @@
 # HSCI V4 — Current Sprint Status (CURRENT_SPRINT.md)
 
 **Sprint ID**: HSCI V4 Milestone 2 Inception Sprint  
-**Sprint Goal**: Design, review, and compile the reference architectures and semantic interpreter specifications.  
+**Sprint Goal**: Design, review, and compile the reference architectures, semantic interpreter, and meaning graph specifications.  
 **Start Date**: 2026-07-18  
 **End Date**: 2026-07-18  
 **Status**: Completed  
@@ -21,7 +21,8 @@
 | **TSK-M207** | Write LoT representation ADR-0002 record. | Antigravity | **Completed** |
 | **TSK-M208** | Integrate and compile the `HSCI_Reference_Cognitive_Architecture_RCA_1.md` constitutional spec. | Antigravity | **Completed** |
 | **TSK-M209** | Author the `Semantic_Interpreter_Architecture_SIA_1.md` processing specification. | Antigravity | **Completed** |
-| **TSK-M210** | Synchronize documentation indexes. | Antigravity | **Completed** |
+| **TSK-M210** | Author the `Meaning_Graph_Specification_MGS_1.md` data schema blueprint. | Antigravity | **Completed** |
+| **TSK-M211** | Synchronize documentation indexes. | Antigravity | **Completed** |
 
 ---
 
