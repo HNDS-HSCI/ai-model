@@ -1,7 +1,7 @@
 # HSCI V4 — Current Sprint Status (CURRENT_SPRINT.md)
 
 **Sprint ID**: HSCI V4 Milestone 2 Inception Sprint  
-**Sprint Goal**: Design, review, and compile the reference architectures, semantic interpreter, meaning graph, context engine, executive controller, world model, goal manager, attention, and belief system specifications.  
+**Sprint Goal**: Design, review, and compile the reference architectures, semantic interpreter, meaning graph, context engine, executive controller, world model, goal manager, attention, belief, and simulation engine specifications.  
 **Start Date**: 2026-07-18  
 **End Date**: 2026-07-18  
 **Status**: Completed  
@@ -28,7 +28,8 @@
 | **TSK-M214** | Author the `Goal_Manager_Architecture_GMA_1.md` intention tracking spec. | Antigravity | **Completed** |
 | **TSK-M215** | Author the `Attention_System_Architecture_ASA_1.md` spotlight allocation spec. | Antigravity | **Completed** |
 | **TSK-M216** | Author the `Belief_System_Architecture_BSA_1.md` epistemic representation spec. | Antigravity | **Completed** |
-| **TSK-M217** | Synchronize documentation indexes. | Antigravity | **Completed** |
+| **TSK-M217** | Author the `Simulation_Engine_Architecture_SEA_1.md` counterfactual projection spec. | Antigravity | **Completed** |
+| **TSK-M218** | Synchronize documentation indexes. | Antigravity | **Completed** |
 
 ---
 

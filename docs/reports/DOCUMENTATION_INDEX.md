@@ -95,3 +95,4 @@ This index provides a structured directory mapping all architecture reviews, des
 *   **Goal Manager Architecture (GMA-1)**: [Goal_Manager_Architecture_GMA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Goal_Manager_Architecture_GMA_1.md)
 *   **Attention System Architecture (ASA-1)**: [Attention_System_Architecture_ASA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Attention_System_Architecture_ASA_1.md)
 *   **Belief System Architecture (BSA-1)**: [Belief_System_Architecture_BSA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Belief_System_Architecture_BSA_1.md)
+*   **Simulation Engine Architecture (SEA-1)**: [Simulation_Engine_Architecture_SEA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Simulation_Engine_Architecture_SEA_1.md)
