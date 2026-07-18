@@ -99,3 +99,4 @@ This index provides a structured directory mapping all architecture reviews, des
 *   **Self Model Architecture (SMA-1)**: [Self_Model_Architecture_SMA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Self_Model_Architecture_SMA_1.md)
 *   **Meta-Reasoning Architecture (MRA-1)**: [Meta_Reasoning_Architecture_MRA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Meta_Reasoning_Architecture_MRA_1.md)
 *   **Learning & Adaptation Architecture (LAA-1)**: [Learning_Adaptation_Architecture_LAA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Learning_Adaptation_Architecture_LAA_1.md)
+*   **Curiosity & Intrinsic Motivation Architecture (CUE-1)**: [Curiosity_Motivation_Architecture_CUE_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Curiosity_Motivation_Architecture_CUE_1.md)

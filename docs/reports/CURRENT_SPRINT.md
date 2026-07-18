@@ -1,7 +1,7 @@
 # HSCI V4 — Current Sprint Status (CURRENT_SPRINT.md)
 
 **Sprint ID**: HSCI V4 Milestone 2 Inception Sprint  
-**Sprint Goal**: Design, review, and compile the reference architectures, semantic interpreter, meaning graph, context engine, executive controller, world model, goal manager, attention, belief, simulation, self model, meta-reasoning, and learning adaptation specifications.  
+**Sprint Goal**: Design, review, and compile the reference architectures, semantic interpreter, meaning graph, context engine, executive controller, world model, goal manager, attention, belief, simulation, self model, meta-reasoning, learning, and curiosity specifications.  
 **Start Date**: 2026-07-18  
 **End Date**: 2026-07-18  
 **Status**: Completed  
@@ -32,7 +32,8 @@
 | **TSK-M218** | Author the `Self_Model_Architecture_SMA_1.md` identity capability spec. | Antigravity | **Completed** |
 | **TSK-M219** | Author the `Meta_Reasoning_Architecture_MRA_1.md` strategic supervisor spec. | Antigravity | **Completed** |
 | **TSK-M220** | Author the `Learning_Adaptation_Architecture_LAA_1.md` symbolic learning spec. | Antigravity | **Completed** |
-| **TSK-M221** | Synchronize documentation indexes. | Antigravity | **Completed** |
+| **TSK-M221** | Author the `Curiosity_Motivation_Architecture_CUE_1.md` intrinsic exploration spec. | Antigravity | **Completed** |
+| **TSK-M222** | Synchronize documentation indexes. | Antigravity | **Completed** |
 
 ---
 
