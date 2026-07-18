@@ -97,3 +97,4 @@ This index provides a structured directory mapping all architecture reviews, des
 *   **Belief System Architecture (BSA-1)**: [Belief_System_Architecture_BSA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Belief_System_Architecture_BSA_1.md)
 *   **Simulation Engine Architecture (SEA-1)**: [Simulation_Engine_Architecture_SEA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Simulation_Engine_Architecture_SEA_1.md)
 *   **Self Model Architecture (SMA-1)**: [Self_Model_Architecture_SMA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Self_Model_Architecture_SMA_1.md)
+*   **Meta-Reasoning Architecture (MRA-1)**: [Meta_Reasoning_Architecture_MRA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Meta_Reasoning_Architecture_MRA_1.md)
