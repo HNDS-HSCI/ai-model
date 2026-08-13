@@ -1,0 +1,24 @@
+{
+  "suite": "graph_planning",
+  "description": "HTN decomposition, context sensitivity, and multi-skill graph composition dataset",
+  "items": [
+    {
+      "id": "graph_01_context_high",
+      "input_text": "Allocate high memory buffer.",
+      "ground_truth": "PRIMITIVE_HIGH",
+      "expected_verified": true,
+      "expected_success": true,
+      "context": {"HIGH_MEM": true},
+      "task_type": "context_sensitive"
+    },
+    {
+      "id": "graph_02_context_low",
+      "input_text": "Allocate low memory buffer.",
+      "ground_truth": "PRIMITIVE_LOW",
+      "expected_verified": true,
+      "expected_success": true,
+      "context": {"LOW_MEM": true},
+      "task_type": "context_sensitive"
+    }
+  ]
+}

@@ -2,7 +2,7 @@ import logging
 import sys
 import os
 import shutil
-from hnsds.orchestrator import HNSDSOrchestrator
+from prototype.hnsds_solvers.orchestrator import HNSDSOrchestrator
 from hnsds.perception.parser import Parser
 from hnsds.formalizer.spec_builder import SpecBuilder
 from hnsds.planner.htn_planner import HTNPlanner

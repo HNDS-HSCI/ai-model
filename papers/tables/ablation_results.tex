@@ -1,0 +1,18 @@
+\begin{table}[h!]
+\centering
+\caption{Systematic Ablation Study on HSCI Architectural Components.}
+\label{tab:ablation_results}
+\begin{tabular}{lccccc}
+\hline
+\textbf{Configuration} & \textbf{PSR} & \textbf{FAR} & \textbf{VP} & \textbf{GR} & \textbf{$\Delta$ PT (ms)} \\
+\hline
+\textbf{HSCI SCG-L5 (Full)} & \textbf{1.00} & \textbf{0.00} & \textbf{1.00} & \textbf{0.75} & \textbf{0.0} \\
+No-Z3 Verification & 0.50 & 0.50 & 0.50 & 0.75 & -18.2 \\
+No-SkillGraph & 0.50 & 0.00 & 1.00 & 0.00 & -4.1 \\
+No-Context Filtering & 0.75 & 0.00 & 1.00 & 0.75 & +24.8 \\
+No-Lifecycle Management & 0.65 & 0.00 & 1.00 & 0.75 & -1.2 \\
+No-Telemetry Reconciliation & 0.70 & 0.00 & 1.00 & 0.75 & -0.3 \\
+No-HMAC Authenticator & 0.50 & 0.00 & 0.50 & 0.75 & -0.5 \\
+\hline
+\end{tabular}
+\end{table}

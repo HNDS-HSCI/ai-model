@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 import z3
 
 from hsci.core.data_types import (
-    PerceptionMap, SubGoal, Expression, VerificationStatus, ProofTrace, Concept
+    PerceptionMap, SubGoal, Expression, VerificationStatus, ProofTrace, Concept, PlanningContext
 )
 
 # ─────────────────────────────────────────────
@@ -195,11 +195,14 @@ class ReflectionContext:
     failure_category: Optional[str] = None
     diagnosed_root_cause: Optional[str] = None
     proposed_concept_evolutions: List[str] = field(default_factory=list)
+    last_reflection: Optional[Any] = None
 
     def clear(self) -> None:
         self.failure_category = None
         self.diagnosed_root_cause = None
         self.proposed_concept_evolutions.clear()
+        self.last_reflection = None
+
 
 # ─────────────────────────────────────────────
 # THE WORKING MEMORY IMPLEMENTATION
@@ -360,3 +363,52 @@ class WorkingMemory(IWorkingMemory):
             self.reasoning_context.candidate_expressions.append(
                 Expression(value=expr.get("value"), concepts_used=expr.get("concepts_used", []))
             )
+
+    def build_planning_context(self) -> PlanningContext:
+        """
+        Creates an immutable, request-scoped snapshot of planning-relevant state from WorkingMemory.
+        Extracts facts from semantic frame, perception map entities, active concepts, and session metadata.
+        """
+        facts: Dict[str, Any] = {}
+        entities_dict: Dict[str, Any] = {}
+
+        # 1. Semantic Frame facts/constraints
+        if self.semantic_frame:
+            for k, v in self.semantic_frame.entities.items():
+                facts[k] = v
+            for c in self.semantic_frame.constraints:
+                if isinstance(c, dict):
+                    facts.update(c)
+
+        # 2. Perception Map entities & SemanticIR facts
+        intent_val = None
+        if self.perception_map:
+            intent_val = self.perception_map.intent.value if hasattr(self.perception_map.intent, "value") else str(self.perception_map.intent)
+            for k, ev in self.perception_map.entities.items():
+                entities_dict[k] = ev
+                if hasattr(ev, "known") and ev.known and hasattr(ev, "value") and ev.value is not None:
+                    facts[k] = ev.value
+
+            # NSG-3: Incorporate SemanticIR declarative relations and facts directly
+            sem_ir = getattr(self.perception_map, "semantic_ir", None)
+            if sem_ir and hasattr(sem_ir, "entities"):
+                for k, v in sem_ir.entities.items():
+                    if k not in facts:
+                        facts[k] = v
+            if sem_ir and hasattr(sem_ir, "relations"):
+                for r in sem_ir.relations:
+                    facts[f"RELATION_{r.subject}_{r.relation}"] = r.object
+
+        # 3. Rule bindings from planner_context scratchpad
+        for k, v in self.planner_context.rule_bindings.items():
+            facts[k] = v
+
+        return PlanningContext(
+            facts=dict(facts),
+            entities=dict(entities_dict),
+            active_concepts=list(self.get_active_concepts()),
+            intent=intent_val,
+            request_id=self.metadata.request_id,
+            session_id=self.metadata.session_id
+        )
+

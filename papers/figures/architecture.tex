@@ -1,0 +1,20 @@
+\begin{tikzpicture}[node distance=1.5cm, auto]
+    % Styles
+    \tikzstyle{block} = [rectangle, draw, fill=blue!10, text width=6em, text centered, rounded corners, minimum height=3em]
+    \tikzstyle{cloud} = [ellipse, draw, fill=red!10, text width=5em, text centered, minimum height=2.5em]
+    \tikzstyle{line} = [draw, -latex']
+
+    % Nodes
+    \node [block] (input) {Structured Input};
+    \node [block, right=of input] (htn) {HTN Planner};
+    \node [block, right=of htn] (z3) {Z3 Verifier};
+    \node [block, below=of z3] (telemetry) {Telemetry Reconciliation};
+    \node [block, left=of telemetry] (lifecycle) {Skill Lifecycle};
+
+    % Paths
+    \path [line] (input) -- (htn);
+    \path [line] (htn) -- (z3);
+    \path [line] (z3) -- (telemetry);
+    \path [line] (telemetry) -- (lifecycle);
+    \path [line] (lifecycle) -- (htn);
+\end{tikzpicture}

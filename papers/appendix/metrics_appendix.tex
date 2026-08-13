@@ -1,0 +1,18 @@
+\section*{Appendix: Quantitative Equations \& Benchmark Formulas}
+
+\subsection*{A. Verification Precision (VP)}
+\begin{equation}
+\text{VP} = \frac{\text{TP}}{\text{TP} + \text{FP}}
+\end{equation}
+where $\text{TP}$ is the number of valid verification outputs accepted, and $\text{FP}$ is the number of false acceptances.
+
+\subsection*{B. False Acceptance Rate (FAR)}
+\begin{equation}
+\text{FAR} = \frac{\text{FP}}{N_{\text{total}}}
+\end{equation}
+
+\subsection*{C. Telemetry Attribution Parity (TAP)}
+\begin{equation}
+\text{TAP} = \frac{|\text{Attributed Telemetry Outcome Events}|}{|\text{Executed Learned Skills}|}
+\end{equation}
+Target: $\text{TAP} = 1.00$ (exactly one outcome update per executed learned skill per request).

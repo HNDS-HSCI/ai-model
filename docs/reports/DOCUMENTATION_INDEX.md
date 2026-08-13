@@ -56,6 +56,10 @@ This index provides a structured directory mapping all architecture reviews, des
 *   **Evaluation Runner report**: [evaluation_report.md](file:///C:/Work/P/ai-model/evaluation_report.md)
 *   **Performance metrics snapshot**: [PERFORMANCE_SNAPSHOT.md](file:///C:/Work/P/ai-model/docs/reports/PERFORMANCE_SNAPSHOT.md)
 *   **CI/CD Pipeline Audit Report**: [CI_PIPELINE_AUDIT.md](file:///C:/Work/P/ai-model/docs/reports/CI_PIPELINE_AUDIT.md)
+*   **Master Project Audit & Architecture Review (MRG-1)**: [Master_Project_Audit_Architecture_Review_MRG_1.md](file:///C:/Work/P/ai-model/docs/reports/Master_Project_Audit_Architecture_Review_MRG_1.md)
+*   **Implementation Specification Planner (ISP-1)**: [Implementation_Specification_Planner_ISP_1.md](file:///C:/Work/P/ai-model/docs/reports/Implementation_Specification_Planner_ISP_1.md)
+*   **Master System Design Blueprint (SDB-1)**: [Master_System_Design_Blueprint_SDB_1.md](file:///C:/Work/P/ai-model/docs/reports/Master_System_Design_Blueprint_SDB_1.md)
+*   **Master Build Roadmap (MBR-1)**: [Master_Build_Roadmap_MBR_1.md](file:///C:/Work/P/ai-model/docs/reports/Master_Build_Roadmap_MBR_1.md)
 
 ---
 
@@ -108,3 +112,13 @@ This index provides a structured directory mapping all architecture reviews, des
 *   **Architecture Standards & Contracts (ASC-1)**: [Architecture_Standards_Contracts_ASC_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Architecture_Standards_Contracts_ASC_1.md)
 *   **Reference Implementation Blueprint (RIB-1)**: [Reference_Implementation_Blueprint_RIB_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Reference_Implementation_Blueprint_RIB_1.md)
 *   **Service & Communication Architecture (SCA-1)**: [Service_Communication_Architecture_SCA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Service_Communication_Architecture_SCA_1.md)
+*   **Master Continuity Prompt (MCP-1)**: [MCP_1_Master_Continuity_Prompt.md](file:///C:/Work/P/ai-model/docs/architecture/MCP_1_Master_Continuity_Prompt.md)
+*   **Master Project Continuity Prompt (MCP-2)**: [MCP_2_Master_Project_Continuity_Prompt.md](file:///C:/Work/P/ai-model/docs/architecture/MCP_2_Master_Project_Continuity_Prompt.md)
+*   **Data Management Architecture (DMA-1)**: [Data_Management_Architecture_DMA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Data_Management_Architecture_DMA_1.md)
+*   **Simulation Engine v2 (SEA-2)**: [Simulation_Engine_v2_SEA_2.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Simulation_Engine_v2_SEA_2.md)
+*   **Distributed Synchronization Architecture (DSA-1)**: [Distributed_Synchronization_Architecture_DSA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Distributed_Synchronization_Architecture_DSA_1.md)
+*   **Distributed Execution Architecture (DEA-1)**: [Distributed_Execution_Architecture_DEA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Distributed_Execution_Architecture_DEA_1.md)
+*   **Tool Integration Architecture (TIA-1)**: [Tool_Integration_Architecture_TIA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Tool_Integration_Architecture_TIA_1.md)
+*   **Optimization & Performance Architecture (OPA-1)**: [Optimization_Performance_Architecture_OPA_1.md](file:///C:/Work/P/ai-model/docs/architecture/cognition/Optimization_Performance_Architecture_OPA_1.md)
+
+

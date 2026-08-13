@@ -1,0 +1,22 @@
+{
+  "suite": "formal_logic",
+  "description": "Formal logic, arithmetic, and contradictory constraint solving benchmark dataset",
+  "items": [
+    {
+      "id": "logic_01",
+      "input_text": "Elena possesses 7 notebooks. She receives 4 notebooks.",
+      "ground_truth": "11",
+      "expected_verified": true,
+      "expected_success": true,
+      "task_type": "arithmetic"
+    },
+    {
+      "id": "logic_02_contradiction",
+      "input_text": "A number x is greater than 10 and x is less than 5.",
+      "ground_truth": "UNSAT",
+      "expected_verified": false,
+      "expected_success": false,
+      "task_type": "contradiction"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import json
 import os
+import sqlite3
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
@@ -17,9 +18,26 @@ class EpisodeLogger:
         self.primordial_episodes = self._load_primordial()
 
     def _ensure_storage(self):
+        db_path = self.storage_path.replace(".jsonl", ".db")
         if not os.path.exists(self.storage_path):
+            if os.path.exists(db_path):
+                os.remove(db_path)
             with open(self.storage_path, "w") as f:
                 pass
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS episodes (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                goal_str TEXT,
+                goal_obj TEXT,
+                candidate TEXT,
+                counterexample TEXT,
+                success INTEGER
+            )
+        """)
+        conn.commit()
+        conn.close()
 
     def _load_primordial(self):
         episodes = []
@@ -40,6 +58,15 @@ class EpisodeLogger:
             "counterexample": counterexample,
             "success": success,
         }
+        db_path = self.storage_path.replace(".jsonl", ".db")
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT INTO episodes (goal_str, goal_obj, candidate, counterexample, success) VALUES (?, ?, ?, ?, ?)",
+            (str(goal), json.dumps(goal), candidate, json.dumps(counterexample) if counterexample else None, 1 if success else 0)
+        )
+        conn.commit()
+        conn.close()
         with open(self.storage_path, "a") as f:
             f.write(json.dumps(episode) + "\n")
 
@@ -75,15 +102,27 @@ class EpisodeLogger:
             return [ep for ep in all_episodes if ep["goal_str"] == current_goal_str]
 
     def _load_learned(self):
+        db_path = self.storage_path.replace(".jsonl", ".db")
         learned_episodes = []
-        if os.path.exists(self.storage_path) and os.stat(self.storage_path).st_size > 0:
-            with open(self.storage_path, "r") as f:
-                for line in f:
-                    try:
-                        learned_episodes.append(json.loads(line))
-                    except:
-                        continue
+        if os.path.exists(db_path):
+            conn = sqlite3.connect(db_path)
+            cursor = conn.cursor()
+            cursor.execute("SELECT goal_str, goal_obj, candidate, counterexample, success FROM episodes")
+            rows = cursor.fetchall()
+            for row in rows:
+                try:
+                    learned_episodes.append({
+                        "goal_str": row[0],
+                        "goal_obj": json.loads(row[1]) if row[1] else {},
+                        "candidate": row[2],
+                        "counterexample": json.loads(row[3]) if row[3] else None,
+                        "success": bool(row[4])
+                    })
+                except Exception:
+                    continue
+            conn.close()
         return learned_episodes
+
 
     def consolidate_experience(self, brain):
         """

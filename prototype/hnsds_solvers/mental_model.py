@@ -3,7 +3,7 @@ import json
 import os
 import math
 from collections import defaultdict
-from .brain.lobes.native_planner import NativePlanner
+from hnsds.brain.lobes.native_planner import NativePlanner
 
 class MentalModel:
     """

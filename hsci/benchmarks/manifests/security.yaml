@@ -1,0 +1,8 @@
+suite: security
+description: "HMAC verification, forgery detection, and anti-tamper security suite"
+runs: 30
+seed: 42
+dataset_path: "hsci/benchmarks/datasets/security.json"
+metrics:
+  - VP
+  - FAR

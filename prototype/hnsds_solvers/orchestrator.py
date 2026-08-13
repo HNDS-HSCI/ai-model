@@ -1,5 +1,5 @@
 import logging
-from hnsds.mental_model import MentalModel
+from prototype.hnsds_solvers.mental_model import MentalModel
 
 class HNSDSOrchestrator:
     def __init__(self, perception, formalizer, planner, synthesizer, verifier, learner):

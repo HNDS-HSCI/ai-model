@@ -1,6 +1,64 @@
 # HSCI V4 — Session Report (SESSION_REPORT.md)
 
-**Session Date**: 2026-07-16  
+## Session — 2026-08-09 (Sprint VS-2: Explanatory Answer Synthesis)
+
+**Scope**: Make concept-explanation answers surface stored concept knowledge (definitions) alongside real reasoning, with traceability.
+**Status**: Completed (verdict: COMPLETE).
+
+### Accomplishments
+1. **ExplanatoryAnswerSynthesizer** (`hsci/response/explanatory_synthesizer.py`): thin, additive step run after `AnswerGenerationEngine`. For `ExplainConcept` intents it composes a definition-first answer — the primary (highest-activation) concept's stored `abstract_rule`, retrieved verbatim and provenance-tagged — supported by the real `ReasoningResult` relationships. Adds `ExplanatoryAnswer` (subclass of `Answer`) and `KnowledgeSource` (retrieved-vs-reasoned traceability).
+2. **Pipeline wiring** (`hsci/core/cognitive_pipeline.py`): captures activation scores; routes the base answer through the synthesizer. Non-explanation intents and unknown concepts return the existing answer unchanged.
+3. **Tests** (`hsci/tests/test_vs2_explanatory_answer.py`): 10 tests, real engines — **10 passed**.
+4. **Report**: `docs/design/VS2_IMPLEMENTATION_REPORT.md`.
+
+### Verified runtime ("Explain what a Java interface is.")
+- `direct_answer` = the real stored definition ("A Java interface is a reference type declaring abstract methods…"); primary `c_java_interface`; 7 real reasoning relationships as support; definition classified as retrieved (CANONICAL_SEED provenance); confidence 0.9071 (reasoning confidence, not inflated).
+
+### Integrity
+- SCG-L5 authority untouched; no new storage; no direct SQLite; no per-question hardcoding; no Z3; no LLM. **No learning, no reflection implemented.**
+
+---
+
+## Session — 2026-08-09 (VS-2 Pre-Flight: Read-Only Runtime Inspection)
+
+**Scope**: Diagnostic runtime inspection of the VS-1 `CognitivePipeline` before any VS-2 work.
+**Status**: Completed (no production code modified).
+
+### Method
+Executed the real pipeline end-to-end for *"Explain what a Java interface is."* via temporary scratchpad instrumentation (no mocks; removed after capture). Captured every stage's actual values.
+
+### Findings
+- **Real integration confirmed**: no mocks, no hardcoded answer, no direct SQLite, no `KnowledgeManager`/provenance bypass. The final answer causally depends on the real `ReasoningResult`.
+- **Serialization, not explanation**: all 7 reasoning conclusions restate stored graph edges (`generalizes_to`, aliases, namespace); no new knowledge derived; the stored definition (`abstract_rule`) is never surfaced.
+- **Structural gaps**: no dedicated Cognitive Workspace (inline `List[Concept]`); `WorkingMemory` populated by the CAE but not read by the reasoner; no learning/reflection in the pipeline.
+- **Knowledge boundary**: 5 canonical concepts, 2 aliases, 4 relationships, 0 facts/rules stores.
+- **Bottleneck**: Answer Generation (starved by shallow reasoning). **Recommended VS-2**: Explanatory Answer Synthesis.
+- Deliverable: `docs/design/VS2_PREFLIGHT_REPORT.md`.
+
+---
+
+## Session — 2026-08-09 (Sprint VS-1: Vertical Cognitive Slice Assembly)
+
+**Scope**: Assemble the existing V4 cognitive engines into one callable pipeline and run the first real end-to-end conceptual slice.
+**Status**: Completed
+
+### Accomplishments
+1. **System reality audit**: Authored `docs/design/VERTICAL_COGNITIVE_SLICE_READINESS_REPORT.md` establishing that the V4 engines existed and were tested but were only wired together inside demo scripts (`BrainKernel` is a shell; live runtime is `RIRLoop`).
+2. **CognitivePipeline facade**: Implemented `hsci/core/cognitive_pipeline.py` — assembles `UnderstandingEngine → ConceptActivationEngine → CognitiveReasoningEngine → AnswerGenerationEngine` over an injected `KnowledgeManager` + `EventBus`. Added `bootstrap_cognitive_pipeline()` UKM factory. No engine logic reimplemented.
+3. **Canonical OOP seed**: Implemented idempotent `hsci/knowledge/seeds/oop_concepts.py` (Interface, Java Interface, Class, Method, Abstraction) with `generalizes_to` relations and `CANONICAL_SEED` provenance, via existing KnowledgeManager APIs only.
+4. **Tests**: Added `hsci/tests/test_cognitive_pipeline_e2e.py` — real E2E over a real UKM (no mocked reasoning), seed idempotency, failure handling, and orchestration ordering (mocked only for ordering). VS-1 suite: **9 passed**.
+5. **Report**: Authored `docs/design/VS1_IMPLEMENTATION_REPORT.md`.
+
+### Verified E2E behaviour ("Explain what a Java interface is.")
+- intent `ExplainConcept`; seed `['Java Interface']`; 5 activated concepts (incl. `c_interface`); 7 reasoning conclusions; non-empty `direct_answer`; confidence ≈0.91.
+
+### Integrity
+- No SCG-L5 authority file modified; facade uses existing public APIs only. No Z3 added to the conceptual path (deferred). Not wired into `brain_api.py`/`RIRLoop`/`BrainKernel` (deferred).
+
+---
+
+## Session — 2026-07-16
+
 **Scope**: UKM ConceptStore, KnowledgeManager, CAE, UnderstandingEngine, CRE, & AGE Implementations  
 **Status**: Completed  
 

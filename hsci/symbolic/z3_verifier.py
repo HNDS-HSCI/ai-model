@@ -111,6 +111,20 @@ class Z3VerificationEngine:
                 perception.entities, ctx
             )
 
+            # NSG-3: Compile SemanticIR AST constraints if present
+            sem_ir = getattr(perception, "semantic_ir", None)
+            if sem_ir and getattr(sem_ir, "ast_constraints", None):
+                from hsci.language.semantic_compiler import Z3ASTCompiler
+                z3_ast_compiler = Z3ASTCompiler()
+                z3_vars = {}
+                for ast_node in sem_ir.ast_constraints:
+                    try:
+                        compiled_expr = z3_ast_compiler.compile_node(ast_node, z3_vars, ctx=ctx)
+                        if compiled_expr is not None:
+                            known_constraints.append(compiled_expr)
+                    except Exception as e:
+                        print(f"[Z3VerificationEngine] Warning: AST constraint compilation skipped: {e}")
+
             # Step 2: Add all constraints
             for constraint in known_constraints:
                 solver.add(constraint)

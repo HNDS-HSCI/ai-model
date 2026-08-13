@@ -1,0 +1,10 @@
+suite: graph_planning
+description: "HTN decomposition, context sensitivity, and skill graph composition suite"
+runs: 30
+seed: 42
+dataset_path: "hsci/benchmarks/datasets/graph_planning.json"
+metrics:
+  - PSR
+  - ESN
+  - GR
+  - PT

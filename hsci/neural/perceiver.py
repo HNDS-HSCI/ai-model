@@ -114,7 +114,8 @@ class NeuralPerceiver:
             confidence=final_confidence,
             entity_graph=graph,
             domain=structured.domain,
-            operation_hint=structured.operation_hint
+            operation_hint=structured.operation_hint,
+            semantic_ir=getattr(structured, "semantic_ir", None)
         )
         # Keep the training sample on the perception that produced the proof.
         # A shared "last embedding" can be replaced by another request.

@@ -5,12 +5,12 @@ from abc import ABC, abstractmethod
 from typing import List, Dict, Any, Optional, Set
 from datetime import datetime
 
-from hsci.core.data_types import PerceptionMap, KnowledgeResult, ReasoningPlan, SubGoal, Concept, AxiomType, Expression
+from hsci.core.data_types import PerceptionMap, KnowledgeResult, ReasoningPlan, SubGoal, Concept, AxiomType, Expression, Task, TaskType
 from hsci.core.kernel import EventBus, CognitiveContext
 from hsci.knowledge.knowledge_manager import IKnowledgeManager
 
 # Keep legacy imports intact
-from hsci.reasoning.htn_planner import HTNPlanner
+from hsci.reasoning.htn_planner import HTNPlanner, HTNPlanningError
 from hsci.reasoning.concept_composer import ConceptComposer
 from hsci.reasoning.solution_builder import SolutionBuilder
 from hsci.reasoning.synthesizer import ProgramSynthesizer
@@ -335,17 +335,20 @@ class ReasoningEngine:
         from hsci.reasoning.universal_math_engine import UniversalMathEngine
         from hsci.reasoning.universal_physics_engine import UniversalPhysicsEngine
         from hsci.reasoning.universal_concept_engine import UniversalConceptEngine
+        from hsci.reasoning.reflection_engine import ReflectionEngine
 
         self.universal_math = UniversalMathEngine()
         self.universal_physics = UniversalPhysicsEngine()
         self.universal_concept = UniversalConceptEngine()
+        self.reflection_engine = ReflectionEngine()
 
     def reason(
         self,
         perception: PerceptionMap,
         knowledge: KnowledgeResult,
         max_attempts: int = 5,
-        ctx: Optional[z3.Context] = None
+        ctx: Optional[z3.Context] = None,
+        working_memory: Optional[Any] = None
     ) -> ReasoningPlan:
         """Reasons about a problem by decomposing it and assigning specific concepts to steps."""
         if perception.intent == AxiomType.TRANSFORMATION:
@@ -359,9 +362,68 @@ class ReasoningEngine:
                 knowledge=knowledge
             )
 
-        sub_goals = self.htn_planner.decompose(perception)
+        # Attempt recursive HTN planning first
+        sem_ir = getattr(perception, "semantic_ir", None)
+        if sem_ir and getattr(sem_ir, "target_goal", None):
+            goal_name = sem_ir.target_goal
+            root_task = Task(
+                id=f"root-{goal_name.lower()}",
+                name=goal_name,
+                task_type=TaskType.COMPOUND,
+                axiom_type=AxiomType(sem_ir.intent) if sem_ir.intent in [a.value for a in AxiomType] else AxiomType.REDUCTION
+            )
+        else:
+            root_task_name = f"SOLVE_{perception.intent.value}" if hasattr(perception.intent, "value") else f"SOLVE_{perception.intent}"
+            root_task = Task(
+                id=f"root-{root_task_name.lower()}",
+                name=root_task_name,
+                task_type=TaskType.COMPOUND,
+                axiom_type=perception.intent if isinstance(perception.intent, AxiomType) else AxiomType.REDUCTION
+            )
+        # Part 0 Reconciliation: Use WorkingMemory.build_planning_context() if working_memory provided
+        planning_context = working_memory.build_planning_context() if (working_memory and hasattr(working_memory, "build_planning_context")) else perception.entities
+
+        planning_trace = None
+        try:
+            if hasattr(self.htn_planner, "decompose_task_with_trace"):
+                primitive_tasks, planning_trace = self.htn_planner.decompose_task_with_trace(root_task, context=planning_context)
+            elif hasattr(self.htn_planner, "decompose_task"):
+                primitive_tasks = self.htn_planner.decompose_task(root_task, context=planning_context)
+            else:
+                primitive_tasks = None
+
+            if isinstance(primitive_tasks, list) and all(isinstance(t, Task) for t in primitive_tasks):
+                sub_goals = []
+                for ptask in primitive_tasks:
+                    desc = self.htn_planner.operator_registry.get_operator(ptask.name) if hasattr(self.htn_planner, "operator_registry") else None
+                    desc_str = desc.description if desc and hasattr(desc, "description") else ptask.name
+                    sub_goals.append(SubGoal(
+                        name=ptask.name,
+                        description=desc_str,
+                        required_entities=list(perception.entities.keys()),
+                        target_entity=perception.unknown_entities[0] if perception.unknown_entities else "result",
+                        axiom_type=perception.intent
+                    ))
+            else:
+                sub_goals = self.htn_planner.decompose(perception)
+        except HTNPlanningError as err:
+            logger.warning(f"Recursive HTN planning failed ({err.failure.reason}), invoking ReflectionEngine.")
+            req_id = working_memory.metadata.request_id if (working_memory and hasattr(working_memory, "metadata")) else "req-live"
+            reflection_result = self.reflection_engine.reflect_planning_failure(err.failure, request_id=req_id)
+            if working_memory and hasattr(working_memory, "reflection_context") and working_memory.reflection_context is not None:
+                working_memory.reflection_context.last_reflection = reflection_result
+                working_memory.reflection_context.failure_category = reflection_result.failure_category.value
+                working_memory.reflection_context.diagnosed_root_cause = reflection_result.root_cause
+            sub_goals = self.htn_planner.decompose(perception)
+        except Exception as err:
+            logger.debug(f"Planner call fallback due to non-HTN error: {err}")
+            sub_goals = self.htn_planner.decompose(perception)
+
+
+
         assignments: Dict[SubGoal, Concept] = {}
         text = perception.entity_graph.get('text', "").lower()
+
         
         for goal in sub_goals:
             context = f"{text} {goal.description}"
@@ -439,7 +501,8 @@ class ReasoningEngine:
             concepts_used=[c.name for c in assignments.values() if c],
             primary_concept=primary_concept,
             perception=perception,
-            knowledge=knowledge
+            knowledge=knowledge,
+            planning_trace=planning_trace
         )
 
     def repair(self, plan: ReasoningPlan, counterexample: Dict, hint: str, ctx: Optional[z3.Context] = None) -> ReasoningPlan:

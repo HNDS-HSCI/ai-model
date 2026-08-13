@@ -1,0 +1,10 @@
+suite: formal_logic
+description: "Formal SMT verification, arithmetic, and contradiction rejection suite"
+runs: 30
+seed: 42
+dataset_path: "hsci/benchmarks/datasets/formal_logic.json"
+metrics:
+  - PSR
+  - VP
+  - FAR
+  - PT

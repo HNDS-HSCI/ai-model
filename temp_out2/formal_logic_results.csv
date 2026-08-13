@@ -1,0 +1,11 @@
+test_id,success,is_verified,false_acceptance,planning_time_ms,verification_latency_ms,planner_latency_ms,expanded_search_nodes,graph_reachable,lifecycle_recovered,telemetry_attributed,plan_depth,graph_depth,candidate_count
+logic_01_run_0,True,True,False,24.141800007782876,9.65672000311315,12.070900003891438,1,True,True,True,1,1,1
+logic_02_contradiction_run_0,True,False,False,17.331000010017306,6.932400004006922,8.665500005008653,0,False,,True,1,1,1
+logic_01_run_1,True,True,False,18.854099995223805,7.541639998089522,9.427049997611903,1,True,True,True,1,1,1
+logic_02_contradiction_run_1,True,False,False,17.978100018808618,7.191240007523447,8.989050009404309,0,False,,True,1,1,1
+logic_01_run_2,True,True,False,17.5331000064034,7.013240002561361,8.7665500032017,1,True,True,True,1,1,1
+logic_02_contradiction_run_2,True,False,False,19.386300002224743,7.754520000889897,9.693150001112372,0,False,,True,1,1,1
+logic_01_run_3,True,True,False,19.250200013630092,7.700080005452037,9.625100006815046,1,True,True,True,1,1,1
+logic_02_contradiction_run_3,True,False,False,18.585799989523366,7.434319995809346,9.292899994761683,0,False,,True,1,1,1
+logic_01_run_4,True,True,False,22.004099999321625,8.80163999972865,11.002049999660812,1,True,True,True,1,1,1
+logic_02_contradiction_run_4,True,False,False,19.67880001757294,7.871520007029176,9.83940000878647,0,False,,True,1,1,1

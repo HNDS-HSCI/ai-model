@@ -24,6 +24,9 @@ This roadmap outlines long-term milestones and capability releases for the HSCI 
 *   **Sprint 10 (Understanding Engine MVP Implementation)**: **Completed** (2026-07-14)
 *   **Sprint 11 (Cognitive Reasoning Engine Implementation)**: **Completed** (2026-07-16)
 *   **Sprint 12 (Answer Generation Engine Implementation)**: **Completed** (2026-07-16)
+*   **Sprint VS-1 (Vertical Cognitive Slice Assembly)**: **Completed** (2026-08-09) — assembled the existing V4 engines into `CognitivePipeline`; first real end-to-end conceptual slice ("Explain what a Java interface is.") running over a real UKM. No engine rewrite, no SCG-L5 change.
+*   **VS-2 Pre-Flight (Runtime Inspection)**: **Completed** (2026-08-09) — read-only runtime audit of VS-1 (`docs/design/VS2_PREFLIGHT_REPORT.md`). Confirmed real integration; identified that the pipeline serializes graph edges instead of explaining concepts (stored `abstract_rule` never surfaced). Bottleneck = Answer Generation; recommended VS-2 = Explanatory Answer Synthesis. No production code modified.
+*   **Sprint VS-2 (Explanatory Answer Synthesis)**: **Completed** (2026-08-09) — added `ExplanatoryAnswerSynthesizer`; concept-explanation questions now return a definition-first, traceable answer (stored `abstract_rule` + real reasoning relationships), confidence preserved. Read-only, deterministic, SCG-L5-neutral. No learning, reflection, or Z3 added. See `docs/design/VS2_IMPLEMENTATION_REPORT.md`.
 
 ---
 

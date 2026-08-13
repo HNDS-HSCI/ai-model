@@ -6,7 +6,7 @@ from hnsds.planner.htn_planner import HTNPlanner
 from hnsds.synthesizer.enumerative import EnumerativeSynthesizer
 from hnsds.verifier.z3_interface import Z3Verifier
 from hnsds.learner.episode_logger import EpisodeLogger
-from hnsds.mental_model import MentalModel
+from prototype.hnsds_solvers.mental_model import MentalModel
 from hnsds.brain.lobes.native_engine import NativeSymbolicEngine
 from hnsds.brain.lobes.cognitive_lobe import CognitiveAwareness
 from hnsds.verifier.graph_solver import GraphSolver

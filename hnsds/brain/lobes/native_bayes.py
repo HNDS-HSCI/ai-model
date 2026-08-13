@@ -38,6 +38,30 @@ class NativeBayesClassifier:
 
     def train_from_episodic_memory(self):
         """Bootstraps intelligence from past episodes."""
+        db_path = self.memory_path.replace(".jsonl", ".db")
+        if os.path.exists(db_path):
+            import sqlite3
+            try:
+                conn = sqlite3.connect(db_path)
+                cursor = conn.cursor()
+                cursor.execute("SELECT goal_str, goal_obj FROM episodes")
+                rows = cursor.fetchall()
+                for row in rows:
+                    try:
+                        text = row[0]
+                        goal_obj = json.loads(row[1]) if row[1] else {}
+                        if isinstance(goal_obj, dict):
+                            label = goal_obj.get("type", "conversational").upper()
+                        else:
+                            label = "CONVERSATIONAL"
+                        if text and label:
+                            self.train(text, label)
+                    except:
+                        continue
+                conn.close()
+                return
+            except Exception:
+                pass
         try:
             with open(self.memory_path, 'r') as f:
                 for line in f:
@@ -59,6 +83,7 @@ class NativeBayesClassifier:
         except FileNotFoundError:
             # Seed with basic axioms if memory is empty
             self._seed_axioms()
+
 
     def _seed_axioms(self):
         """Hardcoded axioms to start the brain if no memory exists."""

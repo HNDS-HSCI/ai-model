@@ -49,10 +49,35 @@ def initialize():
         }
     ]
     
+    db_path = "episodes.db"
+    if os.path.exists(db_path):
+        os.remove(db_path)
+    import sqlite3
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS episodes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            goal_str TEXT,
+            goal_obj TEXT,
+            candidate TEXT,
+            counterexample TEXT,
+            success INTEGER
+        )
+    """)
+    for ep in episodes:
+        cursor.execute(
+            "INSERT INTO episodes (goal_str, goal_obj, candidate, counterexample, success) VALUES (?, ?, ?, ?, ?)",
+            (ep["goal_str"], json.dumps(ep["goal_obj"]), ep["candidate"], json.dumps(ep.get("counterexample")), 1 if ep["success"] else 0)
+        )
+    conn.commit()
+    conn.close()
+
     with open("episodes.jsonl", "w") as f:
         for ep in episodes:
             f.write(json.dumps(ep) + "\n")
     print("Primordial episodes initialized.")
+
 
 if __name__ == "__main__":
     initialize()

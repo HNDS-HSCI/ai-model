@@ -1,0 +1,9 @@
+suite: lifecycle
+description: "Stateful skill decay, recovery, and telemetry attribution parity suite"
+runs: 30
+seed: 42
+dataset_path: "hsci/benchmarks/datasets/lifecycle.json"
+metrics:
+  - LRR
+  - TAP
+  - PSR

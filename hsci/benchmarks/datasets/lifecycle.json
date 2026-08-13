@@ -1,0 +1,22 @@
+{
+  "suite": "lifecycle",
+  "description": "Lifecycle decay, success recovery, deprecation exclusion, and canonical immunity dataset",
+  "items": [
+    {
+      "id": "life_01_decay_recovery",
+      "input_text": "Solve decaying learned skill task",
+      "ground_truth": "SUCCESS",
+      "expected_verified": true,
+      "expected_success": true,
+      "task_type": "decay_recovery"
+    },
+    {
+      "id": "life_02_canonical_immunity",
+      "input_text": "Solve canonical task under failures",
+      "ground_truth": "ACTIVE",
+      "expected_verified": true,
+      "expected_success": true,
+      "task_type": "canonical_immunity"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "suite": "security",
+  "description": "HMAC authentication, forgery rejection, and privilege escalation dataset",
+  "items": [
+    {
+      "id": "sec_01_valid_hmac",
+      "input_text": "Verify signed learned skill",
+      "ground_truth": "VERIFIED_HMAC",
+      "expected_verified": true,
+      "expected_success": true,
+      "task_type": "hmac"
+    },
+    {
+      "id": "sec_02_tampered_signature",
+      "input_text": "Verify tampered skill payload",
+      "ground_truth": "REJECTED_FORGERY",
+      "expected_verified": false,
+      "expected_success": false,
+      "task_type": "forgery"
+    }
+  ]
+}
