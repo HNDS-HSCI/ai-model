@@ -4,6 +4,82 @@ This changelog records all structural, architectural, and documentation changes 
 
 ---
 
+## [Post-VS7 Reality & Usability Sprint] — 2026-08-22
+
+### Changed & Hardened
+*   **Eliminated `known_lexical_anchors`**: Replaced hardcoded concept keyword lists in `LanguageInterpreter` with generic demonstrative determiner parsing that distinguishes standalone referents from modified substantive nouns.
+*   **Cognitive Data Flow Threading**: Updated `CognitiveWorkspace.execute` to collect upstream completed `TaskResult` objects and inject them into `g_task.parameters["upstream_results"]`, transforming dependency edges into real data pipelines.
+*   **Modifier Prefix Stripping**: Added modifier prefix candidate generation (`"Java "`, `"Python "`, `"OOP "`) in `GroundingEngine._generate_singular_forms()` to resolve modifier-prefixed user mentions to base UKM concepts.
+*   **FastAPI `/process` Hardening**: Defensive extraction of source provenance and premises in `brain_api.py` preventing potential runtime exceptions on non-dict provenance objects.
+*   **Real-User Usability Matrix**: Created `hsci/tests/test_post_vs7_reality.py` with 29 comprehensive empirical tests covering explanation, comparison, transitive relationship derivation, compound multi-task requests, conversational noise, unknown concept refusals, missing context refusals, knowledge mutability, non-OOP arbitrary concept generalization, and live HTTP `/process` execution.
+*   **Design & Audit Deliverables**: Authored `POST_VS7_REALITY_AUDIT.md`, `HARDCODING_AUDIT.md`, `COGNITIVE_DATA_FLOW_AUDIT.md`, `API_RUNTIME_AUDIT.md`, `REAL_USER_TEST_MATRIX.md`, `STABILIZATION_REPORT.md`, and `ACCEPTANCE_REPORT.md`.
+
+---
+
+## [Sprint VS-7] — 2026-08-22
+
+### Added
+*   **Cognitive Workspace Subsystem**: Implemented `hsci/cognition/workspace/` containing `CognitiveWorkspace`, `CognitiveTaskGraph`, `TaskDecomposer`, and `TaskResult`.
+*   **Request-Scoped Ephemerality**: `CognitiveWorkspace` manages the complete request lifecycle (`CREATED`, `GROUNDED`, `READY`, `EXECUTING`, `COMPLETED`, `PARTIALLY_COMPLETE`, `REFUSED`, `FAILED`), holding grounded entities, constraints, context references, and task results without mutating or duplicating the authoritative UKM knowledge base.
+*   **Cognitive Task Graph (DAG)**: Strict DAG scheduling supporting linear pipelines ($A \rightarrow B \rightarrow C$), branching/join graphs ($A, B \rightarrow C$), and independent parallel tasks ($A \parallel B$). Features automatic cycle detection (`CycleDetectedError`), duplicate task ID protection (`DuplicateTaskError`), and cascading `BLOCKED` states upon upstream task failures or refusals.
+*   **Multi-Intent Task Decomposition**: `TaskDecomposer` parses multi-goal compound requests (e.g. `"Explain X, compare it with Y, and tell me how it relates to Z"`) into discrete, interdependent task nodes with topological scheduling.
+*   **Typed Intermediate Results & Provenance**: `TaskResult` captures strongly-typed payloads (`TaskResultType`), execution duration, confidence, and complete evidence provenance (`CANONICAL_KNOWLEDGE`, `STORED_RELATIONSHIP`, `DERIVED_CONCLUSION`, `TASK_EXECUTION`).
+*   **Pipeline Integration**: Integrated `CognitiveWorkspace` into `CognitivePipeline.answer()`, preserving the executed workspace and task graph on the resulting `Answer`.
+*   **Acceptance Test Suite**: Added `hsci/tests/test_vs7_cognitive_workspace.py` with 18 comprehensive tests (100% passing).
+*   **Design Deliverables**: Added `VS7_PREFLIGHT_REPORT.md`, `VS7_COGNITIVE_WORKSPACE_MODEL.md`, `VS7_TASK_GRAPH_MODEL.md`, `VS7_IMPLEMENTATION_REPORT.md`, `VS7_RUNTIME_TRACE.md`, and `VS7_ACCEPTANCE_REPORT.md`.
+
+---
+
+## [Sprint VS-6] — 2026-08-22
+
+### Added
+*   **Semantic Intermediate Representation**: Implemented `hsci/cognition/interpretation/semantic_model.py` featuring `SemanticRequest`, `CommunicativeGoal` (`EXPLAIN`, `COMPARE`, `RELATE`, `IDENTIFY`, `VERIFY`, `SUMMARIZE`, `ANALYZE`, `CLARIFY`, `UNKNOWN`), `EntityMention`, `SemanticRelation`, `SemanticConstraint`, `OutputRequirement`, and `ContextReference`.
+*   **Semantic Language Interpreter (`LanguageInterpreter`)**: Enhanced `LanguageInterpreter` to decouple surface phrasing from communicative goals, normalize plural entities (`interfaces` $\rightarrow$ `interface`), preserve negation and exclusion constraints, detect modality (`HYPOTHETICAL`, `DEONTIC`, `ASSERTION`), and generate multi-hypothesis candidates.
+*   **Untrusted Semantic Proposer Interface (`UntrustedSemanticProposer`)**: Strict JSON schema sanitizer that parses untrusted external proposals, strips fake concept IDs or domain facts, and enforces mandatory UKM grounding.
+*   **Grounding & Task Derivation Alignment**: Updated `GroundingEngine` and `TaskDeriver` to consume semantic request goals (`COMPARE` $\rightarrow$ `COMPARE_CONCEPTS`, `RELATE` $\rightarrow$ `DERIVE_RELATIONSHIP`, `EXPLAIN` $\rightarrow$ `EXPLAIN_CONCEPT`).
+*   **Acceptance Test Suite**: Added `hsci/tests/test_vs6_semantic_understanding.py` with 30 comprehensive tests (100% passing).
+*   **Design Deliverables**: Added `VS6_PREFLIGHT_REPORT.md`, `VS6_IMPLEMENTATION_REPORT.md`, `VS6_RUNTIME_TRACE.md`, and `VS6_ACCEPTANCE_REPORT.md`.
+
+---
+
+## [Sprint VS-5] — 2026-08-22
+
+### Added
+*   **Cognitive Task Execution Subsystem**: Implemented `hsci/cognition/execution/` featuring `CognitiveTaskExecutor` and `CognitiveExecutionResult`.
+*   **Multi-Concept Comparison Execution (`COMPARE_CONCEPTS`)**: Grounds multiple concept targets, retrieves stored definitions from UKM, extracts shared vs distinct generalizations from reasoning conclusions, and synthesizes structured comparison reports.
+*   **Relationship Derivation Execution (`DERIVE_RELATIONSHIP`)**: Identifies causal transitive derivation paths (`GeneralizationTransitivity`) between source and target concepts, delivering complete premise provenance and proof depth.
+*   **Dynamic Pipeline & API Integration**: Wired `CognitivePipeline.answer()` to delegate to `CognitiveTaskExecutor` and updated `brain_api.py` `/process` to dynamically propagate task intent and deliberation traces.
+*   **Acceptance Test Suite**: Added `hsci/tests/test_vs5_task_execution.py` with 19 comprehensive tests (100% passing).
+*   **Design Deliverables**: Added `VS5_PREFLIGHT_REPORT.md`, `VS5_IMPLEMENTATION_REPORT.md`, `VS5_RUNTIME_TRACE.md`, and `VS5_ACCEPTANCE_REPORT.md`.
+
+---
+
+## [Sprint VS-4] — 2026-08-22
+
+### Added
+*   **Cognitive Interpretation & Task Derivation Foundation**: Implemented `hsci/cognition/interpretation/` containing strongly-typed data models (`RawInput`, `CandidateInterpretation`, `InterpretationSet`, `GroundedEntity`, `CognitiveSituation`, `CognitiveTask`).
+*   **Language Interpreter (`LanguageInterpreter`)**: Structural syntactic frame parsing (Comparison, Relationship, Purpose, Definition), bare referent and missing context detection, safe linear span extraction, multi-sentence focus selection, and untrusted LLM hypothesis ingestion (disabled by default).
+*   **Grounding Engine (`GroundingEngine`)**: Authoritative UKM grounding and alias resolution via `IKnowledgeManager`. Strict entity classification (`RESOLVED`, `AMBIGUOUS`, `UNKNOWN`) preserving all candidate matches with zero silent index picking.
+*   **Deterministic Task Deriver (`TaskDeriver`)**: State machine deriving executable tasks (`EXPLAIN_CONCEPT`, `COMPARE_CONCEPTS`, `DERIVE_RELATIONSHIP`, `REPORT_UNKNOWN`, `REPORT_AMBIGUITY`, `REPORT_INSUFFICIENT_CONTEXT`).
+*   **Pipeline Integration**: Integrated the VS-4 interpretation boundary into `CognitivePipeline.answer()`, returning calibrated zero-confidence refusals for unknown/ambiguous/context-missing requests and attaching situational provenance to all answers.
+*   **Acceptance Test Suite**: Added `hsci/tests/test_vs4_interpretation.py` with 23 comprehensive tests (100% passing).
+*   **Design Deliverables**: Added `VS4_PREFLIGHT_REPORT.md`, `VS4_IMPLEMENTATION_REPORT.md`, `COGNITIVE_INTERPRETATION_MODEL.md`, `VS4_RUNTIME_TRACE.md`, and `VS4_ACCEPTANCE_REPORT.md`.
+
+---
+
+## [Sprint VS-3] — 2026-08-22
+
+### Added
+*   **Genuine Reasoning Derivation**: Added bounded 2-premise transitive closure (`GeneralizationTransitivity`) to `RuleBasedInferenceStrategy` in [reasoning_engine.py](file:///c:/work/New%20folder%20%282%29/ai-model/hsci/reasoning/reasoning_engine.py). Derives novel conceptual assertions (e.g. `Java Interface → Abstraction` and `Method → Abstraction`) with complete provenance (`rule_name`, `premises`, `derived=True`, `depth=1`, confidence bounded by $\min(P_1, P_2)$).
+*   **Proof Provenance & Traceability**: Updated `ExplanatoryAnswerSynthesizer` in [explanatory_synthesizer.py](file:///c:/work/New%20folder%20%282%29/ai-model/hsci/response/explanatory_synthesizer.py) to distinguish between retrieved definitions (`source_type: "CANONICAL_SEED"`), stored relationships (`source_type: "knowledge"`), and derived conclusions (`source_type: "derived"`).
+*   **Refusal on Unknown Concepts**: Added explicit uncertainty report generation when queried for unregistered concepts, preventing fact hallucination.
+*   **Paraphrase Robustness**: Added singularization and punctuation cleaning in `UnderstandingEngine` ([understanding_engine.py](file:///c:/work/New%20folder%20%282%29/ai-model/hsci/knowledge/understanding_engine.py)).
+*   **User Web Integration**: Wired FastAPI `/process` in [brain_api.py](file:///c:/work/New%20folder%20%282%29/ai-model/brain_api.py) directly to `CognitivePipeline` and made `SelfPlayEngine` opt-in.
+*   **Acceptance Test Suite**: Added [test_vs3_cognitive_mvp.py](file:///c:/work/New%20folder%20%282%29/ai-model/hsci/tests/test_vs3_cognitive_mvp.py) covering Test Groups A through H (18/18 passing).
+*   **Documentation Deliverables**: Added [VS3_IMPLEMENTATION_REPORT.md](file:///c:/work/New%20folder%20%282%29/ai-model/docs/design/VS3/VS3_IMPLEMENTATION_REPORT.md), [COGNITIVE_MVP_ACCEPTANCE_REPORT.md](file:///c:/work/New%20folder%20%282%29/ai-model/docs/design/VS3/COGNITIVE_MVP_ACCEPTANCE_REPORT.md), and [COGNITIVE_MVP_RUNTIME_TRACE.md](file:///c:/work/New%20folder%20%282%29/ai-model/docs/design/VS3/COGNITIVE_MVP_RUNTIME_TRACE.md). Status: **COGNITIVE MVP — PASS**.
+
+---
+
 ## [Sprint VS-2] — 2026-08-09
 
 ### Added

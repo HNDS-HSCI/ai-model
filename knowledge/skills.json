@@ -6054,6 +6054,242 @@
       ],
       "content_hash": "cf35e357b5cdec7a2a84a78de6a330e4b3dd2a95bd39c8f7907c6ce6d796066b",
       "hmac_signature": "e830f8b2a7afb77c23d8f3ec4fed5473d5936c13b783ea4e32b9ee16d8a3d3c8"
+    },
+    {
+      "skill_id": "method-learned-cand-5e9763cd",
+      "target_task_name": "SOLVE_INDEXED_DOMAIN",
+      "source": "learned",
+      "preconditions": [],
+      "subtasks": [
+        {
+          "id": "p1",
+          "name": "IDENTIFY_UNKNOWNS",
+          "task_type": "PRIMITIVE",
+          "parameters": {},
+          "axiom_type": null
+        }
+      ],
+      "cost": 1.5,
+      "description": "Dynamically acquired skill for 'SOLVE_INDEXED_DOMAIN' (Provenance: req-index)",
+      "source_request_id": "req-index",
+      "source_reflection_id": null,
+      "provenance_trace": [
+        "Compiled from request 'req-index'",
+        "Verified by Z3 (confidence=1.0)",
+        "Subtask sequence count=1"
+      ],
+      "content_hash": "e126c53a96da743116397381e9646c5cf63c9f5e7b2088d9de7ee62b22f498a6",
+      "hmac_signature": "24d1638a21858495ab7fcc4b76b2104c1a5674227301990abdb5a72e3a0bd7f3"
+    },
+    {
+      "skill_id": "method-learned-cand-b745ffd6",
+      "target_task_name": "SOLVE_CUSTOM",
+      "source": "learned",
+      "preconditions": [],
+      "subtasks": [
+        {
+          "id": "p1",
+          "name": "IDENTIFY_UNKNOWNS",
+          "task_type": "PRIMITIVE",
+          "parameters": {},
+          "axiom_type": null
+        },
+        {
+          "id": "p2",
+          "name": "SOLVE_EQUATION",
+          "task_type": "PRIMITIVE",
+          "parameters": {},
+          "axiom_type": null
+        }
+      ],
+      "cost": 1.5,
+      "description": "Dynamically acquired skill for 'SOLVE_CUSTOM' (Provenance: req-f)",
+      "source_request_id": "req-f",
+      "source_reflection_id": null,
+      "provenance_trace": [
+        "Compiled from request 'req-f'",
+        "Verified by Z3 (confidence=1.0)",
+        "Subtask sequence count=2"
+      ],
+      "content_hash": "910ea614a1dda126a2ab55a1101c3c6f1f1fb2e2eeb165db5ec64b609e1fc724",
+      "hmac_signature": "606e9b158e60b16c802820548bbf346ec46141022fb84eb9006fe4dcdefd31d7"
+    },
+    {
+      "skill_id": "method-learned-cand-34468b04",
+      "target_task_name": "SOLVE_PROV",
+      "source": "learned",
+      "preconditions": [],
+      "subtasks": [
+        {
+          "id": "p1",
+          "name": "PRIM1",
+          "task_type": "PRIMITIVE",
+          "parameters": {},
+          "axiom_type": null
+        }
+      ],
+      "cost": 1.5,
+      "description": "Dynamically acquired skill for 'SOLVE_PROV' (Provenance: req-provenance-123)",
+      "source_request_id": "req-provenance-123",
+      "source_reflection_id": null,
+      "provenance_trace": [
+        "Compiled from request 'req-provenance-123'",
+        "Verified by Z3 (confidence=1.0)",
+        "Subtask sequence count=1"
+      ],
+      "content_hash": "c0e49d46abc99418ad863b438d8de0ce8e60674ed54d397a7d2b36a273d2ae1e",
+      "hmac_signature": "cb2f72f0206d78eb02e33bb09ba66bbc386a2e57e827c5fd1b2cda75817ff7d2"
+    },
+    {
+      "skill_id": "method-learned-cand-de1bebc7",
+      "target_task_name": "SOLVE_DYNAMIC_DOMAIN",
+      "source": "learned",
+      "preconditions": [],
+      "subtasks": [
+        {
+          "id": "p1",
+          "name": "IDENTIFY_UNKNOWNS",
+          "task_type": "PRIMITIVE",
+          "parameters": {},
+          "axiom_type": null
+        },
+        {
+          "id": "p2",
+          "name": "SOLVE_EQUATION",
+          "task_type": "PRIMITIVE",
+          "parameters": {},
+          "axiom_type": null
+        }
+      ],
+      "cost": 1.5,
+      "description": "Dynamically acquired skill for 'SOLVE_DYNAMIC_DOMAIN' (Provenance: req-master-4c)",
+      "source_request_id": "req-master-4c",
+      "source_reflection_id": null,
+      "provenance_trace": [
+        "Compiled from request 'req-master-4c'",
+        "Verified by Z3 (confidence=1.0)",
+        "Subtask sequence count=2"
+      ],
+      "content_hash": "2f509a083f7479bd5a192fbfe66baee6d85b962e95dae818a46ca4d6332b761b",
+      "hmac_signature": "fad24ca7d84bfff96b5ed03d5eda33ea0b4775e69772b810a43706bfbcd59fc7"
+    },
+    {
+      "skill_id": "method-learned-cand-9a667432",
+      "target_task_name": "SOLVE_INDEXED_DOMAIN",
+      "source": "learned",
+      "preconditions": [],
+      "subtasks": [
+        {
+          "id": "p1",
+          "name": "IDENTIFY_UNKNOWNS",
+          "task_type": "PRIMITIVE",
+          "parameters": {},
+          "axiom_type": null
+        }
+      ],
+      "cost": 1.5,
+      "description": "Dynamically acquired skill for 'SOLVE_INDEXED_DOMAIN' (Provenance: req-index)",
+      "source_request_id": "req-index",
+      "source_reflection_id": null,
+      "provenance_trace": [
+        "Compiled from request 'req-index'",
+        "Verified by Z3 (confidence=1.0)",
+        "Subtask sequence count=1"
+      ],
+      "content_hash": "38c461ffe6f721af470786ceb5925b83e57485a27f87f004daeb8599a2e07a2d",
+      "hmac_signature": "6afe49cb2626e77511c051c951e4dc9551ec0e86097add359e98ca68aa5c67d2"
+    },
+    {
+      "skill_id": "method-learned-cand-c5d41aea",
+      "target_task_name": "SOLVE_CUSTOM",
+      "source": "learned",
+      "preconditions": [],
+      "subtasks": [
+        {
+          "id": "p1",
+          "name": "IDENTIFY_UNKNOWNS",
+          "task_type": "PRIMITIVE",
+          "parameters": {},
+          "axiom_type": null
+        },
+        {
+          "id": "p2",
+          "name": "SOLVE_EQUATION",
+          "task_type": "PRIMITIVE",
+          "parameters": {},
+          "axiom_type": null
+        }
+      ],
+      "cost": 1.5,
+      "description": "Dynamically acquired skill for 'SOLVE_CUSTOM' (Provenance: req-f)",
+      "source_request_id": "req-f",
+      "source_reflection_id": null,
+      "provenance_trace": [
+        "Compiled from request 'req-f'",
+        "Verified by Z3 (confidence=1.0)",
+        "Subtask sequence count=2"
+      ],
+      "content_hash": "967bbb0b27b90a1e8e20453ca02cd3eaf6a09e0d1860ae515166f004f8e72a32",
+      "hmac_signature": "f954f53ff3e84c35b3b475d3f580fd91ede86b233b621decea5820525d47966d"
+    },
+    {
+      "skill_id": "method-learned-cand-c53d5c9c",
+      "target_task_name": "SOLVE_PROV",
+      "source": "learned",
+      "preconditions": [],
+      "subtasks": [
+        {
+          "id": "p1",
+          "name": "PRIM1",
+          "task_type": "PRIMITIVE",
+          "parameters": {},
+          "axiom_type": null
+        }
+      ],
+      "cost": 1.5,
+      "description": "Dynamically acquired skill for 'SOLVE_PROV' (Provenance: req-provenance-123)",
+      "source_request_id": "req-provenance-123",
+      "source_reflection_id": null,
+      "provenance_trace": [
+        "Compiled from request 'req-provenance-123'",
+        "Verified by Z3 (confidence=1.0)",
+        "Subtask sequence count=1"
+      ],
+      "content_hash": "95fcf3a4fa6b6efc812eeeec2b8501c921555b5bae864acc8eb8382a65da782e",
+      "hmac_signature": "ad24a7f8dae46a17a84a39169f272f4bf7e009e277cb30c914d9390da32428ac"
+    },
+    {
+      "skill_id": "method-learned-cand-76ac31ab",
+      "target_task_name": "SOLVE_DYNAMIC_DOMAIN",
+      "source": "learned",
+      "preconditions": [],
+      "subtasks": [
+        {
+          "id": "p1",
+          "name": "IDENTIFY_UNKNOWNS",
+          "task_type": "PRIMITIVE",
+          "parameters": {},
+          "axiom_type": null
+        },
+        {
+          "id": "p2",
+          "name": "SOLVE_EQUATION",
+          "task_type": "PRIMITIVE",
+          "parameters": {},
+          "axiom_type": null
+        }
+      ],
+      "cost": 1.5,
+      "description": "Dynamically acquired skill for 'SOLVE_DYNAMIC_DOMAIN' (Provenance: req-master-4c)",
+      "source_request_id": "req-master-4c",
+      "source_reflection_id": null,
+      "provenance_trace": [
+        "Compiled from request 'req-master-4c'",
+        "Verified by Z3 (confidence=1.0)",
+        "Subtask sequence count=2"
+      ],
+      "content_hash": "b04621a7e1926aa3a85ec2f6552aa0cfc62bc8cb91659cf67806b5f173e0e3c1",
+      "hmac_signature": "1ec3df0f8730227f12bd7cf36df86936bb14239641fcd061014dcbafc9a5b20b"
     }
   ]
 }

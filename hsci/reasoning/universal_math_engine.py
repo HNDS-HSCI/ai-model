@@ -116,10 +116,17 @@ class UniversalMathEngine:
 
     def _try_equation_solve(self, text: str, entities: Dict[str, Any]) -> MathResult:
         """Extract equations from text and solve them."""
+        # Direct equation check (e.g. "x+2=2" or "calcaute x+2=2")
+        if "=" in text and "==" not in text:
+            clean_eq = re.sub(r"^(?:calc\w*|solv\w*|comput\w*|eval\w*|find\s+result\s+for|what\s+is)\s+", "", text.strip(), flags=re.IGNORECASE)
+            result = self._solve_equation(clean_eq)
+            if result.solved:
+                return result
+
         # Patterns that hint at equations
         equation_patterns = [
             # "solve x^2 + 5x + 6 = 0"
-            r'(?:solve|find|calculate)\s+(.+?=.+?)(?:\s+for\s+(\w+))?$',
+            r'(?:solve|find|calculate|calc\w*)\s+(.+?=.+?)(?:\s+for\s+(\w+))?$',
             # "x + y = 10, x - y = 2"
             r'([a-zA-Z]\s*[\+\-\*\/]\s*[a-zA-Z0-9\s]+\s*=\s*[0-9]+)',
             # "2x + 3 = 11"

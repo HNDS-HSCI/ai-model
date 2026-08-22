@@ -28,111 +28,124 @@ import os
 import uuid
 from typing import Optional
 
+import logging
+import os
+import time
+import uuid
+from typing import Optional
+
 from hsci.core.kernel import CognitiveContext, EventBus, ValidationError
-from hsci.knowledge.understanding_engine import UnderstandingEngine
+from hsci.knowledge.understanding_engine import UnderstandingEngine, UnderstandingResult
 from hsci.knowledge.concept_activation import ConceptActivationEngine
 from hsci.knowledge.knowledge_manager import IKnowledgeManager
 from hsci.reasoning.reasoning_engine import CognitiveReasoningEngine, ReasoningContext
-from hsci.response.answer_generation_engine import AnswerGenerationEngine, Answer
-from hsci.response.explanatory_synthesizer import ExplanatoryAnswerSynthesizer
+from hsci.response.answer_generation_engine import (
+    Answer, AnswerSection, ConfidenceSummary, AnswerMetadata, Explanation, AnswerGenerationEngine,
+)
+from hsci.response.explanatory_synthesizer import ExplanatoryAnswerSynthesizer, ExplanatoryAnswer
+from hsci.cognition.interpretation.models import (
+    RawInput, GroundingStatus, SituationStatus, TaskAction, CognitiveSituation, CognitiveTask,
+)
+from hsci.cognition.interpretation.interpreter import LanguageInterpreter
+from hsci.cognition.interpretation.interpreter import LanguageInterpreter
+from hsci.cognition.interpretation.grounding import GroundingEngine
+from hsci.cognition.interpretation.task_deriver import TaskDeriver
+from hsci.cognition.execution.task_executor import CognitiveTaskExecutor
+
+from hsci.cognition.workspace import CognitiveWorkspace
 
 logger = logging.getLogger("HSCI.Core.CognitivePipeline")
 
 
 class CognitivePipeline:
-    """Callable facade assembling the four V4 conceptual engines.
+    """Callable facade assembling the V4 cognitive engines with VS-6 interpretation and VS-7 workspace.
 
-    Args:
-        manager: An initialized `KnowledgeManager` (façade over the UKM).
-        event_bus: The shared `EventBus` used by the underlying engines.
-
-    The four engines are constructed once and reused across calls (they are
-    stateless request-wise; all request-scoped state lives in the per-call
-    `CognitiveContext.working_memory`).
+    Flow:
+        Raw User Input
+            -> LanguageInterpreter      (Generates candidate hypotheses & semantic frames)
+            -> GroundingEngine          (UKM validation, entity resolution, ambiguity detection)
+            -> CognitiveSituation       (Accepted grounded situational state)
+            -> TaskDeriver              (Constructs executable CognitiveTask hierarchy)
+            -> CognitiveWorkspace       (Initializes task graph, grounded entities, constraints)
+            -> TaskGraph Execution      (Executes task DAG, manages dependencies & results)
+            -> ExplanatoryAnswer / API
     """
 
     def __init__(self, manager: IKnowledgeManager, event_bus: EventBus):
         self.manager: IKnowledgeManager = manager
         self.event_bus: EventBus = event_bus
 
-        # Reuse existing engines — no logic is duplicated here.
+        # Interpretation and Task Derivation Layer (VS-4 / VS-6)
+        self.interpreter = LanguageInterpreter(enable_llm=False)
+        self.grounding_engine = GroundingEngine(manager)
+        self.task_deriver = TaskDeriver()
+
+        # Core Engines
         self.understanding_engine = UnderstandingEngine(manager)
         self.activation_engine = ConceptActivationEngine(manager, event_bus)
         self.reasoning_engine = CognitiveReasoningEngine(manager, event_bus)
         self.answer_engine = AnswerGenerationEngine(event_bus)
-        # VS-2: definition-first explanatory synthesis, applied after answer generation.
         self.synthesizer = ExplanatoryAnswerSynthesizer(manager, event_bus)
 
-    def answer(self, question: str, style: str = "Standard") -> Answer:
-        """Runs the full conceptual slice and returns a structured `Answer`.
+        # Task Execution Layer (VS-5 / VS-7)
+        self.task_executor = CognitiveTaskExecutor(
+            manager=manager,
+            activation_engine=self.activation_engine,
+            reasoning_engine=self.reasoning_engine,
+            answer_engine=self.answer_engine,
+            synthesizer=self.synthesizer,
+            event_bus=event_bus,
+        )
 
-        Raises:
-            ValidationError: If the question is empty or whitespace-only. This
-                reuses the existing `hsci.core.kernel.ValidationError` — no new
-                exception hierarchy is introduced.
-        """
+    def answer(self, question: str, style: str = "Standard") -> Answer:
+        """Runs the full grounded cognitive interpretation and workspace execution slice."""
         if question is None or not str(question).strip():
             raise ValidationError("Question must be a non-empty string.")
 
         request_id = str(uuid.uuid4())
-        # One ephemeral, request-scoped context flows through every stage so the
-        # activation field written by the CAE is visible to the AGE metadata.
+
         with CognitiveContext(
             request_id=request_id,
-            session_id="vs1-cognitive-pipeline",
+            session_id="vs7-cognitive-pipeline",
             stimulus=question,
         ) as context:
-            # Stage 1 — Understanding.
+            # 1. Understanding & Raw Input Preservation
             understanding = self.understanding_engine.understand(question, context)
+            raw_input = RawInput.from_text(question, context={})
+
+            # 2. Language Interpretation
+            interpretation_set = self.interpreter.interpret(raw_input)
+
+            # 3. Grounding against authoritative UKM
+            situation = self.grounding_engine.ground(interpretation_set)
+
+            # 4. Deterministic Task Derivation
+            task = self.task_deriver.derive(situation)
             logger.info(
-                "[%s] Understanding intent=%s seeds=%s",
-                request_id, understanding.intent, understanding.seed_concepts,
+                "[%s] Situation status=%s, Task action=%s, Primary=%s",
+                request_id, situation.status.value, task.action.value, task.primary_target,
             )
 
-            # Stage 3 — Concept Activation over the UKM (stage 2 knowledge
-            # resolution happens inside understanding + activation via the manager).
-            activated = self.activation_engine.activate_concepts(
-                understanding.seed_concepts, context
-            )
+            # 5. Cognitive Workspace Initialization & Task Graph Construction (VS-7)
+            workspace = CognitiveWorkspace(request_id=request_id, session_id=context.session_id)
+            workspace.initialize_from_situation(situation)
 
-            # Stage 4 — Cognitive workspace: the resolved activated concepts.
-            # VS-1 deliberately keeps this as a plain, type-safe List[Concept];
-            # a dedicated workspace subsystem is out of scope.
-            workspace_concepts = []
-            activation_scores = {}
-            for activated_concept in activated.concepts:
-                resolved = self.manager.get_concept(activated_concept.concept.id)
-                if resolved is not None:
-                    workspace_concepts.append(resolved)
-                    activation_scores[resolved.id] = activated_concept.score
-
-            # Stage 5 — Cognitive reasoning over the workspace.
-            reasoning_context = ReasoningContext(goal=f"Explain: {question}")
-            reasoning_result = self.reasoning_engine.reason(
-                workspace_concepts, context, reasoning_context
-            )
-            logger.info(
-                "[%s] Reasoning produced %d conclusion(s)",
-                request_id, len(reasoning_result.conclusions),
-            )
-
-            # Stage 6 — Answer generation from the REAL reasoning result.
-            base_answer = self.answer_engine.generate(
-                reasoning_result, context, style=style
-            )
-
-            # Stage 7 (VS-2) — Explanatory synthesis. For explanation intents this
-            # composes a definition-first, traceable answer from the activated concept
-            # knowledge + the real reasoning result. Non-explanation intents and
-            # empty-knowledge cases return the base answer unchanged.
-            answer = self.synthesizer.synthesize(
-                understanding=understanding,
-                workspace_concepts=workspace_concepts,
-                activation_scores=activation_scores,
-                reasoning_result=reasoning_result,
-                base_answer=base_answer,
+            # 6. Execute Task Graph over Cognitive Workspace
+            answer = workspace.execute(
+                executor=self.task_executor,
+                situation=situation,
                 context=context,
+                style=style,
+                activation_engine=self.activation_engine,
+                reasoning_engine=self.reasoning_engine,
+                answer_engine=self.answer_engine,
+                synthesizer=self.synthesizer,
             )
+
+            # Preserve situational provenance and workspace on Answer
+            setattr(answer, "cognitive_situation", situation)
+            setattr(answer, "cognitive_task", task)
+            setattr(answer, "workspace", workspace)
             return answer
 
 
@@ -166,6 +179,7 @@ def bootstrap_cognitive_pipeline(
     from hsci.knowledge.knowledge_cache import InMemoryKnowledgeCache
     from hsci.knowledge.knowledge_manager import KnowledgeManager
     from hsci.knowledge.seeds.oop_concepts import seed_oop_concepts
+    from hsci.knowledge.seeds.science_concepts import seed_science_concepts
 
     provider = SQLiteProvider(db_path=db_path)
     provider.initialize()
@@ -181,6 +195,7 @@ def bootstrap_cognitive_pipeline(
 
     if seed:
         seed_oop_concepts(manager)
+        seed_science_concepts(manager)
 
     pipeline = CognitivePipeline(manager, event_bus)
     # Expose the provider for lifecycle management (close on shutdown).
