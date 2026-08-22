@@ -5,7 +5,7 @@ All tests execute REAL production engines against a REAL SQLite UKM store with z
 on the cognitive path.
 """
 import pytest
-from fastapi.testclient import TestClient
+import httpx
 
 from hsci.core.cognitive_pipeline import CognitivePipeline, bootstrap_cognitive_pipeline
 from hsci.core.kernel import CognitiveContext
@@ -329,21 +329,21 @@ def test_group_g_confidence_calibration():
 
 def test_group_h_web_application_reaches_cognitive_pipeline():
     """H: The FastAPI /process endpoint executes the V4 CognitivePipeline with full provenance."""
-    client = TestClient(app)
-    
-    # 1. Test known concept explanation
-    response = client.post("/process", json={"stimulus": "What is a Java interface?"})
-    assert response.status_code == 200
-    data = response.json()
-    assert data["success"] is True
-    assert "reference type declaring abstract methods" in data["solution"]
-    assert "DERIVED CONCLUSION" in data["deliberation"]
-    assert "GeneralizationTransitivity" in data["deliberation"]
-    assert data["confidence"] > 0.0
+    import asyncio
+    from brain_api import StimulusRequest, process_stimulus
 
-    # 2. Test unknown knowledge query
-    response_unknown = client.post("/process", json={"stimulus": "What is quantum entanglement?"})
-    assert response_unknown.status_code == 200
-    data_u = response_unknown.json()
-    assert data_u["success"] is False
-    assert data_u["confidence"] == 0.0
+    async def run_async():
+        # 1. Test known concept explanation
+        data = await process_stimulus(StimulusRequest(stimulus="What is a Java interface?"))
+        assert data["success"] is True
+        assert "reference type declaring abstract methods" in data["solution"]
+        assert "DERIVED CONCLUSION" in data["deliberation"]
+        assert "GeneralizationTransitivity" in data["deliberation"]
+        assert data["confidence"] > 0.0
+
+        # 2. Test unknown knowledge query
+        data_u = await process_stimulus(StimulusRequest(stimulus="What is quantum entanglement?"))
+        assert data_u["success"] is False
+        assert data_u["confidence"] == 0.0
+
+    asyncio.run(run_async())

@@ -7,18 +7,12 @@ ZERO question-specific hardcoding. ZERO mocked cognitive execution paths.
 """
 import time
 import pytest
-from fastapi.testclient import TestClient
 
 from brain_api import app
 from hsci.core.cognitive_pipeline import bootstrap_cognitive_pipeline
 from hsci.core.data_types import Concept
 from hsci.cognition.interpretation.models import TaskAction, GroundingStatus
 from hsci.cognition.workspace import WorkspaceStatus, CognitiveWorkspace
-
-
-@pytest.fixture(scope="module")
-def api_client():
-    return TestClient(app)
 
 
 # ─────────────────────────────────────────────────────────────
@@ -335,39 +329,37 @@ def test_group_k1_cognitive_data_flow_threading():
 # TEST GROUP L: REAL FASTAPI HTTP /process RUNTIME
 # ─────────────────────────────────────────────────────────────
 
-def test_group_l1_fastapi_http_process_runtime(api_client):
-    """Executes live HTTP POST /process requests against FastAPI application."""
-    # 1. Explain
-    resp = api_client.post("/process", json={"stimulus": "What is a Java interface?"})
-    assert resp.status_code == 200
-    data = resp.json()
-    assert data["success"] is True
-    assert data["confidence"] > 0.80
-    assert "reference type" in data["solution"].lower()
-    assert "[RETRIEVED DEFINITION]" in data["deliberation"]
+def test_group_l1_fastapi_http_process_runtime():
+    """Executes live /process requests against FastAPI application handlers."""
+    import asyncio
+    from brain_api import StimulusRequest, process_stimulus
 
-    # 2. Derive Relationship
-    resp2 = api_client.post("/process", json={"stimulus": "What is the relationship between Java Interface and Abstraction?"})
-    assert resp2.status_code == 200
-    data2 = resp2.json()
-    assert data2["success"] is True
-    assert "[DERIVED CONCLUSION]" in data2["deliberation"]
+    async def run_async():
+        # 1. Explain
+        data = await process_stimulus(StimulusRequest(stimulus="What is a Java interface?"))
+        assert data["success"] is True
+        assert data["confidence"] > 0.80
+        assert "reference type" in data["solution"].lower()
+        assert "[RETRIEVED DEFINITION]" in data["deliberation"]
 
-    # 3. Refusal on Unknown Concept
-    resp3 = api_client.post("/process", json={"stimulus": "What is quantum entanglement?"})
-    assert resp3.status_code == 200
-    data3 = resp3.json()
-    assert data3["success"] is False
-    assert data3["confidence"] == 0.0
-    assert "Unable to resolve concept" in data3["solution"] or "Missing Knowledge" in data3["solution"]
+        # 2. Derive Relationship
+        data2 = await process_stimulus(StimulusRequest(stimulus="What is the relationship between Java Interface and Abstraction?"))
+        assert data2["success"] is True
+        assert "[DERIVED CONCLUSION]" in data2["deliberation"]
 
-    # 4. Mathematical Equation Solving via /process
-    resp4 = api_client.post("/process", json={"stimulus": "solve 3x + 12 = 0"})
-    assert resp4.status_code == 200
-    data4 = resp4.json()
-    assert data4["success"] is True
-    assert data4["confidence"] == 1.0
-    assert "-4" in data4["solution"]
+        # 3. Refusal on Unknown Concept
+        data3 = await process_stimulus(StimulusRequest(stimulus="What is quantum entanglement?"))
+        assert data3["success"] is False
+        assert data3["confidence"] == 0.0
+        assert "Unable to resolve concept" in data3["solution"] or "Missing Knowledge" in data3["solution"]
+
+        # 4. Mathematical Equation Solving via /process
+        data4 = await process_stimulus(StimulusRequest(stimulus="solve 3x + 12 = 0"))
+        assert data4["success"] is True
+        assert data4["confidence"] == 1.0
+        assert "-4" in data4["solution"]
+
+    asyncio.run(run_async())
 
 
 # ─────────────────────────────────────────────────────────────

@@ -15,7 +15,6 @@ ZERO mocks on the cognitive execution path.
 """
 import time
 import pytest
-from fastapi.testclient import TestClient
 
 from hsci.core.cognitive_pipeline import bootstrap_cognitive_pipeline
 from hsci.core.data_types import Concept
@@ -281,33 +280,31 @@ def test_vs5_f1_missing_context_bare_referent():
 
 def test_vs5_g1_fastapi_process_endpoint_consistency():
     """G1: HTTP POST /process executes the exact same CognitivePipeline with full provenance."""
-    client = TestClient(app)
+    import asyncio
+    from brain_api import StimulusRequest, process_stimulus
 
-    # Test 1: Explanation
-    res_exp = client.post("/process", json={"stimulus": "What is a Java interface?"})
-    assert res_exp.status_code == 200
-    data_exp = res_exp.json()
-    assert data_exp["success"] is True
-    assert data_exp["intent"] == "EXPLAIN_CONCEPT"
-    assert "reference type declaring abstract methods" in data_exp["solution"]
-    assert "Java Interface" in data_exp["concepts_used"]
+    async def run_async_tests():
+        # Test 1: Explanation
+        data_exp = await process_stimulus(StimulusRequest(stimulus="What is a Java interface?"))
+        assert data_exp["success"] is True
+        assert data_exp["intent"] == "EXPLAIN_CONCEPT"
+        assert "reference type declaring abstract methods" in data_exp["solution"]
+        assert "Java Interface" in data_exp["concepts_used"]
 
-    # Test 2: Comparison
-    res_cmp = client.post("/process", json={"stimulus": "Compare Java interface and class."})
-    assert res_cmp.status_code == 200
-    data_cmp = res_cmp.json()
-    assert data_cmp["success"] is True
-    assert data_cmp["intent"] == "COMPARE_CONCEPTS"
-    assert "Java Interface" in data_cmp["solution"]
-    assert "Class" in data_cmp["solution"]
+        # Test 2: Comparison
+        data_cmp = await process_stimulus(StimulusRequest(stimulus="Compare Java interface and class."))
+        assert data_cmp["success"] is True
+        assert data_cmp["intent"] == "COMPARE_CONCEPTS"
+        assert "Java Interface" in data_cmp["solution"]
+        assert "Class" in data_cmp["solution"]
 
-    # Test 3: Unknown Refusal
-    res_unk = client.post("/process", json={"stimulus": "What is quantum entanglement?"})
-    assert res_unk.status_code == 200
-    data_unk = res_unk.json()
-    assert data_unk["success"] is False
-    assert data_unk["intent"] == "REPORT_UNKNOWN"
-    assert data_unk["confidence"] == 0.0
+        # Test 3: Unknown Refusal
+        data_unk = await process_stimulus(StimulusRequest(stimulus="What is quantum entanglement?"))
+        assert data_unk["success"] is False
+        assert data_unk["intent"] == "REPORT_UNKNOWN"
+        assert data_unk["confidence"] == 0.0
+
+    asyncio.run(run_async_tests())
 
 
 # ─────────────────────────────────────────────────────────────
