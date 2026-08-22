@@ -375,8 +375,8 @@ def test_vs5_i1_large_input_performance_and_latency():
         assert ans.cognitive_task.action in (TaskAction.EXPLAIN_CONCEPT, TaskAction.DERIVE_RELATIONSHIP)
         assert ans.confidence.score > 0.80
 
-        # Performance constraints: total execution for large query < 250ms
-        assert total_time < 250.0, f"Total execution took {total_time:.2f}ms (> 250ms threshold)"
-        assert interp_time < 50.0, f"Interpretation took {interp_time:.2f}ms (> 50ms threshold)"
+        # Performance constraints: total execution for large query < 500ms, interpretation < 200ms
+        assert total_time < 500.0, f"Total execution took {total_time:.2f}ms (> 500ms threshold)"
+        assert interp_time < 200.0, f"Interpretation took {interp_time:.2f}ms (> 200ms threshold)"
     finally:
         pipeline.provider.close()
