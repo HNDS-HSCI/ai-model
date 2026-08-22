@@ -50,9 +50,13 @@ from hsci.response.answer_generation_engine import (
 
 logger = logging.getLogger("HSCI.Response.ExplanatorySynthesis")
 
-# Intents for which a definition-first explanation is appropriate. The Understanding
-# Engine maps "what is / explain / describe / define" to this single intent.
-EXPLANATION_INTENTS = frozenset({"ExplainConcept"})
+# Intents for which an explanatory/relational synthesis is appropriate.
+EXPLANATION_INTENTS = frozenset({
+    "ExplainConcept",
+    "CompareConcepts",
+    "FindRelationship",
+    "ExplainPurpose"
+})
 
 
 @dataclass
@@ -90,15 +94,16 @@ class ExplanatoryAnswer(Answer):
                  primary_concept_name: Optional[str],
                  knowledge_sources: List[KnowledgeSource],
                  confidence: ConfidenceSummary):
+        from hsci.response.answer_generation_engine import Explanation, AnswerMetadata
         super().__init__(
             direct_answer=direct_answer,
             sections=sections,
-            explanation=base.explanation,
-            evidence=base.evidence,
+            explanation=getattr(base, "explanation", Explanation("", 0)),
+            evidence=getattr(base, "evidence", []),
             confidence=confidence,
-            metadata=base.metadata,
-            assumptions=base.assumptions,
-            known_limitations=base.known_limitations,
+            metadata=getattr(base, "metadata", AnswerMetadata([], 0.0)),
+            assumptions=getattr(base, "assumptions", []),
+            known_limitations=getattr(base, "known_limitations", []),
         )
         self.definition: Optional[str] = definition
         self.primary_concept_id: Optional[str] = primary_concept_id
@@ -142,8 +147,8 @@ class ExplanatoryAnswerSynthesizer:
             return base_answer
 
         primary = self._select_primary(workspace_concepts, activation_scores)
-        if primary is None:
-            # Empty / unknown knowledge: never fabricate a definition.
+        if primary is None or not workspace_concepts:
+            # Empty / unknown knowledge: return base answer directly (never fabricate a definition)
             return base_answer
 
         # Resolve the freshest concept state so answers track knowledge updates.
@@ -218,15 +223,31 @@ class ExplanatoryAnswerSynthesizer:
         sources: List[KnowledgeSource] = []
         lines: List[str] = []
         for c in ordered:
-            rule = self._infer_reasoning_rule(c.statement)
+            rule = getattr(c, "rule_name", None) or self._infer_reasoning_rule(c.statement)
+            is_derived = getattr(c, "derived", False)
+            k_type = "derived_relationship" if is_derived else "reasoned_relationship"
+            
+            prov = {
+                "rule": rule,
+                "premises": getattr(c, "premises", []),
+                "derived": is_derived,
+                "depth": getattr(c, "depth", 0),
+                "source_type": "derived" if is_derived else "knowledge",
+            }
+            
             sources.append(KnowledgeSource(
-                knowledge_type="reasoned_relationship",
+                knowledge_type=k_type,
                 reasoning_conclusion=c.statement,
                 reasoning_rule=rule,
                 reasoning_confidence=c.confidence,
                 reasoning_evidence=list(c.evidence),
+                source_provenance=prov,
             ))
-            lines.append(f"- {c.statement} (rule: {rule}, confidence: {c.confidence:.2f})")
+            
+            if is_derived:
+                lines.append(f"- [DERIVED] {c.statement} (rule: {rule}, premises: {getattr(c, 'premises', [])}, confidence: {c.confidence:.2f})")
+            else:
+                lines.append(f"- {c.statement} (rule: {rule}, confidence: {c.confidence:.2f})")
         return sources, lines
 
     @staticmethod

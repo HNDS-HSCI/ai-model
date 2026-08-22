@@ -155,8 +155,12 @@ def test_pipeline_orchestration_order():
     """
     call_order = []
 
+    from hsci.core.data_types import Concept
+    mock_concept = Concept(id="c_something", name="something", abstract_rule="something definition", namespace="test")
     manager = mock.MagicMock()
-    manager.get_concept.return_value = None  # empty workspace path
+    manager.get_concept.return_value = mock_concept
+    manager.get_all_concepts.return_value = [mock_concept]
+    manager.get_concept_by_name.return_value = mock_concept
     event_bus = mock.MagicMock(spec=EventBus)
 
     pipeline = CognitivePipeline(manager, event_bus)

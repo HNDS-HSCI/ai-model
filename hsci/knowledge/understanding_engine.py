@@ -83,7 +83,7 @@ class UnderstandingEngine(IUnderstandingEngine):
         # Stage 3: Tokenization
         tokens = []
         for s in sentences:
-            tokens.extend([w for w in s.split(" ") if w])
+            tokens.extend([w.strip(".,;:?!\"'") for w in s.split(" ") if w.strip(".,;:?!\"'")])
         explanations["tokenization"] = f"Tokenized words: {tokens}"
 
         # Stage 4: Entity Extraction
@@ -109,9 +109,34 @@ class UnderstandingEngine(IUnderstandingEngine):
         seed_concepts = []
         ambiguities = []
         
-        # Test N-Grams (up to trigrams) to resolve compound terms like "arithmetic operator"
+        # Test N-Grams (up to trigrams) to resolve compound terms
         resolved_ids = set()
         resolved_names = set()
+
+        def _lookup_phrase(p: str):
+            c = self.manager.get_concept_by_name(p)
+            if c:
+                return c, []
+            aliases = self.manager.concept_store.repository.resolve_alias(p)
+            if aliases:
+                return aliases[0], aliases
+            
+            # Singularization candidates (e.g. "interfaces" -> "interface", "classes" -> "class")
+            candidates = []
+            if p.endswith("es") and len(p) > 2:
+                candidates.append(p[:-1])  # interface(s) -> interface
+                candidates.append(p[:-2])  # class(es) -> class
+            elif p.endswith("s") and not p.endswith("ss") and len(p) > 1:
+                candidates.append(p[:-1])
+
+            for p_cand in candidates:
+                c = self.manager.get_concept_by_name(p_cand)
+                if c:
+                    return c, []
+                aliases = self.manager.concept_store.repository.resolve_alias(p_cand)
+                if aliases:
+                    return aliases[0], aliases
+            return None, []
         
         n = len(tokens)
         i = 0
@@ -120,18 +145,9 @@ class UnderstandingEngine(IUnderstandingEngine):
             for length in [3, 2, 1]:
                 if i + length <= n:
                     phrase = " ".join(tokens[i:i+length])
-                    
-                    # 1. Direct name lookup
-                    concept = self.manager.get_concept_by_name(phrase)
-                    if not concept:
-                        # 2. Try alias lookup
-                        resolved_aliases = self.manager.concept_store.repository.resolve_alias(phrase)
-                        if len(resolved_aliases) == 1:
-                            concept = resolved_aliases[0]
-                        elif len(resolved_aliases) > 1:
-                            # Flag ambiguity if name matches multiple concepts
-                            concept = resolved_aliases[0]
-                            ambiguities.append(f"Alias '{phrase}' matches multiple concepts: {[c.name for c in resolved_aliases]}")
+                    concept, resolved_aliases = _lookup_phrase(phrase)
+                    if len(resolved_aliases) > 1:
+                        ambiguities.append(f"Alias '{phrase}' matches multiple concepts: {[c.name for c in resolved_aliases]}")
                     
                     if concept and concept.id not in resolved_ids:
                         seed_concepts.append(concept.name)
@@ -149,9 +165,11 @@ class UnderstandingEngine(IUnderstandingEngine):
         intent = "GeneralQuery"
         confidence = 0.50
         
-        # Simple prefix syntax matching rules
+        # Paraphrase robust intent matching rules
         intent_rules = [
-            (r"\b(what is|explain|describe|define)\b", "ExplainConcept", 0.95),
+            (r"\b(what is|what are|explain|describe|define|tell me about|can you explain)\b", "ExplainConcept", 0.95),
+            (r"\b(why do|why does|what purpose|how do|how does|purpose)\b", "ExplainConcept", 0.90),
+            (r"\b(relationship between|how does .* relate to|relation)\b", "ExplainConcept", 0.90),
             (r"\b(solve|evaluate|calculate|compute)\b", "SolveEquation", 0.90),
             (r"\b(prove|verify|check)\b", "VerifyAxiom", 0.85)
         ]
@@ -164,7 +182,7 @@ class UnderstandingEngine(IUnderstandingEngine):
                 
         explanations["intent_classification"] = f"Classified intent as '{intent}' with {confidence} confidence."
 
-        # Stage 7: Ambiguity Detection (add custom validation checks)
+        # Stage 7: Ambiguity & Insufficiency Detection
         if len(seed_concepts) == 0:
             ambiguities.append("No active UKM concepts resolved.")
             confidence = max(0.10, confidence - 0.20)

@@ -43,12 +43,16 @@ class ReasoningStep:
 class Inference:
     """Represents an inferred derivation candidate before verification."""
     def __init__(self, rule_name: str, derived_statement: str, supporting_evidence: List[str],
-                 confidence: float, concepts_used: List[str]):
+                 confidence: float, concepts_used: List[str],
+                 premises: Optional[List[str]] = None, derived: bool = False, depth: int = 0):
         self.rule_name: str = rule_name
         self.derived_statement: str = derived_statement
         self.supporting_evidence: List[str] = supporting_evidence
         self.confidence: float = confidence
         self.concepts_used: List[str] = concepts_used
+        self.premises: List[str] = premises if premises is not None else []
+        self.derived: bool = derived
+        self.depth: int = depth
 
 class Assumption:
     """Represents a hypothesized premise introduced to assist reasoning."""
@@ -60,12 +64,18 @@ class Assumption:
 class Conclusion:
     """Represents a verified assertion reached by the reasoning process."""
     def __init__(self, statement: str, evidence: List[str], confidence: float,
-                 verified: bool = True, rejected_reason: Optional[str] = None):
+                 verified: bool = True, rejected_reason: Optional[str] = None,
+                 rule_name: Optional[str] = None, premises: Optional[List[str]] = None,
+                 derived: bool = False, depth: int = 0):
         self.statement: str = statement
         self.evidence: List[str] = evidence
         self.confidence: float = confidence
         self.verified: bool = verified
         self.rejected_reason: Optional[str] = rejected_reason
+        self.rule_name: Optional[str] = rule_name
+        self.premises: List[str] = premises if premises is not None else []
+        self.derived: bool = derived
+        self.depth: int = depth
 
 class ReasoningTrace:
     """Logs the complete chronological sequence of reasoning steps and results."""
@@ -114,31 +124,73 @@ class IInferenceStrategy(ABC):
         pass
 
 class RuleBasedInferenceStrategy(IInferenceStrategy):
-    """Concrete inference strategy matching structural relations between active concepts."""
+    """Concrete inference strategy matching structural relations and deriving new conclusions."""
     def infer(self, active_concepts: List[Concept], context: ReasoningContext) -> List[Inference]:
-        inferences = []
-        concept_names = {c.name.lower() for c in active_concepts}
-        concept_map = {c.name.lower(): c for c in active_concepts}
+        inferences: List[Inference] = []
+        concept_by_id: Dict[str, Concept] = {c.id: c for c in active_concepts}
+        concept_by_name: Dict[str, Concept] = {c.name.lower(): c for c in active_concepts}
 
-        # Rule 1: Generalization Transitivity
-        # If A generalizes to B, then B is a generalization target
+        # Rule 1: Stored Generalization (Single-premise direct edges)
+        direct_edges: Set[Tuple[str, str]] = set()
         for c in active_concepts:
             for parent_id in c.generalizes_to:
-                # Try finding name matching parent ID
-                parent_name = parent_id.replace("c_", "").capitalize()
+                parent_concept = concept_by_id.get(parent_id)
+                parent_name = parent_concept.name if parent_concept else parent_id.replace("c_", "").replace("_", " ").title()
+                direct_edges.add((c.id, parent_id))
                 inferences.append(
                     Inference(
-                        rule_name="GeneralizationTransitivity",
+                        rule_name="StoredGeneralization",
                         derived_statement=f"{c.name} generalizes to {parent_name}",
                         supporting_evidence=[f"{c.name}.generalizes_to links to {parent_id}"],
                         confidence=0.90,
-                        concepts_used=[c.name]
+                        concepts_used=[c.name],
+                        premises=[f"{c.name}.generalizes_to contains {parent_id}"],
+                        derived=False,
+                        depth=0
                     )
                 )
 
-        # Rule 2: Namespace Cohabitation Sibling
-        # If multiple active concepts share the same hierarchical prefix namespace, infer namespace dependency
-        namespaces = {}
+        # Rule 2: Multi-Premise Transitive Closure (VS-3 Bounded Derivation)
+        # Chain: A -> B and B -> C derives A -> C (where A -> C is NOT in stored graph)
+        for c_a in active_concepts:
+            for b_id in c_a.generalizes_to:
+                c_b = concept_by_id.get(b_id)
+                if not c_b:
+                    continue
+                for c_id in c_b.generalizes_to:
+                    c_c = concept_by_id.get(c_id)
+                    c_name = c_c.name if c_c else c_id.replace("c_", "").replace("_", " ").title()
+                    
+                    # Novelty & Cycle Protection:
+                    # 1. A, B, C must be distinct concepts
+                    if c_a.id == c_b.id or c_b.id == c_id or c_a.id == c_id:
+                        continue
+                    # 2. A -> C must NOT be directly stored in A's generalizes_to
+                    if c_id in c_a.generalizes_to:
+                        continue
+
+                    premise_1_stmt = f"{c_a.name} generalizes to {c_b.name}"
+                    premise_2_stmt = f"{c_b.name} generalizes to {c_name}"
+                    # Confidence bound: min(conf(P1), conf(P2)) = min(0.90, 0.90) -> 0.85 derived confidence
+                    derived_conf = 0.85
+
+                    inferences.append(
+                        Inference(
+                            rule_name="GeneralizationTransitivity",
+                            derived_statement=f"{c_a.name} generalizes to {c_name}",
+                            supporting_evidence=[
+                                f"Derived via GeneralizationTransitivity from premises: [{premise_1_stmt}, {premise_2_stmt}]"
+                            ],
+                            confidence=derived_conf,
+                            concepts_used=[c_a.name, c_b.name, c_name],
+                            premises=[premise_1_stmt, premise_2_stmt],
+                            derived=True,
+                            depth=1
+                        )
+                    )
+
+        # Rule 3: Namespace Cohabitation Sibling
+        namespaces: Dict[str, List[Concept]] = {}
         for c in active_concepts:
             if c.namespace:
                 namespaces.setdefault(c.namespace, []).append(c)
@@ -152,11 +204,14 @@ class RuleBasedInferenceStrategy(IInferenceStrategy):
                         derived_statement=f"Concepts {names} co-exist under namespace '{ns}'",
                         supporting_evidence=[f"Shared namespace attribute '{ns}' in concepts"],
                         confidence=0.85,
-                        concepts_used=names
+                        concepts_used=names,
+                        premises=[f"Shared namespace '{ns}'"],
+                        derived=False,
+                        depth=0
                     )
                 )
 
-        # Rule 3: Aliases overlap
+        # Rule 4: Aliases overlap
         for c in active_concepts:
             for alias in c.aliases:
                 inferences.append(
@@ -165,7 +220,10 @@ class RuleBasedInferenceStrategy(IInferenceStrategy):
                         derived_statement=f"Alias '{alias}' points directly to concept {c.name}",
                         supporting_evidence=[f"Alias registered on concept ID {c.id}"],
                         confidence=0.95,
-                        concepts_used=[c.name]
+                        concepts_used=[c.name],
+                        premises=[f"Registered alias '{alias}' on {c.name}"],
+                        derived=False,
+                        depth=0
                     )
                 )
 
@@ -269,7 +327,11 @@ class CognitiveReasoningEngine(IReasoningEngine):
                 verified_conclusion = Conclusion(
                     statement=cnd.derived_statement,
                     evidence=cnd.supporting_evidence,
-                    confidence=cnd.confidence
+                    confidence=cnd.confidence,
+                    rule_name=cnd.rule_name,
+                    premises=cnd.premises,
+                    derived=cnd.derived,
+                    depth=cnd.depth
                 )
                 verified_conclusions.append(verified_conclusion)
                 known_statements.add(cnd.derived_statement)

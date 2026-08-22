@@ -99,6 +99,13 @@ class SQLiteProvider(IStorageProvider):
         self.busy_timeout_ms: int = busy_timeout_ms
         self.logger: logging.Logger = logging.getLogger("HSCI.Storage.SQLite")
         
+        # Per-instance shared-memory URI for thread safety & test isolation
+        if db_path == ":memory:":
+            import uuid
+            self._connect_uri = f"file:hsci_mem_{uuid.uuid4().hex}?mode=memory&cache=shared"
+        else:
+            self._connect_uri = db_path
+
         # Thread isolation parameters
         self._local: threading.local = threading.local()
         self._write_lock: threading.Lock = threading.Lock()
@@ -119,14 +126,19 @@ class SQLiteProvider(IStorageProvider):
                 # Double-check inside connection initialization lock
                 if not hasattr(self._local, "connection") or self._local.connection is None:
                     try:
+                        uri_mode = self._connect_uri.startswith("file:")
                         conn = sqlite3.connect(
-                            self.db_path,
+                            self._connect_uri,
+                            uri=uri_mode,
+                            check_same_thread=False,
+                            isolation_level=None,
                             timeout=float(self.busy_timeout_ms) / 1000.0
                         )
                         conn.row_factory = sqlite3.Row
                         
                         # Activate Write-Ahead Logging (WAL) and synchronous modes
-                        conn.execute("PRAGMA journal_mode=WAL;")
+                        if not uri_mode:
+                            conn.execute("PRAGMA journal_mode=WAL;")
                         conn.execute("PRAGMA synchronous=NORMAL;")
                         
                         self._local.connection = conn
@@ -134,7 +146,7 @@ class SQLiteProvider(IStorageProvider):
                             self._active_connections.append(conn)
                             
                     except Exception as e:
-                        self.logger.error(f"Failed to establish SQLite connection to '{self.db_path}': {e}")
+                        self.logger.error(f"Failed to establish SQLite connection to '{self._connect_uri}': {e}")
                         raise ConnectionError(f"Failed to connect to sqlite database: {e}")
                 
         return self._local.connection

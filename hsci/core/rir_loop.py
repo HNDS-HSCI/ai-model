@@ -22,7 +22,7 @@ class RIRLoop:
     Single entry point for all interactions.
     """
 
-    def __init__(self, use_llm: bool = False):
+    def __init__(self, use_llm: bool = False, enable_self_play: bool = False):
         print("Initializing HSCI v3.0...")
 
         # Layer 0: Language Bridge
@@ -57,14 +57,15 @@ class RIRLoop:
 
         self.response_bridge = ResponseBridge()
 
-        # Background: Self-Play
+        # Background: Self-Play (Opt-in for determinism)
         self.self_play = SelfPlayEngine(
             self.knowledge_base,
             self.reasoning_engine,
             self.verifier,
             self.learning_engine
         )
-        self.self_play.start()
+        if enable_self_play:
+            self.self_play.start()
 
         # Phase 5: Auto-load persisted neural weights
         self._weight_persistence = WeightPersistence()
