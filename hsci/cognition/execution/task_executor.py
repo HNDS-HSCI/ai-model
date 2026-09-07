@@ -229,9 +229,17 @@ class CognitiveTaskExecutor:
         exec_time = (time.time() - start_time) * 1000
         raw_text = situation.raw_input.original_text
         from hsci.reasoning.universal_math_engine import UniversalMathEngine
+        from hsci.neural.entity_extractor import EntityExtractor
         math_engine = UniversalMathEngine()
 
-        res = math_engine.solve_from_text(raw_text, entities={})
+        # Extract named quantities ("velocity is 60", "time is 2") so
+        # UniversalMathEngine's formula-inference strategy (distance = rate *
+        # time, tax = base * rate, etc.) has something to substitute into --
+        # without this it only ever sees an empty dict and that strategy can
+        # never fire, even for problems it would otherwise solve correctly.
+        entities = EntityExtractor().extract(raw_text)
+
+        res = math_engine.solve_from_text(raw_text, entities=entities)
         if not res.solved:
             res = math_engine.solve_expression(raw_text)
 

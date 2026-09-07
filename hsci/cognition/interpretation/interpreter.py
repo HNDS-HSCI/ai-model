@@ -37,6 +37,27 @@ class LanguageInterpreter:
         self.llm_adapter = llm_adapter
         self.enable_llm = enable_llm
         self.neural_model = NeuralSemanticModel()
+        self.trainable_parser = self._try_load_trainable_parser()
+
+    @staticmethod
+    def _try_load_trainable_parser():
+        """Trained BiLSTM tagger (hsci/language/semantic_tagger.py) used ONLY as
+        an extra vote for routing to SOLVE_MATH when the deterministic regex
+        check below can't tell (e.g. physics word problems with no "=" or
+        operator symbol: "if velocity is 60 and time is 2, what is the
+        distance"). It never bypasses grounding/verification -- it just gets
+        such phrasing into the same, already-working SOLVE_MATH path that
+        "3x + 7 = 25" already uses, so UniversalMathEngine gets a chance to
+        solve it instead of the request falling through to concept lookup."""
+        try:
+            from hsci.language.semantic_tagger import TrainableSemanticParser
+
+            candidate = TrainableSemanticParser()
+            if candidate.load():
+                return candidate
+        except Exception:
+            pass
+        return None
 
     def interpret(self, raw_input: RawInput) -> InterpretationSet:
         """Generates candidate interpretations and semantic requests from raw input."""
@@ -148,17 +169,20 @@ class LanguageInterpreter:
         # --- Neural Semantic Model Intent Prediction ---
         predicted_goal, neural_conf = self.neural_model.predict_goal(focus_text)
         is_math = bool(re.search(r"[\+\-\*\/=\^0-9]", focus_text)) or bool(re.search(r"\b(?:calc\w*|solv\w*|comput\w*|eval\w*)\b", focus_text, re.IGNORECASE))
+        neural_math_vote = predicted_goal == CommunicativeGoal.SOLVE_MATH and is_math
 
         # 0. Communicative Goal: SOLVE_MATH (Neural)
-        if predicted_goal == CommunicativeGoal.SOLVE_MATH and is_math and not requires_context:
+        if neural_math_vote and not requires_context:
+            source = "neural_semantic_model"
+            conf = neural_conf
             mentions, relations = self.neural_model.extract_entities_and_relations(focus_text, CommunicativeGoal.SOLVE_MATH)
             math_expr = mentions[0].surface_form if mentions else focus_text
-            e = EntityMention(surface_form=math_expr, normalized_form=math_expr.lower(), confidence=neural_conf)
+            e = EntityMention(surface_form=math_expr, normalized_form=math_expr.lower(), confidence=conf)
             evidence.append(Evidence(
                 evidence_type="neural_intent_prediction",
-                source="NeuralSemanticModel",
-                description=f"Neural classifier identified communicative goal SOLVE_MATH for '{math_expr}'.",
-                confidence=neural_conf,
+                source=source,
+                description=f"{source} identified communicative goal SOLVE_MATH for '{math_expr}'.",
+                confidence=conf,
             ))
             sem_req = SemanticRequest(
                 goal=CommunicativeGoal.SOLVE_MATH,
@@ -169,8 +193,8 @@ class LanguageInterpreter:
                 context_references=context_refs,
                 is_negated=is_negated,
                 modality=modality,
-                confidence=neural_conf,
-                source_method="neural_semantic_model",
+                confidence=conf,
+                source_method=source,
                 assumptions=assumptions,
                 evidence=evidence,
             )
@@ -181,8 +205,8 @@ class LanguageInterpreter:
                 constraints=[c.value for c in constraints],
                 assumptions=assumptions,
                 evidence=evidence,
-                confidence=neural_conf,
-                source_method="neural_semantic_model",
+                confidence=conf,
+                source_method=source,
                 requires_context=requires_context,
                 semantic_request=sem_req,
             )
@@ -429,6 +453,58 @@ class LanguageInterpreter:
                     requires_context=requires_context,
                     semantic_request=sem_req,
                 )
+
+        # 3.5 Trained-tagger fallback for SOLVE_MATH: only reached once
+        # COMPARE/RELATE/EXPLAIN above have all had a chance and none matched
+        # -- it must never run before them, since the tagger was trained on
+        # arithmetic/word-problem phrasing only and would otherwise confidently
+        # misroute something like "Compare Java interface and class" (it has
+        # never seen "compare"/"explain"/"relationship between" phrasing in
+        # training). Here it can only catch what nothing else recognized at
+        # all, e.g. "if velocity is 60 and time is 2, what is the distance"
+        # (no operator symbol or "=" for the deterministic check above).
+        if not requires_context and self.trainable_parser is not None:
+            try:
+                tagger_result = self.trainable_parser.parse(focus_text)
+                if tagger_result["intent"] in ("REDUCTION", "COMPOSITION") and tagger_result["confidence"] >= 0.6:
+                    conf = tagger_result["confidence"]
+                    mentions, relations = self.neural_model.extract_entities_and_relations(focus_text, CommunicativeGoal.SOLVE_MATH)
+                    math_expr = mentions[0].surface_form if mentions else focus_text
+                    e = EntityMention(surface_form=math_expr, normalized_form=math_expr.lower(), confidence=conf)
+                    evidence.append(Evidence(
+                        evidence_type="neural_intent_prediction",
+                        source="trainable_semantic_tagger",
+                        description=f"trainable_semantic_tagger identified communicative goal SOLVE_MATH for '{math_expr}'.",
+                        confidence=conf,
+                    ))
+                    sem_req = SemanticRequest(
+                        goal=CommunicativeGoal.SOLVE_MATH,
+                        entity_mentions=[e],
+                        relations=[],
+                        constraints=constraints,
+                        output_requirements=[OutputRequirement(output_type="COMPUTATION", depth=1)],
+                        context_references=context_refs,
+                        is_negated=is_negated,
+                        modality=modality,
+                        confidence=conf,
+                        source_method="trainable_semantic_tagger",
+                        assumptions=assumptions,
+                        evidence=evidence,
+                    )
+                    return CandidateInterpretation(
+                        proposed_intent="SolveMathematics",
+                        candidate_entity_mentions=[math_expr],
+                        proposed_relationships=[],
+                        constraints=[c.value for c in constraints],
+                        assumptions=assumptions,
+                        evidence=evidence,
+                        confidence=conf,
+                        source_method="trainable_semantic_tagger",
+                        requires_context=requires_context,
+                        semantic_request=sem_req,
+                    )
+            except Exception:
+                pass
 
         # 4. Fallback: Entity Span Extraction
         spans = self._extract_candidate_spans(text)
