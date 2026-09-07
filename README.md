@@ -1,7 +1,7 @@
 # Hyper-Symbolic Cognitive Invention (HSCI) v0.1.0-alpha
 
 [![CI Verification](https://github.com/HNDS-HSCI/ai-model/actions/workflows/ci.yml/badge.svg)](https://github.com/HNDS-HSCI/ai-model/actions/workflows/ci.yml)
-[![Tests Passing](https://img.shields.io/badge/tests-206%20passed-green.svg)](https://github.com/HNDS-HSCI/ai-model/actions/workflows/ci.yml)
+[![Tests Passing](https://img.shields.io/badge/tests-489%20passed-green.svg)](https://github.com/HNDS-HSCI/ai-model/actions/workflows/ci.yml)
 [![Python Version](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://pyproject.toml)
 [![License](https://img.shields.io/badge/license-Apache%202.0-yellow.svg)](https://github.com/HNDS-HSCI/ai-model/blob/main/LICENSE)
 [![Latest Release](https://img.shields.io/badge/release-v0.1.0--alpha-cyan.svg)](https://github.com/HNDS-HSCI/ai-model/releases)

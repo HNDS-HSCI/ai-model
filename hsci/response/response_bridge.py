@@ -168,7 +168,7 @@ class ResponseBridge:
         # 5. Handle Verified Mathematical Results
         if final_output.is_verified and final_output.answer not in [None, False, "conversational_response"]:
             answer_str = str(final_output.answer)
-            if answer_str not in ["dummy_solution_expression", "Unverified or Error", "None"]:
+            if answer_str not in ["Unverified or Error", "None"]:
                 # Extract numerical answer
                 answer_val = final_output.answer
                 if final_output.proof and final_output.proof.variable_assignments:

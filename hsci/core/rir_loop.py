@@ -276,7 +276,7 @@ class RIRLoop:
             # Priority 3: Candidate solution value (but skip dummy/sentinel values)
             if plan and plan.candidate_solution:
                 val = plan.candidate_solution.value
-                if val is not None and val is not False and str(val) not in ['dummy_solution_expression', 'False']:
+                if val is not None and val is not False and str(val) != 'False':
                     return val
                     
             # Priority 4: Conversational/transformation response

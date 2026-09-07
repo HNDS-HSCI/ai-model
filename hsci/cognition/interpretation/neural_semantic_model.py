@@ -84,6 +84,13 @@ def _get_shared_classifier() -> NeuralIntentClassifier:
     if _SHARED_CLASSIFIER is not None:
         return _SHARED_CLASSIFIER
 
+    # Deterministic init + training: this classifier previously drew its
+    # initial weights from whatever the global torch RNG state happened to be
+    # (dependent on unrelated code that ran earlier in the process), so its
+    # predictions on borderline inputs were effectively non-reproducible
+    # from run to run. A fixed seed makes it a real, repeatable component.
+    generator_state = torch.random.get_rng_state()
+    torch.manual_seed(1337)
     model = NeuralIntentClassifier()
     # Fast vectorized training on semantic anchors
     anchors = [
@@ -141,6 +148,7 @@ def _get_shared_classifier() -> NeuralIntentClassifier:
         optimizer.step()
 
     model.eval()
+    torch.random.set_rng_state(generator_state)
     _SHARED_CLASSIFIER = model
     return _SHARED_CLASSIFIER
 
@@ -163,11 +171,23 @@ class NeuralSemanticModel:
 
     def predict_goal(self, text: str) -> Tuple[CommunicativeGoal, float]:
         """Predicts the communicative goal via neural inference."""
-        # Fast semantic check for explicit equations
+        # Fast semantic check for explicit equations/arithmetic, normalized the
+        # same way UniversalMathEngine normalizes before solving -- one shared
+        # definition of "this is a math query" instead of two regex checks that
+        # can silently drift apart (that drift is exactly what caused "What is
+        # 2 + 2?" to be misrouted before: this file's old syntax check didn't
+        # know about the "?", so it fell through to the undertrained classifier
+        # below instead of taking this deterministic path).
+        from hsci.reasoning.universal_math_engine import normalize_natural_math_phrasing
+
         text_clean = text.strip()
-        has_eq = "=" in text_clean and "==" not in text_clean
-        has_math_ops = bool(re.search(r"[\+\-\*\/=\^]", text_clean)) and bool(re.search(r"[0-9a-zA-Z]", text_clean))
-        is_pure_math_syntax = bool(re.search(r"^[a-zA-Z0-9\.\s\+\-\*\/\^\(\)%]+=?[a-zA-Z0-9\.\s\+\-\*\/\^\(\)%]*$", text_clean))
+        normalized = normalize_natural_math_phrasing(text_clean)
+        text_for_syntax_check = re.sub(r"^(?:what\s+is|calc\w*|solv\w*|comput\w*|eval\w*|find)\s+", "", normalized, flags=re.IGNORECASE)
+        text_for_syntax_check = text_for_syntax_check.strip(" ?.!")
+
+        has_eq = "=" in normalized and "==" not in normalized
+        has_math_ops = bool(re.search(r"[\+\-\*\/=\^]|\bsqrt\(|\bcbrt\(", normalized)) and bool(re.search(r"[0-9a-zA-Z]", normalized))
+        is_pure_math_syntax = bool(re.search(r"^[a-zA-Z0-9\.\s\+\-\*\/\^\(\)%]+$", text_for_syntax_check))
 
         if has_eq or (has_math_ops and is_pure_math_syntax and any(c.isdigit() for c in text_clean)):
             return CommunicativeGoal.SOLVE_MATH, 0.99

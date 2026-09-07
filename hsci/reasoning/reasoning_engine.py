@@ -495,12 +495,7 @@ class ReasoningEngine:
                 knowledge.analogical_matches,
                 context_text=context
             )
-            
-            if "tax" in text and "salary" in text:
-                if "CONSTRAINT" in goal.description:
-                    p_match = [c for c in knowledge.direct_matches if c.name == "PERCENTAGE"]
-                    best = p_match[0] if p_match else best
-            
+
             if best is not None:
                 assignments[goal] = best
 

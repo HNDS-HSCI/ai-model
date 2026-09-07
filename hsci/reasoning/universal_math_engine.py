@@ -31,6 +31,65 @@ except ImportError:
     SYMPY_AVAILABLE = False
 
 
+_WORD_OPERATORS = [
+    (r"\bplus\b", "+"),
+    (r"\bminus\b", "-"),
+    (r"\btimes\b", "*"),
+    (r"\bmultiplied\s+by\b", "*"),
+    (r"\bdivided\s+by\b", "/"),
+]
+
+_NAMED_FUNCTIONS = [
+    (r"\bsquare\s+root\s+of\s+", "sqrt "),
+    (r"\bcube\s+root\s+of\s+", "cbrt "),
+]
+
+_CONVERSATIONAL_PREFIXES = re.compile(
+    r"^(?:can|could|would)\s+you\s+(?:please\s+)?(?:tell\s+me\s+)?(?:what\s+)?|"
+    r"^(?:please\s+)?tell\s+me\s+what\s+|"
+    r"^i\s+(?:want|need)\s+to\s+know\s+what\s+",
+    re.IGNORECASE,
+)
+
+
+def normalize_natural_math_phrasing(text: str) -> str:
+    """
+    Translates common natural-language ways of expressing arithmetic into the
+    symbolic form SymPy can parse. This is a bounded, mechanical translation
+    step (word operators, percentage phrasing, named functions, conversational
+    wrappers) -- not a general NLU model -- so it generalizes correctly across
+    any numbers/variables without per-example hardcoding.
+    """
+    result = text.strip()
+    result = result.replace("what's", "what is").replace("What's", "What is")
+    result = _CONVERSATIONAL_PREFIXES.sub("", result).strip()
+
+    # "15% of 240" -> "(15/100)*240" (must run before word-operator substitution)
+    result = re.sub(
+        r"(\d+(?:\.\d+)?)\s*%\s*of\s*(\d+(?:\.\d+)?)",
+        r"(\1/100)*\2",
+        result,
+        flags=re.IGNORECASE,
+    )
+
+    for pattern, replacement in _NAMED_FUNCTIONS:
+        result = re.sub(pattern, replacement, result, flags=re.IGNORECASE)
+    # "sqrt 144" -> "sqrt(144)" (only wraps the number/expr directly following the function name)
+    result = re.sub(r"\b(sqrt|cbrt)\s+(\d+(?:\.\d+)?)", r"\1(\2)", result, flags=re.IGNORECASE)
+
+    for pattern, replacement in _WORD_OPERATORS:
+        result = re.sub(pattern, replacement, result, flags=re.IGNORECASE)
+
+    # Strip a leading question/command wrapper ("what is the ", "find ", ...)
+    # and trailing punctuation once, after the substitutions above, so the
+    # wrapper doesn't survive around a just-substituted function call like
+    # "what is the sqrt(144)?" -> "sqrt(144)".
+    result = re.sub(r"^(?:what\s+is\s+(?:the\s+)?|find\s+(?:the\s+)?|calc\w*\s+|solv\w*\s+|comput\w*\s+|eval\w*\s+)+", "", result, flags=re.IGNORECASE)
+    result = result.strip(" ?.!")
+
+    return result
+
+
 @dataclass
 class MathResult:
     """Result from the universal math engine."""
@@ -69,6 +128,8 @@ class UniversalMathEngine:
         """
         if not self._sympy_ok:
             return MathResult(False, None, "", "unavailable", [], {}, "sympy not installed")
+
+        text = normalize_natural_math_phrasing(text)
 
         # Strategy 1: Try to extract and solve an equation from the text
         result = self._try_equation_solve(text, entities)
@@ -225,7 +286,14 @@ class UniversalMathEngine:
         if match:
             expr = match.group(1).strip()
             return self._evaluate_expression(expr)
-            
+
+        # Last resort: a known function call like "sqrt(144)" is valid SymPy but
+        # contains letters, so it fails the pure-digits-and-operators regex above.
+        # _evaluate_expression already fails safely (caught exception) on garbage,
+        # so it's safe to just attempt it directly here.
+        if re.match(r'^(?:sqrt|cbrt|sin|cos|tan|log|ln|abs)\(', clean, re.IGNORECASE):
+            return self._evaluate_expression(clean)
+
         return MathResult(False, None, "", "no_arithmetic", [], {})
 
     def _evaluate_expression(self, expr_str: str) -> MathResult:
@@ -338,13 +406,15 @@ class UniversalMathEngine:
 
     def can_solve(self, text: str) -> bool:
         """Quick check if this engine can likely solve the given text."""
+        normalized = normalize_natural_math_phrasing(text)
         math_indicators = [
             r'\d+\s*[\+\-\*\/\^]\s*\d+',  # arithmetic
             r'[a-zA-Z]\s*[\+\-\*\/]\s*[a-zA-Z0-9]',  # algebra
             r'solve|calculate|compute|find|what is',  # intent
             r'=\s*\d',  # equation
+            r'\bsqrt\(|\bcbrt\(',  # named functions, post-normalization
         ]
         for pattern in math_indicators:
-            if re.search(pattern, text, re.IGNORECASE):
+            if re.search(pattern, normalized, re.IGNORECASE):
                 return True
         return False

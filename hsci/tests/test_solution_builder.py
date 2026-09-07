@@ -85,7 +85,7 @@ def test_build_generic_expression(solution_builder):
 
     expression = solution_builder.build(sub_goals, concept_assignments, entities)
     assert isinstance(expression, Expression)
-    assert expression.value == "dummy_solution_expression"
+    assert expression.value is None
     assert expression.concepts_used == [] # Matches implementation fallback
 
 def test_build_addition_expression(solution_builder, sample_sub_goal_solve, sample_concept_addition):
@@ -164,4 +164,4 @@ def test_build_with_missing_entities_fallback(solution_builder, sample_sub_goal_
 
     expression = solution_builder.build(sub_goals, concept_assignments, entities)
     assert isinstance(expression, Expression)
-    assert expression.value == "dummy_solution_expression" # Should fall back to generic
+    assert expression.value is None # Should fall back to generic

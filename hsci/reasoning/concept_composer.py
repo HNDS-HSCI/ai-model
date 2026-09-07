@@ -31,18 +31,17 @@ class ConceptComposer:
                     overlap = [e for e in concept.required_entities if e.lower() in text]
                     if len(overlap) >= len(concept.required_entities) - 1 and len(concept.required_entities) >= 2:
                         return concept
-            
-            # Domain-specific heuristics
-            if any(w in text for w in ["distance", "velocity", "force", "mass", "acceleration", "interest"]):
-                 # Prioritize MULTIPLICATION or LINEAR_EQUATION for these
-                 mult_concepts = [c for c in ranked if c.name == "MULTIPLICATION"]
-                 if mult_concepts:
-                     return mult_concepts[0]
-            
-            if any(w in text for w in ["tax", "discount", "percent"]):
-                 perc_concepts = [c for c in ranked if c.name == "PERCENTAGE"]
-                 if perc_concepts:
-                     return perc_concepts[0]
+
+            # 3. Prioritize concept if one of its registered aliases is mentioned.
+            # This replaces two hardcoded Python word-lists (one for "distance/
+            # velocity/force/..." -> MULTIPLICATION, one for "tax/discount/
+            # percent" -> PERCENTAGE) with one generic mechanism: any concept
+            # can declare its own trigger words as data (Concept.aliases) rather
+            # than the composer hardcoding specific concept names in source.
+            for concept in ranked:
+                for alias in concept.aliases:
+                    if alias.lower() in text:
+                        return concept
 
             return ranked[0]
 

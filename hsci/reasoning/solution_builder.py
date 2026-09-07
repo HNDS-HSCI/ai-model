@@ -130,12 +130,12 @@ class SolutionBuilder:
                     traceback.print_exc()
                     pass
 
-        # Match test_build_with_missing_entities_fallback and test_build_generic_expression
+        # No concrete solving logic exists yet for a fully generic/primitive task.
         if sub_goals and sub_goals[0].name == "GENERIC_TASK":
-             return Expression(value="dummy_solution_expression", concepts_used=[])
-        
-        # fallback for missing entities
+             return Expression(value=None, concepts_used=[])
+
+        # Missing the entity needed to build a concrete equation (e.g. no "result" slot).
         if assigned_concept and assigned_concept.name == "ADDITION" and "result" not in wrapped_entities:
-             return Expression(value="dummy_solution_expression", concepts_used=[])
+             return Expression(value=None, concepts_used=[])
 
         return Expression(value=False, concepts_used=[])
