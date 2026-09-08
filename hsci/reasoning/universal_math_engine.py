@@ -64,6 +64,14 @@ def normalize_natural_math_phrasing(text: str) -> str:
     result = result.replace("what's", "what is").replace("What's", "What is")
     result = _CONVERSATIONAL_PREFIXES.sub("", result).strip()
 
+    # Strip thousands-separator commas from numbers ("50,000" -> "50000") before
+    # anything else runs, so every downstream strategy (percentage-of, plain
+    # arithmetic, equation parsing) sees a clean number instead of silently
+    # truncating at the comma. Only matches real grouping (comma immediately
+    # followed by exactly 3 digits), so it can't eat an equation-separator
+    # comma like "x-y=20, x+y=10" (space right after that comma, not a digit).
+    result = re.sub(r"(?<=\d),(?=\d{3}(?:\D|$))", "", result)
+
     # "15% of 240" -> "(15/100)*240" (must run before word-operator substitution)
     result = re.sub(
         r"(\d+(?:\.\d+)?)\s*%\s*of\s*(\d+(?:\.\d+)?)",
