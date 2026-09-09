@@ -3,6 +3,14 @@
 Validates candidate linguistic hypotheses against the Universal Knowledge Model (UKM)
 via the IKnowledgeManager facade without accessing SQLite directly.
 Distinguishes RESOLVED, AMBIGUOUS, and UNKNOWN entities without silently picking first matches.
+
+Also grounds QUANTITY/VARIABLE-role EntityMentions (Cognitive Substrate Final
+Review, Grounding Extension): a numeral is "grounded" by parsing it as a
+number, and an unknown-to-solve-for mention is "grounded" by recording that
+it is unresolved-by-design (is_known=False) -- neither path invokes
+UniversalMathEngine, SymPy, or Z3. Grounding only answers "is this a
+quantity/variable, and what value (if any) does it carry?", never "what is
+the equation?" or "what is the solution?".
 """
 import logging
 import re
@@ -19,8 +27,15 @@ from hsci.cognition.interpretation.models import (
     Evidence,
     InterpretationAssumption,
 )
+from hsci.cognition.interpretation.semantic_model import EntityMention, EntityRole
 from hsci.knowledge.knowledge_manager import IKnowledgeManager
 from hsci.core.data_types import Concept
+
+# A bare numeral, e.g. "10", "1,000", "3.5", "-2" -- deliberately minimal.
+# This is NOT an expression/equation normalizer (that remains
+# UniversalMathEngine's job, not Grounding's): no word-operator handling, no
+# percentage handling, no filler-word stripping -- just "is this one number".
+_NUMERIC_LITERAL_RE = re.compile(r"^-?\d{1,3}(,\d{3})*(\.\d+)?$|^-?\d+(\.\d+)?$")
 
 logger = logging.getLogger("HSCI.Cognition.Interpretation.Grounding")
 
@@ -73,7 +88,10 @@ class GroundingEngine:
                 )
             elif ge.status == GroundingStatus.UNKNOWN:
                 unresolved.append(ge.mention)
-                required_knowledge.append(f"Concept definition for '{ge.mention}'")
+                if ge.role == EntityRole.QUANTITY.value:
+                    required_knowledge.append(f"Unparseable numeric quantity '{ge.mention}'")
+                else:
+                    required_knowledge.append(f"Concept definition for '{ge.mention}'")
 
         # Validate relationships if proposed
         validated_relationships = []
@@ -86,12 +104,27 @@ class GroundingEngine:
         evidence = list(best_candidate.evidence) if best_candidate else []
         for ge in best_grounded_entities:
             if ge.status == GroundingStatus.RESOLVED:
-                evidence.append(Evidence(
-                    evidence_type="ukm_grounding",
-                    source="KnowledgeManager",
-                    description=f"Resolved mention '{ge.mention}' to canonical UKM concept '{ge.canonical_name}' ({ge.concept_id}).",
-                    confidence=1.0
-                ))
+                if ge.role == EntityRole.CONCEPT.value:
+                    evidence.append(Evidence(
+                        evidence_type="ukm_grounding",
+                        source="KnowledgeManager",
+                        description=f"Resolved mention '{ge.mention}' to canonical UKM concept '{ge.canonical_name}' ({ge.concept_id}).",
+                        confidence=1.0
+                    ))
+                elif ge.role == EntityRole.QUANTITY.value:
+                    evidence.append(Evidence(
+                        evidence_type="quantity_grounding",
+                        source="GroundingEngine",
+                        description=f"Resolved mention '{ge.mention}' as a numeric quantity (value={ge.numeric_value}, known={ge.is_known}).",
+                        confidence=1.0
+                    ))
+                else:  # EntityRole.VARIABLE
+                    evidence.append(Evidence(
+                        evidence_type="variable_grounding",
+                        source="GroundingEngine",
+                        description=f"Resolved mention '{ge.mention}' as an unknown variable to be solved for.",
+                        confidence=1.0
+                    ))
             elif ge.status == GroundingStatus.AMBIGUOUS:
                 evidence.append(Evidence(
                     evidence_type="ukm_ambiguity_alert",
@@ -100,12 +133,20 @@ class GroundingEngine:
                     confidence=1.0
                 ))
             elif ge.status == GroundingStatus.UNKNOWN:
-                evidence.append(Evidence(
-                    evidence_type="ukm_unknown_alert",
-                    source="KnowledgeManager",
-                    description=f"Mention '{ge.mention}' has no matching concepts or aliases in UKM.",
-                    confidence=1.0
-                ))
+                if ge.role == EntityRole.QUANTITY.value:
+                    evidence.append(Evidence(
+                        evidence_type="quantity_grounding_failed",
+                        source="GroundingEngine",
+                        description=f"Mention '{ge.mention}' could not be parsed as a numeric quantity.",
+                        confidence=1.0
+                    ))
+                else:
+                    evidence.append(Evidence(
+                        evidence_type="ukm_unknown_alert",
+                        source="KnowledgeManager",
+                        description=f"Mention '{ge.mention}' has no matching concepts or aliases in UKM.",
+                        confidence=1.0
+                    ))
 
         # Check for context requirements
         if best_candidate and best_candidate.requires_context:
@@ -131,18 +172,12 @@ class GroundingEngine:
     def _ground_candidate(
         self, candidate: CandidateInterpretation, raw_input: RawInput
     ) -> Tuple[List[GroundedEntity], SituationStatus, float]:
-        """Validates all entity mentions in a candidate against the UKM."""
-        if candidate.proposed_intent == "SolveMathematics":
-            math_mention = candidate.candidate_entity_mentions[0] if candidate.candidate_entity_mentions else "mathematics"
-            ge = GroundedEntity(
-                mention=math_mention,
-                status=GroundingStatus.RESOLVED,
-                concept_id="c_mathematics",
-                canonical_name="Mathematics",
-                provenance={"match_type": "formal_computation", "engine": "UniversalMathEngine"}
-            )
-            return [ge], SituationStatus.GROUNDED, 1.0
-
+        """Validates all entity mentions in a candidate: CONCEPT-role mentions
+        against the UKM, QUANTITY/VARIABLE-role mentions by numeric/variable
+        parsing. A "SolveMathematics"-proposed candidate is no longer grounded
+        for free -- it is only GROUNDED/PARTIALLY_GROUNDED if it actually
+        carries QUANTITY/VARIABLE mentions that ground successfully, exactly
+        like any other candidate."""
         if candidate.proposed_intent == "AnswerGeneral":
             ge = GroundedEntity(
                 mention="general_overview",
@@ -158,8 +193,29 @@ class GroundingEngine:
         has_unknown = False
         resolved_count = 0
 
-        # Ground each candidate entity mention
+        # Ground QUANTITY/VARIABLE-role mentions first, via the typed
+        # EntityMention objects on semantic_request (the only place role is
+        # carried -- candidate_entity_mentions below is plain strings).
+        typed_mentions = self._typed_non_concept_mentions(candidate)
+        typed_surface_forms = {tm.surface_form for tm in typed_mentions}
+
+        for tm in typed_mentions:
+            ge = self._ground_quantity_or_variable(tm)
+            grounded_entities.append(ge)
+            if ge.status == GroundingStatus.RESOLVED:
+                resolved_count += 1
+            elif ge.status == GroundingStatus.AMBIGUOUS:
+                has_ambiguity = True
+            elif ge.status == GroundingStatus.UNKNOWN:
+                has_unknown = True
+
+        # Ground remaining (CONCEPT-role) entity mentions against the UKM,
+        # unchanged from before -- skip anything already grounded above so a
+        # mention is never double-counted once Interpret produces both a
+        # typed EntityMention and a matching plain-string entry for it.
         for mention in candidate.candidate_entity_mentions:
+            if mention in typed_surface_forms:
+                continue
             ge = self._resolve_mention(mention)
             grounded_entities.append(ge)
             if ge.status == GroundingStatus.RESOLVED:
@@ -177,12 +233,84 @@ class GroundingEngine:
 
         if has_ambiguity:
             status = SituationStatus.AMBIGUOUS
+        elif has_unknown and resolved_count > 0:
+            # Some required entities resolved, some did not: honestly partial,
+            # not a blanket refusal (Cognitive Substrate Final Review §6/§8 --
+            # e.g. "compare Java interfaces with abstract classes" where only
+            # one side is seeded).
+            status = SituationStatus.PARTIALLY_GROUNDED
         elif has_unknown or resolved_count == 0:
             status = SituationStatus.UNRESOLVED_ENTITIES
         else:
             status = SituationStatus.GROUNDED
 
         return grounded_entities, status, grounding_score
+
+    def _typed_non_concept_mentions(self, candidate: CandidateInterpretation) -> List[EntityMention]:
+        """Returns the QUANTITY/VARIABLE-role EntityMentions on a candidate's
+        semantic_request, if any. Returns [] for every candidate today, since
+        nothing in LanguageInterpreter yet sets role to anything but the
+        CONCEPT default -- this method (and the grounding it enables) is real
+        but dormant until a future Interpret extension populates role."""
+        sem_req = getattr(candidate, "semantic_request", None)
+        mentions = getattr(sem_req, "entity_mentions", None) if sem_req else None
+        if not mentions:
+            return []
+        return [em for em in mentions if em.role != EntityRole.CONCEPT]
+
+    def _ground_quantity_or_variable(self, mention: EntityMention) -> GroundedEntity:
+        """Grounds a single QUANTITY or VARIABLE-role mention. Never parses an
+        expression or equation, never calls UniversalMathEngine/SymPy/Z3 --
+        only answers whether this one mention is a valid quantity/variable and
+        what value (if any) it carries."""
+        if mention.role == EntityRole.VARIABLE:
+            # An unknown-to-solve-for mention is, by definition, grounded as
+            # unresolved -- no value is assigned or inferred.
+            return GroundedEntity(
+                mention=mention.surface_form,
+                status=GroundingStatus.RESOLVED,
+                role=EntityRole.VARIABLE.value,
+                numeric_value=None,
+                is_known=False,
+                provenance={"match_type": "variable"},
+            )
+
+        # role == EntityRole.QUANTITY
+        numeric_value = mention.numeric_value
+        if numeric_value is None:
+            numeric_value = self._parse_numeric_literal(mention.normalized_form or mention.surface_form)
+
+        if numeric_value is None:
+            return GroundedEntity(
+                mention=mention.surface_form,
+                status=GroundingStatus.UNKNOWN,
+                role=EntityRole.QUANTITY.value,
+                provenance={"match_type": "unparseable_quantity"},
+            )
+
+        is_known = mention.is_known if mention.is_known is not None else True
+        return GroundedEntity(
+            mention=mention.surface_form,
+            status=GroundingStatus.RESOLVED,
+            role=EntityRole.QUANTITY.value,
+            numeric_value=numeric_value,
+            is_known=is_known,
+            provenance={"match_type": "numeric_literal"},
+        )
+
+    def _parse_numeric_literal(self, text: str) -> Optional[float]:
+        """Parses a bare numeral ('10', '1,000', '3.5') -- not an expression
+        or equation. Returns None (an honest "not a quantity"), never a
+        guess, when the text isn't a single numeral."""
+        if not text:
+            return None
+        candidate = text.strip()
+        if not _NUMERIC_LITERAL_RE.match(candidate):
+            return None
+        try:
+            return float(candidate.replace(",", ""))
+        except ValueError:
+            return None
 
     def _resolve_mention(self, mention: str) -> GroundedEntity:
         """Resolves a raw entity mention against UKM names and aliases."""

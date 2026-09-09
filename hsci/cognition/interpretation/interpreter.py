@@ -26,6 +26,7 @@ from hsci.cognition.interpretation.semantic_model import (
 )
 from hsci.cognition.interpretation.untrusted_proposer import UntrustedSemanticProposer
 from hsci.cognition.interpretation.neural_semantic_model import NeuralSemanticModel
+from hsci.cognition.interpretation.math_composition import compose_math_structure, ComposedStructure
 
 logger = logging.getLogger("HSCI.Cognition.Interpretation.Interpreter")
 
@@ -173,6 +174,21 @@ class LanguageInterpreter:
 
         # 0. Communicative Goal: SOLVE_MATH (Neural)
         if neural_math_vote and not requires_context:
+            # Try the deterministic compositional parser first: real typed
+            # Quantity/Variable/Operation/Equals structure (Cognitive
+            # Substrate Final Review, Interpretation Extension) instead of
+            # collapsing the whole expression into one raw-text mention.
+            composed = compose_math_structure(focus_text)
+            if composed is not None:
+                return self._candidate_from_composed_math(
+                    composed, constraints, context_refs, is_negated, modality, assumptions, evidence,
+                    requires_context,
+                )
+
+            # Fallback: composition could not confidently resolve a
+            # structure (e.g. bare arithmetic with no unknown, or a
+            # quadratic term) -- preserve the existing single-mention
+            # behavior exactly rather than guess.
             source = "neural_semantic_model"
             conf = neural_conf
             mentions, relations = self.neural_model.extract_entities_and_relations(focus_text, CommunicativeGoal.SOLVE_MATH)
@@ -454,6 +470,25 @@ class LanguageInterpreter:
                     semantic_request=sem_req,
                 )
 
+        # 3.4 Deterministic compositional math structure (no operator
+        # symbols required): tries to compose a typed Quantity/Variable/
+        # Operation/Equals structure from natural-language predicates (see
+        # math_composition.py) once COMPARE/RELATE/EXPLAIN above have all
+        # had their chance and none matched -- same safety ordering and for
+        # the same reason as 3.5 below: an equality-copula match ("is",
+        # "gives", ...) is common enough in non-math sentences that this
+        # must not run before the structural COMPARE/RELATE/EXPLAIN frames.
+        # Unlike 3.5, this is deterministic (not a classifier vote) and
+        # only ever succeeds when every part of the utterance resolves to a
+        # recognized quantity/variable/operation -- see module docstring.
+        if not requires_context:
+            composed = compose_math_structure(focus_text)
+            if composed is not None:
+                return self._candidate_from_composed_math(
+                    composed, constraints, context_refs, is_negated, modality, assumptions, evidence,
+                    requires_context,
+                )
+
         # 3.5 Trained-tagger fallback for SOLVE_MATH: only reached once
         # COMPARE/RELATE/EXPLAIN above have all had a chance and none matched
         # -- it must never run before them, since the tagger was trained on
@@ -553,6 +588,61 @@ class LanguageInterpreter:
             evidence=evidence,
             confidence=0.50 if entity_mentions_strs else 0.20,
             source_method="structural_fallback",
+            requires_context=requires_context,
+            semantic_request=sem_req,
+        )
+
+    def _candidate_from_composed_math(
+        self,
+        composed: ComposedStructure,
+        constraints: List[SemanticConstraint],
+        context_refs: List[ContextReference],
+        is_negated: bool,
+        modality: str,
+        assumptions: List[InterpretationAssumption],
+        evidence: List[Evidence],
+        requires_context: bool,
+        source_method: str = "compositional_math_structure",
+        confidence: float = 0.95,
+    ) -> CandidateInterpretation:
+        """Builds a SolveMathematics CandidateInterpretation from a
+        successfully composed typed structure (math_composition.py) -- the
+        real Quantity/Variable/Operation/Equals representation, used by
+        every call site that finds one, instead of collapsing the whole
+        expression into a single raw-text mention."""
+        evidence = list(evidence)
+        evidence.append(Evidence(
+            evidence_type="compositional_math_structure",
+            source="math_composition",
+            description=(
+                f"Composed typed mathematical structure: {len(composed.mentions)} mention(s), "
+                f"{len(composed.relations)} relation(s)."
+            ),
+            confidence=confidence,
+        ))
+        sem_req = SemanticRequest(
+            goal=CommunicativeGoal.SOLVE_MATH,
+            entity_mentions=composed.mentions,
+            relations=composed.relations,
+            constraints=constraints,
+            output_requirements=[OutputRequirement(output_type="COMPUTATION", depth=1)],
+            context_references=context_refs,
+            is_negated=is_negated,
+            modality=modality,
+            confidence=confidence,
+            source_method=source_method,
+            assumptions=assumptions,
+            evidence=evidence,
+        )
+        return CandidateInterpretation(
+            proposed_intent="SolveMathematics",
+            candidate_entity_mentions=[m.surface_form for m in composed.mentions],
+            proposed_relationships=[],
+            constraints=[c.value for c in constraints],
+            assumptions=assumptions,
+            evidence=evidence,
+            confidence=confidence,
+            source_method=source_method,
             requires_context=requires_context,
             semantic_request=sem_req,
         )

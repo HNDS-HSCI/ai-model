@@ -21,6 +21,10 @@ class GroundingStatus(str, Enum):
 
 class SituationStatus(str, Enum):
     GROUNDED = "GROUNDED"
+    # Some required entities resolved, some did not -- distinct from a fully
+    # UNRESOLVED situation so a later Answer stage can render what is known
+    # and honestly name the gap, instead of refusing the whole request.
+    PARTIALLY_GROUNDED = "PARTIALLY_GROUNDED"
     AMBIGUOUS = "AMBIGUOUS"
     UNRESOLVED_ENTITIES = "UNRESOLVED_ENTITIES"
     INSUFFICIENT_CONTEXT = "INSUFFICIENT_CONTEXT"
@@ -133,7 +137,10 @@ class InterpretationSet:
 
 @dataclass
 class GroundedEntity:
-    """The result of grounding a single candidate entity mention against the UKM."""
+    """The result of grounding a single candidate entity mention: against the
+    UKM for a CONCEPT-role mention, or against numeric/variable parsing for a
+    QUANTITY/VARIABLE-role mention (see EntityRole in semantic_model.py).
+    """
     mention: str
     status: GroundingStatus
     concept_id: Optional[str] = None
@@ -141,6 +148,14 @@ class GroundedEntity:
     candidate_concept_names: List[str] = field(default_factory=list)
     candidate_concept_ids: List[str] = field(default_factory=list)
     provenance: Dict[str, Any] = field(default_factory=dict)
+    # Mirrors EntityMention.role/numeric_value/is_known (semantic_model.py).
+    # Kept as a plain str here -- not the EntityRole enum type -- solely to
+    # avoid a models.py -> semantic_model.py import cycle (semantic_model.py
+    # already imports from models.py); the value is always one of
+    # EntityRole.CONCEPT.value / .QUANTITY.value / .VARIABLE.value.
+    role: str = "CONCEPT"
+    numeric_value: Optional[float] = None
+    is_known: Optional[bool] = None
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -151,6 +166,9 @@ class GroundedEntity:
             "candidate_concept_names": self.candidate_concept_names,
             "candidate_concept_ids": self.candidate_concept_ids,
             "provenance": self.provenance,
+            "role": self.role,
+            "numeric_value": self.numeric_value,
+            "is_known": self.is_known,
         }
 
 

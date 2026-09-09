@@ -30,6 +30,20 @@ class CommunicativeGoal(str, Enum):
     UNKNOWN = "UNKNOWN"
 
 
+class EntityRole(str, Enum):
+    """What kind of thing an EntityMention denotes, independent of surface form.
+
+    Representational only — no stage in this codebase yet populates or reads
+    ``role``/``numeric_value``/``is_known`` on EntityMention. It exists so a
+    future Interpret/Ground stage has a typed place to record that a mention
+    is a quantity or an unknown variable, instead of every stage discovering
+    this by re-parsing the raw surface text.
+    """
+    CONCEPT = "CONCEPT"    # a domain/knowledge concept, resolved via the UKM (default)
+    QUANTITY = "QUANTITY"  # a numeric value, known or unknown
+    VARIABLE = "VARIABLE"  # a QUANTITY specifically being solved for (is_known=False)
+
+
 @dataclass
 class EntityMention:
     """Semantic mention of a potential domain entity within the input text."""
@@ -40,16 +54,47 @@ class EntityMention:
     span_end: int = 0
     confidence: float = 1.0
     resolution_state: str = "UNRESOLVED"  # UNRESOLVED, RESOLVED, AMBIGUOUS, UNKNOWN
+    role: EntityRole = EntityRole.CONCEPT
+    # numeric_value/is_known are only meaningful when role != CONCEPT. Neither
+    # field is parsed, computed, or inferred here or anywhere else yet — they
+    # are pure representation for a future Interpret/Ground stage to populate.
+    numeric_value: Optional[float] = None
+    is_known: Optional[bool] = None
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
 
 
+# The sanctioned, closed set of `relation_type` values denoting an arithmetic
+# operation or equality between two QUANTITY/VARIABLE-role EntityMentions.
+# relation_type itself remains a plain, unvalidated str (unchanged, matching
+# every existing concept-relation value such as "COMPARISON"/"RELATIONSHIP")
+# so no existing construction site or proposal is affected; this constant is
+# documentation of the closed vocabulary, not an enforced allowlist.
+OPERATION_RELATION_TYPES = frozenset({
+    "OPERATION:ADD",
+    "OPERATION:SUBTRACT",
+    "OPERATION:MULTIPLY",
+    "OPERATION:DIVIDE",
+    "EQUALS",
+})
+
+
 @dataclass
 class SemanticRelation:
-    """Semantic relationship proposed between entity mentions prior to UKM validation."""
+    """Semantic relationship proposed between entity mentions prior to UKM validation.
+
+    For an operation relation (relation_type in OPERATION_RELATION_TYPES),
+    source_mention/target_mention remain positional, exactly as for every
+    other relation_type: source_mention is the left/first operand and
+    target_mention is the right/second operand, so e.g. "x - 10" and
+    "10 - x" remain distinguishable by which mention is source vs. target.
+    No arithmetic is performed or implied by this class.
+    """
     source_mention: str
-    relation_type: str  # e.g., "COMPARISON", "RELATIONSHIP", "GENERALIZATION", "PURPOSE"
+    # e.g. "COMPARISON", "RELATIONSHIP", "GENERALIZATION", "PURPOSE", or one
+    # of OPERATION_RELATION_TYPES above ("OPERATION:ADD", ..., "EQUALS").
+    relation_type: str
     target_mention: str
     confidence: float = 1.0
 
