@@ -1,0 +1,1277 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Axiomatic Cognitive Intelligence Architecture">
+      
+      
+        <meta name="author" content="Brijesh Yadav">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>HSCI V4 — BrainKernel Engineering Design (BrainKernel_Engineering_Design.md) - HSCI Technical Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hsci-v4-brainkernel-engineering-design-brainkernel_engineering_designmd" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="HSCI Technical Documentation" class="md-header__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HSCI Technical Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              HSCI V4 — BrainKernel Engineering Design (BrainKernel_Engineering_Design.md)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../architecture/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../api/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tutorials/teaching.md" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="HSCI Technical Documentation" class="md-nav__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    HSCI Technical Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/teaching.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instructional Priming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/proofs.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Proofs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-executive-summary-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Executive Summary &amp; Scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-architecture-diagrams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Architecture Diagrams
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-sequence-diagrams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Sequence Diagrams
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-lifecycle-diagrams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Lifecycle Diagrams
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Lifecycle Diagrams">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-thinking-session-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Thinking Session Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-event-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Event Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-system-interfaces-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. System Interfaces &amp; APIs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. System Interfaces &amp; APIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-public-interfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Public Interfaces
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-internal-interfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Internal Interfaces
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-core-infrastructure-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Core Infrastructure Policies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Core Infrastructure Policies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-dependency-injection-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Dependency Injection Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-module-registry-plugin-loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Module Registry &amp; Plugin Loading
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-execution-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Execution Context
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-concurrency-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Concurrency Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-state-transitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 State Transitions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-failure-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Failure Recovery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#67-logging-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.7 Logging Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#68-configuration-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.8 Configuration Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#69-startup-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.9 Startup Sequence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#610-shutdown-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.10 Shutdown Sequence
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-data-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Data Models
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-testing-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Testing Strategy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-migration-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Migration Strategy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-performance-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Performance Targets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-implementation-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Implementation Plan
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="hsci-v4-brainkernel-engineering-design-brainkernel_engineering_designmd">HSCI V4 — BrainKernel Engineering Design (BrainKernel_Engineering_Design.md)</h1>
+<p>This document presents the technical design and architectural specifications for the <code>BrainKernel</code>, the core orchestrator of the Hyper-Symbolic Cognitive Invention (HSCI) V4 Cognitive Operating System.</p>
+<hr />
+<h2 id="1-executive-summary-scope">1. Executive Summary &amp; Scope</h2>
+<p>The <code>BrainKernel</code> is the central runtime orchestrator of HSCI V4, replacing the legacy V3 <code>RIRLoop</code> and V2 <code>HyperSymbolicBrain</code>. The primary objective is to manage the 10-stage execution pipeline, ensuring that every natural language request is formally parsed, reasoned about, verified via the Z3 SMT solver, and registered into the persistent database.</p>
+<p>This engineering design provides the formal contract interfaces, context models, concurrency rules, lifecycle protocols, and testing strategies required to implement the <code>BrainKernel</code> in subsequent sprints.</p>
+<hr />
+<h2 id="2-architecture-diagrams">2. Architecture Diagrams</h2>
+<p>The diagram below maps the runtime architecture of the <code>BrainKernel</code>, showing the interaction between the request execution loop, the stateful context, the plugins, and the database persistence layers.</p>
+<pre><code class="language-mermaid">graph TD
+    %% Inputs
+    Client[API/CLI Client] --&gt;|processRequest| BK[BrainKernel]
+
+    %% BrainKernel Core
+    subgraph BrainKernel [BrainKernel Orchestrator]
+        CoreLoop[Pipeline Executor Loop]
+        StageReg[Stage Registry]
+        SolverReg[Solver Registry]
+    end
+
+    %% Scoped State
+    subgraph RequestContext [CognitiveContext: Scoped State]
+        WM[WorkingMemory]
+        Z3Ctx[Z3 Solver Context]
+    end
+
+    %% Dependency Connections
+    CoreLoop --&gt;|Executes 10 Stages| StageReg
+    StageReg --&gt;|Reads/Writes| WM
+    StageReg --&gt;|Evaluates formulas| Z3Ctx
+
+    %% Solver Registration
+    CoreLoop --&gt;|Stage 3: Dispatch| SolverReg
+    SolverReg --&gt;|Find Solver| SolverPlugin[Deterministic Solver Plugin]
+    SolverPlugin --&gt;|Execute| LegacySolver[Legacy HNSDS Solver]
+
+    %% Persistent Layer
+    subgraph UKM [Universal Knowledge Model SQLite]
+        SQLite[(hsci_v4.db)]
+    end
+
+    StageReg --&gt;|Read/Write Concept/Weights| UKM
+    StageReg --&gt;|Write Episode| UKM
+</code></pre>
+<hr />
+<h2 id="3-sequence-diagrams">3. Sequence Diagrams</h2>
+<p>The sequence diagram below traces the execution of a single cognitive process from client submission to response delivery, showing the flow across the 10 sequential pipeline stages.</p>
+<pre><code class="language-mermaid">sequenceDiagram
+    autonumber
+    actor Client
+    participant BK as BrainKernel
+    participant WM as WorkingMemory
+    participant SR as SolverRegistry
+    participant Z3 as Z3VerificationEngine
+    participant DB as UniversalKnowledgeModel
+
+    Client-&gt;&gt;BK: process(stimulus_str)
+    activate BK
+    BK-&gt;&gt;BK: create_context() -&gt; CognitiveContext
+    BK-&gt;&gt;WM: Initialize(stimulus_str)
+
+    Note over BK, WM: Stage 0: LanguageBridge
+    BK-&gt;&gt;BK: run_stage_0(LanguageBridge)
+
+    Note over BK, WM: Stage 0.5: UnderstandingEngine
+    BK-&gt;&gt;BK: run_stage_0.5(UnderstandingEngine)
+    BK-&gt;&gt;WM: Write SemanticFrame
+
+    Note over BK, WM: Stage 1: NeuralPerceiver
+    BK-&gt;&gt;BK: run_stage_1(NeuralPerceiver)
+    BK-&gt;&gt;WM: Write Intent / GNN Embedding
+
+    Note over BK, WM: Stage 1.5: MentalModelEngine
+    BK-&gt;&gt;BK: run_stage_1.5(MentalModelEngine)
+    BK-&gt;&gt;WM: Write WorldStateGraph Gaps
+
+    Note over BK, WM: Stage 2: ConceptActivationEngine
+    BK-&gt;&gt;BK: run_stage_2(ConceptActivationEngine)
+    BK-&gt;&gt;DB: Query OntologyGraph (decay 0.6)
+    DB--&gt;&gt;BK: Active Concepts
+    BK-&gt;&gt;WM: Write Active Concepts list
+
+    Note over BK, WM: Stage 2.5: SkillMemory
+    BK-&gt;&gt;BK: run_stage_2.5(SkillMemory)
+    BK-&gt;&gt;WM: Write Composed Skill Tasks
+
+    Note over BK, WM: Stage 3: ReasoningEngine &amp; SolverRegistry
+    BK-&gt;&gt;BK: run_stage_3(ReasoningEngine)
+    BK-&gt;&gt;SR: dispatch(subgoal, perception)
+    SR--&gt;&gt;BK: Composed Candidate Solution
+    BK-&gt;&gt;WM: Write Candidate Answer
+
+    Note over BK, WM: Stage 4: Z3VerificationEngine
+    BK-&gt;&gt;BK: run_stage_4(Z3VerificationEngine)
+    BK-&gt;&gt;Z3: verify_cegis(candidate)
+    Z3--&gt;&gt;BK: Proof Trace / Success Flag
+    BK-&gt;&gt;WM: Write Verification Outcomes
+
+    Note over BK, WM: Stage 5: LearningEngine
+    BK-&gt;&gt;BK: run_stage_5(LearningEngine)
+    BK-&gt;&gt;DB: Commit Episode / Update Strengths
+
+    Note over BK, WM: Stage 6: ResponseBridge
+    BK-&gt;&gt;BK: run_stage_6(ResponseBridge)
+    BK--&gt;&gt;Client: FinalOutput (Answer + Confidence)
+    deactivate BK
+</code></pre>
+<hr />
+<h2 id="4-lifecycle-diagrams">4. Lifecycle Diagrams</h2>
+<h3 id="41-thinking-session-lifecycle">4.1 Thinking Session Lifecycle</h3>
+<p>A "Thinking Session" represents the context lifecycle associated with processing a single prompt. It goes through four main phases:</p>
+<pre><code class="language-mermaid">stateDiagram-v2
+    [*] --&gt; ALLOCATED : Client Request Received
+    ALLOCATED --&gt; RUNNING : Create CognitiveContext &amp; WorkingMemory
+
+    state RUNNING {
+        [*] --&gt; STAGE_0 : LanguageBridge
+        STAGE_0 --&gt; STAGE_1 : Perception
+        STAGE_1 --&gt; STAGE_2 : Concept Activation
+        STAGE_2 --&gt; STAGE_3 : Reasoning Planning
+        STAGE_3 --&gt; STAGE_4 : Z3 CEGIS Verification
+        STAGE_4 --&gt; STAGE_5 : Hebbian Updates / DB Commit
+        STAGE_5 --&gt; STAGE_6 : Response Compilation
+    }
+
+    RUNNING --&gt; REPAIR : CEGIS Verification Fails (Iteration &lt; 5)
+    REPAIR --&gt; STAGE_3 : Inject Counterexample &amp; Re-plan
+
+    RUNNING --&gt; COMPLETED : Output Emitted
+    RUNNING --&gt; ERROR_RECOVERY : Critical Failure / Timeout
+
+    ERROR_RECOVERY --&gt; COMPLETED : Safe Fallback Response Generated
+
+    COMPLETED --&gt; DEALLOCATED : Clean Context / Garbage Collect Memory
+    DEALLOCATED --&gt; [*]
+</code></pre>
+<h3 id="42-event-lifecycle">4.2 Event Lifecycle</h3>
+<p>The <code>BrainKernel</code> emits lifecycle events to hooks or observers at each milestone:</p>
+<pre><code class="language-mermaid">stateDiagram-v2
+    [*] --&gt; ON_START : Context Created
+    ON_START --&gt; ON_STAGE_START : Execution enters Stage N
+    ON_STAGE_START --&gt; ON_STAGE_SUCCESS : Stage completed
+    ON_STAGE_START --&gt; ON_STAGE_FAILURE : Stage raises Exception
+
+    ON_STAGE_FAILURE --&gt; ON_RECOVERY : Recover trigger (fallback/retry)
+    ON_RECOVERY --&gt; ON_STAGE_START : Retry stage
+    ON_RECOVERY --&gt; ON_STOP : Unrecoverable Error
+
+    ON_STAGE_SUCCESS --&gt; ON_STAGE_START : Next Stage N+1
+    ON_STAGE_SUCCESS --&gt; ON_SUCCESS : All 10 Stages finished
+
+    ON_SUCCESS --&gt; ON_STOP : Deallocate Context
+    ON_STOP --&gt; [*]
+</code></pre>
+<hr />
+<h2 id="5-system-interfaces-apis">5. System Interfaces &amp; APIs</h2>
+<h3 id="51-public-interfaces">5.1 Public Interfaces</h3>
+<p>The primary gateway class for interacting with the cognitive runtime:</p>
+<pre><code class="language-python">class BrainKernel:
+    &quot;&quot;&quot;
+    Core orchestrator of the 10-stage execution pipeline.
+    &quot;&quot;&quot;
+    def __init__(self, config: SystemConfig, db_pool: ConnectionPool):
+        self.config = config
+        self.db_pool = db_pool
+        self.stage_registry = StageRegistry()
+        self.solver_registry = SolverRegistry()
+
+    def initialize(self) -&gt; None:
+        &quot;&quot;&quot;
+        Initializes background threads, databases, and registers solver plugins.
+        &quot;&quot;&quot;
+        ...
+
+    def process(self, stimulus: str, session_id: str) -&gt; FinalOutput:
+        &quot;&quot;&quot;
+        Executes the 10-stage pipeline on the input prompt.
+        &quot;&quot;&quot;
+        ...
+
+    def shutdown(self) -&gt; None:
+        &quot;&quot;&quot;
+        Performs orderly shutdown of background threads and databases.
+        &quot;&quot;&quot;
+        ...
+</code></pre>
+<h3 id="52-internal-interfaces">5.2 Internal Interfaces</h3>
+<p>Every stage of the pipeline must implement the <code>IStageExecutor</code> interface:</p>
+<pre><code class="language-python">class IStageExecutor(ABC):
+    &quot;&quot;&quot;
+    Standard interface for all 10 stages of the BrainKernel pipeline.
+    &quot;&quot;&quot;
+    @abstractmethod
+    def execute(self, context: CognitiveContext) -&gt; None:
+        &quot;&quot;&quot;
+        Reads inputs from context.working_memory, executes the stage, 
+        and updates context.working_memory with outcomes.
+        &quot;&quot;&quot;
+        pass
+</code></pre>
+<p>All deterministic solvers must implement the <code>ISolverPlugin</code> interface:</p>
+<pre><code class="language-python">class ISolverPlugin(ABC):
+    &quot;&quot;&quot;
+    Interface for wrapping HNSDS solvers.
+    &quot;&quot;&quot;
+    @abstractmethod
+    def can_solve(self, subgoal: SubGoal, perception: PerceptionMap) -&gt; bool:
+        &quot;&quot;&quot;
+        Returns True if the solver is capable of solving the sub-goal.
+        &quot;&quot;&quot;
+        pass
+
+    @abstractmethod
+    def solve(self, subgoal: SubGoal, context: CognitiveContext) -&gt; Expression:
+        &quot;&quot;&quot;
+        Executes deterministic solver verification and returns the Expression.
+        &quot;&quot;&quot;
+        pass
+</code></pre>
+<hr />
+<h2 id="6-core-infrastructure-policies">6. Core Infrastructure Policies</h2>
+<h3 id="61-dependency-injection-model">6.1 Dependency Injection Model</h3>
+<p>To ensure Clean Architecture separation:
+*   <strong>Constructor Injection</strong>: The <code>BrainKernel</code> constructor requires concrete instances of <code>SystemConfig</code> and <code>ConnectionPool</code>.
+*   <strong>Context Parameter Injection</strong>: Method signatures for <code>IStageExecutor.execute</code> and <code>ISolverPlugin.solve</code> accept <code>CognitiveContext</code> directly. Services must never import global configurations or construct their own persistence connections.</p>
+<h3 id="62-module-registry-plugin-loading">6.2 Module Registry &amp; Plugin Loading</h3>
+<ul>
+<li><strong>Static Stage Registry</strong>: The 10 stages are hardcoded and loaded into <code>StageRegistry</code> during <code>BrainKernel</code> initialization.</li>
+<li><strong>Dynamic Solver Registry</strong>: Solver plugins located in <code>hsci/reasoning/plugins/</code> are discovered dynamically using python's <code>pkgutil</code> and registered with the <code>SolverRegistry</code> on startup.</li>
+</ul>
+<h3 id="63-execution-context">6.3 Execution Context</h3>
+<p>Every cycle allocates a fresh <code>CognitiveContext</code>. The context contains:
+*   <code>request_id</code>: A UUID string tracking execution logging.
+*   <code>session_id</code>: Identifies the conversation session.
+*   <code>working_memory</code>: The ephemeral scratchpad dataclass.
+*   <code>z3_context</code>: A thread-local Z3 solver context, isolating verification parameters from concurrent request sessions.</p>
+<h3 id="64-concurrency-model">6.4 Concurrency Model</h3>
+<ul>
+<li><strong>Isolated Requests</strong>: The FastAPI server processes concurrent HTTP requests on separate threads. Since the <code>BrainKernel</code> and its stages are completely stateless, requests execute in isolation.</li>
+<li><strong>Thread-Local Z3 Contexts</strong>: Z3 solver instances are thread-unsafe when shared. Creating a dedicated <code>z3.Context()</code> for each request prevents verification collisions.</li>
+<li><strong>SQLite WAL Locking</strong>: The database pool uses Write-Ahead Logging. Write transactions utilize a re-entrant lock (<code>threading.RLock</code>) to prevent database write blocks.</li>
+</ul>
+<h3 id="65-state-transitions">6.5 State Transitions</h3>
+<p>The execution loop manages transition states of the active context:
+*   <code>UNINITIALIZED</code> $\rightarrow$ <code>STAGE_0_START</code> $\rightarrow$ <code>STAGE_0_COMPLETE</code> $\rightarrow$ ... $\rightarrow$ <code>STAGE_4_START</code> $\rightarrow$ <code>STAGE_4_COMPLETE</code> $\rightarrow$ ... $\rightarrow$ <code>FINISHED</code>.
+*   If <code>STAGE_4</code> (Verification) fails: Transition to <code>REPAIR_PLANNING</code> (re-runs a modified Stage 3 planning step with counterexample bounds) up to 5 times. If it still fails, transition to <code>FAILED</code> status.</p>
+<h3 id="66-failure-recovery">6.6 Failure Recovery</h3>
+<ul>
+<li><strong>Z3 Verification Timeout</strong>: Individual Z3 verification steps are capped at 5 seconds. If a timeout occurs, Z3 raises a <code>VerificationTimeoutError</code>.</li>
+<li><strong>Plan Recovery</strong>: The <code>ReasoningEngine</code> catches <code>VerificationTimeoutError</code> or verification failures. It registers the failed plan, extracts counterexamples, and triggers a modified planning loop.</li>
+<li><strong>Subsystem Fallbacks</strong>: If GNN intent classification fails or has low confidence, the system falls back to a deterministic keyword search map.</li>
+<li><strong>Safe Failure Response</strong>: If the CEGIS loop exhausts all 5 attempts without a successful proof, the <code>ResponseBridge</code> generates a safe fallback response clarifying that the system could not mathematically verify the logic, rather than emitting unverified output.</li>
+</ul>
+<h3 id="67-logging-strategy">6.7 Logging Strategy</h3>
+<ul>
+<li><strong>Context Logging</strong>: Every log emitted inside a stage must include <code>[RequestID: UUID]</code> in the header.</li>
+<li><strong>Timing Traces</strong>: The execution loop records elapsed time (in milliseconds) at the boundary of each stage and logs metrics to database logs upon completion.</li>
+</ul>
+<h3 id="68-configuration-model">6.8 Configuration Model</h3>
+<p>The <code>SystemConfig</code> class loads variables from environment files:
+*   <code>CEGIS_MAX_ITERATIONS</code>: Default <code>5</code>.
+*   <code>SOLVER_TIMEOUT_MS</code>: Default <code>5000</code> (5 seconds).
+*   <code>ONTOLOGY_DECAY_RATE</code>: Default <code>0.6</code>.
+*   <code>LRU_CACHE_SIZE</code>: Default <code>256</code>.</p>
+<h3 id="69-startup-sequence">6.9 Startup Sequence</h3>
+<ol>
+<li>Initialize <code>SystemConfig</code> and print environment bounds.</li>
+<li>Open SQLite <code>ConnectionPool</code> and execute database schema migrations.</li>
+<li>Load active weights from the database <code>WeightStore</code> into <code>NeuralPerceiver</code>.</li>
+<li>Instantiate <code>SolverRegistry</code> and dynamically register all solver plugins.</li>
+<li>Initialize <code>StageRegistry</code> loading the 10 standard stages.</li>
+<li>Start background worker threads for self-play updates.</li>
+</ol>
+<h3 id="610-shutdown-sequence">6.10 Shutdown Sequence</h3>
+<ol>
+<li>Stop background self-play worker threads and wait for active cycles to finish.</li>
+<li>Flush all pending updates in the UKM write buffers to SQLite.</li>
+<li>Close the database connection pool.</li>
+<li>Deallocate caches and memory matrices.</li>
+<li>Orderly log exit signals.</li>
+</ol>
+<hr />
+<h2 id="7-data-models">7. Data Models</h2>
+<p>The following typed Python dataclasses govern information flow between stages:</p>
+<pre><code class="language-python">@dataclass
+class SemanticFrame:
+    &quot;&quot;&quot;
+    Stage 0.5: Extracted semantic variables, entities, and constraints.
+    &quot;&quot;&quot;
+    intent: str
+    entities: Dict[str, Any]
+    constraints: List[Dict[str, Any]]
+    raw_tokens: List[str]
+
+@dataclass
+class PerceptionMap:
+    &quot;&quot;&quot;
+    Stage 1: Neural classifications and GNN node activation coordinates.
+    &quot;&quot;&quot;
+    intent_class: str
+    confidence: float
+    gnn_embedding: List[float]
+
+@dataclass
+class SubGoal:
+    &quot;&quot;&quot;
+    Stage 3: Task sub-goal representations.
+    &quot;&quot;&quot;
+    subgoal_id: str
+    axiom_type: str  # REDUCTION, SYNTHESIS, COMPOSITION, TRANSFORMATION
+    target_variables: List[str]
+    inputs: Dict[str, Any]
+
+@dataclass
+class Expression:
+    &quot;&quot;&quot;
+    Stage 3/4: Symbolic solver candidates or verifier proofs.
+    &quot;&quot;&quot;
+    formula: str
+    ast_representation: Dict[str, Any]
+    variables: List[str]
+
+@dataclass
+class WorkingMemory:
+    &quot;&quot;&quot;
+    Request-scoped scratchpad carried in CognitiveContext.
+    &quot;&quot;&quot;
+    stimulus: str
+    semantic_frame: Optional[SemanticFrame] = None
+    perception_map: Optional[PerceptionMap] = None
+    active_concepts: List[str] = field(default_factory=list)
+    active_skills: List[str] = field(default_factory=list)
+    plan_subgoals: List[SubGoal] = field(default_factory=list)
+    candidate_solutions: List[Expression] = field(default_factory=list)
+    verification_passed: bool = False
+    proof_trace: Optional[str] = None
+    stage_durations: Dict[str, float] = field(default_factory=dict)
+</code></pre>
+<hr />
+<h2 id="8-testing-strategy">8. Testing Strategy</h2>
+<ul>
+<li><strong>Mock-Driven Pipeline Tests</strong>: Test <code>BrainKernel</code> loop execution by mocking individual <code>IStageExecutor</code> stages. Verify that the loop transitions correctly when exceptions are thrown or invalid states are returned.</li>
+<li><strong>Solver Plugin Isolation Tests</strong>: Test each <code>ISolverPlugin</code> using dummy context values and verify that outputs align with Z3 verification conditions.</li>
+<li><strong>Concurrency Stress Tests</strong>: Spin up 50 concurrent client threads calling <code>process()</code> on the <code>BrainKernel</code> using a single database engine. Verify that thread-local variables remain isolated and database writes do not lock.</li>
+<li><strong>Failure and Timeout Tests</strong>: Inject Z3 solvers that timeout (exceeding 5s) and verify that plan recovery loops handle the failure and return safe warning responses.</li>
+</ul>
+<hr />
+<h2 id="9-migration-strategy">9. Migration Strategy</h2>
+<ul>
+<li><strong>Dual-Running Phase</strong>: During development, keep <code>HyperSymbolicBrain</code> (V2) active. Create a test runner that executes prompts against both <code>HyperSymbolicBrain</code> and the new V4 <code>BrainKernel</code>.</li>
+<li><strong>Legacy Adapter Wrapping</strong>: Maintain legacy verifiers under <code>hnsds/verifier/</code> and wrap them inside <code>DeterministicSolverPlugin</code> implementations, preventing rewriting of functional solver logic.</li>
+<li><strong>Incremental Decommissioning</strong>: Once V4 benchmarks show $100\%$ accuracy and zero latency regressions, update <code>brain_api.py</code> to route all FastAPI endpoints through <code>BrainKernel</code>, deprecating the legacy orchestrator.</li>
+</ul>
+<hr />
+<h2 id="10-performance-targets">10. Performance Targets</h2>
+<ul>
+<li><strong>End-to-End Latency</strong>: $\le 100\text{ms}$ for standard arithmetic and constraint tasks.</li>
+<li><strong>Stage Processing Targets</strong>:<ul>
+<li>Language parsing (Stage 0 to 1.5): $\le 15\text{ms}$</li>
+<li>Concept search (Stage 2 to 2.5): $\le 15\text{ms}$</li>
+<li>Solver planning and verification (Stage 3 &amp; 4): $\le 60\text{ms}$</li>
+<li>Learning and database commits (Stage 5 &amp; 6): $\le 10\text{ms}$</li>
+</ul>
+</li>
+<li><strong>Cache Performance</strong>: Main cache hit ratio must exceed $80\%$ for repeated semantic shapes.</li>
+</ul>
+<hr />
+<h2 id="11-implementation-plan">11. Implementation Plan</h2>
+<ul>
+<li><strong>Sprint 3 (Phase 2 UKM Data Layer)</strong>: Implement database schemas, write JSON migrations, and deploy transactional Concept, Episode, and Weight stores.</li>
+<li><strong>Sprint 4 (Phase 3 Working Memory)</strong>: Refactor perceiver services to be stateless; introduce request-scoped contexts.</li>
+<li><strong>Sprint 5 (Phase 4 &amp; 5 BrainKernel Core)</strong>: Implement the 10-stage execution loop, create solver plugin adapters, and route API calls through the registry.</li>
+<li><strong>Sprint 6 (Phase 6 &amp; 7 CAE &amp; NLP Grounding)</strong>: Implement decay-weighted concept activation, LRU cache structures, and co-reference understanding.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

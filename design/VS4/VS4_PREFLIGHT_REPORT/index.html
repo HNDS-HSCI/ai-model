@@ -1,0 +1,921 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Axiomatic Cognitive Intelligence Architecture">
+      
+      
+        <meta name="author" content="Brijesh Yadav">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>HSCI VS-4 — Cognitive Interpretation & Task Derivation Foundation - HSCI Technical Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hsci-vs-4-cognitive-interpretation-task-derivation-foundation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="HSCI Technical Documentation" class="md-header__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HSCI Technical Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              HSCI VS-4 — Cognitive Interpretation &amp; Task Derivation Foundation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../architecture/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../api/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../tutorials/teaching.md" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="HSCI Technical Documentation" class="md-nav__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    HSCI Technical Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tutorials/teaching.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instructional Priming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tutorials/proofs.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Proofs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#preflight-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preflight Report
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-executive-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Executive Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-deep-answers-to-mandatory-preflight-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Deep Answers to Mandatory Preflight Questions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Deep Answers to Mandatory Preflight Questions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-what-currently-interprets-human-language" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 What Currently Interprets Human Language?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-what-information-is-lost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 What Information Is Lost?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-where-does-ambiguity-disappear" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Where Does Ambiguity Disappear?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-where-are-assumptions-introduced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Where Are Assumptions Introduced?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-what-existing-models-can-be-reused" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 What Existing Models Can Be Reused?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-what-should-be-authoritative" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 What Should Be Authoritative?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-where-should-cognitivesituation-live" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7 Where Should CognitiveSituation Live?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#28-where-should-taskderivation-live" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.8 Where Should TaskDerivation Live?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#29-how-should-llm-output-enter-the-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.9 How Should LLM Output Enter the System?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#210-how-should-grounding-reject-unsupported-interpretations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.10 How Should Grounding Reject Unsupported Interpretations?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-boundary-responsibility-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Boundary &amp; Responsibility Matrix
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-preflight-verification-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Preflight Verification Status
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="hsci-vs-4-cognitive-interpretation-task-derivation-foundation">HSCI VS-4 — Cognitive Interpretation &amp; Task Derivation Foundation</h1>
+<h2 id="preflight-report">Preflight Report</h2>
+<p><strong>Type</strong>: Preflight Architecture &amp; Boundary Analysis (Phase 1 — Read Only)<br />
+<strong>Date</strong>: 2026-08-22<br />
+<strong>Predecessors</strong>: <code>VS1_IMPLEMENTATION_REPORT.md</code>, <code>VS2_IMPLEMENTATION_REPORT.md</code>, <code>VS3_IMPLEMENTATION_REPORT.md</code>, <code>COGNITIVE_MVP_ACCEPTANCE_REPORT.md</code>, <code>COGNITIVE_MVP_RUNTIME_TRACE.md</code><br />
+<strong>Core Objective</strong>: Establish an honest, robust, grounded boundary between natural human language and the symbolic cognitive system (<code>LanguageInterpreter</code> → <code>GroundingEngine</code> → <code>CognitiveSituation</code> → <code>TaskDeriver</code> → <code>CognitiveTask</code>).</p>
+<hr />
+<h2 id="1-executive-summary">1. Executive Summary</h2>
+<p>In Sprints VS-1 through VS-3, HSCI established a verified cognitive vertical slice over the Universal Knowledge Model (UKM), complete with definition-first synthesis, 2-premise generalization transitivity, and refusal on unknown queries.</p>
+<p>However, the <strong>Human Language Boundary</strong> remains the primary bottleneck:
+1. <strong>Fragile Language Ingestion</strong>: The existing <code>UnderstandingEngine</code> is a rigid regex / N-gram token matching loop. If an input paraphrases or deviates syntactically from exact lexicon strings or patterns, intent classification falls back to low-confidence heuristics or misses compound semantic goals.
+2. <strong>Premature Collapse of Ambiguity</strong>: Current parser paths pick the first alias or concept match and discard competing hypotheses, obscuring ambiguities and ungrounded assumptions.
+3. <strong>Absence of Structured Cognitive Tasks</strong>: The pipeline directly jumps from keyword/concept activation to answering without deriving an explicit <strong>Cognitive Task</strong> (e.g. <code>EXPLAIN_CONCEPT</code>, <code>COMPARE_CONCEPTS</code>, <code>DERIVE_RELATIONSHIP</code>, <code>IDENTIFY_PURPOSE</code>).</p>
+<p>VS-4 establishes a formal, additive interpretation and task derivation foundation:</p>
+<pre><code class="language-text">RawInput
+   ↓
+LanguageInterpreter (Generates candidate hypotheses &amp; semantic frames)
+   ↓
+InterpretationSet (Multi-hypothesis collection with lexical/semantic provenance)
+   ↓
+GroundingEngine (UKM validation, entity resolution, ambiguity detection)
+   ↓
+CognitiveSituation (Accepted grounded situational state &amp; unresolved alerts)
+   ↓
+TaskDeriver (Constructs executable CognitiveTask hierarchy)
+   ↓
+CognitivePipeline (Executes task over UKM, reasoning, and response synthesis)
+</code></pre>
+<hr />
+<h2 id="2-deep-answers-to-mandatory-preflight-questions">2. Deep Answers to Mandatory Preflight Questions</h2>
+<h3 id="21-what-currently-interprets-human-language">2.1 What Currently Interprets Human Language?</h3>
+<p>Two disjoint subsystems currently exist in the codebase:
+- <strong>Legacy V3 LanguageBridge</strong> (<code>hsci/language/bridge.py</code>): Routes text through <code>SemanticCompiler</code> (regex word-problem grammar), <code>SpacyParser</code> (dependency grammar), or <code>LLMParser</code> (dummy fallback), outputting <code>StructuredInput</code> targeting linear math or arithmetic reduction.
+- <strong>V4 UnderstandingEngine</strong> (<code>hsci/knowledge/understanding_engine.py</code>): Performs lowercase normalization, regex sentence segmentation, tokenization, 1..3 N-gram database lookup against <code>KnowledgeManager</code>, and a hardcoded list of regex patterns mapping to <code>ExplainConcept</code> / <code>SolveEquation</code> / <code>VerifyAxiom</code>.</p>
+<h3 id="22-what-information-is-lost">2.2 What Information Is Lost?</h3>
+<ul>
+<li><strong>User Intent Nuances</strong>: Comparison questions (<em>"How do interfaces differ from abstract classes?"</em>), purpose questions (<em>"Why do interfaces exist?"</em>), and relationship questions (<em>"What is the connection between A and B?"</em>) are all compressed into a generic <code>ExplainConcept</code> or <code>GeneralQuery</code>.</li>
+<li><strong>Syntactic Structure &amp; Negation/Modality</strong>: Question modifiers, constraints, comparison targets, and relational directions are stripped during tokenization and discarded.</li>
+<li><strong>Referential Context</strong>: References to previous dialogue turns (<em>"Why is it useful?"</em>) have no referent tracking and produce arbitrary single-token lookups.</li>
+</ul>
+<h3 id="23-where-does-ambiguity-disappear">2.3 Where Does Ambiguity Disappear?</h3>
+<ul>
+<li>In <code>UnderstandingEngine.understand()</code> (lines 141-161), when an alias matches multiple concepts (<code>len(resolved_aliases) &gt; 1</code>), it appends a string alert to <code>ambiguities</code> but immediately returns <code>aliases[0]</code>, silently selecting the first match.</li>
+<li>Downstream stages (<code>ConceptActivationEngine</code>, <code>CognitiveReasoningEngine</code>) never receive the ambiguity signal and reason over the arbitrarily chosen concept as if it were unambiguous truth.</li>
+</ul>
+<h3 id="24-where-are-assumptions-introduced">2.4 Where Are Assumptions Introduced?</h3>
+<ul>
+<li>Intent confidence scores (0.95, 0.90, 0.85, 0.50) are hardcoded in static regex tuples.</li>
+<li>The pipeline assumes every matched token refers to a definitive domain concept rather than checking whether the discourse context supports that interpretation.</li>
+<li>When an entity cannot be resolved, the pipeline simply treats it as an empty concept list rather than generating an explicit <code>UNRESOLVED_ENTITIES</code> or <code>INSUFFICIENT_CONTEXT</code> situational status.</li>
+</ul>
+<h3 id="25-what-existing-models-can-be-reused">2.5 What Existing Models Can Be Reused?</h3>
+<ul>
+<li><code>hsci.core.data_types.Concept</code> &amp; <code>ConceptStore</code>: Core UKM concept schemas.</li>
+<li><code>hsci.core.data_types.Task</code>, <code>TaskType</code>, <code>Precondition</code>, <code>Postcondition</code>: HTN task data models.</li>
+<li><code>hsci.knowledge.knowledge_manager.IKnowledgeManager</code>: Authoritative facade for concept search, alias resolution, and relationship traversal.</li>
+<li><code>hsci.core.kernel.CognitiveContext</code> &amp; <code>WorkingMemory</code>: Per-request state encapsulation.</li>
+<li><code>hsci.response.answer_generation_engine.Answer</code> &amp; <code>hsci.response.explanatory_synthesizer.ExplanatoryAnswer</code>: Structured response types.</li>
+</ul>
+<h3 id="26-what-should-be-authoritative">2.6 What Should Be Authoritative?</h3>
+<ul>
+<li><strong>UKM (<code>KnowledgeManager</code> / <code>ConceptStore</code>)</strong> is the sole authority on domain concepts, relations, and stored axioms.</li>
+<li><strong><code>GroundingEngine</code></strong> is the sole authority on whether a candidate linguistic interpretation is grounded, ambiguous, or ungrounded.</li>
+<li><strong><code>CognitiveReasoningEngine</code></strong> remains the sole authority on logical derivation and inference over activated concepts.</li>
+<li><strong>The LLM (if present)</strong> is strictly an <strong>untrusted hypothesis generator</strong> producing semantic candidates. It has zero authority over knowledge, truth, or final answers.</li>
+</ul>
+<h3 id="27-where-should-cognitivesituation-live">2.7 Where Should <code>CognitiveSituation</code> Live?</h3>
+<p>In a dedicated, clean interpretation package: <code>hsci/cognition/interpretation/</code>.
+- <code>models.py</code>: Defines <code>RawInput</code>, <code>CandidateInterpretation</code>, <code>InterpretationSet</code>, <code>GroundedEntity</code>, <code>CognitiveSituation</code>, <code>SituationStatus</code>, <code>CognitiveTask</code>, <code>TaskAction</code>.
+- <code>interpreter.py</code>: <code>LanguageInterpreter</code> generating candidate hypotheses from structural analysis and semantic parsers.
+- <code>grounding.py</code>: <code>GroundingEngine</code> evaluating candidates against UKM via <code>IKnowledgeManager</code>.
+- <code>task_deriver.py</code>: <code>TaskDeriver</code> translating accepted <code>CognitiveSituation</code> into executable <code>CognitiveTask</code>.</p>
+<h3 id="28-where-should-taskderivation-live">2.8 Where Should <code>TaskDerivation</code> Live?</h3>
+<p><code>hsci/cognition/interpretation/task_deriver.py</code>. It inspects the validated <code>CognitiveSituation</code> and deterministically derives structured tasks:
+- Single resolved concept $\to$ <code>Task(action=EXPLAIN_CONCEPT, target=concept_1)</code>
+- Two resolved concepts with comparison intent $\to$ <code>Task(action=COMPARE_CONCEPTS, targets=[concept_1, concept_2])</code>
+- Two resolved concepts with relation intent $\to$ <code>Task(action=DERIVE_RELATIONSHIP, targets=[concept_1, concept_2])</code>
+- Unresolved entity $\to$ <code>Task(action=REPORT_UNKNOWN, status=UNRESOLVED_ENTITIES)</code>
+- Ambiguous entity $\to$ <code>Task(action=REPORT_AMBIGUITY, status=AMBIGUOUS)</code>
+- Missing referent $\to$ <code>Task(action=REPORT_INSUFFICIENT_CONTEXT, status=INSUFFICIENT_CONTEXT)</code></p>
+<h3 id="29-how-should-llm-output-enter-the-system">2.9 How Should LLM Output Enter the System?</h3>
+<ul>
+<li>When enabled, <code>LLMParser</code> acts solely as an untrusted candidate proposer inside <code>LanguageInterpreter</code>.</li>
+<li>Its output is parsed strictly into typed <code>CandidateInterpretation</code> records.</li>
+<li>If schema validation fails, or if it proposes hallucinated entities/relations, the <code>GroundingEngine</code> strips or marks them as ungrounded during the UKM validation phase.</li>
+</ul>
+<h3 id="210-how-should-grounding-reject-unsupported-interpretations">2.10 How Should Grounding Reject Unsupported Interpretations?</h3>
+<p>For every candidate entity and relationship:
+1. <code>GroundingEngine</code> queries <code>IKnowledgeManager.get_concept_by_name(name)</code> and <code>resolve_alias(alias)</code>.
+2. If 0 matches $\implies$ Classified as <code>GroundedEntity(status=UNKNOWN)</code>.
+3. If &gt;1 matches $\implies$ Classified as <code>GroundedEntity(status=AMBIGUOUS, candidates=[...])</code>.
+4. If 1 match $\implies$ Classified as <code>GroundedEntity(status=RESOLVED, concept=concept)</code>.
+5. If the situation contains UNKNOWN or AMBIGUOUS entities essential to the query goal, <code>CognitiveSituation.status</code> becomes <code>UNRESOLVED_ENTITIES</code> or <code>AMBIGUOUS</code>, halting ungrounded derivation and preventing hallucinations.</p>
+<hr />
+<h2 id="3-boundary-responsibility-matrix">3. Boundary &amp; Responsibility Matrix</h2>
+<table>
+<thead>
+<tr>
+<th>Subsystem</th>
+<th>Input</th>
+<th>Output</th>
+<th>Invariant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LanguageInterpreter</code></td>
+<td><code>RawInput</code> (text, context)</td>
+<td><code>InterpretationSet</code> (list of hypotheses)</td>
+<td>Pure syntactic/semantic extraction; does not invent UKM facts</td>
+</tr>
+<tr>
+<td><code>GroundingEngine</code></td>
+<td><code>InterpretationSet</code> + <code>IKnowledgeManager</code></td>
+<td><code>CognitiveSituation</code></td>
+<td>Every concept checked against UKM; ambiguities explicit</td>
+</tr>
+<tr>
+<td><code>TaskDeriver</code></td>
+<td><code>CognitiveSituation</code></td>
+<td><code>CognitiveTask</code></td>
+<td>Deterministic mapping from grounded situation to task DAG</td>
+</tr>
+<tr>
+<td><code>CognitivePipeline</code></td>
+<td><code>CognitiveTask</code> / <code>RawInput</code></td>
+<td><code>ExplanatoryAnswer</code></td>
+<td>Executes task via activation, reasoning, and synthesis</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-preflight-verification-status">4. Preflight Verification Status</h2>
+<ul>
+<li>[x] Read and analyzed all project rules and architecture constitution.</li>
+<li>[x] Inspected existing parser, pipeline, reasoning, and response engines.</li>
+<li>[x] Identified information loss and ambiguity collapse points.</li>
+<li>[x] Designed additive modular interpretation layer without breaking existing test suites.</li>
+</ul>
+<p><strong>Phase 1 Complete. Ready for Phase 2 Implementation.</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1279 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Axiomatic Cognitive Intelligence Architecture">
+      
+      
+        <meta name="author" content="Brijesh Yadav">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>HSCI VS-2 — Independent Adversarial Audit Report - HSCI Technical Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hsci-vs-2-independent-adversarial-audit-report" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="HSCI Technical Documentation" class="md-header__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HSCI Technical Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              HSCI VS-2 — Independent Adversarial Audit Report
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../architecture/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../api/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tutorials/teaching.md" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="HSCI Technical Documentation" class="md-nav__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    HSCI Technical Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/teaching.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instructional Priming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/proofs.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Proofs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-executive-verdict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Executive Verdict
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-runtime-trace-real-no-mocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Runtime Trace (real, no mocks)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-definition-provenance-audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Definition Provenance Audit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-genericity-audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Genericity Audit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-reasoning-independence-audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Reasoning Independence Audit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-traceability-audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Traceability Audit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-confidence-audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Confidence Audit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-negative-knowledge-audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Negative Knowledge Audit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-architecture-boundary-audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Architecture Boundary Audit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-workingmemory-audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. WorkingMemory Audit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-test-audit-exact-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Test Audit (exact output)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-test-quality-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Test Quality Assessment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-usefulness-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. Usefulness Assessment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-cognitive-capability-matrix-observed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. Cognitive Capability Matrix (observed)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16-remaining-bottleneck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16. Remaining Bottleneck
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#17-recommendation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        17. Recommendation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#18-learning-readiness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18. Learning Readiness
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#acceptance-criteria-audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Acceptance Criteria (audit)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#19-final-verdict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        19. Final Verdict
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="hsci-vs-2-independent-adversarial-audit-report">HSCI VS-2 — Independent Adversarial Audit Report</h1>
+<p><strong>Type</strong>: Read-only adversarial audit (no production code, tests, or architecture modified)
+<strong>Date</strong>: 2026-08-09
+<strong>Method</strong>: The real pipeline was executed under adversarial probes (mutation, reasoning-removal, genericity sweep, negative knowledge, no-definition concept) via a temporary scratchpad harness; production was grepped for hardcoding; both pytest commands were run. Temporary instrumentation removed after capture.
+<strong>Subject</strong>: <code>hsci/response/explanatory_synthesizer.py</code>, <code>hsci/core/cognitive_pipeline.py</code> (VS-2), and their real integration.</p>
+<hr />
+<h2 id="1-executive-verdict">1. Executive Verdict</h2>
+<p><strong>VERIFIED WITH MINOR FINDINGS.</strong></p>
+<p>VS-2 is <strong>genuinely integrated, generic, traceable, and honest</strong>. The final definition is really retrieved from <code>c_java_interface.abstract_rule</code> through <code>KnowledgeManager</code> (a mutation of the stored value changes the answer verbatim), the supporting relationships really come from the <code>ReasoningResult</code> (removing a conclusion removes exactly that supporting line while the definition survives), confidence is inherited unchanged from the reasoner (not inflated), and unknown concepts degrade with no fabrication. No hardcoded question-specific logic exists.</p>
+<p>The findings are <strong>test-quality gaps, not integration defects</strong>: one parametrized generic test has conditional assertions (and a mislabeled parameter), and the "existing concept without a definition" negative case is exercised in this audit but not by the committed suite. Neither weakens the production behavior, which is correct.</p>
+<p>Honest capability framing: VS-2 delivers <strong>RETRIEVAL + COMPOSITION</strong> on top of the pre-existing <strong>shallow REASONING</strong>. It does <strong>not</strong> add derivation, verification, or learning — and does not claim to.</p>
+<hr />
+<h2 id="2-scope">2. Scope</h2>
+<p>Audited VS-2's production files and their real runtime behavior; the reasoning/knowledge/activation engines as consumed; and the 10 VS-2 tests. Read-only. No fixes applied.</p>
+<hr />
+<h2 id="3-runtime-trace-real-no-mocks">3. Runtime Trace (real, no mocks)</h2>
+<p><code>Explain what a Java interface is.</code></p>
+<pre><code>answer type   : ExplanatoryAnswer
+direct_answer : A Java interface is a reference type declaring abstract methods (and constants) that implementing classes must fulfil.
+primary       : c_java_interface / Java Interface
+definition == c_java_interface.abstract_rule : True
+knowledge_sources : 1 definition, 7 reasoned_relationship
+confidence    : 0.9071 (High)
+</code></pre>
+<p>Causal chain confirmed: Understanding (<code>ExplainConcept</code>, seed <code>Java Interface</code>) → KnowledgeManager resolution → ConceptActivation (5 concepts) → workspace <code>List[Concept]</code> → CognitiveReasoningEngine (7 conclusions) → AnswerGenerationEngine (base) → ExplanatoryAnswerSynthesizer (definition-first).</p>
+<hr />
+<h2 id="4-definition-provenance-audit">4. Definition Provenance Audit</h2>
+<ul>
+<li><code>answer.definition</code> is <strong>identical</strong> to <code>c_java_interface.abstract_rule</code> (runtime equality <code>True</code>).</li>
+<li>Retrieved via <code>KnowledgeManager.get_concept()</code> → <code>ConceptStore</code> → <code>ConceptRepository</code> → <code>SQLiteProvider</code>; provenance via <code>ConceptStore.get_history()</code> → <code>source_type=CANONICAL_SEED</code>.</li>
+<li><strong>No direct SQLite</strong> in VS-2 code; <strong>no duplicated definition</strong> stored; <strong>no hardcoded Java text</strong> (grep of both production files found only the word "hardcoding" in a comment).</li>
+<li><strong>Mutation test</strong> (harness, in-memory DB): changed the stored <code>abstract_rule</code> to <code>"MUT4TED definition body for audit only"</code> → the answer's <code>direct_answer</code> became exactly that string; restoring reverted it. <strong>Proves real retrieval, not hardcoding.</strong></li>
+</ul>
+<hr />
+<h2 id="5-genericity-audit">5. Genericity Audit</h2>
+<p>Grep of <code>explanatory_synthesizer.py</code> and <code>cognitive_pipeline.py</code> for <code>java</code>, <code>c_java_interface</code>, <code>interface</code>, <code>inheritance</code>, <code>polymorph</code>: <strong>no question-specific logic</strong> (only a comment). Runtime sweep over all seeded concepts:</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Explanatory?</th>
+<th>Primary</th>
+<th>Definition matches store</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Explain what a Java interface is.</td>
+<td>Yes</td>
+<td>c_java_interface</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Explain what an interface is.</td>
+<td>Yes</td>
+<td>c_interface</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Explain what a class is.</td>
+<td>Yes</td>
+<td>c_class</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Explain what a method is.</td>
+<td>Yes</td>
+<td>c_method</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Explain what abstraction is.</td>
+<td>Yes</td>
+<td>c_abstraction</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Explain what inheritance is.</td>
+<td>No (base answer)</td>
+<td>—</td>
+<td>— (not seeded)</td>
+</tr>
+<tr>
+<td>Explain what polymorphism is.</td>
+<td>No (base answer)</td>
+<td>—</td>
+<td>— (not seeded)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Generic: PASS.</strong> Observation (not a VS-2 defect): the audit brief's example concepts <em>inheritance</em> and <em>polymorphism</em> are <strong>not in the UKM</strong> (only 5 OOP concepts are seeded), so they correctly return the non-fabricating base answer. Knowledge breadth — not VS-2 synthesis — is the limiter there.</p>
+<hr />
+<h2 id="6-reasoning-independence-audit">6. Reasoning Independence Audit</h2>
+<p>Adversarial harness: captured the full synthesis (7 reasoned sources), then dropped the first conclusion from a copied <code>ReasoningResult</code> and re-synthesized.</p>
+<pre><code>reasoned sources: full=7  partial=6
+dropped conclusion present:  full=True  partial=False
+definition survives removal: True
+</code></pre>
+<p>This proves the required dependency structure:</p>
+<pre><code>Supporting relationship  ← ReasoningResult   (disappears when the conclusion is removed)
+Definition               ← UKM               (survives)
+</code></pre>
+<p>The answer is <strong>not</strong> a hardcoded synthesizer output.</p>
+<hr />
+<h2 id="7-traceability-audit">7. Traceability Audit</h2>
+<ul>
+<li><strong>Definition</strong> <code>KnowledgeSource</code>: <code>knowledge_type="definition"</code>, <code>source_concept_id=c_java_interface</code>, <code>source_concept_name="Java Interface"</code>, <code>source_provenance={source_type: CANONICAL_SEED, confidence: 1.0, ...}</code>, <code>content=&lt;definition&gt;</code>. ✔</li>
+<li><strong>Reasoned</strong> <code>KnowledgeSource</code> (×7): <code>knowledge_type="reasoned_relationship"</code>, <code>reasoning_conclusion</code>, <code>reasoning_rule</code> (deterministically recovered from the conclusion's fixed statement format), <code>reasoning_confidence</code>, <code>reasoning_evidence</code> (verbatim from the reasoner). ✔</li>
+<li><strong>No fabricated proof IDs</strong>: none are invented; the code preserves the reasoner's evidence instead (architecture has no proof-trace ID on <code>Conclusion</code>). ✔</li>
+</ul>
+<hr />
+<h2 id="8-confidence-audit">8. Confidence Audit</h2>
+<pre><code>reasoning_result.confidence = 0.907143
+answer.confidence.score     = 0.907143   (equal, &lt; 1.0)
+</code></pre>
+<p>When reasoning conclusions exist, the synthesizer <strong>inherits</strong> the base answer's reasoning confidence unchanged — verified by reading <code>_confidence()</code> and by runtime equality. The definition's own retrieval confidence (1.0, CANONICAL_SEED) is recorded on its <code>KnowledgeSource</code> but does <strong>not</strong> raise the overall answer confidence. <strong>No inflation.</strong> (Definition-only edge: confidence would use the retrieval provenance confidence, clearly labeled retrieval; not exercised by the Java case.)</p>
+<hr />
+<h2 id="9-negative-knowledge-audit">9. Negative Knowledge Audit</h2>
+<ul>
+<li><strong>Unknown concept</strong> ("Explain what Quantum Computer Xyzabc is."): returns a base <code>Answer</code> (not <code>ExplanatoryAnswer</code>), <code>definition=None</code>, <code>direct_answer="Reasoning Engine was unable to resolve the query."</code> — <strong>no fabricated definition, no invented relationship, no fake confidence.</strong></li>
+<li><strong>Existing concept with no definition</strong> (harness emptied <code>c_method.abstract_rule</code>): returns <code>ExplanatoryAnswer</code> with <code>definition=None</code> and falls back to the reasoned-relationship listing — <strong>no fabricated definition</strong>, graceful degradation. ✔</li>
+</ul>
+<hr />
+<h2 id="10-architecture-boundary-audit">10. Architecture Boundary Audit</h2>
+<p><code>git diff</code> confirms VS-2 modified <strong>no</strong> protected file. Untouched (verified no diff): <code>answer_generation_engine.py</code>, <code>concept_activation.py</code>, <code>understanding_engine.py</code>, <code>knowledge_manager.py</code>, <code>storage.py</code>, <code>concept_store.py</code>. Not edited by VS-2: <code>reasoning_engine.py</code>, <code>z3_verifier.py</code>, <code>htn_planner.py</code>, <code>BrainKernel</code>, <code>RIRLoop</code>, SkillGraph, lifecycle (pre-existing working-tree diffs on the first three predate this whole session).</p>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>New storage engine</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Duplicate knowledge database</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Direct SQLite</td>
+<td>None</td>
+</tr>
+<tr>
+<td>LLM dependency</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Z3 added to this path</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Learning / reflection / planning path</td>
+<td>None</td>
+</tr>
+<tr>
+<td>KnowledgeManager gateway bypass</td>
+<td>None (sole gateway used)</td>
+</tr>
+<tr>
+<td>BrainKernel bypass</td>
+<td>Yes — intentional and pre-existing (shell), not introduced by VS-2</td>
+</tr>
+</tbody>
+</table>
+<p>VS-2 is a purely additive answer-synthesis layer.</p>
+<hr />
+<h2 id="11-workingmemory-audit">11. WorkingMemory Audit</h2>
+<p>Current, unchanged relationship (VS-2 did not alter it):</p>
+<pre><code>ConceptActivationEngine → WorkingMemory   (populated: activation_field keys = 5 concept IDs)
+CognitiveReasoningEngine.reason(active_concepts: List[Concept], context, reasoning_context)  → ReasoningResult
+                                  └─ takes List[Concept], NOT WorkingMemory
+ExplanatoryAnswerSynthesizer → Concept knowledge (fresh get_concept) + ReasoningResult
+</code></pre>
+<p><code>reason()</code>'s signature confirms <code>WorkingMemory</code> is <strong>not</strong> the reasoner's concept source. VS-2 did <strong>not</strong> make WorkingMemory appear authoritative — the synthesizer reads concept objects directly via <code>KnowledgeManager</code>, not from WorkingMemory. The <code>AnswerGenerationEngine</code> still reads only <code>working_memory.activation_field</code> keys for metadata (unchanged).</p>
+<hr />
+<h2 id="12-test-audit-exact-output">12. Test Audit (exact output)</h2>
+<p><code>pytest hsci/tests/test_vs2_explanatory_answer.py -q</code></p>
+<pre><code>10 passed in 0.50s        [exit code 0]
+</code></pre>
+<p><code>pytest hsci/tests/ -q</code></p>
+<pre><code>276 passed, 489 warnings in 323.23s (0:05:23)    [exit code 0]
+</code></pre>
+<p>(passed=276, failed=0, errors=0, warnings=489, exit=0. Full-suite exact line reproduced in §18.)</p>
+<hr />
+<h2 id="13-test-quality-assessment">13. Test Quality Assessment</h2>
+<p>All 10 VS-2 tests use <strong>real engines</strong> (no mocks; the only mock-based test, orchestration ordering, lives in the VS-1 file). A broken definition-retrieval integration would fail the mutation and traceability tests, so the suite cannot pass while the core integration is broken.</p>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Real?</th>
+<th>Strength</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>test_java_interface_definition_appears</code></td>
+<td>Real</td>
+<td>STRONG</td>
+</tr>
+<tr>
+<td><code>test_generic_concept_definition_appears</code> (×3)</td>
+<td>Real</td>
+<td><strong>WEAK</strong> — assertions guarded by <code>if isinstance(...) and ans.definition</code>; one param (<code>"What is inheritance" → c_interface</code>) does not resolve, so its body is skipped</td>
+</tr>
+<tr>
+<td><code>test_class_definition_is_generic</code></td>
+<td>Real</td>
+<td>STRONG (unconditional genericity)</td>
+</tr>
+<tr>
+<td><code>test_traceability_definition_and_reasoning</code></td>
+<td>Real</td>
+<td>STRONG</td>
+</tr>
+<tr>
+<td><code>test_answer_tracks_changed_definition_no_hardcoding</code></td>
+<td>Real</td>
+<td>STRONG (mutation)</td>
+</tr>
+<tr>
+<td><code>test_unknown_concept_no_fabricated_definition</code></td>
+<td>Real</td>
+<td>STRONG (negative)</td>
+</tr>
+<tr>
+<td><code>test_confidence_not_inflated</code></td>
+<td>Real</td>
+<td>STRONG</td>
+</tr>
+<tr>
+<td><code>test_non_explanation_intent_returns_base_answer</code></td>
+<td>Real</td>
+<td>ADEQUATE</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Overall: STRONG</strong>, with two minor gaps:
+- <strong>Finding A (minor)</strong>: the parametrized generic test is soft (conditional asserts; mislabeled <code>inheritance→c_interface</code> param). Genericity is nonetheless strongly covered by <code>test_class_definition_is_generic</code> and this audit's 5-concept sweep.
+- <strong>Finding B (minor)</strong>: no committed test for "existing concept with no stored definition" (the VS-2 brief's Test 5b). Behavior is correct (verified here) but unguarded by CI.</p>
+<p>Neither can mask a broken integration; both are test-coverage hygiene items.</p>
+<hr />
+<h2 id="14-usefulness-assessment">14. Usefulness Assessment</h2>
+<p>Answer for <em>"Explain what a Java interface is."</em>, judged against the HSCI architecture (not as an LLM answer):</p>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Definition correctness</td>
+<td>Good — the retrieved definition is accurate and on-topic</td>
+</tr>
+<tr>
+<td>Relevance</td>
+<td>Good — primary concept correctly identified</td>
+</tr>
+<tr>
+<td>Supporting reasoning</td>
+<td>Fair — true but shallow (edge restatements, incl. an off-topic "namespace cohabitation" line)</td>
+</tr>
+<tr>
+<td>Clarity</td>
+<td>Good — definition-first, then labeled supporting relationships</td>
+</tr>
+<tr>
+<td>Traceability</td>
+<td>Strong — every line has a typed source (retrieved vs reasoned) with provenance/evidence</td>
+</tr>
+<tr>
+<td>Honesty</td>
+<td>Strong — retrieval and reasoning are separated; no inflation; unknowns not fabricated</td>
+</tr>
+</tbody>
+</table>
+<p>Net: a <strong>useful, honest, retrieval-plus-shallow-reasoning explanation</strong> — a real improvement over VS-1's edge dump, and correctly scoped to what the architecture can actually do.</p>
+<hr />
+<h2 id="15-cognitive-capability-matrix-observed">15. Cognitive Capability Matrix (observed)</h2>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Verdict</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Understand user question</td>
+<td>YES</td>
+<td>intent <code>ExplainConcept</code>, entities extracted</td>
+</tr>
+<tr>
+<td>Retrieve stored knowledge</td>
+<td>YES</td>
+<td>definition == stored <code>abstract_rule</code> (mutation-verified)</td>
+</tr>
+<tr>
+<td>Identify relevant concepts</td>
+<td>YES</td>
+<td>seed <code>Java Interface</code> resolved</td>
+</tr>
+<tr>
+<td>Activate related concepts</td>
+<td>YES</td>
+<td>5 concepts, scored spreading activation</td>
+</tr>
+<tr>
+<td>Use stored definitions</td>
+<td>YES</td>
+<td><strong>new in VS-2</strong> — surfaced in the answer</td>
+</tr>
+<tr>
+<td>Combine knowledge</td>
+<td>PARTIAL</td>
+<td>definition + relationships juxtaposed, not fused into new statements</td>
+</tr>
+<tr>
+<td>Derive NEW knowledge</td>
+<td>NO</td>
+<td>drop-test shows 1:1 edge restatement; no transitive/derived facts</td>
+</tr>
+<tr>
+<td>Reason over relationships</td>
+<td>PARTIAL</td>
+<td>deterministic edge enumeration only</td>
+</tr>
+<tr>
+<td>Explain WHY</td>
+<td>PARTIAL</td>
+<td>definition + evidence, but no causal explanation</td>
+</tr>
+<tr>
+<td>Verify conclusions</td>
+<td>NO (this path)</td>
+<td>internal consistency only; no Z3</td>
+</tr>
+<tr>
+<td>Detect insufficient knowledge</td>
+<td>PARTIAL</td>
+<td>unknown → graceful "unable to resolve"; no partial-coverage signal</td>
+</tr>
+<tr>
+<td>Express uncertainty</td>
+<td>PARTIAL</td>
+<td>confidence + High/Med/Low band; coarse</td>
+</tr>
+<tr>
+<td>Learn from interaction</td>
+<td>NO</td>
+<td>read-only pipeline</td>
+</tr>
+<tr>
+<td>Reflect on errors</td>
+<td>NO</td>
+<td>no reflection path</td>
+</tr>
+<tr>
+<td>Plan multi-step actions</td>
+<td>NO</td>
+<td>no planner in this path</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="16-remaining-bottleneck">16. Remaining Bottleneck</h2>
+<p><strong>Reasoning derivation.</strong></p>
+<p>Runtime evidence: the reasoning-independence probe shows every conclusion is a verbatim restatement of a stored edge; no transitive closure (e.g., "Java Interface generalizes to Abstraction") and no multi-concept synthesis are produced. VS-2 correctly solved the <em>surfacing</em> gap, so the system is now a solid <strong>retrieval + composition</strong> engine — but "Derive NEW knowledge" and "Combine knowledge" remain NO/PARTIAL. The single next architectural capability to move HSCI toward a <em>genuinely reasoning</em> system is a reasoning engine that <strong>derives new propositions</strong> (transitive/relational inference, property inheritance, multi-concept synthesis) rather than enumerating edges. This is neither storage, workspace, nor learning.</p>
+<hr />
+<h2 id="17-recommendation">17. Recommendation</h2>
+<p>Pursue <strong>reasoning derivation</strong> next (a bounded, deterministic inference upgrade: transitive closure over <code>generalizes_to</code>, property inheritance, and multi-concept synthesis), keeping it SCG-L5-neutral and traceable. A minimal Cognitive Workspace may be introduced only insofar as it serves derivation. Defer Learning (see §18). Optionally close the two minor test gaps (Findings A/B) as hygiene.</p>
+<hr />
+<h2 id="18-learning-readiness">18. Learning Readiness</h2>
+<p><strong>NOT READY — do not begin the Learning Engine now.</strong></p>
+<p>Learning needs something meaningful to learn from: derived conclusions, an experience/feedback representation, an error representation, and reflection. The current pipeline has <strong>none</strong> — reasoning only restates stored edges, there is no reflection or error model, and nothing is persisted back. Reinforcing edge-restatement would learn nothing of value and would risk polluting the canonical store. Learning should follow <strong>after</strong> reasoning derivation (and ideally verification + an experience/error model) exist. Its presence on the roadmap is not sufficient justification to start.</p>
+<p>Exact full-regression line:</p>
+<pre><code>276 passed, 489 warnings in 323.23s (0:05:23)
+</code></pre>
+<hr />
+<h2 id="acceptance-criteria-audit">Acceptance Criteria (audit)</h2>
+<table>
+<thead>
+<tr>
+<th>Audit check</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Definition genuinely retrieved from UKM</td>
+<td>PASS (mutation-verified)</td>
+</tr>
+<tr>
+<td>No hardcoded / question-specific logic</td>
+<td>PASS (grep + runtime sweep)</td>
+</tr>
+<tr>
+<td>Genericity across seeded concepts</td>
+<td>PASS (5/5)</td>
+</tr>
+<tr>
+<td>Relationships depend on ReasoningResult</td>
+<td>PASS (drop-test)</td>
+</tr>
+<tr>
+<td>Retrieved vs reasoned classification explicit</td>
+<td>PASS</td>
+</tr>
+<tr>
+<td>Traceability complete, no fake provenance</td>
+<td>PASS</td>
+</tr>
+<tr>
+<td>Confidence not inflated</td>
+<td>PASS (inherited, &lt;1.0)</td>
+</tr>
+<tr>
+<td>Negative/empty knowledge degrades safely</td>
+<td>PASS</td>
+</tr>
+<tr>
+<td>Architecture boundaries intact</td>
+<td>PASS</td>
+</tr>
+<tr>
+<td>WorkingMemory not falsely authoritative</td>
+<td>PASS</td>
+</tr>
+<tr>
+<td>Tests pass (file + full suite)</td>
+<td>PASS (10; 276)</td>
+</tr>
+<tr>
+<td>Test quality</td>
+<td>STRONG with 2 minor gaps (Findings A, B)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="19-final-verdict">19. Final Verdict</h2>
+<p><strong>VERIFIED WITH MINOR FINDINGS.</strong></p>
+<p>VS-2 is real, generic, traceable, honest, and architecturally clean. It delivers retrieval + composition over the existing shallow reasoning, without overclaiming. The only findings are two minor test-quality gaps (soft parametrized generic test; missing automated "existing-concept-without-definition" case) — both correct at runtime, neither able to mask a broken integration. The next architectural priority is <strong>reasoning derivation</strong>; <strong>learning is not yet warranted</strong>.</p>
+<p><strong>AUDIT ONLY — no production code, tests, or architecture modified. No fixes applied. Not proceeding to VS-3. Nothing committed.</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

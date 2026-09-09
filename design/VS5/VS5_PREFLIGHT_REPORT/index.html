@@ -1,0 +1,827 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Axiomatic Cognitive Intelligence Architecture">
+      
+      
+        <meta name="author" content="Brijesh Yadav">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>HSCI VS-5 — Preflight Reality Audit Report - HSCI Technical Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hsci-vs-5-preflight-reality-audit-report" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="HSCI Technical Documentation" class="md-header__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HSCI Technical Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              HSCI VS-5 — Preflight Reality Audit Report
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../architecture/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../api/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../tutorials/teaching.md" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="HSCI Technical Documentation" class="md-nav__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    HSCI Technical Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tutorials/teaching.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instructional Priming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tutorials/proofs.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Proofs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cognitive-task-execution-real-user-interaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cognitive Task Execution &amp; Real User Interaction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-executive-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Executive Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-current-runtime-call-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Current Runtime Call Graph
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-detailed-audit-findings-by-task-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Detailed Audit Findings by Task Action
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-reusable-existing-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Reusable Existing Components
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-architectural-recommendation-for-vs-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Architectural Recommendation for VS-5
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-explicit-non-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Explicit Non-Goals
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="hsci-vs-5-preflight-reality-audit-report">HSCI VS-5 — Preflight Reality Audit Report</h1>
+<h2 id="cognitive-task-execution-real-user-interaction">Cognitive Task Execution &amp; Real User Interaction</h2>
+<p><strong>Date</strong>: August 2026<br />
+<strong>Auditor</strong>: Antigravity Cognitive Architecture Team<br />
+<strong>Scope</strong>: Preflight audit of existing cognitive task derivation and execution pathways across <code>CognitiveTask</code>, <code>TaskDeriver</code>, <code>CognitivePipeline</code>, <code>ExplanatoryAnswerSynthesizer</code>, <code>CognitiveReasoningEngine</code>, <code>brain_api.py</code>, and test suites.</p>
+<hr />
+<h2 id="1-executive-summary">1. Executive Summary</h2>
+<p>Sprint VS-4 successfully implemented the front-end cognitive boundary (<code>RawInput</code> $\rightarrow$ <code>LanguageInterpreter</code> $\rightarrow$ <code>InterpretationSet</code> $\rightarrow$ <code>GroundingEngine</code> $\rightarrow$ <code>CognitiveSituation</code> $\rightarrow$ <code>TaskDeriver</code> $\rightarrow$ <code>CognitiveTask</code>).</p>
+<p>However, our audit of the execution phase reveals a <strong>semantic execution gap</strong>:
+1. <strong>Task Execution is Inlined</strong>: In <code>CognitivePipeline.answer()</code>, once a <code>CognitiveTask</code> is produced, it is not passed to a dedicated <code>CognitiveTaskExecutor</code>. Instead, execution logic is partially hardcoded inside <code>answer()</code> and partly routed through legacy explanation-specific pipelines.
+2. <strong>Comparison Tasks Lack Dedicated Execution</strong>: For <code>COMPARE_CONCEPTS</code> (<code>TaskAction.COMPARE_CONCEPTS</code>), both concepts are grounded and activated, but <code>ExplanatoryAnswerSynthesizer</code> picks only <strong>one</strong> primary concept via <code>_select_primary()</code> and outputs only that concept's definition in the main section. It does not perform a structured multi-concept comparison across both concepts' definitions and relationship graphs.
+3. <strong>Relationship Tasks Lack Target Filtering</strong>: For <code>DERIVE_RELATIONSHIP</code> (<code>TaskAction.DERIVE_RELATIONSHIP</code>), the reasoning engine derives transitive generalizations (e.g. <code>Java Interface -&gt; Abstraction</code>), but the response lists all workspace relationships without highlighting the specific derived path between source and target concepts.
+4. <strong>API Intent Hardcoding</strong>: In <code>brain_api.py</code> line 153, the response payload hardcodes <code>"intent": "ExplainConcept"</code>, ignoring the derived <code>CognitiveTask</code> action (<code>COMPARE_CONCEPTS</code>, <code>DERIVE_RELATIONSHIP</code>, etc.).</p>
+<hr />
+<h2 id="2-current-runtime-call-graph">2. Current Runtime Call Graph</h2>
+<pre><code class="language-text">User / HTTP Request
+      ↓
+[ brain_api.py /process ]
+      ↓
+[ CognitivePipeline.answer(question) ]
+      ↓
+[ RawInput.from_text ]
+      ↓
+[ LanguageInterpreter.interpret ]
+      ↓
+[ GroundingEngine.ground ]
+      ↓
+[ TaskDeriver.derive ] → emits CognitiveTask (action, primary_target, secondary_targets)
+      ↓
+[ Inlined Pipeline Logic in answer() ]
+ ├─ If REPORT_INSUFFICIENT_CONTEXT → returns Answer (refusal)
+ ├─ If REPORT_AMBIGUITY → returns Answer (refusal)
+ ├─ If REPORT_UNKNOWN → returns Answer (refusal)
+ └─ If Grounded (EXPLAIN / COMPARE / DERIVE):
+      ↓
+    [ ConceptActivationEngine.activate_concepts ]
+      ↓
+    [ CognitiveReasoningEngine.reason ]
+      ↓
+    [ AnswerGenerationEngine.generate ]
+      ↓
+    [ ExplanatoryAnswerSynthesizer.synthesize ]
+</code></pre>
+<hr />
+<h2 id="3-detailed-audit-findings-by-task-action">3. Detailed Audit Findings by Task Action</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">TaskAction</th>
+<th style="text-align: left;">Grounding Status</th>
+<th style="text-align: left;">Current Execution Path</th>
+<th style="text-align: left;">Current Limitations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong><code>EXPLAIN_CONCEPT</code></strong></td>
+<td style="text-align: left;">Fully Grounded</td>
+<td style="text-align: left;">Actives primary seed $\rightarrow$ Reasons $\rightarrow$ Synthesizes definition-first answer</td>
+<td style="text-align: left;">Fully working and verified.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>COMPARE_CONCEPTS</code></strong></td>
+<td style="text-align: left;">Fully Grounded (2+ concepts)</td>
+<td style="text-align: left;">Activates all seeds $\rightarrow$ Reasons $\rightarrow$ Single-concept synthesizer</td>
+<td style="text-align: left;"><strong>GAP</strong>: Synthesizer chooses <code>max(score)</code> and formats only one definition. Does not contrast Concept A vs Concept B.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>DERIVE_RELATIONSHIP</code></strong></td>
+<td style="text-align: left;">Fully Grounded (2 concepts)</td>
+<td style="text-align: left;">Activates all seeds $\rightarrow$ Reasons (Transitive rules) $\rightarrow$ Synthesizer</td>
+<td style="text-align: left;"><strong>GAP</strong>: Lists general relationships; does not isolate and highlight the causal path between Source and Target.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>REPORT_UNKNOWN</code></strong></td>
+<td style="text-align: left;">Entity Unresolved</td>
+<td style="text-align: left;">Direct refusal <code>Answer(confidence=0.0)</code></td>
+<td style="text-align: left;">Fully working (Zero hallucination).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>REPORT_AMBIGUITY</code></strong></td>
+<td style="text-align: left;">Ambiguous Alias</td>
+<td style="text-align: left;">Direct refusal <code>Answer(confidence=0.0)</code></td>
+<td style="text-align: left;">Fully working (Preserves all candidates).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>REPORT_INSUFFICIENT_CONTEXT</code></strong></td>
+<td style="text-align: left;">Missing Referent</td>
+<td style="text-align: left;">Direct refusal <code>Answer(confidence=0.0)</code></td>
+<td style="text-align: left;">Fully working (No guessing).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-reusable-existing-components">4. Reusable Existing Components</h2>
+<ol>
+<li><code>hsci/cognition/interpretation/models.py</code>: Strongly typed <code>CognitiveTask</code>, <code>TaskAction</code>, <code>CognitiveSituation</code>, <code>GroundedEntity</code>.</li>
+<li><code>hsci/cognition/interpretation/interpreter.py</code>: Structural frame extraction.</li>
+<li><code>hsci/cognition/interpretation/grounding.py</code>: Authoritative UKM grounding.</li>
+<li><code>hsci/cognition/interpretation/task_deriver.py</code>: Deterministic task construction.</li>
+<li><code>hsci/knowledge/knowledge_manager.py</code>: Authoritative UKM facade.</li>
+<li><code>hsci/knowledge/concept_activation.py</code>: Spreading activation.</li>
+<li><code>hsci/reasoning/reasoning_engine.py</code>: Rule-based reasoning with transitive closure.</li>
+<li><code>hsci/response/answer_generation_engine.py</code>: Structured base answer generation.</li>
+<li><code>hsci/response/explanatory_synthesizer.py</code>: Provenance-aware answer synthesis.</li>
+</ol>
+<hr />
+<h2 id="5-architectural-recommendation-for-vs-5">5. Architectural Recommendation for VS-5</h2>
+<p>To make the system truly execute distinct cognitive tasks without breaking existing contracts:</p>
+<ol>
+<li><strong>Implement <code>CognitiveTaskExecutor</code></strong> in <code>hsci/cognition/execution/task_executor.py</code>:</li>
+<li>Receives <code>CognitiveTask</code>, <code>CognitiveSituation</code>, <code>IKnowledgeManager</code>, <code>ConceptActivationEngine</code>, <code>CognitiveReasoningEngine</code>, <code>AnswerGenerationEngine</code>, <code>ExplanatoryAnswerSynthesizer</code>, and <code>CognitiveContext</code>.</li>
+<li>Dispatches cleanly to task handlers:<ul>
+<li><code>_execute_explain_concept(task, situation, context)</code></li>
+<li><code>_execute_compare_concepts(task, situation, context)</code></li>
+<li><code>_execute_derive_relationship(task, situation, context)</code></li>
+<li><code>_execute_report_refusal(task, situation, context)</code></li>
+</ul>
+</li>
+<li><strong>Multi-Concept Comparison Execution</strong>:</li>
+<li>For <code>COMPARE_CONCEPTS</code>, retrieve definitions and generalizations for <em>both</em> Target A and Target B.</li>
+<li>Contrast shared generalizations (e.g. both generalize to <code>Abstraction</code>) vs distinct characteristics (e.g. <code>Java Interface</code> declares abstract methods; <code>Class</code> provides concrete implementation).</li>
+<li>If one concept lacks stored definition or relationships, honestly report degraded/insufficient comparison knowledge.</li>
+<li><strong>Targeted Relationship Derivation Execution</strong>:</li>
+<li>For <code>DERIVE_RELATIONSHIP</code>, filter reasoning conclusions for paths connecting <code>source_concept</code> and <code>target_concept</code>.</li>
+<li>Report the exact derivation rule, premises, and depth.</li>
+<li><strong>Wire <code>CognitivePipeline</code> to <code>CognitiveTaskExecutor</code></strong>:</li>
+<li>Delegate all task execution from <code>CognitivePipeline.answer()</code> directly to <code>CognitiveTaskExecutor.execute(task, situation, context)</code>.</li>
+<li><strong>Update <code>brain_api.py</code></strong>:</li>
+<li>Pass dynamic task action as <code>intent</code> and forward complete deliberation and provenance.</li>
+</ol>
+<hr />
+<h2 id="6-explicit-non-goals">6. Explicit Non-Goals</h2>
+<ul>
+<li>NO replacement or modification of <code>LanguageInterpreter</code> or <code>GroundingEngine</code>.</li>
+<li>NO LLM integration for response generation.</li>
+<li>NO <code>LearningEngine</code>, <code>ReflectionEngine</code>, or <code>MentalModelEngine</code>.</li>
+<li>NO direct SQLite access bypassing <code>KnowledgeManager</code>.</li>
+<li>NO question-specific hardcoded responses.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

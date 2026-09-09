@@ -1,0 +1,994 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Axiomatic Cognitive Intelligence Architecture">
+      
+      
+        <meta name="author" content="Brijesh Yadav">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>HSCI V4 — ConceptStore Architecture Refinement (ConceptStore_Architecture_Refinement.md) - HSCI Technical Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hsci-v4-conceptstore-architecture-refinement-conceptstore_architecture_refinementmd" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="HSCI Technical Documentation" class="md-header__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HSCI Technical Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              HSCI V4 — ConceptStore Architecture Refinement (ConceptStore_Architecture_Refinement.md)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../architecture/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../api/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tutorials/teaching.md" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="HSCI Technical Documentation" class="md-nav__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    HSCI Technical Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/teaching.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instructional Priming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/proofs.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Proofs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-updated-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Updated Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Updated Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#responsibility-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Responsibility Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-model-refinement-ownership" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Model Refinement &amp; Ownership
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Model Refinement &amp; Ownership">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-lightweight-concept-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Lightweight Concept Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-relationship-separation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Relationship Separation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-provenance-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Provenance Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-separation-of-concerns-learning-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Separation of Concerns (Learning &amp; Validation)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Separation of Concerns (Learning &amp; Validation)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-learning-separation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Learning Separation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-validation-separation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Validation Separation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-lifecycle-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Lifecycle APIs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Lifecycle APIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#omission-rationales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Omission Rationales
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-event-bus-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Event Bus integration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-migration-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Migration Strategy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-future-subsystem-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Future Subsystem Compatibility
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="hsci-v4-conceptstore-architecture-refinement-conceptstore_architecture_refinementmd">HSCI V4 — ConceptStore Architecture Refinement (ConceptStore_Architecture_Refinement.md)</h1>
+<p>This document details the refined architecture and design specifications for the <code>ConceptStore</code> component, maximizing separation of concerns, testability, and future scalability.</p>
+<hr />
+<h2 id="1-updated-architecture">1. Updated Architecture</h2>
+<p>The architecture separates logical business logic, persistence operations, and physical database commands:</p>
+<pre><code>  BrainKernel
+      ↓
+  WorkingMemory
+      ↓
+  ConceptStore  (Logical/Business operations)
+      ↓
+  ConceptRepository  (Data mapping &amp; persistence)
+      ↓
+  IStorageProvider  (Abstract storage operations)
+      ↓
+  SQLiteProvider  (Concrete engine)
+</code></pre>
+<h3 id="responsibility-matrix">Responsibility Matrix</h3>
+<ul>
+<li><strong>ConceptStore</strong>: Coordinates transactional business operations (such as splits, mergers, version promotions, and deprecations) and publishes events to the <code>EventBus</code>. It is completely database-agnostic.</li>
+<li><strong>ConceptRepository</strong>: Converts the lightweight, logical <code>Concept</code> dataclass to database rows. It designs database-specific tables and queries, mapping relational results back to logical objects.</li>
+<li><strong>IStorageProvider</strong>: Exposes generic, thread-safe connection and execution primitives (<code>execute_read</code>, <code>execute_write</code>, savepoint boundaries).</li>
+<li><strong>EventBus</strong>: Broker that propagates state changes to concurrent systems (e.g. Concept Activation Engine caches).</li>
+</ul>
+<hr />
+<h2 id="2-model-refinement-ownership">2. Model Refinement &amp; Ownership</h2>
+<h3 id="21-lightweight-concept-model">2.1 Lightweight Concept Model</h3>
+<p>The <code>Concept</code> dataclass is stripped of all graph/relationship and historical logging structures. It represents only intrinsic identity and metadata properties:</p>
+<pre><code class="language-python">@dataclass
+class Concept:
+    id: str                       # Identity
+    name: str                     # Identity
+    namespace: str                # Identity
+    version: int                  # Identity
+    axiom_type: AxiomType         # Metadata
+    abstract_rule: str            # Metadata
+    z3_template: str              # Metadata
+    domain: str                   # Metadata
+    status: str                   # Metadata (ACTIVE, DEPRECATED, ARCHIVED)
+    created_at: datetime          # Metadata
+    last_used: datetime           # Metadata
+    z3_verified: bool             # Metadata
+</code></pre>
+<h3 id="22-relationship-separation">2.2 Relationship Separation</h3>
+<p>Relationships are modeled and managed independently from <code>Concept</code> entities. This decouples taxonomic inheritance or precondition maps from basic concept definitions, preventing heavy graph serialization overhead during read loops:</p>
+<pre><code class="language-python">@dataclass
+class ConceptRelationship:
+    relationship_id: str
+    source_concept_id: str
+    target_concept_id: str
+    relationship_type: str        # IS_A, DEPENDS_ON, CONFLICTS_WITH, SUPERSEDES, etc.
+    created_at: datetime
+</code></pre>
+<ul>
+<li><strong>Ownership</strong>: Relationships are owned and queried by the future <code>OntologyStore</code>, writing to distinct database tables (<code>concept_relationships</code>).</li>
+</ul>
+<h3 id="23-provenance-model">2.3 Provenance Model</h3>
+<p>Rather than embedding dedicated <code>proof_id</code> or <code>episode_id</code> fields inside a concept, a generic provenance record captures historical learning sources. This allows the ingestion engine to link concepts to new input modalities (e.g. human teaching, self-play, verification repair runs) without schema updates:</p>
+<pre><code class="language-python">@dataclass
+class ProvenanceRecord:
+    provenance_id: str
+    concept_id: str
+    source_type: str              # EPISODE, PROOF, TEACHING_PROTOCOL, REFLECTION_DIAGNOSIS
+    source_id: str                # ID referencing the original database entity
+    timestamp: datetime
+    acquisition_method: str       # HUMAN_INPUT, SELF_PLAY, CEGIS_REPAIR
+    confidence: float             # Ingestion reliability (e.g., 1.0 for human, 0.4 for self-play)
+    notes: Optional[str] = None
+</code></pre>
+<ul>
+<li><strong>Ownership</strong>: Provenance records are stored in a dedicated <code>concept_provenance</code> table, managed by the <code>ConceptRepository</code> but queryable independently.</li>
+</ul>
+<hr />
+<h2 id="3-separation-of-concerns-learning-validation">3. Separation of Concerns (Learning &amp; Validation)</h2>
+<h3 id="31-learning-separation">3.1 Learning Separation</h3>
+<p>The <code>ConceptStore</code> does not execute Hebbian updates or calculate decay. It acts purely as a transactional ledger. 
+*   <strong>Logical flow</strong>:
+    1.  <code>LearningEngine</code> calculates new strength and parameter variables based on feedback signals.
+    2.  <code>LearningEngine</code> calls <code>ConceptStore.update_strength(concept_id, strength)</code>.
+    3.  <code>ConceptStore</code> delegates write calls to <code>ConceptRepository</code>.</p>
+<h3 id="32-validation-separation">3.2 Validation Separation</h3>
+<p>Validation is split into structural (schema/type constraints) and logical (axiomatic validity) phases:
+*   <strong>Structural Validation</strong>: Checked by <code>ConceptStore</code> via standard schemas (e.g. assert fields are not empty, names adhere to namespace rules, types match).
+*   <strong>Logical Validation</strong>: Extension interfaces are designed for cognitive verification (does the concept satisfy SMT proofs?):
+    *   <em>Interface</em>: <code>IKnowledgeValidator</code> exposes <code>validate_logic(concept: Concept) -&gt; bool</code>.
+    *   <em>Implementation</em>: Handled by the future <code>VerificationEngine</code> using the Z3 prover plugin. The store does not block writes on solver runs; instead, it writes candidate status and awaits external verification triggers.</p>
+<hr />
+<h2 id="4-lifecycle-apis">4. Lifecycle APIs</h2>
+<p>The store interface defines the complete programmatic lifecycle:</p>
+<pre><code class="language-python">class IConceptStore(ABC):
+    # Core CRUD
+    @abstractmethod
+    def create_concept(self, concept: Concept, provenance: ProvenanceRecord) -&gt; str: pass
+    @abstractmethod
+    def get_concept(self, concept_id: str) -&gt; Optional[Concept]: pass
+    @abstractmethod
+    def update_concept(self, concept: Concept) -&gt; None: pass
+    @abstractmethod
+    def exists(self, concept_id: str) -&gt; bool: pass
+
+    # Versioning &amp; Audit History
+    @abstractmethod
+    def list_versions(self, name: str) -&gt; List[Concept]: pass
+    @abstractmethod
+    def restore_version(self, concept_id: str, version: int) -&gt; Concept: pass
+    @abstractmethod
+    def get_history(self, concept_id: str) -&gt; List[Dict[str, Any]]: pass
+
+    # Dynamic Metadata (Extension Hooks)
+    @abstractmethod
+    def attach_metadata(self, concept_id: str, key: str, value: Any) -&gt; None: pass
+    @abstractmethod
+    def detach_metadata(self, concept_id: str, key: str) -&gt; None: pass
+
+    # Search &amp; Lookups
+    @abstractmethod
+    def search(self, query: str, limit: int = 50) -&gt; List[Concept]: pass
+    @abstractmethod
+    def get_concepts_by_namespace(self, namespace: str) -&gt; List[Concept]: pass
+    @abstractmethod
+    def search_by_metadata(self, key: str, value: Any) -&gt; List[Concept]: pass
+
+    # Refactoring &amp; Evolution
+    @abstractmethod
+    def deprecate_concept(self, concept_id: str, superseded_by_id: str) -&gt; None: pass
+    @abstractmethod
+    def archive_concept(self, concept_id: str) -&gt; None: pass
+    @abstractmethod
+    def merge_concepts(self, id_1: str, id_2: str, merged_concept: Concept) -&gt; str: pass
+    @abstractmethod
+    def split_concept(self, parent_id: str, split_1: Concept, split_2: Concept) -&gt; Tuple[str, str]: pass
+</code></pre>
+<h3 id="omission-rationales">Omission Rationales</h3>
+<ul>
+<li><code>delete_concept()</code>: Intentionally omitted. To maintain referential integrity of historical episodes, concepts are never permanently hard-deleted. They are instead marked as <code>DEPRECATED</code> or <code>ARCHIVED</code>.</li>
+<li><code>search_by_relationship()</code>: Omitted. Relationship traversals belong to the <code>OntologyStore</code> to ensure proper separation of graph queries from document structures.</li>
+</ul>
+<hr />
+<h2 id="5-event-bus-integration">5. Event Bus integration</h2>
+<p>Subsystems register callbacks via the global <code>EventBus</code> to respond to state mutations.</p>
+<table>
+<thead>
+<tr>
+<th>Event Type</th>
+<th>Publisher</th>
+<th>Subscribed Receivers</th>
+<th>Action Triggered</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ConceptCreated</code></td>
+<td><code>ConceptStore</code></td>
+<td><code>BrainKernelLogger</code></td>
+<td>Formats stdout and records trace audits.</td>
+</tr>
+<tr>
+<td><code>ConceptUpdated</code></td>
+<td><code>ConceptStore</code></td>
+<td><code>ConceptActivationEngine</code></td>
+<td>Invalidates LRU caches, forcing fresh reads.</td>
+</tr>
+<tr>
+<td><code>ConceptMerged</code></td>
+<td><code>ConceptStore</code></td>
+<td><code>OntologyStore</code>, CAE</td>
+<td>Updates relationship edges (<code>GENERALIZES</code>, <code>SUPERSEDES</code>) and clears cached activations.</td>
+</tr>
+<tr>
+<td><code>ConceptSplit</code></td>
+<td><code>ConceptStore</code></td>
+<td><code>OntologyStore</code>, CAE</td>
+<td>Registers <code>SPECIALIZES</code> relationships and invalidates caches.</td>
+</tr>
+<tr>
+<td><code>ConceptDeprecated</code></td>
+<td><code>ConceptStore</code></td>
+<td><code>OntologyStore</code></td>
+<td>Flags active usage restrictions.</td>
+</tr>
+<tr>
+<td><code>ConceptArchived</code></td>
+<td><code>ConceptStore</code></td>
+<td><code>BrainKernel</code></td>
+<td>Updates active reasoning registers.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6-migration-strategy">6. Migration Strategy</h2>
+<p>The core storage migration framework must move away from fixed array variables inside Python scripts to sequential, file-system-discovered SQL scripts. This supports future schema evolutions cleanly:</p>
+<ul>
+<li><strong>Script Location</strong>: <code>hsci/core/migrations/*.sql</code></li>
+<li><strong>Format</strong>: <code>[0001-0999]_description_metadata.sql</code> (e.g. <code>0001_create_concepts_table.sql</code>)</li>
+<li><strong>Discovery</strong>: The <code>SchemaMigration</code> framework scans the directory, orders files numerically, and executes scripts incrementally against the <code>schema_versions</code> table.</li>
+</ul>
+<hr />
+<h2 id="7-future-subsystem-compatibility">7. Future Subsystem Compatibility</h2>
+<p>The refined interfaces ensure seamless integration with future cognitive subsystems without requiring backend updates:</p>
+<ul>
+<li><strong>Concept Activation Engine (CAE)</strong>: Relies on <code>get_concepts_by_namespace</code> and relationship queries via <code>OntologyStore</code> (graph queries). The lightweight concept footprint guarantees that traversal speeds remain fast.</li>
+<li><strong>Understanding Engine</strong>: Maps strings to aliases using <code>ConceptRepository</code> index queries.</li>
+<li><strong>Planner &amp; Reasoning Engine</strong>: Fetch compile-ready Z3 rules by querying specific namespaces via <code>get_concepts_by_namespace</code>.</li>
+<li><strong>Reflection Engine</strong>: Initiates split/merge transactions to reflect dynamic adjustments.</li>
+<li><strong>Teaching Protocol</strong>: Invokes <code>create_concept</code> with human provenance markers (<code>1.0</code> confidence).</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

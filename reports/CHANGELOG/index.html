@@ -1,0 +1,1069 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Axiomatic Cognitive Intelligence Architecture">
+      
+      
+        <meta name="author" content="Brijesh Yadav">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>HSCI V4 — Change Log (CHANGELOG.md) - HSCI Technical Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hsci-v4-change-log-changelogmd" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="HSCI Technical Documentation" class="md-header__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HSCI Technical Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              HSCI V4 — Change Log (CHANGELOG.md)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../architecture/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../api/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tutorials/teaching.md" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="HSCI Technical Documentation" class="md-nav__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    HSCI Technical Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/teaching.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instructional Priming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/proofs.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Proofs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#post-vs7-reality-usability-sprint-2026-08-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [Post-VS7 Reality &amp; Usability Sprint] — 2026-08-22
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[Post-VS7 Reality &amp; Usability Sprint] — 2026-08-22">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changed-hardened" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed &amp; Hardened
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sprint-vs-7-2026-08-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [Sprint VS-7] — 2026-08-22
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[Sprint VS-7] — 2026-08-22">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sprint-vs-6-2026-08-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [Sprint VS-6] — 2026-08-22
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[Sprint VS-6] — 2026-08-22">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sprint-vs-5-2026-08-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [Sprint VS-5] — 2026-08-22
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[Sprint VS-5] — 2026-08-22">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sprint-vs-4-2026-08-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [Sprint VS-4] — 2026-08-22
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[Sprint VS-4] — 2026-08-22">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sprint-vs-3-2026-08-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [Sprint VS-3] — 2026-08-22
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[Sprint VS-3] — 2026-08-22">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sprint-vs-2-2026-08-09" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [Sprint VS-2] — 2026-08-09
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[Sprint VS-2] — 2026-08-09">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vs-2-pre-flight-2026-08-09" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [VS-2 Pre-Flight] — 2026-08-09
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[VS-2 Pre-Flight] — 2026-08-09">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reviewed-no-code-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reviewed (no code change)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sprint-vs-1-2026-08-09" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [Sprint VS-1] — 2026-08-09
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[Sprint VS-1] — 2026-08-09">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notes_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#400-beta10-2026-07-16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [4.0.0-beta.10] — 2026-07-16
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[4.0.0-beta.10] — 2026-07-16">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#400-beta9-2026-07-16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [4.0.0-beta.9] — 2026-07-16
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[4.0.0-beta.9] — 2026-07-16">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="hsci-v4-change-log-changelogmd">HSCI V4 — Change Log (CHANGELOG.md)</h1>
+<p>This changelog records all structural, architectural, and documentation changes in the HSCI repository, tracking the transition to V4.</p>
+<hr />
+<h2 id="post-vs7-reality-usability-sprint-2026-08-22">[Post-VS7 Reality &amp; Usability Sprint] — 2026-08-22</h2>
+<h3 id="changed-hardened">Changed &amp; Hardened</h3>
+<ul>
+<li><strong>Eliminated <code>known_lexical_anchors</code></strong>: Replaced hardcoded concept keyword lists in <code>LanguageInterpreter</code> with generic demonstrative determiner parsing that distinguishes standalone referents from modified substantive nouns.</li>
+<li><strong>Cognitive Data Flow Threading</strong>: Updated <code>CognitiveWorkspace.execute</code> to collect upstream completed <code>TaskResult</code> objects and inject them into <code>g_task.parameters["upstream_results"]</code>, transforming dependency edges into real data pipelines.</li>
+<li><strong>Modifier Prefix Stripping</strong>: Added modifier prefix candidate generation (<code>"Java "</code>, <code>"Python "</code>, <code>"OOP "</code>) in <code>GroundingEngine._generate_singular_forms()</code> to resolve modifier-prefixed user mentions to base UKM concepts.</li>
+<li><strong>FastAPI <code>/process</code> Hardening</strong>: Defensive extraction of source provenance and premises in <code>brain_api.py</code> preventing potential runtime exceptions on non-dict provenance objects.</li>
+<li><strong>Real-User Usability Matrix</strong>: Created <code>hsci/tests/test_post_vs7_reality.py</code> with 29 comprehensive empirical tests covering explanation, comparison, transitive relationship derivation, compound multi-task requests, conversational noise, unknown concept refusals, missing context refusals, knowledge mutability, non-OOP arbitrary concept generalization, and live HTTP <code>/process</code> execution.</li>
+<li><strong>Design &amp; Audit Deliverables</strong>: Authored <code>POST_VS7_REALITY_AUDIT.md</code>, <code>HARDCODING_AUDIT.md</code>, <code>COGNITIVE_DATA_FLOW_AUDIT.md</code>, <code>API_RUNTIME_AUDIT.md</code>, <code>REAL_USER_TEST_MATRIX.md</code>, <code>STABILIZATION_REPORT.md</code>, and <code>ACCEPTANCE_REPORT.md</code>.</li>
+</ul>
+<hr />
+<h2 id="sprint-vs-7-2026-08-22">[Sprint VS-7] — 2026-08-22</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li><strong>Cognitive Workspace Subsystem</strong>: Implemented <code>hsci/cognition/workspace/</code> containing <code>CognitiveWorkspace</code>, <code>CognitiveTaskGraph</code>, <code>TaskDecomposer</code>, and <code>TaskResult</code>.</li>
+<li><strong>Request-Scoped Ephemerality</strong>: <code>CognitiveWorkspace</code> manages the complete request lifecycle (<code>CREATED</code>, <code>GROUNDED</code>, <code>READY</code>, <code>EXECUTING</code>, <code>COMPLETED</code>, <code>PARTIALLY_COMPLETE</code>, <code>REFUSED</code>, <code>FAILED</code>), holding grounded entities, constraints, context references, and task results without mutating or duplicating the authoritative UKM knowledge base.</li>
+<li><strong>Cognitive Task Graph (DAG)</strong>: Strict DAG scheduling supporting linear pipelines ($A \rightarrow B \rightarrow C$), branching/join graphs ($A, B \rightarrow C$), and independent parallel tasks ($A \parallel B$). Features automatic cycle detection (<code>CycleDetectedError</code>), duplicate task ID protection (<code>DuplicateTaskError</code>), and cascading <code>BLOCKED</code> states upon upstream task failures or refusals.</li>
+<li><strong>Multi-Intent Task Decomposition</strong>: <code>TaskDecomposer</code> parses multi-goal compound requests (e.g. <code>"Explain X, compare it with Y, and tell me how it relates to Z"</code>) into discrete, interdependent task nodes with topological scheduling.</li>
+<li><strong>Typed Intermediate Results &amp; Provenance</strong>: <code>TaskResult</code> captures strongly-typed payloads (<code>TaskResultType</code>), execution duration, confidence, and complete evidence provenance (<code>CANONICAL_KNOWLEDGE</code>, <code>STORED_RELATIONSHIP</code>, <code>DERIVED_CONCLUSION</code>, <code>TASK_EXECUTION</code>).</li>
+<li><strong>Pipeline Integration</strong>: Integrated <code>CognitiveWorkspace</code> into <code>CognitivePipeline.answer()</code>, preserving the executed workspace and task graph on the resulting <code>Answer</code>.</li>
+<li><strong>Acceptance Test Suite</strong>: Added <code>hsci/tests/test_vs7_cognitive_workspace.py</code> with 18 comprehensive tests (100% passing).</li>
+<li><strong>Design Deliverables</strong>: Added <code>VS7_PREFLIGHT_REPORT.md</code>, <code>VS7_COGNITIVE_WORKSPACE_MODEL.md</code>, <code>VS7_TASK_GRAPH_MODEL.md</code>, <code>VS7_IMPLEMENTATION_REPORT.md</code>, <code>VS7_RUNTIME_TRACE.md</code>, and <code>VS7_ACCEPTANCE_REPORT.md</code>.</li>
+</ul>
+<hr />
+<h2 id="sprint-vs-6-2026-08-22">[Sprint VS-6] — 2026-08-22</h2>
+<h3 id="added_1">Added</h3>
+<ul>
+<li><strong>Semantic Intermediate Representation</strong>: Implemented <code>hsci/cognition/interpretation/semantic_model.py</code> featuring <code>SemanticRequest</code>, <code>CommunicativeGoal</code> (<code>EXPLAIN</code>, <code>COMPARE</code>, <code>RELATE</code>, <code>IDENTIFY</code>, <code>VERIFY</code>, <code>SUMMARIZE</code>, <code>ANALYZE</code>, <code>CLARIFY</code>, <code>UNKNOWN</code>), <code>EntityMention</code>, <code>SemanticRelation</code>, <code>SemanticConstraint</code>, <code>OutputRequirement</code>, and <code>ContextReference</code>.</li>
+<li><strong>Semantic Language Interpreter (<code>LanguageInterpreter</code>)</strong>: Enhanced <code>LanguageInterpreter</code> to decouple surface phrasing from communicative goals, normalize plural entities (<code>interfaces</code> $\rightarrow$ <code>interface</code>), preserve negation and exclusion constraints, detect modality (<code>HYPOTHETICAL</code>, <code>DEONTIC</code>, <code>ASSERTION</code>), and generate multi-hypothesis candidates.</li>
+<li><strong>Untrusted Semantic Proposer Interface (<code>UntrustedSemanticProposer</code>)</strong>: Strict JSON schema sanitizer that parses untrusted external proposals, strips fake concept IDs or domain facts, and enforces mandatory UKM grounding.</li>
+<li><strong>Grounding &amp; Task Derivation Alignment</strong>: Updated <code>GroundingEngine</code> and <code>TaskDeriver</code> to consume semantic request goals (<code>COMPARE</code> $\rightarrow$ <code>COMPARE_CONCEPTS</code>, <code>RELATE</code> $\rightarrow$ <code>DERIVE_RELATIONSHIP</code>, <code>EXPLAIN</code> $\rightarrow$ <code>EXPLAIN_CONCEPT</code>).</li>
+<li><strong>Acceptance Test Suite</strong>: Added <code>hsci/tests/test_vs6_semantic_understanding.py</code> with 30 comprehensive tests (100% passing).</li>
+<li><strong>Design Deliverables</strong>: Added <code>VS6_PREFLIGHT_REPORT.md</code>, <code>VS6_IMPLEMENTATION_REPORT.md</code>, <code>VS6_RUNTIME_TRACE.md</code>, and <code>VS6_ACCEPTANCE_REPORT.md</code>.</li>
+</ul>
+<hr />
+<h2 id="sprint-vs-5-2026-08-22">[Sprint VS-5] — 2026-08-22</h2>
+<h3 id="added_2">Added</h3>
+<ul>
+<li><strong>Cognitive Task Execution Subsystem</strong>: Implemented <code>hsci/cognition/execution/</code> featuring <code>CognitiveTaskExecutor</code> and <code>CognitiveExecutionResult</code>.</li>
+<li><strong>Multi-Concept Comparison Execution (<code>COMPARE_CONCEPTS</code>)</strong>: Grounds multiple concept targets, retrieves stored definitions from UKM, extracts shared vs distinct generalizations from reasoning conclusions, and synthesizes structured comparison reports.</li>
+<li><strong>Relationship Derivation Execution (<code>DERIVE_RELATIONSHIP</code>)</strong>: Identifies causal transitive derivation paths (<code>GeneralizationTransitivity</code>) between source and target concepts, delivering complete premise provenance and proof depth.</li>
+<li><strong>Dynamic Pipeline &amp; API Integration</strong>: Wired <code>CognitivePipeline.answer()</code> to delegate to <code>CognitiveTaskExecutor</code> and updated <code>brain_api.py</code> <code>/process</code> to dynamically propagate task intent and deliberation traces.</li>
+<li><strong>Acceptance Test Suite</strong>: Added <code>hsci/tests/test_vs5_task_execution.py</code> with 19 comprehensive tests (100% passing).</li>
+<li><strong>Design Deliverables</strong>: Added <code>VS5_PREFLIGHT_REPORT.md</code>, <code>VS5_IMPLEMENTATION_REPORT.md</code>, <code>VS5_RUNTIME_TRACE.md</code>, and <code>VS5_ACCEPTANCE_REPORT.md</code>.</li>
+</ul>
+<hr />
+<h2 id="sprint-vs-4-2026-08-22">[Sprint VS-4] — 2026-08-22</h2>
+<h3 id="added_3">Added</h3>
+<ul>
+<li><strong>Cognitive Interpretation &amp; Task Derivation Foundation</strong>: Implemented <code>hsci/cognition/interpretation/</code> containing strongly-typed data models (<code>RawInput</code>, <code>CandidateInterpretation</code>, <code>InterpretationSet</code>, <code>GroundedEntity</code>, <code>CognitiveSituation</code>, <code>CognitiveTask</code>).</li>
+<li><strong>Language Interpreter (<code>LanguageInterpreter</code>)</strong>: Structural syntactic frame parsing (Comparison, Relationship, Purpose, Definition), bare referent and missing context detection, safe linear span extraction, multi-sentence focus selection, and untrusted LLM hypothesis ingestion (disabled by default).</li>
+<li><strong>Grounding Engine (<code>GroundingEngine</code>)</strong>: Authoritative UKM grounding and alias resolution via <code>IKnowledgeManager</code>. Strict entity classification (<code>RESOLVED</code>, <code>AMBIGUOUS</code>, <code>UNKNOWN</code>) preserving all candidate matches with zero silent index picking.</li>
+<li><strong>Deterministic Task Deriver (<code>TaskDeriver</code>)</strong>: State machine deriving executable tasks (<code>EXPLAIN_CONCEPT</code>, <code>COMPARE_CONCEPTS</code>, <code>DERIVE_RELATIONSHIP</code>, <code>REPORT_UNKNOWN</code>, <code>REPORT_AMBIGUITY</code>, <code>REPORT_INSUFFICIENT_CONTEXT</code>).</li>
+<li><strong>Pipeline Integration</strong>: Integrated the VS-4 interpretation boundary into <code>CognitivePipeline.answer()</code>, returning calibrated zero-confidence refusals for unknown/ambiguous/context-missing requests and attaching situational provenance to all answers.</li>
+<li><strong>Acceptance Test Suite</strong>: Added <code>hsci/tests/test_vs4_interpretation.py</code> with 23 comprehensive tests (100% passing).</li>
+<li><strong>Design Deliverables</strong>: Added <code>VS4_PREFLIGHT_REPORT.md</code>, <code>VS4_IMPLEMENTATION_REPORT.md</code>, <code>COGNITIVE_INTERPRETATION_MODEL.md</code>, <code>VS4_RUNTIME_TRACE.md</code>, and <code>VS4_ACCEPTANCE_REPORT.md</code>.</li>
+</ul>
+<hr />
+<h2 id="sprint-vs-3-2026-08-22">[Sprint VS-3] — 2026-08-22</h2>
+<h3 id="added_4">Added</h3>
+<ul>
+<li><strong>Genuine Reasoning Derivation</strong>: Added bounded 2-premise transitive closure (<code>GeneralizationTransitivity</code>) to <code>RuleBasedInferenceStrategy</code> in <a href="file:///c:/work/New%20folder%20%282%29/ai-model/hsci/reasoning/reasoning_engine.py">reasoning_engine.py</a>. Derives novel conceptual assertions (e.g. <code>Java Interface → Abstraction</code> and <code>Method → Abstraction</code>) with complete provenance (<code>rule_name</code>, <code>premises</code>, <code>derived=True</code>, <code>depth=1</code>, confidence bounded by $\min(P_1, P_2)$).</li>
+<li><strong>Proof Provenance &amp; Traceability</strong>: Updated <code>ExplanatoryAnswerSynthesizer</code> in <a href="file:///c:/work/New%20folder%20%282%29/ai-model/hsci/response/explanatory_synthesizer.py">explanatory_synthesizer.py</a> to distinguish between retrieved definitions (<code>source_type: "CANONICAL_SEED"</code>), stored relationships (<code>source_type: "knowledge"</code>), and derived conclusions (<code>source_type: "derived"</code>).</li>
+<li><strong>Refusal on Unknown Concepts</strong>: Added explicit uncertainty report generation when queried for unregistered concepts, preventing fact hallucination.</li>
+<li><strong>Paraphrase Robustness</strong>: Added singularization and punctuation cleaning in <code>UnderstandingEngine</code> (<a href="file:///c:/work/New%20folder%20%282%29/ai-model/hsci/knowledge/understanding_engine.py">understanding_engine.py</a>).</li>
+<li><strong>User Web Integration</strong>: Wired FastAPI <code>/process</code> in <a href="file:///c:/work/New%20folder%20%282%29/ai-model/brain_api.py">brain_api.py</a> directly to <code>CognitivePipeline</code> and made <code>SelfPlayEngine</code> opt-in.</li>
+<li><strong>Acceptance Test Suite</strong>: Added <a href="file:///c:/work/New%20folder%20%282%29/ai-model/hsci/tests/test_vs3_cognitive_mvp.py">test_vs3_cognitive_mvp.py</a> covering Test Groups A through H (18/18 passing).</li>
+<li><strong>Documentation Deliverables</strong>: Added <a href="file:///c:/work/New%20folder%20%282%29/ai-model/docs/design/VS3/VS3_IMPLEMENTATION_REPORT.md">VS3_IMPLEMENTATION_REPORT.md</a>, <a href="file:///c:/work/New%20folder%20%282%29/ai-model/docs/design/VS3/COGNITIVE_MVP_ACCEPTANCE_REPORT.md">COGNITIVE_MVP_ACCEPTANCE_REPORT.md</a>, and <a href="file:///c:/work/New%20folder%20%282%29/ai-model/docs/design/VS3/COGNITIVE_MVP_RUNTIME_TRACE.md">COGNITIVE_MVP_RUNTIME_TRACE.md</a>. Status: <strong>COGNITIVE MVP — PASS</strong>.</li>
+</ul>
+<hr />
+<h2 id="sprint-vs-2-2026-08-09">[Sprint VS-2] — 2026-08-09</h2>
+<h3 id="added_5">Added</h3>
+<ul>
+<li><strong>Explanatory Answer Synthesis (Sprint VS-2)</strong>: Added <code>ExplanatoryAnswerSynthesizer</code>, <code>ExplanatoryAnswer</code>, and <code>KnowledgeSource</code> in <a href="file:///C:/Work/P/ai-model/hsci/response/explanatory_synthesizer.py">explanatory_synthesizer.py</a>. For concept-explanation intents the pipeline now returns a definition-first answer: the primary concept's stored <code>abstract_rule</code> (retrieved verbatim, provenance-tagged) plus the real ReasoningEngine relationships. Retrieved definition and reasoned relationships are classified separately for traceability. Additive step run after <code>AnswerGenerationEngine</code>; the answer-engine contract is unchanged.</li>
+<li><strong>Pipeline wiring</strong>: <a href="file:///C:/Work/P/ai-model/hsci/core/cognitive_pipeline.py">cognitive_pipeline.py</a> now captures activation scores and routes the base answer through the synthesizer. Non-explanation intents and unknown-concept questions return the existing answer unchanged (no fabrication).</li>
+<li><strong>Tests</strong>: Added <a href="file:///C:/Work/P/ai-model/hsci/tests/test_vs2_explanatory_answer.py">test_vs2_explanatory_answer.py</a> (10 tests, real engines) — definition surfacing, generic concepts, traceability, no-hardcoding (answer tracks changed definition), empty-knowledge degradation, confidence-not-inflated.</li>
+<li><strong>Report</strong>: Added <a href="file:///C:/Work/P/ai-model/docs/design/VS2_IMPLEMENTATION_REPORT.md">VS2_IMPLEMENTATION_REPORT.md</a>.</li>
+</ul>
+<h3 id="notes">Notes</h3>
+<ul>
+<li>Read-only, deterministic, traceable, SCG-L5-neutral. No new storage engine, no direct SQLite, no per-question hardcoding, no Z3, no LLM. No learning or reflection implemented. Reasoning confidence preserved (not inflated).</li>
+</ul>
+<hr />
+<h2 id="vs-2-pre-flight-2026-08-09">[VS-2 Pre-Flight] — 2026-08-09</h2>
+<h3 id="reviewed-no-code-change">Reviewed (no code change)</h3>
+<ul>
+<li><strong>VS-1 runtime inspection</strong>: Performed a read-only, real end-to-end execution of <code>CognitivePipeline</code> for "Explain what a Java interface is." and captured every stage's actual values. Authored <a href="file:///C:/Work/P/ai-model/docs/design/VS2_PREFLIGHT_REPORT.md">VS2_PREFLIGHT_REPORT.md</a>.</li>
+<li><strong>Findings</strong>: Pipeline is genuinely integrated (no mocks/hardcoding/direct SQLite/bypass); answer depends on the real <code>ReasoningResult</code>. However, reasoning only restates stored graph edges (no new derivation) and the stored concept definition (<code>abstract_rule</code>) is never surfaced — the pipeline serializes the graph instead of explaining the concept. No dedicated Cognitive Workspace; <code>WorkingMemory</code> populated but not consumed by the reasoner; no learning path.</li>
+<li><strong>Recommendation</strong>: VS-2 = Explanatory Answer Synthesis (compose the answer from activated concept knowledge + reasoning, with traceable provenance). No new storage, no SCG-L5 change, no Z3.</li>
+<li>Temporary scratchpad diagnostic instrumentation was used and removed; no repo test added.</li>
+</ul>
+<hr />
+<h2 id="sprint-vs-1-2026-08-09">[Sprint VS-1] — 2026-08-09</h2>
+<h3 id="added_6">Added</h3>
+<ul>
+<li><strong>Cognitive Pipeline Facade (Sprint VS-1)</strong>: Implemented <code>CognitivePipeline</code> and <code>bootstrap_cognitive_pipeline()</code> in <a href="file:///C:/Work/P/ai-model/hsci/core/cognitive_pipeline.py">cognitive_pipeline.py</a>, assembling the existing V4 engines (UnderstandingEngine → ConceptActivationEngine → CognitiveReasoningEngine → AnswerGenerationEngine) into one callable end-to-end conceptual slice. Assembly only — no engine logic reimplemented.</li>
+<li><strong>Canonical OOP Knowledge Seed</strong>: Added idempotent <a href="file:///C:/Work/P/ai-model/hsci/knowledge/seeds/oop_concepts.py">oop_concepts.py</a> seeding Interface, Java Interface, Class, Method, Abstraction with <code>generalizes_to</code> relations and <code>CANONICAL_SEED</code> provenance via existing KnowledgeManager APIs (no direct SQLite, no new schema).</li>
+<li><strong>VS-1 Tests</strong>: Added <a href="file:///C:/Work/P/ai-model/hsci/tests/test_cognitive_pipeline_e2e.py">test_cognitive_pipeline_e2e.py</a> — real end-to-end slice over a real UKM (no mocked reasoning result), seed idempotency, failure handling, and orchestration ordering (mocked only for the ordering test). VS-1 suite: 9 passed.</li>
+<li><strong>Reports</strong>: Added <a href="file:///C:/Work/P/ai-model/docs/design/VERTICAL_COGNITIVE_SLICE_READINESS_REPORT.md">VERTICAL_COGNITIVE_SLICE_READINESS_REPORT.md</a> (system reality audit) and <a href="file:///C:/Work/P/ai-model/docs/design/VS1_IMPLEMENTATION_REPORT.md">VS1_IMPLEMENTATION_REPORT.md</a>.</li>
+</ul>
+<h3 id="notes_1">Notes</h3>
+<ul>
+<li>No SCG-L5 authority infrastructure modified. No Z3 verification added to the conceptual path (deferred architectural decision). Not wired into <code>brain_api.py</code>/<code>RIRLoop</code>/<code>BrainKernel</code> (deferred to a later sprint).</li>
+</ul>
+<hr />
+<h2 id="400-beta10-2026-07-16">[4.0.0-beta.10] — 2026-07-16</h2>
+<h3 id="added_7">Added</h3>
+<ul>
+<li><strong>Answer Generation Engine (Sprint 12)</strong>: Implemented response manager <code>AnswerGenerationEngine</code> and representation payload models (<code>Answer</code>, <code>AnswerSection</code>, <code>Explanation</code>, <code>SupportingEvidence</code>, <code>ConfidenceSummary</code>, <code>AnswerMetadata</code>) in <a href="file:///C:/Work/P/ai-model/hsci/response/answer_generation_engine.py">answer_generation_engine.py</a>.</li>
+<li><strong>Multiple Styles Formatting</strong>: Coded formatting templates supporting Standard, Step-by-Step, and Technical outputs.</li>
+<li><strong>Continuous Evaluation Runner</strong>: Created <a href="file:///C:/Work/P/ai-model/evaluation_runner.py">evaluation_runner.py</a> loading JSON query cases (Java_OOP, Basic_Math, Logic) and writing <a href="file:///C:/Work/P/ai-model/evaluation_report.md">evaluation_report.md</a> with 100.00% accuracy and 0.92ms latency benchmarks.</li>
+<li><strong>End-to-End Demonstration</strong>: Created <a href="file:///C:/Work/P/ai-model/hsci/knowledge/demo_answer_generation.py">demo_answer_generation.py</a> executing the complete parser-to-response cognitive pipeline in 6.89ms.</li>
+<li><strong>Verification</strong>: Wrote tests <a href="file:///C:/Work/P/ai-model/hsci/tests/test_answer_generation_engine.py">test_answer_generation_engine.py</a> and ran all 206 tests (zero regressions).</li>
+<li><strong>Implementation Report</strong>: Generated <a href="file:///C:/Work/P/ai-model/docs/design/Answer_Generation_Engine_Implementation_Report.md">Answer_Generation_Engine_Implementation_Report.md</a>.</li>
+</ul>
+<hr />
+<h2 id="400-beta9-2026-07-16">[4.0.0-beta.9] — 2026-07-16</h2>
+<h3 id="added_8">Added</h3>
+<ul>
+<li><strong>Cognitive Reasoning Engine (Sprint 11)</strong>: Implemented logical reasoning controller <code>CognitiveReasoningEngine</code> and representation data structures (<code>ReasoningStep</code>, <code>Inference</code>, <code>Conclusion</code>, <code>ReasoningTrace</code>, <code>ReasoningResult</code>) in <a href="file:///C:/Work/P/ai-model/hsci/reasoning/reasoning_engine.py">reasoning_engine.py</a>.</li>
+<li><strong>Inference Strategy Pattern</strong>: Coded <code>IInferenceStrategy</code> and <code>RuleBasedInferenceStrategy</code> deriving generalization and namespace cohabitation relations.</li>
+<li><strong>Consistency Validation Logic</strong>: Built duplicate-circular prevention checks and negative contradiction warnings.</li>
+<li><strong>End-to-End Demonstration</strong>: Created <a href="file:///C:/Work/P/ai-model/hsci/knowledge/demo_reasoning_engine.py">demo_reasoning_engine.py</a> showing the complete slice from user question parsing to cognitive spreading and CRE proof execution.</li>
+<li><strong>Comprehensive Testing</strong>: Coded test suite <a href="file:///C:/Work/P/ai-model/hsci/tests/test_reasoning_engine.py">test_reasoning_engine.py</a> covering validation rules, explainability traces, concurrency safety, and benchmarks.</li>
+<li><strong>Implementation Report</strong>: Generated <a href="file:///C:/Work/P/ai-model/docs/design/Cognitive_Reasoning_Engine_Implementation_Report.md">Cognitive_Reasoning_Engine_Implementation_Report.md</a>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

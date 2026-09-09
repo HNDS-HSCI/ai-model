@@ -1,0 +1,883 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Axiomatic Cognitive Intelligence Architecture">
+      
+      
+        <meta name="author" content="Brijesh Yadav">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>HSCI V5 — Distributed Synchronization Architecture (DSA-1) - HSCI Technical Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hsci-v5-distributed-synchronization-architecture-dsa-1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="HSCI Technical Documentation" class="md-header__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HSCI Technical Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              HSCI V5 — Distributed Synchronization Architecture (DSA-1)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../api/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../tutorials/teaching.md" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="HSCI Technical Documentation" class="md-nav__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    HSCI Technical Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tutorials/teaching.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instructional Priming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tutorials/proofs.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Proofs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Purpose
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Purpose">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Objectives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-terminology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Terminology
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-position-inside-hsci" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Position Inside HSCI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-cluster-architecture-consensus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Cluster Architecture &amp; Consensus
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Cluster Architecture &amp; Consensus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-topology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Topology
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-raft-log-replication-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Raft Log Replication Loop
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-conflict-resolution-vector-clocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Conflict Resolution (Vector Clocks)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-distributed-transactions-three-phase-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Distributed Transactions (Three-Phase Commit)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-failure-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Failure Scenarios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Failure Scenarios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-1-leader-node-crash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario 1: Leader Node Crash
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-2-network-partition-split-brain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario 2: Network Partition (Split-Brain)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-observability-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Observability Metrics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-dsa-1-architecture-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. DSA-1 Architecture Principles
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="hsci-v5-distributed-synchronization-architecture-dsa-1">HSCI V5 — Distributed Synchronization Architecture (DSA-1)</h1>
+<p><strong>Version</strong>: 1.0<br />
+<strong>Status</strong>: Constitutional Engineering Specification<br />
+<strong>Verdict</strong>: Approved for Milestone 2 Development  </p>
+<hr />
+<h2 id="1-purpose">1. Purpose</h2>
+<p>The Distributed Synchronization Architecture (DSA-1) is the core coordination system of HSCI V5. It defines how state modifications, transaction histories, and logic variables are synchronized consistently across multi-node cluster networks.</p>
+<h3 id="core-objectives">Core Objectives</h3>
+<ul>
+<li><strong>Strong Consistency</strong>: Write operations to the shared Universal Semantic Memory (USM) must be validated using Raft consensus before being committed.</li>
+<li><strong>Fault Tolerance</strong>: Sustain node losses while preserving operation availability by dynamically resolving new quorums.</li>
+<li><strong>Split-Brain Prevention</strong>: Implement lease management and majority voting checks to prevent conflicting primary clusters.</li>
+</ul>
+<hr />
+<h2 id="2-terminology">2. Terminology</h2>
+<ul>
+<li><strong>Raft Consensus</strong>: An election-based protocol managing duplicated write logs across a cluster.</li>
+<li><strong>Quorum</strong>: The minimum count of voting replicas ((\lfloor \frac{N}{2} \rfloor + 1)) required to authorize state modifications.</li>
+<li><strong>Vector Clock</strong>: An array of logical clocks used to detect causal relationships and identify merge conflicts.</li>
+<li><strong>Distributed Lock</strong>: A cluster-wide lease mechanism managed by coordinator nodes to guarantee mutual exclusion.</li>
+</ul>
+<hr />
+<h2 id="3-position-inside-hsci">3. Position Inside HSCI</h2>
+<pre><code>                     Client Request / API Gateway
+                                   │
+                                   ▼
+                      Executive Controller (ECA-1)
+                                   │
+                                   ▼
+                    Distributed Sync Layer (DSA-1)
+                                   │
+         ┌─────────────────────────┼─────────────────────────┐
+         ▼                         ▼                         ▼
+  Consensus Engine          Failure Detector          Lease Coordinator
+         │                         │                         │
+         ▼                         ▼                         ▼
+Distributed Memory (DMA-1)  Simulation (SEA-2)      Tool Sandbox (TCA-1)
+</code></pre>
+<hr />
+<h2 id="4-cluster-architecture-consensus">4. Cluster Architecture &amp; Consensus</h2>
+<h3 id="41-topology">4.1 Topology</h3>
+<pre><code class="language-mermaid">graph TD
+    CP[&quot;Control Plane (Coordinators)&quot;] --&gt; W1[&quot;Worker Node 1&quot;]
+    CP --&gt; W2[&quot;Worker Node 2&quot;]
+    CP --&gt; W3[&quot;Worker Node 3&quot;]
+
+    subgraph Consensus Group (Raft)
+        NodeA[&quot;Node A (Leader)&quot;] &lt;--&gt; NodeB[&quot;Node B (Follower)&quot;]
+        NodeA &lt;--&gt; NodeC[&quot;Node C (Follower)&quot;]
+    end
+</code></pre>
+<h3 id="42-raft-log-replication-loop">4.2 Raft Log Replication Loop</h3>
+<ol>
+<li><strong>Leader Append</strong>: Leader receives a state modification proposal (e.g. goal commit).</li>
+<li><strong>Broadcast</strong>: Leader sends append entries messages to followers.</li>
+<li><strong>Quorum Check</strong>: Follower nodes acknowledge log receipt. Once the leader registers consensus quorums, the entry is committed.</li>
+<li><strong>State Application</strong>: Nodes apply modifications to local database engines.</li>
+</ol>
+<hr />
+<h2 id="5-conflict-resolution-vector-clocks">5. Conflict Resolution (Vector Clocks)</h2>
+<p>To resolve concurrent updates to the Distributed World Model, nodes maintain Vector Clocks ((VC)). For a cluster of size (N):</p>
+<p>[
+VC_A(i) &lt; VC_B(i) \quad \forall i \implies VC_A \text{ causally precedes } VC_B
+]</p>
+<p>If clocks are concurrent ((VC_A \not\prec VC_B \land VC_B \not\prec VC_A)), DSA-1 triggers the <strong>Semantic Merge Policy</strong>:
+*   <em>Conflict Detection</em>: Scans graph nodes for overlapping logic assertions.
+*   <em>Arbitration</em>: Resolves logic inconsistencies using the Z3 constraint validator. If insoluble, changes rollback and notify the caller.</p>
+<hr />
+<h2 id="6-distributed-transactions-three-phase-commit">6. Distributed Transactions (Three-Phase Commit)</h2>
+<p>To prevent blocking scenarios common in 2PC, DSA-1 implements a non-blocking <strong>Three-Phase Commit (3PC)</strong> protocol:</p>
+<pre><code>Can-Commit? (Phase 1) ──► Pre-Commit? (Phase 2) ──► Do-Commit! (Phase 3)
+</code></pre>
+<p>If a participant node times out during Phase 2 or 3, it queries peer node states. If any peer has committed, the node commits; if any peer has aborted, it rolls back.</p>
+<hr />
+<h2 id="7-failure-scenarios">7. Failure Scenarios</h2>
+<h3 id="scenario-1-leader-node-crash">Scenario 1: Leader Node Crash</h3>
+<ol>
+<li><strong>Detection</strong>: Followers fail to receive heartbeats from the Leader within the election timeout window (150ms-300ms).</li>
+<li><strong>Mitigation</strong>: Followers transition state to Candidate, increment the election term count, and request votes.</li>
+<li><strong>Recovery</strong>: Once a candidate registers a quorum majority, it is promoted to Leader.</li>
+</ol>
+<h3 id="scenario-2-network-partition-split-brain">Scenario 2: Network Partition (Split-Brain)</h3>
+<ol>
+<li><strong>Detection</strong>: Node groups cannot communicate across the partition boundary.</li>
+<li><strong>Mitigation</strong>: The minority partition fails to achieve quorum majorities ((\le \lfloor \frac{N}{2} \rfloor)) and drops write capabilities, rejecting mutations.</li>
+<li><strong>Recovery</strong>: Once network links recover, nodes in the minority partition pull logs from the active leader.</li>
+</ol>
+<hr />
+<h2 id="8-observability-metrics">8. Observability Metrics</h2>
+<ul>
+<li><strong>Consensus Latency (p99)</strong>: Duration (ms) required to replicate a log entry to a quorum.</li>
+<li><strong>Replication Lag</strong>: Delta log index offsets between followers and the leader.</li>
+<li><strong>Failure Detection Latency</strong>: Elapsed time (ms) between a node crash and cluster-wide detection.</li>
+</ul>
+<hr />
+<h2 id="9-dsa-1-architecture-principles">9. DSA-1 Architecture Principles</h2>
+<p>The Distributed Synchronization Architecture <strong>MUST NOT</strong>:
+1.  Perform cognitive reasoning or planner operations.
+2.  Interpret meaning representations.
+3.  Directly modify Governance policies.</p>
+<p>Its sole responsibility is log replication, consensus elections, transactional consistency (3PC), conflict resolutions, and heartbeat monitoring.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

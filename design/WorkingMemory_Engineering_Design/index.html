@@ -1,0 +1,1080 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Axiomatic Cognitive Intelligence Architecture">
+      
+      
+        <meta name="author" content="Brijesh Yadav">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>HSCI V4 — WorkingMemory Engineering Design (WorkingMemory_Engineering_Design.md) - HSCI Technical Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hsci-v4-workingmemory-engineering-design-workingmemory_engineering_designmd" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="HSCI Technical Documentation" class="md-header__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HSCI Technical Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              HSCI V4 — WorkingMemory Engineering Design (WorkingMemory_Engineering_Design.md)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../architecture/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../api/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tutorials/teaching.md" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="HSCI Technical Documentation" class="md-nav__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    HSCI Technical Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/teaching.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instructional Priming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/proofs.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Proofs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Purpose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-architecture-diagrams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Architecture Diagrams
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Architecture Diagrams">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-component-ownership-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Component Ownership Hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-pipeline-data-flow-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Pipeline Data Flow Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-data-structures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Data Structures
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-interfaces-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Interfaces (APIs)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-memory-lifecycle-garbage-collection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Memory Lifecycle &amp; Garbage Collection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Memory Lifecycle &amp; Garbage Collection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cleanup-rules-ownership-frozen-spec-amendment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cleanup Rules &amp; Ownership (FROZEN SPEC AMENDMENT)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-concurrency-thread-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Concurrency &amp; Thread Safety
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-performance-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Performance Targets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-failure-handling-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Failure Handling &amp; Recovery
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-subsystem-integration-snapshot-rules-frozen-spec-amendment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Subsystem Integration &amp; Snapshot Rules (FROZEN SPEC AMENDMENT)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Subsystem Integration &amp; Snapshot Rules (FROZEN SPEC AMENDMENT)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-z3-pytorch-serialization-contracts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Z3 &amp; PyTorch Serialization Contracts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-testing-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Testing Strategy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-migration-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Migration Plan
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="hsci-v4-workingmemory-engineering-design-workingmemory_engineering_designmd">HSCI V4 — WorkingMemory Engineering Design (WorkingMemory_Engineering_Design.md)</h1>
+<p>This document presents the detailed technical design and architectural specifications for the <code>WorkingMemory</code> subsystem, the request-scoped cognitive workspace of the HSCI V4 Cognitive Operating System.</p>
+<hr />
+<h2 id="1-purpose">1. Purpose</h2>
+<p><code>WorkingMemory</code> acts as the transaction-scoped cognitive scratchpad for a single Thinking Session in the <code>BrainKernel</code>. It provides an isolated, thread-safe memory workspace where pipeline stages store and retrieve raw inputs, semantic frames, neural embeddings, active concept activations, HTN sub-goals, intermediate algebraic expressions, verification proofs, and learning gradients.</p>
+<p><code>WorkingMemory</code> is ephemeral. It is allocated at the start of a cognitive cycle, mutated in-place by sequential pipeline stages, and completely deallocated at the end of the session, preventing cross-request state pollution and Python memory leaks.</p>
+<hr />
+<h2 id="2-architecture-diagrams">2. Architecture Diagrams</h2>
+<h3 id="21-component-ownership-hierarchy">2.1 Component Ownership Hierarchy</h3>
+<p>The diagram below maps memory ownership from the thread execution level down to individual data structures:</p>
+<pre><code>  ┌────────────────────────────────────────────────────────┐
+  │ FastAPI / Thread Execution Pool                        │
+  └───────────────────────────┬────────────────────────────┘
+                              │ owns (thread-local context)
+                              ▼
+  ┌────────────────────────────────────────────────────────┐
+  │ CognitiveContext                                       │
+  └───────────────────────────┬────────────────────────────┘
+                              │ owns (unique 1-to-1 ref)
+                              ▼
+  ┌────────────────────────────────────────────────────────┐
+  │ WorkingMemory                                          │
+  └─────┬──────────────┬──────────────┬──────────────┬─────┘
+        │              │              │              │
+        ▼              ▼              ▼              ▼
+  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐
+  │ Attention │  │ Goal      │  │ Reasoning │  │ Execution │
+  │ Buffer    │  │ Context   │  │ Context   │  │ Context   │
+  └───────────┘  └───────────┘  └───────────┘  └───────────┘
+</code></pre>
+<h3 id="22-pipeline-data-flow-mapping">2.2 Pipeline Data Flow Mapping</h3>
+<p>The flow of data through <code>WorkingMemory</code> across the 10 cognitive stages is mapped below:</p>
+<pre><code class="language-mermaid">graph LR
+    Input[Raw Stimulus] --&gt;|Stage 0| S0_Out[Token Lists]
+    S0_Out --&gt;|Stage 0.5| S05_Out[SemanticFrame]
+    S05_Out --&gt;|Stage 1| S1_Out[Neural Intent &amp; GNN Embedding]
+    S1_Out --&gt;|Stage 1.5| S15_Out[WorldState Graph Gaps]
+    S15_Out --&gt;|Stage 2| S2_Out[Active Concepts ActivationField]
+    S2_Out --&gt;|Stage 2.5| S25_Out[Applicable Procedural Skills]
+    S25_Out --&gt;|Stage 3| S3_Out[HTN SubGoals &amp; Candidates]
+    S3_Out --&gt;|Stage 4| S4_Out[ProofTrace or Counterexamples]
+    S4_Out --&gt;|Stage 5| S5_Out[Hebbian Updates &amp; Episode logs]
+    S5_Out --&gt;|Stage 6| Output[Response Payload]
+</code></pre>
+<hr />
+<h2 id="3-data-structures">3. Data Structures</h2>
+<p>Every data structure is fully typed to guarantee structural compile-time safety:</p>
+<pre><code class="language-python">@dataclass
+class SessionMetadata:
+    &quot;&quot;&quot;
+    Metadata describing the current Thinking Session constraints.
+    &quot;&quot;&quot;
+    request_id: str
+    session_id: str
+    timestamp_start: float
+    domain: str = &quot;general&quot;
+    timeout_ms: int = 5000
+
+@dataclass
+class AttentionBuffer:
+    &quot;&quot;&quot;
+    A short-term focus window retaining the top N salient entities.
+    &quot;&quot;&quot;
+    salient_entities: List[str] = field(default_factory=list)
+    salience_scores: Dict[str, float] = field(default_factory=dict)
+    max_capacity: int = 7
+
+@dataclass
+class ActivationField:
+    &quot;&quot;&quot;
+    Stores concept activations resulting from spreading activation.
+    &quot;&quot;&quot;
+    activated_concept_ids: List[str] = field(default_factory=list)
+    activation_strengths: Dict[str, float] = field(default_factory=dict)
+    decay_rate: float = 0.6
+
+@dataclass
+class GoalContext:
+    &quot;&quot;&quot;
+    Tracks the active objective and planning sub-goals.
+    &quot;&quot;&quot;
+    primary_goal: str
+    active_subgoals: List[SubGoal] = field(default_factory=list)
+    completed_subgoals: List[str] = field(default_factory=list)
+    backlog_goals: List[str] = field(default_factory=list)
+
+@dataclass
+class PlannerContext:
+    &quot;&quot;&quot;
+    Maintains the state of the HTN Planner during decomposition.
+    &quot;&quot;&quot;
+    rule_bindings: Dict[str, Any] = field(default_factory=dict)
+    planning_depth: int = 0
+    max_depth: int = 5
+    cycle_detected: bool = False
+
+@dataclass
+class ReasoningContext:
+    &quot;&quot;&quot;
+    Stores intermediate solver candidate expressions.
+    &quot;&quot;&quot;
+    candidate_expressions: List[Expression] = field(default_factory=list)
+    selected_expression: Optional[Expression] = None
+    concepts_applied: List[str] = field(default_factory=list)
+
+@dataclass
+class VerificationContext:
+    &quot;&quot;&quot;
+    Tracks the Z3 verification and CEGIS iteration state.
+    &quot;&quot;&quot;
+    status: VerificationStatus = VerificationStatus.UNKNOWN
+    cegis_iteration: int = 0
+    max_cegis_iterations: int = 5
+    counterexample: Optional[Dict[str, Any]] = None
+    z3_proof_trace: Optional[ProofTrace] = None
+    verification_passed: bool = False
+
+@dataclass
+class ExecutionContext:
+    &quot;&quot;&quot;
+    Stores stdout, logs, and variables during code synthesis runs.
+    &quot;&quot;&quot;
+    local_variables: Dict[str, Any] = field(default_factory=dict)
+    console_output: List[str] = field(default_factory=list)
+    execution_success: bool = True
+    error_message: Optional[str] = None
+
+@dataclass
+class ReflectionContext:
+    &quot;&quot;&quot;
+    Stores failure classifications and evolution proposal parameters.
+    &quot;&quot;&quot;
+    failure_category: Optional[str] = None  # e.g., MATH_ERROR, SYNTAX_ERROR
+    diagnosed_root_cause: Optional[str] = None
+    proposed_concept_evolutions: List[str] = field(default_factory=list)
+
+@dataclass
+class WorkingMemory:
+    &quot;&quot;&quot;
+    The main request-scoped active thinking state workspace.
+    &quot;&quot;&quot;
+    metadata: SessionMetadata
+    attention_buffer: AttentionBuffer = field(default_factory=AttentionBuffer)
+    activation_field: ActivationField = field(default_factory=ActivationField)
+    goal_context: Optional[GoalContext] = None
+    planner_context: PlannerContext = field(default_factory=PlannerContext)
+    reasoning_context: ReasoningContext = field(default_factory=ReasoningContext)
+    verification_context: VerificationContext = field(default_factory=VerificationContext)
+    execution_context: ExecutionContext = field(default_factory=ExecutionContext)
+    reflection_context: ReflectionContext = field(default_factory=ReflectionContext)
+
+    stage_durations: Dict[str, float] = field(default_factory=dict)
+    active_skills: List[str] = field(default_factory=list)
+    semantic_frame: Optional[SemanticFrame] = None
+</code></pre>
+<hr />
+<h2 id="4-interfaces-apis">4. Interfaces (APIs)</h2>
+<pre><code class="language-python">class IWorkingMemory(ABC):
+    @abstractmethod
+    def initialize(self, stimulus: str) -&gt; None:
+        &quot;&quot;&quot;Initializes sub-contexts and allocates scratch variables.&quot;&quot;&quot;
+        pass
+
+    @abstractmethod
+    def activate_concepts(self, concept_ids: List[str], strengths: Dict[str, float]) -&gt; None:
+        &quot;&quot;&quot;Sets active concepts inside the ActivationField.&quot;&quot;&quot;
+        pass
+
+    @abstractmethod
+    def store_expression(self, expression: Expression) -&gt; None:
+        &quot;&quot;&quot;Appends a candidate answer to the ReasoningContext.&quot;&quot;&quot;
+        pass
+
+    @abstractmethod
+    def store_goal(self, goal: str, subgoals: List[SubGoal]) -&gt; None:
+        &quot;&quot;&quot;Sets the primary goal and decomposed sub-goals in GoalContext.&quot;&quot;&quot;
+        pass
+
+    @abstractmethod
+    def get_active_concepts(self) -&gt; List[str]:
+        &quot;&quot;&quot;Returns the list of concept IDs with activation &gt;= 0.1.&quot;&quot;&quot;
+        pass
+
+    @abstractmethod
+    def clear(self) -&gt; None:
+        &quot;&quot;&quot;Resets variables, preserving metadata.&quot;&quot;&quot;
+        pass
+
+    @abstractmethod
+    def dispose(self) -&gt; None:
+        &quot;&quot;&quot;Releases sub-contexts and deallocates memory.&quot;&quot;&quot;
+        pass
+
+    @abstractmethod
+    def snapshot(self) -&gt; Dict[str, Any]:
+        &quot;&quot;&quot;Serializes current memory state into a dictionary for session continuity.&quot;&quot;&quot;
+        pass
+
+    @abstractmethod
+    def restore(self, data: Dict[str, Any]) -&gt; None:
+        &quot;&quot;&quot;Restores state from a serialized dictionary.&quot;&quot;&quot;
+        pass
+</code></pre>
+<hr />
+<h2 id="5-memory-lifecycle-garbage-collection">5. Memory Lifecycle &amp; Garbage Collection</h2>
+<p>The lifecycle of the memory object is managed using a strict parent-context wrapper:</p>
+<pre><code class="language-mermaid">stateDiagram-v2
+    [*] --&gt; UNINITIALIZED
+    UNINITIALIZED --&gt; ALLOCATED : CognitiveContext.__enter__()
+    ALLOCATED --&gt; PIPELINE_MUTATION : initialize(stimulus)
+
+    state PIPELINE_MUTATION {
+        [*] --&gt; STAGE_0_PARSE
+        STAGE_0_PARSE --&gt; STAGE_3_PLAN
+        STAGE_3_PLAN --&gt; STAGE_4_VERIFY
+        STAGE_4_VERIFY --&gt; STAGE_5_LEARN
+    }
+
+    PIPELINE_MUTATION --&gt; DISPOSED : CognitiveContext.__exit__()
+    DISPOSED --&gt; [*]
+</code></pre>
+<h3 id="cleanup-rules-ownership-frozen-spec-amendment">Cleanup Rules &amp; Ownership (FROZEN SPEC AMENDMENT)</h3>
+<ul>
+<li><strong>Single Owner</strong>: <code>CognitiveContext</code> is the sole owner of <code>WorkingMemory</code>. When <code>CognitiveContext.__exit__</code> is called, it triggers <code>WorkingMemory.dispose()</code>.</li>
+<li><strong>Explicit Collection Clearing</strong>: To prevent nested circular reference loops, <code>WorkingMemory.dispose()</code> must iterate and explicitly call <code>.clear()</code> on all collections inside its sub-contexts:<ul>
+<li><code>attention_buffer.salient_entities.clear()</code></li>
+<li><code>attention_buffer.salience_scores.clear()</code></li>
+<li><code>activation_field.activated_concept_ids.clear()</code></li>
+<li><code>activation_field.activation_strengths.clear()</code></li>
+<li><code>planner_context.rule_bindings.clear()</code></li>
+<li><code>reasoning_context.candidate_expressions.clear()</code></li>
+<li><code>reasoning_context.concepts_applied.clear()</code></li>
+<li><code>execution_context.local_variables.clear()</code></li>
+<li><code>execution_context.console_output.clear()</code></li>
+<li><code>reflection_context.proposed_concept_evolutions.clear()</code></li>
+<li><code>stage_durations.clear()</code></li>
+<li><code>active_skills.clear()</code></li>
+</ul>
+</li>
+<li><strong>Explicit Dereferencing</strong>: Set all sub-context references and parent parameters to <code>None</code> on dispose.</li>
+</ul>
+<hr />
+<h2 id="6-concurrency-thread-safety">6. Concurrency &amp; Thread Safety</h2>
+<ul>
+<li><strong>Request Scope</strong>: <code>WorkingMemory</code> is instantiated inside the execution scope of a single request thread. It is never declared as a global variable, shared variable, or class variable.</li>
+<li><strong>Thread Isolation</strong>: Each FastAPI worker thread owns its own <code>CognitiveContext</code> and corresponding <code>WorkingMemory</code> instance.</li>
+<li><strong>Async Compatibility</strong>: The methods are fully synchronous, preventing thread switches and execution drifts during parsing operations.</li>
+</ul>
+<hr />
+<h2 id="7-performance-targets">7. Performance Targets</h2>
+<ul>
+<li><strong>Allocation Overhead</strong>: $\le 0.1\text{ms}$. Deallocating and creating Python datastructures must have zero impact on total request latency.</li>
+<li><strong>Peak Memory Footprint</strong>: $\le 100\text{KB}$ per request session.</li>
+<li><strong>Max Active Concepts</strong>: Hard limit of $500$ activated concepts in the <code>ActivationField</code>.</li>
+<li><strong>Max Reasoning Depth</strong>: HTN Planner recursion limit capped at $5$ nested decompositions.</li>
+<li><strong>Cleanup Latency</strong>: $\le 0.05\text{ms}$ upon calling <code>dispose()</code>.</li>
+</ul>
+<hr />
+<h2 id="8-failure-handling-recovery">8. Failure Handling &amp; Recovery</h2>
+<ul>
+<li><strong>State Corruption Recovery</strong>: If validation errors occur during stage transitions, <code>BrainKernel</code> catches <code>ValidationError</code>, logs the error to the trace logs, and immediately triggers <code>WorkingMemory.clear()</code>.</li>
+<li><strong>Timeout Handling</strong>: If execution exceeds the <code>timeout_ms</code> parameter (default 5000ms), Z3 cancels active operations. <code>WorkingMemory</code> records the timeout status and routes to the response bridge fallback.</li>
+<li><strong>Out of Memory (OOM) Mitigation</strong>: Apply size limits on all input strings ($\le 2000$ characters) to prevent allocation spikes.</li>
+</ul>
+<hr />
+<h2 id="9-subsystem-integration-snapshot-rules-frozen-spec-amendment">9. Subsystem Integration &amp; Snapshot Rules (FROZEN SPEC AMENDMENT)</h2>
+<h3 id="91-z3-pytorch-serialization-contracts">9.1 Z3 &amp; PyTorch Serialization Contracts</h3>
+<ul>
+<li><strong>Z3 Expressions</strong>: Z3 solver instances (<code>z3.ExprRef</code>) are C-linked pointers and cannot be serialized using standard JSON tools. The <code>snapshot()</code> method must invoke <code>str(expr)</code> or <code>.sexpr()</code> to serialize algebraic models to S-expression format.</li>
+<li><strong>PyTorch/GNN Embeddings</strong>: Tensors must be converted to standard Python lists of floats using <code>tensor.tolist()</code> before serialization.</li>
+<li><strong>Restore Parsing</strong>: The <code>restore()</code> method must rebuild raw expressions and coordinate vectors.</li>
+</ul>
+<hr />
+<h2 id="10-testing-strategy">10. Testing Strategy</h2>
+<ul>
+<li><strong>Unit Tests</strong>: Verify constructor initializations and assert that <code>clear()</code> and <code>dispose()</code> correctly nullify internal sub-context values.</li>
+<li><strong>Lifecycle Tests</strong>: Run dummy pipeline stages; verify that stage timings are correctly recorded and retrieved.</li>
+<li><strong>Concurrency Verification</strong>: Spawn 100 threads executing overlapping context updates against identical concept lists. Assert that no cross-thread memory contamination occurs.</li>
+<li><strong>Memory Leak Benchmarks</strong>: Run 10,000 mock process cycles in a loop and verify that system memory footprint remains completely flat, checking Z3 and python garbage collection sweeps.</li>
+</ul>
+<hr />
+<h2 id="11-migration-plan">11. Migration Plan</h2>
+<ul>
+<li><strong>Step 1</strong>: Implement the complete <code>WorkingMemory</code> class in <code>hsci/core/working_memory.py</code>.</li>
+<li><strong>Step 2</strong>: Replace <code>WorkingMemoryPlaceholder</code> inside <code>hsci/core/kernel.py</code> with <code>hsci.core.working_memory.WorkingMemory</code>.</li>
+<li><strong>Step 3</strong>: Re-run the core test suite <code>pytest hsci/tests/test_brain_kernel.py</code> to confirm compile-time parameters compile and pass successfully.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

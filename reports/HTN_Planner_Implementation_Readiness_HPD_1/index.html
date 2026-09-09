@@ -1,0 +1,1164 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Axiomatic Cognitive Intelligence Architecture">
+      
+      
+        <meta name="author" content="Brijesh Yadav">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>HSCI V5 — Phase 4A: HTN Planner Implementation Readiness & Design Audit (HPD-1) - HSCI Technical Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hsci-v5-phase-4a-htn-planner-implementation-readiness-design-audit-hpd-1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="HSCI Technical Documentation" class="md-header__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HSCI Technical Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              HSCI V5 — Phase 4A: HTN Planner Implementation Readiness &amp; Design Audit (HPD-1)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../architecture/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../api/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tutorials/teaching.md" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="HSCI Technical Documentation" class="md-nav__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    HSCI Technical Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/teaching.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instructional Priming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/proofs.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Proofs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-executive-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Executive Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Executive Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#primary-findings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Primary Findings:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-existing-planner-architecture-code-audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Existing Planner Architecture &amp; Code Audit
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Existing Planner Architecture &amp; Code Audit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-current-implementations-are-not-genuine-htn-planners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Current Implementations Are Not Genuine HTN Planners:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-hsci-htn-domain-model-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. HSCI HTN Domain Model Design
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-proposed-htn-algorithm-execution-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Proposed HTN Algorithm &amp; Execution Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Proposed HTN Algorithm &amp; Execution Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#depth-cycle-safeguards-opa-1-compliant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Depth &amp; Cycle Safeguards (OPA-1 Compliant):
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-z3-verification-workingmemory-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Z3 Verification &amp; WorkingMemory Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Z3 Verification &amp; WorkingMemory Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#z3-integration-boundary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Z3 Integration Boundary:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workingmemory-integration-request-scoped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WorkingMemory Integration (Request-Scoped):
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-reflection-boundary-preparing-for-phase-4b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Reflection Boundary (Preparing for Phase 4B)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-preserve-extend-refactor-replace-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Preserve / Extend / Refactor / Replace Matrix
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-file-by-file-implementation-map-for-phase-4a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. File-by-File Implementation Map for Phase 4A
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. File-by-File Implementation Map for Phase 4A">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-data-model-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Data Model Extension
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-htn-domain-method-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: HTN Domain &amp; Method Registry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-recursive-decomposition-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Recursive Decomposition Engine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-reasoningengine-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: ReasoningEngine Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-test-suite-expansion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Test Suite Expansion
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-exact-implementation-tasks-sequence-for-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Exact Implementation Tasks (Sequence for Execution)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-phase-4a-definition-of-done" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Phase 4A Definition of Done
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-answers-to-final-required-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Answers to Final Required Questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="hsci-v5-phase-4a-htn-planner-implementation-readiness-design-audit-hpd-1">HSCI V5 — Phase 4A: HTN Planner Implementation Readiness &amp; Design Audit (HPD-1)</h1>
+<p><strong>Version</strong>: 1.0<br />
+<strong>Status</strong>: Authoritative Technical Design &amp; Implementation Readiness Audit<br />
+<strong>Authority</strong>: Principal Cognitive Architecture Engineer, HSCI V5<br />
+<strong>Scope</strong>: Read-Only Analysis &amp; Architectural Design (Zero Code Modifications)  </p>
+<hr />
+<h2 id="1-executive-summary">1. Executive Summary</h2>
+<p>This report delivers <strong>HTN_Planner_Implementation_Readiness_HPD_1</strong>, the authoritative technical audit and structural design for <strong>Phase 4A: Genuine Hierarchical Task Network (HTN) Planning</strong>.</p>
+<h3 id="primary-findings">Primary Findings:</h3>
+<ol>
+<li><strong>Existing Planner Audit</strong>: The current planning codebase contains two distinct implementations:</li>
+<li><a href="file:///C:/Work/P/ai-model/hnsds/brain/lobes/native_planner.py"><code>hnsds/brain/lobes/native_planner.py</code></a>: A Jaccard similarity keyword matcher over <code>skills.json</code> template strings.</li>
+<li><a href="file:///C:/Work/P/ai-model/hsci/reasoning/htn_planner.py"><code>hsci/reasoning/htn_planner.py</code></a>: A static dictionary lookup (<code>DECOMPOSITION_RULES</code>) mapping an <code>AxiomType</code> enum directly to a flat, 3-or-4 element array of <code>SubGoal</code> objects.</li>
+<li><strong>HTN Classification Verdict</strong>: <strong>Neither implementation is a genuine HTN planner</strong>. There is no recursive goal decomposition, no method precondition/postcondition evaluation, no search tree expansion, no state tracking, no backtracking on failure, and no Z3 validation during plan synthesis.</li>
+<li><strong>Target Design Strategy</strong>: We design a native, verification-first HTN planning algorithm that extends <a href="file:///C:/Work/P/ai-model/hsci/reasoning/htn_planner.py"><code>hsci/reasoning/htn_planner.py</code></a>. The new planner will recursively expand compound tasks into primitive operators, validate method preconditions against request-scoped <code>WorkingMemory</code> state, interface with Z3 for precondition satisfiability checks, and output a structured <code>PlanningFailure</code> payload upon exhaustion to feed Phase 4B (Reflection Engine).</li>
+<li><strong>Implementation Constraints</strong>: Strictly zero code modifications are executed during this audit. Rust porting, multi-node clustering (Raft/Kafka), and PostgreSQL migrations are explicitly excluded from Phase 4A.</li>
+</ol>
+<hr />
+<h2 id="2-existing-planner-architecture-code-audit">2. Existing Planner Architecture &amp; Code Audit</h2>
+<p>The repository contains two historical layers of planning logic:</p>
+<pre><code>┌────────────────────────────────────────────────────────────────────────────────────────┐
+│ 1. LEGACY PROTOTYPE PLANNER: native_planner.py                                         │
+│    • Method: _find_best_skill(goal_desc)                                              │
+│    • Mechanism: Tokenizes string using NativeGraph synonyms, computes Jaccard similarity  │
+│      against tags in `hnsds/brain/knowledge/skills.json`.                             │
+│    • Output: Returns raw template code string or `# TODO: Implement ...` fallback.     │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│ 2. REASONING ENGINE PLANNER: hsci/reasoning/htn_planner.py                              │
+│    • Method: decompose(perception: PerceptionMap) -&gt; List[SubGoal]                     │
+│    • Mechanism: Static map lookup (DECOMPOSITION_RULES[perception.intent]).            │
+│    • Output: Returns static array of 3 or 4 SubGoal objects (e.g. BUILD_EQUATION).     │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+</code></pre>
+<h3 id="why-current-implementations-are-not-genuine-htn-planners">Why Current Implementations Are Not Genuine HTN Planners:</h3>
+<ul>
+<li><strong>No Hierarchy or Recursion</strong>: <code>htn_planner.py</code> performs a single, non-recursive dictionary lookup. SubGoals are never further decomposed into finer sub-tasks.</li>
+<li><strong>No Preconditions / Postconditions</strong>: Tasks lack state predicates. The planner cannot evaluate whether <code>BUILD_EQUATION</code> is valid given the current environment state.</li>
+<li><strong>No Alternative Methods</strong>: There are no alternative branches or search tree choices for achieving a goal.</li>
+<li><strong>No Backtracking</strong>: If a step fails, the system cannot backtrack to select an alternative method.</li>
+<li><strong>No Dynamic Verification</strong>: Z3 logic checking is invoked <em>after</em> planning in <code>ReasoningEngine</code>, rather than verifying candidate decompositions <em>during</em> plan generation.</li>
+</ul>
+<hr />
+<h2 id="3-hsci-htn-domain-model-design">3. HSCI HTN Domain Model Design</h2>
+<p>To align with HSCI's cognitive architecture (<code>RCA-1</code>, <code>ECA-1</code>, <code>VVA-1</code>), the HTN domain model will be defined using clean data structures:</p>
+<pre><code class="language-python"># Types to be defined in hsci/core/data_types.py / hsci/reasoning/htn_planner.py
+
+class TaskType(Enum):
+    COMPOUND = &quot;COMPOUND&quot;    # Requires HTN decomposition via Method selection
+    PRIMITIVE = &quot;PRIMITIVE&quot;  # Executable operator (maps directly to CRE/Z3 action)
+
+@dataclass
+class Task:
+    id: str
+    name: str
+    task_type: TaskType
+    parameters: Dict[str, Any] = field(default_factory=dict)
+
+@dataclass
+class Precondition:
+    predicate: str           # e.g., &quot;KNOWN_ENTITY&quot; or &quot;Z3_SATISFIABLE&quot;
+    required_state: Any
+
+@dataclass
+class Postcondition:
+    effect_key: str          # e.g., &quot;EQUATION_BUILT&quot;
+    resulting_state: Any
+
+@dataclass
+class Method:
+    id: str
+    target_task_name: str    # Compound task this method satisfies
+    preconditions: List[Precondition]
+    subtasks: List[Task]     # Ordered sequence of sub-tasks
+    cost: float = 1.0
+
+@dataclass
+class Operator:
+    id: str
+    primitive_task_name: str
+    preconditions: List[Precondition]
+    postconditions: List[Postcondition]
+    execution_handler: str   # Function name in CRE/Z3Verifier
+</code></pre>
+<hr />
+<h2 id="4-proposed-htn-algorithm-execution-flow">4. Proposed HTN Algorithm &amp; Execution Flow</h2>
+<p>The genuine HTN algorithm follows a recursive task-network reduction model with depth-budget protection and Z3 constraint checking:</p>
+<pre><code>                          [ Input Goal Task ]
+                                   │
+                                   ▼
+                   ┌───────────────────────────────┐
+                   │  Is Task PRIMITIVE or         │
+                   │  COMPOUND?                    │
+                   └───────────────┬───────────────┘
+                                   │
+                ┌──────────────────┴──────────────────┐
+                │ COMPOUND                            │ PRIMITIVE
+                ▼                                     ▼
+   ┌───────────────────────────┐         ┌───────────────────────────┐
+   │ Find Applicable Methods   │         │ Validate Operator         │
+   │ (Evaluate Preconditions)  │         │ Preconditions via Z3      │
+   └────────────┬──────────────┘         └────────────┬──────────────┘
+                │                                     │
+                ▼                                     ▼
+   ┌───────────────────────────┐         ┌───────────────────────────┐
+   │ Select Method &amp; Expand    │         │ Append to Executable Plan │
+   │ Subtasks (Recurse)        │         └───────────────────────────┘
+   └────────────┬──────────────┘
+                │ (If Precondition / Z3 fails)
+                ▼
+   ┌───────────────────────────┐
+   │ Backtrack to Next Method  │
+   │ (If all fail -&gt; Failure)  │
+   └───────────────────────────┘
+</code></pre>
+<h3 id="depth-cycle-safeguards-opa-1-compliant">Depth &amp; Cycle Safeguards (OPA-1 Compliant):</h3>
+<ul>
+<li><strong>Max Decomposition Depth</strong>: Capped at <code>10</code> recursive levels.</li>
+<li><strong>Max Branching Limit</strong>: Capped at <code>5</code> alternative methods per compound task.</li>
+<li><strong>Cycle Detection</strong>: Tracks visited <code>(Task.id, Method.id)</code> tuples in the active recursion stack; throws a <code>CycleDetected</code> error if repeated.</li>
+<li><strong>Time Budget</strong>: Overall planning loop bound to a <code>50ms</code> execution budget.</li>
+</ul>
+<hr />
+<h2 id="5-z3-verification-workingmemory-integration">5. Z3 Verification &amp; WorkingMemory Integration</h2>
+<h3 id="z3-integration-boundary">Z3 Integration Boundary:</h3>
+<ol>
+<li><strong>Precondition Proving</strong>: Before selecting a candidate <code>Method</code> or executing a primitive <code>Operator</code>, candidate preconditions (e.g. $x + y = z$ variable consistency) are sent to <code>Z3VerificationEngine</code>.</li>
+<li><strong>Branch Pruning</strong>: If Z3 returns <code>UNSAT</code>, the candidate Method is immediately marked invalid without expanding its child nodes, pruning dead-end search paths.</li>
+</ol>
+<h3 id="workingmemory-integration-request-scoped">WorkingMemory Integration (Request-Scoped):</h3>
+<p>The HTN planning state will be encapsulated inside <code>WorkingMemory.planner_context</code>:
+* <code>active_task_stack</code>: <code>List[Task]</code> (Current unexpanded task queue).
+* <code>chosen_plan_nodes</code>: <code>List[Task]</code> (Accepted primitive actions).
+* <code>explored_methods</code>: <code>Set[str]</code> (Visited method IDs for backtracking).
+* <code>failure_log</code>: <code>Optional[PlanningFailure]</code> (Structured failure trace for Phase 4B Reflection).</p>
+<hr />
+<h2 id="6-reflection-boundary-preparing-for-phase-4b">6. Reflection Boundary (Preparing for Phase 4B)</h2>
+<p>When all candidate methods for a compound task fail, the HTN planner creates a structured <code>PlanningFailure</code> payload:</p>
+<pre><code class="language-python">@dataclass
+class PlanningFailure:
+    failed_task_id: str
+    failed_task_name: str
+    attempted_methods: List[str]
+    failed_precondition: Optional[str]
+    z3_counterexample: Optional[Dict[str, Any]]
+    depth_reached: int
+    reason: str  # &quot;UNSATISFIABLE_PRECONDITION&quot;, &quot;CYCLE_DETECTED&quot;, &quot;MAX_DEPTH_EXCEEDED&quot;
+</code></pre>
+<p>This failure object is attached to <code>WorkingMemory</code> so that the Phase 4B <strong>Reflection Engine</strong> can analyze the exact cause of failure and update Hebbian weights or issue diagnostic hints.</p>
+<hr />
+<h2 id="7-preserve-extend-refactor-replace-matrix">7. Preserve / Extend / Refactor / Replace Matrix</h2>
+<table>
+<thead>
+<tr>
+<th>Module / File</th>
+<th>Action</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="file:///C:/Work/P/ai-model/hsci/reasoning/htn_planner.py"><code>hsci/reasoning/htn_planner.py</code></a></td>
+<td><strong>EXTEND</strong></td>
+<td>Upgrade from static dict lookup to full recursive HTN tree search. Preserve backwards compatibility for legacy <code>AxiomType</code> inputs.</td>
+</tr>
+<tr>
+<td><a href="file:///C:/Work/P/ai-model/hnsds/brain/lobes/native_planner.py"><code>hnsds/brain/lobes/native_planner.py</code></a></td>
+<td><strong>PRESERVE</strong></td>
+<td>Keep intact as the prototype reference skill template matcher.</td>
+</tr>
+<tr>
+<td><a href="file:///C:/Work/P/ai-model/hsci/core/data_types.py"><code>hsci/core/data_types.py</code></a></td>
+<td><strong>EXTEND</strong></td>
+<td>Add <code>Task</code>, <code>Method</code>, <code>Operator</code>, <code>Precondition</code>, <code>Postcondition</code>, and <code>PlanningFailure</code> data classes.</td>
+</tr>
+<tr>
+<td><a href="file:///C:/Work/P/ai-model/hsci/reasoning/reasoning_engine.py"><code>hsci/reasoning/reasoning_engine.py</code></a></td>
+<td><strong>EXTEND</strong></td>
+<td>Pass <code>WorkingMemory</code> context into <code>htn_planner.decompose()</code> and execute returned primitive plans.</td>
+</tr>
+<tr>
+<td><a href="file:///C:/Work/P/ai-model/hsci/tests/test_htn_planner.py"><code>hsci/tests/test_htn_planner.py</code></a></td>
+<td><strong>EXTEND</strong></td>
+<td>Retain existing 5 unit tests; add 6 new tests for multi-level decomposition, backtracking, cycle detection, and Z3 rejection.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="8-file-by-file-implementation-map-for-phase-4a">8. File-by-File Implementation Map for Phase 4A</h2>
+<h3 id="step-1-data-model-extension">Step 1: Data Model Extension</h3>
+<ul>
+<li><strong>Target</strong>: <a href="file:///C:/Work/P/ai-model/hsci/core/data_types.py"><code>hsci/core/data_types.py</code></a></li>
+<li><strong>Changes</strong>: Define <code>TaskType</code>, <code>Task</code>, <code>Method</code>, <code>Operator</code>, <code>Precondition</code>, <code>Postcondition</code>, and <code>PlanningFailure</code>.</li>
+</ul>
+<h3 id="step-2-htn-domain-method-registry">Step 2: HTN Domain &amp; Method Registry</h3>
+<ul>
+<li><strong>Target</strong>: <a href="file:///C:/Work/P/ai-model/hsci/reasoning/htn_planner.py"><code>hsci/reasoning/htn_planner.py</code></a></li>
+<li><strong>Changes</strong>: Build <code>MethodRegistry</code> and <code>OperatorRegistry</code> populated with multi-step domain rules (for <code>REDUCTION</code>, <code>COMPOSITION</code>, <code>SYNTHESIS</code>, <code>TRANSFORMATION</code>).</li>
+</ul>
+<h3 id="step-3-recursive-decomposition-engine">Step 3: Recursive Decomposition Engine</h3>
+<ul>
+<li><strong>Target</strong>: <a href="file:///C:/Work/P/ai-model/hsci/reasoning/htn_planner.py"><code>hsci/reasoning/htn_planner.py</code></a></li>
+<li><strong>Changes</strong>: Implement <code>_decompose_task_recursive()</code> with backtracking, depth check ($\le 10$), cycle tracking, and Z3 precondition validation hooks.</li>
+</ul>
+<h3 id="step-4-reasoningengine-integration">Step 4: ReasoningEngine Integration</h3>
+<ul>
+<li><strong>Target</strong>: <a href="file:///C:/Work/P/ai-model/hsci/reasoning/reasoning_engine.py"><code>hsci/reasoning/reasoning_engine.py</code></a></li>
+<li><strong>Changes</strong>: Update <code>CRE.process()</code> to pass <code>WorkingMemory</code> into <code>htn_planner.decompose_recursive()</code> and handle <code>PlanningFailure</code> gracefully.</li>
+</ul>
+<h3 id="step-5-test-suite-expansion">Step 5: Test Suite Expansion</h3>
+<ul>
+<li><strong>Target</strong>: <a href="file:///C:/Work/P/ai-model/hsci/tests/test_htn_planner.py"><code>hsci/tests/test_htn_planner.py</code></a></li>
+<li><strong>Changes</strong>: Add multi-level recursive decomposition, backtracking, depth limit, and Z3 rejection test cases.</li>
+</ul>
+<hr />
+<h2 id="9-exact-implementation-tasks-sequence-for-execution">9. Exact Implementation Tasks (Sequence for Execution)</h2>
+<ul>
+<li><strong>HP4A-01</strong>: Extend <code>hsci/core/data_types.py</code> with <code>Task</code>, <code>Method</code>, <code>Operator</code>, and <code>PlanningFailure</code> dataclasses.</li>
+<li><strong>HP4A-02</strong>: Implement <code>MethodRegistry</code> and <code>OperatorRegistry</code> in <code>hsci/reasoning/htn_planner.py</code>.</li>
+<li><strong>HP4A-03</strong>: Implement core recursive task decomposition algorithm in <code>hsci/reasoning/htn_planner.py</code>.</li>
+<li><strong>HP4A-04</strong>: Implement backtracking and cycle detection logic in <code>hsci/reasoning/htn_planner.py</code>.</li>
+<li><strong>HP4A-05</strong>: Connect Z3 precondition verification hooks to <code>htn_planner.py</code>.</li>
+<li><strong>HP4A-06</strong>: Integrate request-scoped state tracking with <code>WorkingMemory</code>.</li>
+<li><strong>HP4A-07</strong>: Update <code>ReasoningEngine</code> (<code>hsci/reasoning/reasoning_engine.py</code>) to invoke recursive decomposition.</li>
+<li><strong>HP4A-08</strong>: Author multi-level HTN unit tests in <code>hsci/tests/test_htn_planner.py</code>.</li>
+<li><strong>HP4A-09</strong>: Execute <code>pytest</code> across all 206+ tests to verify zero regressions.</li>
+</ul>
+<hr />
+<h2 id="10-phase-4a-definition-of-done">10. Phase 4A Definition of Done</h2>
+<ol>
+<li><strong>Multi-Level Decomposition</strong>: Planner successfully decomposes a top-level compound task into at least 2 levels of sub-tasks down to primitive operators.</li>
+<li><strong>Backtracking &amp; Verification</strong>: Planner backtracks to an alternative method when Z3 rejects a method precondition.</li>
+<li><strong>Structured Failure Output</strong>: Emits a valid <code>PlanningFailure</code> payload when search space is exhausted.</li>
+<li><strong>Safety Limits</strong>: Capped at depth 10 with cycle detection and sub-50ms execution budget.</li>
+<li><strong>Zero Regressions</strong>: All existing 206 pytest unit/integration tests pass without failures.</li>
+</ol>
+<hr />
+<h2 id="11-answers-to-final-required-questions">11. Answers to Final Required Questions</h2>
+<ol>
+<li>
+<p><strong>What does the existing planner actually do?</strong><br />
+   It performs either a keyword Jaccard similarity search (<code>native_planner.py</code>) or a static map lookup based on <code>AxiomType</code> (<code>htn_planner.py</code>) returning a flat list of 3–4 sub-goals.</p>
+</li>
+<li>
+<p><strong>Why is it not yet a genuine HTN planner?</strong><br />
+   It lacks recursive task reduction, method preconditions/postconditions, alternative search branches, backtracking, and inline Z3 precondition validation.</p>
+</li>
+<li>
+<p><strong>Which existing code should be reused?</strong><br />
+<code>hsci/reasoning/htn_planner.py</code> (to be extended), <code>SubGoal</code>/<code>AxiomType</code> data structures, and <code>Z3VerificationEngine</code>.</p>
+</li>
+<li>
+<p><strong>Which code must change?</strong><br />
+<code>hsci/reasoning/htn_planner.py</code> (upgraded to recursive search) and <code>hsci/reasoning/reasoning_engine.py</code> (to call recursive decomposition).</p>
+</li>
+<li>
+<p><strong>What new code is genuinely necessary?</strong><br />
+<code>Task</code>, <code>Method</code>, <code>Operator</code>, and <code>PlanningFailure</code> dataclasses in <code>hsci/core/data_types.py</code> plus method/operator registries in <code>htn_planner.py</code>.</p>
+</li>
+<li>
+<p><strong>What exact data model should represent HTN tasks/methods/plans?</strong><br />
+   Typed dataclasses (<code>Task</code>, <code>Method</code>, <code>Operator</code>, <code>Precondition</code>, <code>Postcondition</code>, <code>PlanningFailure</code>).</p>
+</li>
+<li>
+<p><strong>How should recursive decomposition work?</strong><br />
+   A stack-based or recursive function (<code>_decompose_task_recursive</code>) that checks task types; if compound, it iterates over applicable methods, evaluates preconditions, and recursively expands child sub-tasks.</p>
+</li>
+<li>
+<p><strong>How should backtracking work?</strong><br />
+   If child decomposition or Z3 precondition verification fails, the algorithm pops state, restores <code>WorkingMemory.planner_context</code>, and attempts the next applicable <code>Method</code>.</p>
+</li>
+<li>
+<p><strong>Where should Z3 verification occur?</strong><br />
+   During method selection (evaluating preconditions) and primitive operator execution validation.</p>
+</li>
+<li>
+<p><strong>How does WorkingMemory participate?</strong><br />
+    It stores the active task stack, chosen plan nodes, explored method IDs, and any resulting <code>PlanningFailure</code> payload.</p>
+</li>
+<li>
+<p><strong>What structured failures must be exposed for future Reflection?</strong><br />
+<code>PlanningFailure</code> containing <code>failed_task_name</code>, <code>attempted_methods</code>, <code>failed_precondition</code>, <code>z3_counterexample</code>, and failure <code>reason</code>.</p>
+</li>
+<li>
+<p><strong>What exact tests prove we have a genuine HTN planner?</strong><br />
+    Tests verifying 2+ level recursive tree expansion, alternative method backtracking, cycle detection abortion, and Z3 precondition rejection.</p>
+</li>
+<li>
+<p><strong>What is the FIRST implementation task after HPD-1?</strong><br />
+<strong>Task HP4A-01</strong>: Extend <code>hsci/core/data_types.py</code> with <code>Task</code>, <code>Method</code>, <code>Operator</code>, and <code>PlanningFailure</code> dataclasses.</p>
+</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

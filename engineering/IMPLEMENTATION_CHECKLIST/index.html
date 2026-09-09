@@ -1,0 +1,855 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Axiomatic Cognitive Intelligence Architecture">
+      
+      
+        <meta name="author" content="Brijesh Yadav">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>HSCI V4 — Implementation Checklist - HSCI Technical Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hsci-v4-implementation-checklist" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="HSCI Technical Documentation" class="md-header__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HSCI Technical Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              HSCI V4 — Implementation Checklist
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../architecture/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../api/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tutorials/teaching.md" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="HSCI Technical Documentation" class="md-nav__button md-logo" aria-label="HSCI Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    HSCI Technical Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/HNDS-HSCI/ai-model" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/teaching.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instructional Priming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/proofs.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Proofs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#phase-1-repository-stabilization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Repository Stabilization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-2-universal-knowledge-model-ukm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Universal Knowledge Model (UKM)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-3-working-memory-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Working Memory &amp; Context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-4-brain-kernel-10-stage-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Brain Kernel &amp; 10-Stage Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-5-solver-registry-plugins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 5: Solver Registry &amp; Plugins
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-6-concept-activation-engine-cae" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 6: Concept Activation Engine (CAE)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-7-understanding-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 7: Understanding Engine
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-8-mental-model-engine-mme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 8: Mental Model Engine (MME)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-9-goal-manager-htn-planner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 9: Goal Manager &amp; HTN Planner
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-10-reflection-engine-cee" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 10: Reflection Engine &amp; CEE
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-11-learning-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 11: Learning Engine
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-12-teaching-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 12: Teaching Protocol
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-13-programming-domain-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 13: Programming Domain Integration
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="hsci-v4-implementation-checklist">HSCI V4 — Implementation Checklist</h1>
+<p>This checklist provides a step-by-step verification path for each of the 13 migration phases. Use it to track completion and verify readiness before promoting changes to production.</p>
+<hr />
+<h2 id="phase-1-repository-stabilization">Phase 1: Repository Stabilization</h2>
+<ul>
+<li>[ ] Delete dead files: <code>spec_builder.py</code>, <code>hnsds/perception/parser.py</code>, <code>pytest_runner.py</code>, and <code>self_play_engine.py</code> (root).</li>
+<li>[ ] Add <code>threading.RLock</code> to <code>hnsds/learner/episode_logger.py</code> to prevent concurrency collisions.</li>
+<li>[ ] Optimize <code>hnsds/brain/lobes/native_graph.py</code> to support batch writing.</li>
+<li><em>Verification Test</em>: Run <code>pytest hnsds/tests/</code> and verify 100% tests pass. Run concurrent writes to <code>EpisodeLogger</code> in 10 threads; verify zero exceptions.</li>
+<li><em>Definition of Done</em>: Dead files are removed; legacy tests pass; concurrent file writing is stable.</li>
+</ul>
+<h2 id="phase-2-universal-knowledge-model-ukm">Phase 2: Universal Knowledge Model (UKM)</h2>
+<ul>
+<li>[ ] Implement SQLite database schemas in <code>hsci/knowledge/sqlite_store.py</code>.</li>
+<li>[ ] Implement the <code>MemoryStore</code> abstract interface in <code>hsci/knowledge/ukm.py</code>.</li>
+<li>[ ] Write and execute the migration script <code>migrations/v2_to_v4.py</code>.</li>
+<li><em>Verification Test</em>: Query SQLite DB and compare concepts/episodes count with legacy files. Verify SQLite WAL mode is active.</li>
+<li><em>Definition of Done</em>: sqlite stores return valid concept rows; migration completes with zero data loss.</li>
+</ul>
+<h2 id="phase-3-working-memory-context">Phase 3: Working Memory &amp; Context</h2>
+<ul>
+<li>[ ] Create <code>hsci/core/working_memory.py</code> with the request scratchpad model.</li>
+<li>[ ] Remove <code>last_embedding</code> class state variable from <code>NeuralPerceiver</code>.</li>
+<li>[ ] Refactor <code>intent_classifier.py</code> to accept <code>context: CognitiveContext</code>.</li>
+<li><em>Verification Test</em>: Run concurrent request simulations in tests; verify distinct thread contexts maintain isolated embeddings.</li>
+<li><em>Definition of Done</em>: Class instances are stateless; GNN embeddings are request-scoped.</li>
+</ul>
+<h2 id="phase-4-brain-kernel-10-stage-pipeline">Phase 4: Brain Kernel &amp; 10-Stage Pipeline</h2>
+<ul>
+<li>[ ] Create the <code>BrainKernel</code> orchestrator in <code>hsci/core/kernel.py</code>.</li>
+<li>[ ] Build the step transition logic for all 10 cognitive stages.</li>
+<li>[ ] Deprecate <code>hsci/core/rir_loop.py</code> and route requests through <code>BrainKernel</code>.</li>
+<li><em>Verification Test</em>: Execute the basic QA test suite using <code>BrainKernel</code>; verify step durations are logged in the trace.</li>
+<li><em>Definition of Done</em>: <code>BrainKernel</code> successfully executes and returns <code>FinalOutput</code> dataclass tokens.</li>
+</ul>
+<h2 id="phase-5-solver-registry-plugins">Phase 5: Solver Registry &amp; Plugins</h2>
+<ul>
+<li>[ ] Create <code>hsci/reasoning/solver_registry.py</code>.</li>
+<li>[ ] Wrap the 5 verifier solvers in <code>hnsds/verifier/</code> as <code>DeterministicSolverPlugin</code> adapters.</li>
+<li>[ ] Rewrite legacy solver routing in <code>cognitive_core.py</code> to use <code>SolverRegistry</code>.</li>
+<li><em>Verification Test</em>: Run the HNSDS solver test suite <code>pytest hnsds/verifier/</code> and verify all 5 solvers pass via the registry adapter.</li>
+<li><em>Definition of Done</em>: Hardcoded keyword checks are removed; solvers are dispatched dynamically.</li>
+</ul>
+<h2 id="phase-6-concept-activation-engine-cae">Phase 6: Concept Activation Engine (CAE)</h2>
+<ul>
+<li>[ ] Implement spreading activation with decay (0.6) over the SQLite <code>OntologyStore</code>.</li>
+<li>[ ] Enforce the 2-hop traversal limit and minimum activation pruning threshold (0.1).</li>
+<li>[ ] Create the LRU cache (256 slots) for activation fields.</li>
+<li><em>Verification Test</em>: Verify that querying a physics concept activates decay-weighted related concepts within 2 hops.</li>
+<li><em>Definition of Done</em>: Concept retrieval latency is under 15ms.</li>
+</ul>
+<h2 id="phase-7-understanding-engine">Phase 7: Understanding Engine</h2>
+<ul>
+<li>[ ] Build co-reference resolution and follow-up grounding in <code>UnderstandingEngine</code>.</li>
+<li>[ ] Implement <code>SemanticFrame</code> attributes.</li>
+<li><em>Verification Test</em>: Send follow-up conversational signals; verify pronouns are resolved to matching entity types from the previous turn.</li>
+<li><em>Definition of Done</em>: Input signals resolve to fully grounded <code>SemanticFrame</code> structures.</li>
+</ul>
+<h2 id="phase-8-mental-model-engine-mme">Phase 8: Mental Model Engine (MME)</h2>
+<ul>
+<li>[ ] Implement the <code>WorldStateGraph</code> using the SQLite FactStore.</li>
+<li>[ ] Implement fact confidence decay (<code>e^(-0.01 * t)</code>).</li>
+<li>[ ] Implement the lazy decay calculation during fact query loops.</li>
+<li><em>Verification Test</em>: Set mock timestamps; verify fact confidence decays to low thresholds over simulated days.</li>
+<li><em>Definition of Done</em>: facts decay dynamically; knowledge gaps generate active Goal signals.</li>
+</ul>
+<h2 id="phase-9-goal-manager-htn-planner">Phase 9: Goal Manager &amp; HTN Planner</h2>
+<ul>
+<li>[ ] Create <code>GoalManager</code> managing priority queues.</li>
+<li>[ ] Implement the genuine <code>HTNPlanner</code> using <code>DECOMPOSITION_RULES</code> and <code>SkillMemory</code>.</li>
+<li><em>Verification Test</em>: Decompose complex multi-step tasks; verify plans match target sub-goal dependencies.</li>
+<li><em>Definition of Done</em>: HTNPlanner decomposes complex goals without cyclic loops.</li>
+</ul>
+<h2 id="phase-10-reflection-engine-cee">Phase 10: Reflection Engine &amp; CEE</h2>
+<ul>
+<li>[ ] Implement the <code>ReflectionEngine</code> diagnosis decision tree.</li>
+<li>[ ] Implement the CEE generalisation and specialisation logic.</li>
+<li>[ ] Enforce <code>CEE.auto_generalise = False</code> by default.</li>
+<li><em>Verification Test</em>: Verify that CEE proposals are successfully written to SQLite logs for manual review.</li>
+<li><em>Definition of Done</em>: Failures are diagnosed; evolution proposals are compiled with justifications.</li>
+</ul>
+<h2 id="phase-11-learning-engine">Phase 11: Learning Engine</h2>
+<ul>
+<li>[ ] Refactor <code>LearningEngine</code> to commit concept strength updates to SQLite.</li>
+<li>[ ] Coordinate proof-guided MLP weight updates with weight locking.</li>
+<li><em>Verification Test</em>: Verify that successful proofs increment concept strengths, while failures decrement them.</li>
+<li><em>Definition of Done</em>: Updates are committed transactionally.</li>
+</ul>
+<h2 id="phase-12-teaching-protocol">Phase 12: Teaching Protocol</h2>
+<ul>
+<li>[ ] Create <code>hsci/core/teaching.py</code> managing lesson compilation.</li>
+<li>[ ] Hook up the POST <code>/v1/teach</code> API endpoint.</li>
+<li><em>Verification Test</em>: Send invalid concepts; verify that Z3 semantic validation rejects them. Send valid concepts; verify they enter <code>ACTIVE</code> status.</li>
+<li><em>Definition of Done</em>: Teaching inputs are validated syntactically and semantically before commit.</li>
+</ul>
+<h2 id="phase-13-programming-domain-integration">Phase 13: Programming Domain Integration</h2>
+<ul>
+<li>[ ] Sandbox <code>exec</code> execution paths in <code>hnsds/synthesizer/enumerative.py</code> and <code>hsci/reasoning/synthesizer.py</code>.</li>
+<li>[ ] Enforce the AST node whitelist for template compilation checks.</li>
+<li><em>Verification Test</em>: Attempt code injection payloads; verify execution is blocked and logged.</li>
+<li><em>Definition of Done</em>: Code synthesis runs; unauthorized system calls are blocked.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
