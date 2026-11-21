@@ -35,8 +35,39 @@ _OP_WORDS = [
 _FILLER = {"the", "a", "an", "its", "their", "his", "her", "and"}
 _EDGE_FILLER = _FILLER | {"of"}   # "of" is kept inside names ("speed of light") but not at the edges
 _QUESTION_LEAD = re.compile(
-    r"^(?:what\s+is|what's|whats|calculate|compute|evaluate|work\s+out|find|solve(?:\s+for\s+[a-z])?|"
-    r"simplify|how\s+much\s+is)\s+", re.I)
+    r"^(?:(?:can|could|would)\s+you\s+|please\s+)?(?:what\s+is|what's|whats|calculate|compute|evaluate|work\s+out|"
+    r"find|solve(?:\s+for\s+[a-z])?|simplify|how\s+much\s+is)\s+(?:this\s+(?:equation|problem|expression\s+)?)?",
+    re.I)
+_THOUSANDS = re.compile(r"(?<=\d),(?=\d{3}\b)")
+# Grammar of "the unknown number" -- closed-class phrasing, no domain words.
+_UNKNOWN = re.compile(r"\b(?:what|which|an?|some)\s+(?:unknown\s+)?(?:number|value)\b", re.I)
+_UNKNOWN_FRAMES = [
+    # "x becomes 20 after adding 10" -> "x + 10 = 20"
+    (re.compile(r"^(.+?)\s+(?:becomes|gives|makes|is)\s+(.+?)\s+(?:after|when|if)\s+(?:you\s+)?"
+                r"(adding|subtracting|multiplying\s+(?:it\s+)?by|dividing\s+(?:it\s+)?by)\s+(.+)$", re.I),
+     lambda m: f"({m.group(1)}) {_FRAME_OP[m.group(3).split()[0].lower()]} ({m.group(4)}) = {m.group(2)}"),
+]
+_FRAME_OP = {"adding": "+", "subtracting": "-", "multiplying": "*", "dividing": "/"}
+_INFIX = [
+    (r"\b(\S+)\s+less\s+than\s+(\S+)", r"\2 - \1"),
+    (r"\b(\S+)\s+more\s+than\s+(\S+)", r"\2 + \1"),
+    (r"\bincreased\s+by\b", "+"), (r"\bdecreased\s+by\b", "-"), (r"\breduced\s+by\b", "-"),
+    (r"\b(\d+(?:\.\d+)?)\s*%\s*of\b", r"(\1/100) *"), (r"\b(\d+(?:\.\d+)?)\s*(?:%|percent)", r"(\1/100)"),
+]
+
+
+def _unknown_number(t: str) -> str:
+    """'a number increased by 10 is 20' -> 'x + 10 = 20'. Only when an unknown number is named."""
+    if not _UNKNOWN.search(t):
+        return t
+    t = _UNKNOWN.sub("x", t)
+    for rx, build in _UNKNOWN_FRAMES:
+        m = rx.match(t)
+        if m:
+            return build(m)
+    if "=" not in t:
+        t = re.sub(r"\b(?:is|equals|becomes|gives)\b", "=", t, count=1)
+    return t
 
 
 def words_to_ops(text: str) -> str:
@@ -314,15 +345,21 @@ class MathResult:
 
 def detect_math(text: str) -> Optional[str]:
     """Returns the bare math expression if the sentence is pure arithmetic/algebra."""
-    t = text.strip().rstrip("?.!")
+    t = _THOUSANDS.sub("", text.strip().rstrip("?.!"))
     t = _QUESTION_LEAD.sub("", t)
+    t = _unknown_number(t)
+    for pat, rep in _INFIX:
+        t = re.sub(pat, rep, t, flags=re.I)
     t = words_to_ops(t)
+    t = re.sub(r"\s*\band\b\s*|\s*,\s*", " , ", t) if t.count("=") >= 2 else t
     t = t.replace("×", "*").replace("÷", "/").replace("−", "-")
     if not re.search(r"\d", t) or not re.search(r"[\+\-\*/\^=]|sqrt", t):
         return None
     if re.search(r"[a-z]{2,}", t.lower().replace("sqrt", "")):
         return None
-    if not re.fullmatch(r"[0-9a-z\s\.\+\-\*/\^\(\)=]+", t.lower().replace("sqrt", "")):
+    if not re.fullmatch(r"[0-9a-z\s\.\+\-\*/\^\(\)=,]+", t.lower().replace("sqrt", "")):
+        return None
+    if "," in t and t.count("=") < 2:
         return None
     return t
 
@@ -348,8 +385,34 @@ def _fmt(v) -> str:
     return str(v)
 
 
+def _solve_system(parts: List[str]) -> MathResult:
+    """Several equations at once ('x+y=10, x-y=20'), checked by substituting the solution back."""
+    eqs = []
+    for p in parts:
+        lhs_s, rhs_s = p.split("=", 1)
+        lhs, _ = _parse_algebra(lhs_s)
+        rhs, _ = _parse_algebra(rhs_s)
+        eqs.append(lhs - rhs)
+    syms = sorted(set().union(*(e.free_symbols for e in eqs)), key=lambda s: s.name)
+    sols = sympy.solve(eqs, syms, dict=True)
+    text = ", ".join(parts)
+    if not sols:
+        return MathResult("solve", text, "no solution", [], True, "the equations contradict each other")
+    sol = sols[0]
+    verified = all(sympy.simplify(e.subs(sol)) == 0 for e in eqs) and set(sol) == set(syms)
+    vals = [f"{s} = {_fmt(sol[s])}" for s in syms if s in sol]
+    detail = ("each value substituted back into every equation gives 0 = 0" if verified
+              else "the solution is not unique" if set(sol) != set(syms) else "")
+    if len(sols) > 1:
+        detail += f" (one of {len(sols)} solutions)"
+    return MathResult("solve", text, ", ".join(vals), vals, verified, detail)
+
+
 def solve_math(expr: str) -> MathResult:
     expr = expr.lower()
+    parts = [p.strip() for p in expr.split(",") if p.strip()]
+    if len(parts) >= 2 and all(p.count("=") == 1 for p in parts):
+        return _solve_system(parts)
     if "=" in expr:
         lhs_s, rhs_s = expr.split("=", 1)
         lhs, local = _parse_algebra(lhs_s)

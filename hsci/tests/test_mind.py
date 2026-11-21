@@ -212,3 +212,23 @@ def test_api_round_trip(monkeypatch, tmp_path):
     assert api.reset("api")["status"] == "reset"
     paths = {getattr(r, "path", None) for r in api.router.routes} | {getattr(r, "path", None) for r in api.create_app().routes}
     assert {"/v2/chat", "/v2/worlds/{world}", "/mind"} <= paths
+
+
+@pytest.mark.parametrize("text, answer", [
+    ("can you solve this x+10=10", "x = 0"),
+    ("solve x+y=10 and x-y=20", "x = 15, y = -5"),
+    ("solve x-y=20, x+y=10", "x = 15, y = -5"),
+    ("a number increased by 10 is 20", "x = 10"),
+    ("what number becomes 20 after adding 10?", "x = 10"),
+    ("twice a number is 14", "x = 7"),
+    ("3 less than a number is 7", "x = 10"),
+    ("What is 50,000 + 1?", "50001"),
+    ("what is 15% of 50,000?", "7500"),
+])
+def test_math_phrasings_are_solved_and_verified(mind, text, answer):
+    it = last(mind, "math-phrasing", text)
+    assert it.answer == answer and it.verified
+
+
+def test_named_quantity_is_not_mistaken_for_an_unknown(mind):
+    assert "value = 5" in last(mind, "named-q", "The value is 5. What is the value?").answer
