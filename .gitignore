@@ -61,3 +61,5 @@ hnsds/brain/knowledge/concept_graph.json
 *.db-wal
 *.db-shm
 models/
+knowledge/
+data/
