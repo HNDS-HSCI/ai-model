@@ -147,7 +147,13 @@ class LanguageInterpreter:
 
         # --- Neural Semantic Model Intent Prediction ---
         predicted_goal, neural_conf = self.neural_model.predict_goal(focus_text)
-        is_math = bool(re.search(r"[\+\-\*\/=\^0-9]", focus_text)) or bool(re.search(r"\b(?:calc\w*|solv\w*|comput\w*|eval\w*)\b", focus_text, re.IGNORECASE))
+        # Require an actual operator/equals sign alongside a digit (or an explicit
+        # calc/solve-style verb alongside a digit) — a bare digit inside an
+        # otherwise plain-English sentence (e.g. "add 2 numbers") is not math.
+        has_math_op = bool(re.search(r"[\+\-\*\/=\^]", focus_text))
+        has_digit = any(c.isdigit() for c in focus_text)
+        has_calc_verb = bool(re.search(r"\b(?:calc\w*|solv\w*|comput\w*|eval\w*)\b", focus_text, re.IGNORECASE))
+        is_math = has_digit and (has_math_op or has_calc_verb)
 
         # 0. Communicative Goal: SOLVE_MATH (Neural)
         if predicted_goal == CommunicativeGoal.SOLVE_MATH and is_math and not requires_context:
@@ -188,7 +194,20 @@ class LanguageInterpreter:
             )
 
         # 0.5 Communicative Goal: GENERAL / CONVERSATIONAL (Neural)
-        if predicted_goal == CommunicativeGoal.GENERAL and not requires_context:
+        # The neural classifier is trained on a tiny anchor set and is not
+        # reliable on unseen phrasing (e.g. it can misfire on "what is atom"),
+        # so never let it short-circuit a request that structurally looks like
+        # a concept question ("what is X", "explain X", "compare X and Y",
+        # etc.) — those must reach the deterministic frames / UKM lookup below
+        # so unknown concepts are correctly refused rather than shown the
+        # generic capabilities card.
+        looks_like_concept_query = bool(re.search(
+            r"\b(?:what\s+(?:is|are|does)|how\s+(?:is|are|does)|why\s+(?:do|does|is)|"
+            r"compare|distinguish|difference|relationship|relate|explain|describe|define|"
+            r"tell me about|can you explain)\b",
+            focus_text, re.IGNORECASE,
+        ))
+        if predicted_goal == CommunicativeGoal.GENERAL and not requires_context and not looks_like_concept_query:
             e = EntityMention(surface_form="general_overview", normalized_form="general_overview", confidence=neural_conf)
             sem_req = SemanticRequest(
                 goal=CommunicativeGoal.GENERAL,

@@ -31,6 +31,17 @@ except ImportError:
     SYMPY_AVAILABLE = False
 
 
+# A math "term" is a bare number (optionally with one trailing variable letter,
+# e.g. "3x") or a single variable letter — never a multi-letter English word.
+# Chaining terms with operators and requiring a bare "=" between two chains lets
+# us pick the actual equation out of conversational wrapping (e.g. "can you
+# solve thi 7-x=10") without disturbing legitimate multi-term equations like
+# "3x + 12 = 0", since "3x" still matches as a single term.
+_MATH_TERM = r"(?:\d+\.?\d*[A-Za-z]?|[A-Za-z])"
+_MATH_CHAIN = rf"{_MATH_TERM}(?:\s*[\+\-\*\/\^]\s*{_MATH_TERM})*"
+EQUATION_SPAN_RE = re.compile(rf"{_MATH_CHAIN}\s*=\s*{_MATH_CHAIN}")
+
+
 @dataclass
 class MathResult:
     """Result from the universal math engine."""
@@ -122,6 +133,16 @@ class UniversalMathEngine:
             result = self._solve_equation(clean_eq)
             if result.solved:
                 return result
+
+            # The prefix strip only handles filler *before* the equation. When
+            # the equation is embedded in conversational text (e.g. "can you
+            # solve thi 7-x=10", "can you give me h the answer 7-x=10"),
+            # isolate the equation span itself and retry.
+            span_match = EQUATION_SPAN_RE.search(text)
+            if span_match:
+                result = self._solve_equation(span_match.group(0))
+                if result.solved:
+                    return result
 
         # Patterns that hint at equations
         equation_patterns = [

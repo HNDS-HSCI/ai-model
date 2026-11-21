@@ -13,3 +13,4 @@ rich>=13.0.0
 mkdocs
 mkdocs-material
 mkdocstrings[python]
+sentence-transformers>=3.0  # optional: neural perception encoder for hsci.mind (falls back to a hashing encoder)

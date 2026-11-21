@@ -1,0 +1,84 @@
+# First experiences for language understanding.
+#
+# Plain lines are sentences the Mind "heard" and understood with its innate grammar.
+# "surface => canonical" lines are like a parent explaining a phrasing to a child:
+# the surface sentence is remembered as meaning whatever the canonical one means.
+# New phrasings are understood by analogy with these, and every confirmation or
+# correction in conversation adds more. Data, not code: extend freely.
+
+# --- facts and categories
+Rex is a dog.
+The cat is hungry.
+Socrates is a man.
+Socrates is mortal.
+Paris is in France.
+Alice likes Bob.
+Tom eats apples.
+John is the father of Mary.
+Alice is older than Bob.
+Tweety can fly.
+Pingu cannot fly.
+Bob is not happy.
+Some birds cannot fly.
+
+# --- general knowledge
+All men are mortal.
+Every dog is an animal.
+A square is a rectangle.
+No fish is a mammal.
+Birds can fly.
+Kind people are happy.
+People who are rich are happy.
+If someone is cold then they are unhappy.
+Younger is the opposite of older.
+Being in is transitive.
+Force equals mass times acceleration.
+The mass is 10 kg.
+
+# --- questions
+Is Socrates mortal?
+Is Rex a dog?
+Is a dog an animal?
+Does Alice like Bob?
+Can Tweety fly?
+Who likes Bob?
+What does Tom eat?
+Who is the youngest?
+What is Rex?
+How many dogs are brown?
+Why is Socrates mortal?
+What is the force?
+What is 2 + 2?
+
+# --- more sentence shapes (training examples for learned understanding)
+Each cat is an animal.
+A sparrow is a kind of bird.
+Cats are animals.
+Alice is not older than Carol.
+Paul likes Anna.
+Liking is transitive.
+The speed equals the distance divided by the time.
+The total equals the price plus 5.
+The price is 20.
+Is Alice older than Bob?
+Who is the oldest?
+Who likes Anna?
+Does Paul like Anna?
+Is a cat an animal?
+If something is red, it is bright.
+Anyone who is brave is strong.
+If someone is big and strong then they are brave.
+The area equals the length times the width.
+The width is 4.
+What is the area?
+Bob fixes cars.
+Does Bob fix cars?
+
+# --- taught phrasings (surface => canonical)
+Where is Paris? => What is Paris in?
+Tell me if Rex is a dog. => Is Rex a dog?
+Do you think Tweety can fly? => Can Tweety fly?
+Is it true that Socrates is mortal? => Is Socrates mortal?
+Can you tell me who likes Bob? => Who likes Bob?
+Rex likes balls a lot. => Rex likes balls.
+By the way, Rex is a dog. => Rex is a dog.

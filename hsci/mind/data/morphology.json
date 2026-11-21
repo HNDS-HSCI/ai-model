@@ -1,0 +1,40 @@
+{
+  "_comment": "English irregular morphology. This is grammar data (finite, domain-independent), not world knowledge. Extend freely.",
+  "irregular_plurals": {
+    "men": "man", "women": "woman", "children": "child", "people": "person", "persons": "person",
+    "mice": "mouse", "geese": "goose", "feet": "foot", "teeth": "tooth", "oxen": "ox",
+    "wolves": "wolf", "knives": "knife", "leaves": "leaf", "lives": "life", "wives": "wife",
+    "halves": "half", "shelves": "shelf", "calves": "calf", "loaves": "loaf", "thieves": "thief",
+    "cacti": "cactus", "fungi": "fungus", "nuclei": "nucleus", "radii": "radius",
+    "phenomena": "phenomenon", "criteria": "criterion", "data": "datum", "analyses": "analysis",
+    "theses": "thesis", "crises": "crisis", "axes": "axis", "indices": "index", "matrices": "matrix",
+    "vertices": "vertex", "species": "species", "series": "series", "sheep": "sheep", "deer": "deer",
+    "fish": "fish", "aircraft": "aircraft", "dice": "die"
+  },
+  "uncountable_s_endings": [
+    "physics", "mathematics", "economics", "news", "glass", "gas", "class", "bus", "virus",
+    "status", "corpus", "genus", "process", "access", "address", "analysis", "basis", "crisis",
+    "thesis", "synthesis", "photosynthesis", "osmosis", "mitosis", "meiosis", "diagnosis",
+    "hypothesis", "emphasis", "axis", "chaos", "series", "species", "always", "is", "was", "has",
+    "this", "its", "us", "yes", "less", "unless", "across", "plus", "minus", "famous", "various",
+    "nervous", "previous", "obvious", "serious", "curious", "dangerous", "poisonous", "venomous",
+    "generous", "anxious", "jealous", "glorious", "enormous", "numerous", "continuous", "boss", "loss",
+    "moss", "grass", "mass", "kindness", "darkness", "happiness", "business", "illness", "fitness"
+  ],
+  "irregular_verbs": {
+    "is": "be", "are": "be", "am": "be", "was": "be", "were": "be",
+    "has": "have", "had": "have", "does": "do", "did": "do", "goes": "go", "went": "go",
+    "ate": "eat", "eats": "eat", "saw": "see", "made": "make", "gave": "give", "took": "take",
+    "knew": "know", "thought": "think", "found": "find", "told": "tell", "became": "become",
+    "ran": "run", "flew": "fly", "swam": "swim", "drank": "drink", "wrote": "write", "built": "build",
+    "taught": "teach", "caught": "catch", "bought": "buy", "brought": "bring", "fought": "fight",
+    "held": "hold", "kept": "keep", "left": "leave", "lost": "lose", "met": "meet", "paid": "pay",
+    "said": "say", "sold": "sell", "sent": "send", "spoke": "speak", "stood": "stand", "won": "win"
+  },
+  "irregular_comparatives": {
+    "better": "good", "best": "good", "worse": "bad", "worst": "bad",
+    "more": "much", "most": "much", "less": "little", "least": "little",
+    "further": "far", "furthest": "far", "farther": "far", "farthest": "far",
+    "elder": "old", "eldest": "old"
+  }
+}

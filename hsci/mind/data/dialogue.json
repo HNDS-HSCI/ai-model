@@ -1,0 +1,10 @@
+{
+  "_comment": "Conversational words. affirm/deny answer the Mind's own 'Do you mean ...?' questions; fillers carry no meaning and may be skipped during understanding. Data, not code: extend freely.",
+  "affirm": ["yes", "yeah", "yep", "yup", "y", "correct", "right", "exactly", "sure", "ok", "okay", "that's right",
+             "thats right", "yes that's right", "yes thats right", "yes please", "indeed", "true", "that is right", "yes exactly"],
+  "deny": ["no", "nope", "nah", "n", "wrong", "incorrect", "not really", "no that's wrong", "no thats wrong",
+           "that's wrong", "thats wrong", "no it's not", "no its not", "false", "not quite"],
+  "fillers": ["btw", "kinda", "sorta", "basically", "actually", "really", "just", "well", "um", "uh", "ok",
+              "okay", "please", "hey", "hi", "so", "anyway", "honestly", "literally", "quite", "lot",
+              "totally", "definitely", "probably", "maybe", "hmm", "yeah", "oh"]
+}

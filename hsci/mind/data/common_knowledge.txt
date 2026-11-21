@@ -1,0 +1,34 @@
+# Shared seed knowledge for the __common__ world.
+#
+# Every line is ordinary English and is learned through exactly the same parser,
+# consistency check and knowledge base as anything a user types. Nothing here is
+# special-cased in code: edit, extend or delete freely. Users can override or add
+# to it in their own worlds.
+
+# --- Lexical knowledge: comparatives that are opposites (enables "who is the youngest?")
+Younger is the opposite of older.
+Shorter is the opposite of taller.
+Smaller is the opposite of bigger.
+Smaller is the opposite of larger.
+Lighter is the opposite of heavier.
+Slower is the opposite of faster.
+Weaker is the opposite of stronger.
+Colder is the opposite of hotter.
+Lower is the opposite of higher.
+Poorer is the opposite of richer.
+Earlier is the opposite of later.
+Cheaper is the opposite of more expensive.
+
+# --- Physics formulas (quantities chain: e.g. mass + velocity -> momentum)
+Force equals mass times acceleration.
+Momentum equals mass times velocity.
+Kinetic energy equals half of mass times velocity squared.
+Potential energy equals mass times gravitational acceleration times height.
+Weight equals mass times gravitational acceleration.
+Speed equals distance divided by time.
+Density equals mass divided by volume.
+Pressure equals force divided by area.
+Work equals force times displacement.
+Power equals work divided by duration.
+Voltage equals current times resistance.
+Electrical power equals voltage times current.

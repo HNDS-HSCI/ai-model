@@ -21,6 +21,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# HSCI Mind (knowledge-driven reasoning core): /v2/* endpoints and the /mind UI.
+from hsci.mind.api import router as mind_router, ui_route as mind_ui_route  # noqa: E402
+
+app.include_router(mind_router)
+mind_ui_route(app)
+
 # Initialize the V4 Cognitive Pipeline
 cognitive_pipeline = bootstrap_cognitive_pipeline(db_path=":memory:", seed=True)
 UI_PATH = Path(__file__).resolve().parent / "ui" / "index.html"

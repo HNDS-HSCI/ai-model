@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HSCI Mind</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --panel: #ffffff; --ink: #1b1f24; --muted: #5d6673; --line: #e2e6eb;
+    --accent: #2f5bd3; --ok: #1f7a4d; --warn: #9a6b00; --bad: #b42318; --chip: #eef2fb; --code: #f1f3f6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1216; --panel: #171b21; --ink: #e6e9ee; --muted: #9aa4b2; --line: #262c35;
+      --accent: #7c9cff; --ok: #4cc38a; --warn: #e0b04a; --bad: #ff7a6b; --chip: #1e2533; --code: #1d222a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1216; --panel: #171b21; --ink: #e6e9ee; --muted: #9aa4b2; --line: #262c35;
+    --accent: #7c9cff; --ok: #4cc38a; --warn: #e0b04a; --bad: #ff7a6b; --chip: #1e2533; --code: #1d222a;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+  header { display: flex; gap: 12px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--line); background: var(--panel); flex-wrap: wrap; }
+  header h1 { font-size: 16px; margin: 0 8px 0 0; }
+  header .sub { color: var(--muted); font-size: 13px; flex: 1; min-width: 200px; }
+  select, input, textarea, button { font: inherit; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; }
+  button { cursor: pointer; }
+  button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  main { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 16px; padding: 16px; max-width: 1400px; margin: 0 auto; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; }
+  #log { height: calc(100vh - 260px); min-height: 320px; overflow-y: auto; padding: 16px; }
+  .turn { margin-bottom: 18px; }
+  .you { color: var(--muted); font-size: 13px; margin-bottom: 6px; }
+  .item { border-left: 3px solid var(--line); padding: 6px 10px; margin: 6px 0; }
+  .item.answered, .item.learned { border-color: var(--ok); }
+  .item.probable, .item.known { border-color: var(--warn); }
+  .item.unknown { border-color: var(--muted); }
+  .item.contradiction, .item.error { border-color: var(--bad); }
+  .item.clarify { border-color: var(--accent); background: var(--chip); border-radius: 0 8px 8px 0; }
+  .quick { display: flex; gap: 6px; margin-top: 6px; }
+  .teach { display: grid; gap: 6px; font-size: 13px; }
+  .teach input { width: 100%; }
+  .q { font-size: 12px; color: var(--muted); }
+  .a { margin: 2px 0; }
+  .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+  .badge { font-size: 11px; padding: 1px 7px; border-radius: 99px; background: var(--chip); color: var(--muted); }
+  .badge.v { color: var(--ok); }
+  details { margin-top: 4px; font-size: 13px; }
+  details summary { cursor: pointer; color: var(--accent); }
+  details ol, details ul { margin: 6px 0 0 18px; padding: 0; }
+  code { background: var(--code); padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+  form { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--line); }
+  textarea { flex: 1; resize: vertical; min-height: 48px; }
+  aside { padding: 12px 14px; height: calc(100vh - 110px); overflow-y: auto; }
+  aside h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 14px 0 6px; }
+  aside ul { list-style: none; margin: 0; padding: 0; font-size: 13px; }
+  aside li { padding: 3px 0; border-bottom: 1px dashed var(--line); display: flex; gap: 6px; justify-content: space-between; }
+  aside li button { padding: 0 6px; font-size: 11px; border-radius: 6px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; font-size: 12px; }
+  .stat { background: var(--chip); border-radius: 8px; padding: 6px; text-align: center; }
+  .stat b { display: block; font-size: 16px; }
+  .examples { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 12px 12px; }
+  .examples button { font-size: 12px; }
+  .muted { color: var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <h1>HSCI Mind</h1>
+  <span class="sub">Teach it in English, ask it anything that follows. Every answer is proven and checked by Z3 — or it says “I don't know”.</span>
+  <label class="muted" for="world">World</label>
+  <input id="world" value="default" size="12" aria-label="World name">
+  <button id="reset" title="Forget everything in this world">Reset world</button>
+</header>
+<main>
+  <section class="panel">
+    <div id="log" aria-live="polite"></div>
+    <div class="examples" id="examples"></div>
+    <form id="form">
+      <textarea id="text" placeholder="e.g.  Socrates is a man. All men are mortal. Is Socrates mortal?" aria-label="Message"></textarea>
+      <button class="primary" type="submit">Send</button>
+    </form>
+  </section>
+  <aside class="panel" id="kb"></aside>
+</main>
+<script>
+const $ = (s) => document.querySelector(s);
+const log = $("#log");
+const EXAMPLES = [
+  "Socrates is a man. All men are mortal. Is Socrates mortal?",
+  "A wug is a blicket. No blicket is a dax. Zorp is a wug. Is Zorp a dax? Why is Zorp not a dax?",
+  "Alice is older than Bob. Bob is older than Carol. Who is the youngest?",
+  "Birds can fly. Tweety is a bird. Pingu is a bird. Pingu cannot fly. Can Tweety fly? Can Pingu fly?",
+  "If someone is kind then they are happy. Bob is kind. Who is happy?",
+  "If mass is 10 kg and velocity is 3 m/s, what is the kinetic energy?",
+  "Rex is a dog. Fido is a dog. Rex is loyal. Fido is loyal. Max is a dog. Is Max loyal? What have you learned?",
+  "solve x^2 - 5x + 6 = 0",
+];
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const world = () => $("#world").value.trim() || "default";
+
+for (const ex of EXAMPLES) {
+  const b = document.createElement("button");
+  b.textContent = ex.length > 42 ? ex.slice(0, 40) + "…" : ex;
+  b.title = ex;
+  b.onclick = () => { $("#text").value = ex; $("#text").focus(); };
+  $("#examples").appendChild(b);
+}
+
+function renderItem(it) {
+  const d = document.createElement("div");
+  d.className = "item " + it.status;
+  const badges = [`<span class="badge">${esc(it.status)}</span>`];
+  if (it.verified) badges.push(`<span class="badge v">✓ verified</span>`);
+  if (it.confidence !== null && it.confidence !== undefined && it.status === "clarify") badges.push(`<span class="badge">understanding ${Number(it.confidence).toFixed(2)}</span>`);
+  if (it.method) badges.push(`<span class="badge">${esc(it.method)}</span>`);
+  badges.push(`<span class="badge">${it.latency_ms} ms</span>`);
+  let html = `<div class="q">${esc(it.input)}</div><div class="a">${esc(it.answer)}</div><div class="badges">${badges.join("")}</div>`;
+  if (it.explanation && it.explanation.length) html += `<details><summary>Proof / working (${it.explanation.length} steps)</summary><ol>${it.explanation.map((l) => `<li>${esc(l)}</li>`).join("")}</ol></details>`;
+  if ((it.logic && it.logic.length) || (it.notes && it.notes.length)) {
+    html += `<details><summary>Logical form & notes</summary><ul>${(it.logic || []).map((l) => `<li><code>${esc(l)}</code></li>`).join("")}${(it.notes || []).map((n) => `<li class="muted">${esc(n)}</li>`).join("")}</ul></details>`;
+  }
+  if (it.status === "clarify" && it.answer.startsWith("Do you mean")) {
+    html += `<div class="quick"><button data-say="yes">Yes</button><button data-say="no">No</button></div>`;
+  }
+  d.innerHTML = html;
+  return d;
+}
+
+async function send(text) {
+  const turn = document.createElement("div");
+  turn.className = "turn";
+  turn.innerHTML = `<div class="you">You: ${esc(text)}</div>`;
+  log.appendChild(turn);
+  try {
+    const res = await fetch("/v2/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text, world: world() }) });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail ? JSON.stringify(data.detail) : res.statusText);
+    for (const it of data.items) turn.appendChild(renderItem(it));
+  } catch (e) {
+    turn.appendChild(renderItem({ input: text, status: "error", answer: "Request failed: " + e.message, latency_ms: 0 }));
+  }
+  log.scrollTop = log.scrollHeight;
+  refreshKB();
+}
+
+function list(title, items, fmt) {
+  if (!items || !items.length) return `<h2>${title}</h2><div class="muted" style="font-size:13px">none</div>`;
+  return `<h2>${title} (${items.length})</h2><ul>${items.map(fmt).join("")}</ul>`;
+}
+
+async function refreshKB() {
+  try {
+    const res = await fetch(`/v2/worlds/${encodeURIComponent(world())}`);
+    const s = await res.json();
+    if (!res.ok) throw new Error(s.detail || res.statusText);
+    const st = s.stats;
+    const stat = (k, v) => `<div class="stat"><b>${v}</b>${k}</div>`;
+    $("#kb").innerHTML =
+      `<div class="stats">${stat("statements", st.statements)}${stat("facts", st.facts)}${stat("rules", st.rules)}${stat("derived", s.derived.length)}${stat("hypotheses", st.hypotheses)}${stat("verified answers", st.verified_answers)}</div>` +
+      `<div class="muted" style="font-size:12px;margin-top:8px">Language experience: ${s.understanding.experiences} sentences · encoder: ${esc(s.understanding.encoder.active)}</div>` +
+      `<h2>Teach a phrasing</h2><form class="teach" id="teachForm"><input id="tSurface" placeholder="How it's said: Wugs belong to the blick family." aria-label="Phrasing"><input id="tCanon" placeholder="What it means: Every wug is a blick." aria-label="Meaning"><button type="submit">Teach</button><span id="tMsg" class="muted"></span></form>` +
+      list("You told me", s.statements, (x) => `<li><span>${esc(x.text)}</span><button data-forget="${x.id}" title="Forget this and everything it implied">forget</button></li>`) +
+      list("Rules", s.rules, (r) => `<li><span>${esc(r.text)}</span><span class="muted">${esc(r.origin)}</span></li>`) +
+      list("Conclusions I derived", s.derived, (x) => `<li>${esc(x)}</li>`) +
+      list("Hypotheses (induced, unproven)", s.hypotheses, (h) => `<li><span>${esc(h.description)}${h.counterexample ? ` — refuted by ${esc(h.counterexample)}` : ""}</span><span class="muted">${h.status === "refuted" ? "refuted" : h.confidence.toFixed(2)}</span></li>`) +
+      list("Formulas (this world)", s.formulas.filter((f) => f), (f) => `<li>${esc(f)}</li>`) +
+      list("Quantities", Object.entries(s.quantities), ([k, q]) => `<li>${esc(k)} = ${q.value}${q.unit ? " " + esc(q.unit) : ""}</li>`);
+  } catch (e) {
+    $("#kb").innerHTML = `<div class="muted">Could not load knowledge: ${esc(e.message)}</div>`;
+  }
+}
+
+log.addEventListener("click", (e) => { if (e.target.dataset.say) send(e.target.dataset.say); });
+
+$("#kb").addEventListener("click", async (e) => {
+  const id = e.target.dataset.forget;
+  if (!id) return;
+  await fetch(`/v2/worlds/${encodeURIComponent(world())}/statements/${id}`, { method: "DELETE" });
+  refreshKB();
+});
+$("#kb").addEventListener("submit", async (e) => {
+  if (e.target.id !== "teachForm") return;
+  e.preventDefault();
+  const surface = $("#tSurface").value.trim(), canonical = $("#tCanon").value.trim();
+  if (!surface || !canonical) return;
+  const res = await fetch("/v2/teach", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ surface, canonical, world: world() }) });
+  const data = await res.json();
+  const msg = res.ok ? `Learned: it means ${data.means}` : `Couldn't learn: ${data.detail}`;
+  await refreshKB();
+  $("#tMsg").textContent = msg;
+});
+$("#form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const t = $("#text").value.trim();
+  if (!t) return;
+  $("#text").value = "";
+  send(t);
+});
+$("#text").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); $("#form").requestSubmit(); } });
+$("#reset").onclick = async () => {
+  if (!confirm(`Forget everything in world "${world()}"?`)) return;
+  await fetch(`/v2/worlds/${encodeURIComponent(world())}`, { method: "DELETE" });
+  log.innerHTML = "";
+  refreshKB();
+};
+$("#world").addEventListener("change", () => { log.innerHTML = ""; refreshKB(); });
+refreshKB();
+</script>
+</body>
+</html>

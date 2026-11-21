@@ -58,3 +58,6 @@ episodes.jsonl
 hnsds/brain/knowledge/concept_graph.json
 *.db
 *.db-journal
+*.db-wal
+*.db-shm
+models/
