@@ -679,8 +679,31 @@ def candidates(lib: Library, name: str, examples: List[Example], timeout: float)
     return sorted(out, key=lambda c: c.size)
 
 
+def committee(lib: Library, name: str, examples: List[Example], timeout: float, members: int = 4,
+              seed: int = 0) -> List[Concept]:
+    """Rules learned from random subsets of the examples (query by committee).
+
+    They are never used as answers -- only to find inputs where reasonable generalizations of
+    the same evidence disagree, which are the inputs worth asking a teacher about.
+    """
+    import random
+    if len(examples) < 5:
+        return []
+    rnd = random.Random(seed + len(examples))
+    ranked = [n for _, n in relevance(lib, name, examples)]
+    sub = Library.__new__(Library)
+    sub.concepts = {k: c for k, c in lib.concepts.items() if c.kind == "primitive" or k in ranked[:3]}
+    out: List[Concept] = []
+    for _ in range(members):
+        part = rnd.sample(examples, max(3, int(len(examples) * 0.7)))
+        c = sub.learn(name, part, timeout=timeout / members, register=False)
+        if c is not None and all(_show(c.body, "ab") != _show(o.body, "ab") for o in out):
+            out.append(c)
+    return out
+
+
 def curious_learn(lib: Library, name: str, examples: List[Example], teacher: Callable, probes: Sequence[tuple],
-                  timeout: float = 8.0, max_questions: int = 6):
+                  timeout: float = 8.0, max_questions: int = 6, use_committee: bool = False):
     """Learn; whenever two fitting rules disagree on some input, ask the teacher about that input."""
     shown, asked = list(examples), []
     known = {e[0] for e in shown}
@@ -689,19 +712,25 @@ def curious_learn(lib: Library, name: str, examples: List[Example], teacher: Cal
         if not cands:
             return None, asked
         question = None
-        if len(cands) > 1 and len(asked) < max_questions:
+        # Query by committee is opt-in: in the curriculum run it fixed `past` but broke `gcd`
+        # (answers arrived without the smaller cases recursion needs) and tripled the questions.
+        voters = cands + (committee(lib, name, shown, timeout)
+                          if use_committee and len(asked) < max_questions else [])
+        if len(voters) > 1 and len(asked) < max_questions:
+            # Ask where the voters are most divided: that answer rules out the most of them.
+            best_split = 0
             for p in probes:
                 if p in known:
                     continue
-                answers = set()
-                for c in cands:
+                votes: Dict[str, int] = defaultdict(int)
+                for c in voters:
                     try:
-                        answers.add(repr(c.fn(*p)))
+                        votes[repr(c.fn(*p))] += 1
                     except Exception:
-                        answers.add("error")
-                if len(answers) > 1:
-                    question = p
-                    break
+                        votes["error"] += 1
+                split = len(voters) - max(votes.values())
+                if split > best_split:
+                    best_split, question = split, p
         if question is None:
             best = cands[0]
             lib.concepts[name] = lib._make(name, best.args, best.ret, best.body, "learned", shown)
