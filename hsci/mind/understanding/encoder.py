@@ -79,7 +79,7 @@ class EncoderProvider:
                 self.error = f"encoder model not found at {self.path}"
             self._ready.set()
         elif background and self.mode == "auto":
-            threading.Thread(target=self._load, daemon=True, name="encoder-loader").start()
+            threading.Thread(target=self._load, daemon=False, name="encoder-loader").start()  # see engine.py: no daemon torch threads
         else:
             self._load()
 

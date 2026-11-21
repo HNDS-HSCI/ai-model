@@ -217,7 +217,9 @@ class UnderstandingEngine:
         if self.sync_training:
             train()
         else:
-            threading.Thread(target=train, daemon=True, name="neural-parser-training").start()
+            # Not a daemon: killing torch mid-training at interpreter exit aborts the process on Linux
+            # ("terminate called without an active exception"); exit waits for training instead.
+            threading.Thread(target=train, daemon=False, name="neural-parser-training").start()
 
     def wait_for_training(self, timeout: float = 300.0) -> None:
         import time as _t
