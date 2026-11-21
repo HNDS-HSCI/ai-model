@@ -597,15 +597,83 @@ if __name__ == "__main__" and not os.getenv("HSCI_CURIOUS"):
 
 # ----------------------------------------------------------------- curiosity: ask when rules disagree
 
-def candidates(lib: Library, name: str, examples: List[Example], timeout: float) -> List[Concept]:
-    """Distinct fitting rules from different starting points (primitives only; whole library).
+def _answer_shape(ins: tuple, out: Any) -> Any:
+    """What kind of answer this is, ignoring the particular word: 'cat'->'cats' and 'dog'->'dogs' share '+s'."""
+    w = next((v for v in ins if isinstance(v, str)), None)
+    if isinstance(out, str) and w is not None:
+        k = 0
+        while k < min(len(w), len(out)) and w[k] == out[k]:
+            k += 1
+        return (len(w) - k, out[k:])
+    return out
 
-    A big library makes some rules unreachable in the time budget, and a small one makes
-    others unreachable -- so search both and keep everything that fits.
+
+def _information(values: List[Any], shapes: List[Any]) -> float:
+    """Mutual information (bits) between a concept's values on the examples and the answer shapes."""
+    import math
+    n = len(values)
+    joint, pv, ps = defaultdict(int), defaultdict(int), defaultdict(int)
+    for v, s in zip(values, shapes):
+        joint[(repr(v), repr(s))] += 1
+        pv[repr(v)] += 1
+        ps[repr(s)] += 1
+    return sum(c / n * math.log2(c * n / (pv[v] * ps[s])) for (v, s), c in joint.items())
+
+
+def relevance(lib: Library, name: str, examples: List[Example]) -> List[Tuple[float, str]]:
+    """Ranks learned concepts by how much they tell us about the answers to these examples.
+
+    Each one-argument concept is applied to the example inputs directly and through one other
+    concept (vowel(penult(w))), the way a person checks "does it matter whether it ends in a vowel?".
     """
+    learned = [c for c in lib.concepts.values() if c.kind != "primitive" and c.name != name and len(c.args) == 1]
+    unary = [c for c in lib.concepts.values() if c.name != name and len(c.args) == 1]
+    shapes = [_answer_shape(e[0], e[1]) for e in examples]
+    score: Dict[str, float] = defaultdict(float)
+    for i, t in enumerate(type_of(v) for v in examples[0][0]):
+        feeds = [(None, [e[0][i] for e in examples])]
+        for f in unary:                                  # one step of composition
+            if f.args[0] == t:
+                try:
+                    feeds.append((f.name, [f.fn(e[0][i]) for e in examples]))
+                except Exception:
+                    pass
+        for via, vals in feeds:
+            for c in learned:
+                if not vals or type_of(vals[0]) != c.args[0]:
+                    continue
+                try:
+                    out = [c.fn(v) for v in vals]
+                except Exception:
+                    continue
+                gain = _information(out, shapes)
+                score[c.name] = max(score[c.name], gain)
+                if via and lib.concepts[via].kind != "primitive":
+                    score[via] = max(score[via], gain)
+    for c in lib.concepts.values():                      # multi-argument concepts: rank by type fit only
+        if c.kind != "primitive" and c.name != name and c.name not in score:
+            score[c.name] = 0.0
+    return sorted(((v, k) for k, v in score.items()), reverse=True)
+
+
+def candidates(lib: Library, name: str, examples: List[Example], timeout: float) -> List[Concept]:
+    """Distinct fitting rules, searching with the most relevant concepts first.
+
+    Searching with every known concept makes some rules unreachable in the time budget;
+    searching with none makes others unreachable. So: primitives only, then the top 3
+    most informative concepts, then the whole library -- and keep everything that fits.
+    """
+    ranked = [n for _, n in relevance(lib, name, examples)]
+    prims = [c.name for c in lib.concepts.values() if c.kind == "primitive"]
+    plans = [prims, prims + ranked[:3], None]
     out: List[Concept] = []
-    for use_library in (True, False):
-        c = lib.learn(name, examples, timeout=timeout / 2, use_library=use_library, register=False)
+    for plan in plans:
+        if plan is None:
+            sub = lib
+        else:
+            sub = Library.__new__(Library)
+            sub.concepts = {k: lib.concepts[k] for k in plan if k in lib.concepts}
+        c = sub.learn(name, examples, timeout=timeout / len(plans), register=False)
         if c is not None and all(_show(c.body, "ab") != _show(o.body, "ab") for o in out):
             out.append(c)
     return sorted(out, key=lambda c: c.size)
