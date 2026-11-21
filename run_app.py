@@ -9,7 +9,7 @@ def _build_parser() -> argparse.ArgumentParser:
     default_host = "0.0.0.0" if os.getenv("PORT") else "127.0.0.1"
     
     parser = argparse.ArgumentParser(
-        description="Launch the HSCI web application (FastAPI + Dashboard UI)."
+        description="Launch the HSCI Mind web app (API + UI)."
     )
     parser.add_argument("--host", default=default_host, help=f"Bind address (default: {default_host})")
     parser.add_argument("--port", type=int, default=env_port, help=f"Port number (default: {env_port})")
@@ -20,7 +20,7 @@ def _build_parser() -> argparse.ArgumentParser:
         "--no-browser",
         action="store_true",
         default=no_browser_default,
-        help="Do not automatically open the dashboard in a browser.",
+        help="Do not automatically open the UI in a browser.",
     )
     parser.add_argument(
         "--reload",
@@ -36,12 +36,12 @@ def main() -> int:
 
     banner = "=" * 58
     browser_host = "127.0.0.1" if args.host == "0.0.0.0" else args.host
-    url = f"http://{browser_host}:{args.port}/dashboard"
+    url = f"http://{browser_host}:{args.port}/mind"
 
     print(banner)
-    print("HSCI Application Launcher v2.1.0 (Axiomatic)")
+    print("HSCI Mind")
     print(banner)
-    print(f"Dashboard URL: {url}")
+    print(f"URL: {url}")
 
     if not args.no_browser:
         try:

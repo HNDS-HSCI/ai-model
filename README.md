@@ -1,156 +1,61 @@
-# Hyper-Symbolic Cognitive Invention (HSCI) v0.1.0-alpha
+# HSCI Mind
 
-[![CI Verification](https://github.com/HNDS-HSCI/ai-model/actions/workflows/ci.yml/badge.svg)](https://github.com/HNDS-HSCI/ai-model/actions/workflows/ci.yml)
-[![Tests Passing](https://img.shields.io/badge/tests-206%20passed-green.svg)](https://github.com/HNDS-HSCI/ai-model/actions/workflows/ci.yml)
-[![Python Version](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://pyproject.toml)
-[![License](https://img.shields.io/badge/license-Apache%202.0-yellow.svg)](https://github.com/HNDS-HSCI/ai-model/blob/main/LICENSE)
-[![Latest Release](https://img.shields.io/badge/release-v0.1.0--alpha-cyan.svg)](https://github.com/HNDS-HSCI/ai-model/releases)
+A small reasoning system that is **taught**, not trained on a text corpus. You tell it facts, rules and formulas in plain English, or show it a few examples of a concept, and it reasons over what it was taught. Every answer is a proof that is checked (Z3, or by substituting numbers back). When it can't prove something it says "I don't know".
 
-HSCI is a **Self-Verifying Cognitive Architecture** that replaces the probabilistic weights of traditional AI with a **Symbolic Brain**. It is a deterministic reasoning machine built to solve, prove, and explain with mathematical certainty.
+It is a research prototype, not a general assistant. It only knows what it has been taught.
 
----
+## What works today (measured)
 
-## 1. Executive Summary & Vision
+| | Result | How to reproduce |
+|---|---|---|
+| Reasoning over taught knowledge (taxonomy, if-then rules, comparatives, relations, defaults with exceptions, formula chains, algebra) | 210/210 problems, all verified | `python -m hsci.mind.evaluation --n 30 --seed 7` |
+| Learning a new phrasing from one example | 0% → 99–100% correct, 0% wrong | `python -m hsci.mind.understanding.evaluation` |
+| Learning concepts as small programs from 4–12 examples (even, prime, factorial, gcd, plural, article …) | 13 of 16 fully correct on fresh tests | `python -m hsci.mind.concept_core` |
+| Same, asking the teacher when two rules disagree | 76/89 fresh-test cases right; gcd fixed, plural lost | `HSCI_CURIOUS=1 python -m hsci.mind.concept_core` |
 
-Unlike Large Language Models (LLMs) that estimate the next token based on statistical probabilities, HSCI operates through **Axiomatic Deliberation**. It perceives input as structured entity maps, resolves them to conceptual networks, verifies logic statements using SMT (Microsoft Z3) solvers, and outputs explainable answers.
+Evaluation problems use invented words, which shows no domain facts are in the code. They stay inside the supported grammar, so they do **not** measure coverage of ordinary English.
 
-Our vision is a hallucination-free, audit-compliant reasoning framework capable of verifying its own conclusions against structured ontologies.
+## What does not work yet
 
----
+- Word problems that put numbers inside sentences ("A train travels 120 km in 2 hours…").
+- Events and time ("Alice gave Bob a book yesterday").
+- Connecting English to the concept learner ("the plural of cat is cats" should become an example).
+- Concept search slows down as the library grows. This is the main open problem.
 
-## 2. Current Architecture & Pipeline Flow
+See [docs/mind/ARCHITECTURE.md](docs/mind/ARCHITECTURE.md) for the design, the limits and the roadmap.
 
-```
-                       Raw User Text
-                             │
-                             ▼
-                    Understanding Engine
-                             │
-                             ▼
-                     Knowledge Manager
-                             │
-                             ▼
-                  Concept Activation Engine
-                             │
-                             ▼
-                         Workspace
-                             │
-                             ▼
-                 Cognitive Reasoning Engine
-                             │
-                             ▼
-                  Answer Generation Engine
-                             │
-                             ▼
-                    Final User Response
-```
+## Run it
 
----
-
-## 3. Cognitive Pipeline Subsystems
-
-*   **BrainKernel**: Manages context initialization, stage transitions, and Z3 thread-isolated cleanups.
-*   **WorkingMemory**: Holds semantic frames, attention buffers, and snapshot states.
-*   **Universal Knowledge Model (UKM)**: Transactional SQLite database engine supporting nested SAVEPOINT rollbacks.
-*   **KnowledgeManager**: Lookup cache facade with event-driven cache invalidation hooks.
-*   **Concept Activation Engine (CAE)**: Spreads activation values over concept graphs.
-*   **Understanding Engine**: Tokenizer and intent classifier resolving raw user queries.
-*   **Cognitive Reasoning Engine (CRE)**: Iterative reasoning loop verifying duplicate, circular, or contradictory statements.
-*   **Answer Generation Engine (AGE)**: Standard, Step-by-Step, and Technical output formatter.
-*   **Evaluation Framework**: Multi-domain benchmarking dataset and execution runner.
-
----
-
-## 4. Repository Structure
-
-```
-.
-├── .github/                  # GitHub Actions CI/CD workflows
-│   └── workflows/
-│       ├── ci.yml            # Lint & pytest checks
-│       ├── documentation.yml # Deploy docs build
-│       ├── evaluation.yml    # Nightly evaluation benchmark
-│       └── release.yml       # Release triggers on git tag
-├── docs/                     # Documentation files
-│   ├── design/               # Design specifications
-│   ├── releases/             # Release notes
-│   └── reports/              # Status reports & index files
-├── evaluation/               # Evaluation datasets
-│   ├── Basic_Math.json
-│   ├── Java_OOP.json
-│   └── Logic.json
-├── hnsds/                    # Legacy solvers & neural perceivers
-├── hsci/                     # Core V4 packages
-│   ├── core/                 # Kernel, working memory, and storage
-│   ├── knowledge/            # ConceptStore, CAE, and demo scripts
-│   ├── reasoning/            # Reasoning engines and planners
-│   └── response/             # AGE response formatting
-├── paper/                    # Technical research paper
-│   └── HSCI_V4_Technical_Paper.md
-├── evaluation_runner.py      # Benchmark runner execution script
-├── pyproject.toml            # Project configuration & version
-├── requirements.txt          # Package dependencies
-└── run_app.py                # Server execution entrypoint
-```
-
----
-
-## 5. Features & Benchmarks
-
-### Implemented Features
-*   SMT-backed axiom validation (Z3)
-*   Transactional concept storage (SQLite provider)
-*   Spreading activation with decay
-*   Explainable markdown answer compiling
-
-### Performance Snapshots
-*   **BrainKernel startup**: `1.82ms`
-*   **Overall cognitive pipeline latency**: `6.89ms`
-*   **Evaluation success rate**: `100.00%`
-
----
-
-## 6. Installation & Quick Start
-
-### Prerequisites
-*   Python 3.11+
-*   Z3 Theorem Prover
-
-### Installation
 ```bash
 pip install -r requirements.txt
+python run_app.py                 # opens http://127.0.0.1:8000/mind
+pytest                            # tests (set HSCI_MIND_ENCODER=hash to skip the neural encoder)
 ```
 
-### Running Tests
-```bash
-pytest
+Example conversation:
+
+```
+Socrates is a man. All men are mortal. Is Socrates mortal?
+→ Yes. Socrates is mortal, because Socrates is a man.   [deduction + Z3]
 ```
 
-### Running Evaluation Framework
-```bash
-python evaluation_runner.py
+## Layout
+
+```
+hsci/mind/                 the system
+  parser.py, lexicon.py    English → logic (grammar words only, no domain words)
+  kb.py                    SQLite knowledge base with provenance
+  reasoner.py, verifier.py forward chaining with proofs; Z3 re-check
+  quantities.py            formulas and units (SymPy)
+  learner.py               induced hypotheses, refuted by counterexamples
+  understanding/           learning new phrasings from experience
+  neural/                  "probably" answers from a small graph network, never verified
+  concept_core.py          concepts as small programs learned from examples (prototype)
+  data/                    seed knowledge, written in English
+hsci/tests/                tests
+ui/mind.html               web UI
 ```
 
----
+Earlier versions (the `hnsds` solvers, the V4 pipeline and their documents) are kept at the git tag `v4-legacy`.
 
-## 7. Demonstrations
-*   **CAE Spreading Demo**: `python -m hsci.knowledge.demo_concept_activation`
-*   **Understanding Engine Demo**: `python -m hsci.knowledge.demo_understanding_engine`
-*   **Reasoning Engine Demo**: `python -m hsci.knowledge.demo_reasoning_engine`
-*   **AGE Response Demo**: `python -m hsci.knowledge.demo_answer_generation`
-
----
-
-## 8. Documentation Index
-All specification files are mapped under the [Documentation Index](file:///C:/Work/P/ai-model/docs/reports/DOCUMENTATION_INDEX.md).
-Foundational rules are defined in the [HSCI Design Philosophy](file:///C:/Work/P/ai-model/docs/philosophy/HSCI_DESIGN_PHILOSOPHY.md).
-
----
-
-## 9. Roadmap & Backlog
-Refer to [ROADMAP.md](file:///C:/Work/P/ai-model/docs/reports/ROADMAP.md) and [BACKLOG.md](file:///C:/Work/P/ai-model/docs/reports/BACKLOG.md) for future release goals.
-
----
-
-## 10. Contributing & License
-Refer to contributing rules in the index. HSCI is licensed under the Apache 2.0 License.
+License: Apache 2.0.
